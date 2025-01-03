@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FirstScreen extends StatelessWidget {
-  const FirstScreen({Key? key}) : super(key: key);
+  const FirstScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,6 @@ class FirstScreen extends StatelessWidget {
          SizedBox(height: 260,),
         ElevatedButton(
           onPressed: () {},
-          child: Text("Login"),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
             textStyle: TextStyle(color: Colors.white),
@@ -76,13 +75,12 @@ class FirstScreen extends StatelessWidget {
           ),
             
           ),
+          child: Text("Login"),
         ),
         SizedBox(width: 60,height: 10,),
 
         ElevatedButton(
           onPressed: () {},
-          child: Text("Sign Up")
-          ,
           style: ElevatedButton.styleFrom(
             
             backgroundColor: Colors.green,
@@ -99,6 +97,8 @@ class FirstScreen extends StatelessWidget {
              // Text color
 
           ),
+          child: Text("Sign Up")
+          ,
         ),
       ],
     );
