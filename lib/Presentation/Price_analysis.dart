@@ -55,6 +55,18 @@ class PriceAnalysis extends StatelessWidget {
 
                 // Post-Harvest Section
                 _buildPostHarvestSection(context),
+                const SizedBox(height: 30),
+
+                  _buildPostHarvestSection2(context),
+                const SizedBox(height: 30),
+
+                   _buildPostHarvestSection3(context),
+                const SizedBox(height: 30),
+
+                  _buildPostHarvestSection4(context),
+                  const SizedBox(height: 30),
+
+                  _buildPostHarvestSection5(context),
 
                 // Authentication Buttons Section
                 // const Spacer(),
@@ -77,25 +89,229 @@ class PriceAnalysis extends StatelessWidget {
       ),
       child: Row(
         children: [
-             Text(
+             Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
         "Post-Harvest Section",
         style: TextStyle(fontSize: 12, color: Colors.black),
       
              ),
+          ),
                const SizedBox(width: 30),
 
 
-          Text(
+         Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
         "Post-Harvest Section",
         style: TextStyle(fontSize: 12, color: Colors.black),
-     
-      ),
+      
+             ),
+          ),
 
         ],
       ),
   
     );
   }
+
+
+
+
+
+   Widget _buildPostHarvestSection2(BuildContext context) {
+    return Align(
+    alignment: Alignment.centerLeft, // Aligns container to the left
+   child:  Container(
+    width: MediaQuery.of(context).size.width * 0.9, // Set width to 90% of screen width
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
+        
+        
+
+
+      ),
+      child: Column(
+        children: [
+             Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+               const SizedBox(width: 30),
+
+
+        Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+
+        ],
+      ),
+  
+    ),
+    );
+  }
+
+Widget _buildPostHarvestSection3(BuildContext context) {
+    return Align(
+    alignment: Alignment.centerLeft, // Aligns container to the left
+   child:  Container(
+    width: MediaQuery.of(context).size.width * 0.9, // Set width to 90% of screen width
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
+        
+        
+
+
+      ),
+      child: Column(
+        children: [
+            Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+               const SizedBox(width: 30),
+
+
+         Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+
+        ],
+      ),
+  
+    ),
+    );
+  }
+
+
+  Widget _buildPostHarvestSection4(BuildContext context) {
+    return Align(
+    alignment: Alignment.centerLeft, // Aligns container to the left
+   child:  Container(
+    width: MediaQuery.of(context).size.width * 0.9, // Set width to 90% of screen width
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
+        
+        
+
+
+      ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+               const SizedBox(width: 30),
+
+
+        Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+
+        ],
+      
+      ),
+  
+    ),
+    );
+  }
+
+
+  Widget _buildPostHarvestSection5(BuildContext context) {
+    return Align(
+    alignment: Alignment.centerLeft, // Aligns container to the left
+   child:  Container(
+    width: MediaQuery.of(context).size.width * 0.9, // Set width to 90% of screen width
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
+        
+        
+
+
+      ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Price Analysis",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+               const SizedBox(width: 30),
+
+
+        Align(
+            alignment: Alignment.centerLeft,
+          
+             child: Text(
+        "Post-Harvest Section",
+        style: TextStyle(fontSize: 12, color: Colors.black),
+      
+             ),
+          ),
+
+        ],
+      
+      ),
+  
+    ),
+    );
+  }
+
+
+
+
 
   // Widget _buildAuthenticationButtons(BuildContext context) {
     // return Column(
