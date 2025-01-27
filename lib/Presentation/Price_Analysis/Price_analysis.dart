@@ -42,7 +42,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           height: MediaQuery.of(context).size.height * 0.9,
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: Colors.grey,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -50,7 +50,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               child: Column(
                 children: [
                   _buildPostHarvestSection0(context),
-                  const SizedBox(height: 30),
+                  // const SizedBox(height: 30),
 
                   // Post-Harvest Section
                   _buildPostHarvestSection(context),
@@ -83,8 +83,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.green[100],
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        // borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
@@ -111,15 +111,13 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             
 
           }, icon: Icon(Icons.notifications),
-             color: Colors.greenAccent,
+             color: Colors.green,
              iconSize: 30,
           ),
           const SizedBox(width: 5),
           Container(
             
             color: Colors.white,
-           width: 40,
-           height: 40,
           child: IconButton(
             onPressed: () {
               print("Profile Button Pressed");
@@ -140,8 +138,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.green[100],
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        // borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -149,31 +147,45 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Market Price Analysis",
-              style: TextStyle(fontSize: 15, color: Colors.black),
+              style: TextStyle(fontSize: 19, color: Colors.black,fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(width: 66),
-          Align(
+          const SizedBox(width: 52),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child:
+          Container(
+            color: Colors.white,
+         child:  Align(
             alignment: Alignment.centerLeft,
-            child: DropdownButton<Vegetable>(
-              iconEnabledColor: Colors.blue,
-              focusColor: Colors.red,
-              
-              
-              value: selectedVegetable,
-              dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
-              items: Vegetable.values.map((Vegetable vegetable) {
-                return DropdownMenuItem<Vegetable>(
-                  value: vegetable,
-                  child: Text(vegetable.label),
-                );
-              }).toList(),
-              onChanged: (Vegetable? newValue) {
-                setState(() {
-                  selectedVegetable = newValue;
-                });
-              },
+            
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<Vegetable>(
+                iconEnabledColor: Colors.blue,
+                focusColor: Colors.red,
+                value: selectedVegetable,
+                dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
+                items: Vegetable.values.map((Vegetable vegetable) {
+                  return DropdownMenuItem<Vegetable>(
+                    value: vegetable,
+                    child:Center(
+                    child: Text(
+                      vegetable.label,
+                      style: TextStyle(color: Colors.black, fontSize: 15,),
+                      // textAlign: TextAlign.right,
+                    ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (Vegetable? newValue) {
+                  setState(() {
+                    selectedVegetable = newValue;
+                  });
+                },
+              ),
             ),
+          ),
+          ),
           ),
         ],
       ),
@@ -188,7 +200,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.green[100],
+           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -222,7 +234,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.green[100],
+         color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -231,7 +243,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               alignment: Alignment.centerLeft,
               child: Text(
                 "Predicted Price",
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 17, color: Colors.black),
               ),
             ),
             const SizedBox(width: 30),
@@ -256,7 +268,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.green[100],
+         color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -265,7 +277,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               alignment: Alignment.centerLeft,
               child: Text(
                 "Market Demand",
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 17, color: Colors.black),
               ),
             ),
             const SizedBox(width: 30),
@@ -291,7 +303,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.green[100],
+         color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: SingleChildScrollView(
