@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/Price_analysis.dart';
+import 'package:namer_app/Presentation/first_screen/Login.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 
 void main() {
@@ -61,7 +62,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: PriceAnalysis()
+      home: Login()
       );
     
   }
