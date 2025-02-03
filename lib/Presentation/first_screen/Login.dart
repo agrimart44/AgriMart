@@ -1,6 +1,7 @@
 import 'dart:ui'; // Import the dart:ui library for BackdropFilter
 
 import 'package:flutter/material.dart';
+import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,21 +15,75 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  //Login function
+  void login(BuildContext context) async {
+  final authService = AuthService();
+
+  // Validate fields
+  if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text('Please fill in all fields.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+    return;
+  }
+
+  // Try login
+  try {
+    await authService.signinWithEmailpassword(
+      _emailController.text,
+      _passwordController.text,
+    );
+    // Navigate to the next screen on success
+    Navigator.pushReplacementNamed(context, '/home'); // Replace with your route
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text(e.toString()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+  //Forgot Password function
+  forgotLink(){
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // Extend the body behind the app bar
+      extendBodyBehindAppBar: true, 
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Set AppBar background color to transparent
-        leading: SizedBox(child: Icon(Icons.arrow_back_ios), width: 15, height: 15), // Remove leading icon
-        elevation: 0, // Remove shadow from the app bar
+        backgroundColor: Colors.transparent, 
+        leading: SizedBox(child: Icon(Icons.arrow_back_ios), width: 15, height: 15), 
+        elevation: 0, 
       ),
       body: Stack(
         children: [
-          // Background Image (this will stretch throughout the entire screen)
+          // Background Image 
           Positioned.fill(
             child: Image.asset(
-              'lib/assets/first_page_background.jpg', // Correct asset path
+              'lib/assets/first_page_background.jpg', 
               fit: BoxFit.cover,
             ),
           ),
@@ -76,7 +131,9 @@ class _LoginState extends State<Login> {
                     border: OutlineInputBorder(),
                     filled: true,
                     fillColor: Color(0xff3D3D3D),
+                    
                   ),
+                  style: TextStyle(color: Colors.white),
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 20),
@@ -90,7 +147,9 @@ class _LoginState extends State<Login> {
                     border: OutlineInputBorder(),
                     filled: true,
                     fillColor: Color(0xff3D3D3D),
+                    
                   ),
+                  style: TextStyle(color: Colors.white),
                   obscureText: true,
                 ),
                 SizedBox(height: 20),
@@ -103,6 +162,7 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Implement Login Functionality here
+                        login(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff39B54A), 
@@ -124,6 +184,7 @@ class _LoginState extends State<Login> {
                   child: TextButton(
                     onPressed: () {
                       // Implement Forgot Password functionality here
+                      forgotLink();
                     },
                     child: Text(
                       'Forgot Password?',
