@@ -1,0 +1,1 @@
+ C:\\Users\\danut\\OneDrive\\Desktop\\SDGP\\.dart_tool\\flutter_build\\c48823362f8b9bbdd01e7ce4ee26968c\\native_assets.yaml: 

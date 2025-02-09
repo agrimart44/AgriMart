@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Presentation/Price_analysis.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 
@@ -61,7 +62,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: PriceAnalysis()
+      debugShowCheckedModeBanner: false,
+      home: ShoppingCartPage()
       );
     
   }
