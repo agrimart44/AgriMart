@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/registerpage/registerpage.dart';
 
 import 'Login.dart';
 
@@ -90,7 +91,12 @@ class FirstScreen extends StatelessWidget {
         SizedBox(width: 60,height: 10,),
 
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
           style: ElevatedButton.styleFrom(
             
             backgroundColor: Colors.green,
@@ -107,7 +113,7 @@ class FirstScreen extends StatelessWidget {
              // Text color
 
           ),
-          child: Text("Sign Up")
+          child: Text("Register")
           ,
         ),
       ],
