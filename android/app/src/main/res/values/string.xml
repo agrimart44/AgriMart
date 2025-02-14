@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">AgriMart</string>
-    <string name="facebook_app_id">1666128743974683</string>
-    <string name="facebook_client_token">7f323c9e8ad93258102385ff75a9c1ed</string>
-    <string name="fb_login_protocol_scheme">fb1666128743974683</string>
+    
+<string name="app_name">AgriMart</string>
+<string name="facebook_app_id">1537474963875160</string>
+<string name="fb_login_protocol_scheme">fb1537474963875160</string>
+<string name="facebook_client_token">3a185902731c18c18849f222ae2cc33a</string>
+
+
 </resources>

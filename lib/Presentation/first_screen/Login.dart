@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
+import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
 import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
 
 class Login extends StatefulWidget {
@@ -237,7 +238,7 @@ class _LoginState extends State<Login> {
                                 SignInButton(
                                   Buttons.Facebook,
                                   onPressed: () {
-                                    
+                                    signInWithFacebook(context);
                                   },
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
