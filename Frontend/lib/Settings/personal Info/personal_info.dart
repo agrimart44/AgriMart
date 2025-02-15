@@ -50,7 +50,15 @@ class HomeScreen extends StatelessWidget {
                     //person icon
                     CircleAvatar(radius: 40,backgroundColor:Colors.white,child: Icon(Icons.person,size:50,color: Colors.grey,),
                     ),
-                    SizedBox(height: 10,)
+                    SizedBox(height: 10),
+                    Text("Rathnayake",style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20),
+                    // user informations like name,gender,location...
+                    userInfo(Icons.person,"Full Name" , "Rathnayake"),
+                    userInfo(Icons.male,"Gender" , "Male"),
+                    userInfo(Icons.work,"Farmer/Buyer" , "Farmer"),
+                    userInfo(Icons.location_on,"Location" , "Nuwara Eliya"),
                   ],
                 ),
             ),
