@@ -86,7 +86,12 @@ Widget userInfo(IconData icon, String title, String value) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
     padding: EdgeInsets.all(10),
-    
+    // border with green color
+    decoration: BoxDecoration(
+      color: Colors.green,
+      // corners are round
+      borderRadius: BorderRadius.circular(30),
+    ),
     child: Row(
       children: [
         Icon(icon, color: Colors.white),
