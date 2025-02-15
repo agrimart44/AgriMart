@@ -55,16 +55,30 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     // user informations like name,gender,location...
-                    userInfo(Icons.person,"Full Name" , "Rathnayake"),
-                    userInfo(Icons.male,"Gender" , "Male"),
-                    userInfo(Icons.work,"Farmer/Buyer" , "Farmer"),
-                    userInfo(Icons.location_on,"Location" , "Nuwara Eliya"),
+                //   userInfo(Icons.person,"Full Name" , "Rathnayake"),
+                //   userInfo(Icons.male,"Gender" , "Male"),
+                //   userInfo(Icons.work,"Farmer/Buyer" , "Farmer"),
+                //   userInfo(Icons.location_on,"Location" , "Nuwara Eliya"),
                   ],
                 ),
             ),
-          )
+          ),
+
+          // back button arrow
+          Positioned(
+            //back button position
+            top: 40,
+            left: 20,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white ,),
+              onPressed: () {
+                // Add navigation back logic here
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
