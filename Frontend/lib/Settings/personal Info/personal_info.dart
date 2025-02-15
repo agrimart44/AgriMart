@@ -30,7 +30,31 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children:[
           //background
-          Positioned.fill(child:Image.asset('lib/assets/first_page_background.jpg',fit: BoxFit.cover,))
+          Positioned.fill(child:Image.asset('lib/assets/first_page_background.jpg',fit: BoxFit.cover,
+          ),
+          ),
+          // background-overlay
+          Center(
+            child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.8), // Transparent effect
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, children: [
+                    Text("Personal Information",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color:Colors.white,),
+                    ),
+                    SizedBox(height: 20),
+                    //person icon
+                    CircleAvatar(radius: 40,backgroundColor:Colors.white,child: Icon(Icons.person,size:50,color: Colors.grey,),
+                    ),
+                    SizedBox(height: 10,)
+                  ],
+                ),
+            ),
+          )
         ],
       ),
     );
