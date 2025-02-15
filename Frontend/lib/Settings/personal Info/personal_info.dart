@@ -55,10 +55,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     // user informations like name,gender,location...
-                //   userInfo(Icons.person,"Full Name" , "Rathnayake"),
-                //   userInfo(Icons.male,"Gender" , "Male"),
-                //   userInfo(Icons.work,"Farmer/Buyer" , "Farmer"),
-                //   userInfo(Icons.location_on,"Location" , "Nuwara Eliya"),
+                   userInfo(Icons.person,"Full Name" , "Rathnayake"),
+                   userInfo(Icons.male,"Gender" , "Male"),
+                   userInfo(Icons.work,"Farmer/Buyer" , "Farmer"),
+                   userInfo(Icons.location_on,"Location" , "Nuwara Eliya"),
                   ],
                 ),
             ),
@@ -81,4 +81,25 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
+//// Define widget function to show user info
+Widget userInfo(IconData icon, String title, String value) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 5),
+    padding: EdgeInsets.all(10),
+    
+    child: Row(
+      children: [
+        Icon(icon, color: Colors.white),
+        SizedBox(width: 10),
+        Text(
+          "$title: ",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        Text(
+          value,
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+      ],
+    ),
+  );
+}
