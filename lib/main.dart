@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirstScreen(), // Your home screen
+      home: RegisterPage(), // Your home screen
     );
   }
 }
