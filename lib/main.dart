@@ -61,8 +61,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< Updated upstream
       home: PriceAnalysis()
       );
     
+=======
+      debugShowCheckedModeBanner: false,
+      home: FirstScreen(), // Your home screen
+    );
+>>>>>>> Stashed changes
   }
 }
