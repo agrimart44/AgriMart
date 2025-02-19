@@ -38,10 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final List<String> _occupations = [
     'Farmer',
-    'Trader',
-    'Supplier',
-    'Wholesaler',
-    'Retailer'
+    'Buyer',
   ];
 
   @override
