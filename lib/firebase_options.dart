@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '346281612226',
     projectId: 'agri-mart-add65',
     storageBucket: 'agri-mart-add65.firebasestorage.app',
+    iosClientId: '346281612226-657vbtg7k6is1973leg92a0jal8s1thr.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '346281612226',
     projectId: 'agri-mart-add65',
     storageBucket: 'agri-mart-add65.firebasestorage.app',
+    iosClientId: '346281612226-657vbtg7k6is1973leg92a0jal8s1thr.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
