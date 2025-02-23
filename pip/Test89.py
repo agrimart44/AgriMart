@@ -102,6 +102,33 @@ def find_optimal_parameters(train_data):
 
     return best_params, best_seasonal_params
 
+def train_sarima_model(data, order, seasonal_order):
+    """
+    Train SARIMA model with optimized parameters
+    """
+    try:
+        model = SARIMAX(data['price'],
+                        exog=data[['rolling_mean', 'rolling_std']],
+                        order=order,
+                        seasonal_order=seasonal_order,
+                        enforce_stationarity=False,
+                        enforce_invertibility=False)
+
+        results = model.fit(disp=0)
+        return results
+    except:
+        # Fallback to simpler model if complex one fails
+        print("Falling back to simpler model...")
+        model = SARIMAX(data['price'],
+                        order=(1, 1, 1),
+                        seasonal_order=(1, 1, 1, 7),
+                        enforce_stationarity=False,
+                        enforce_invertibility=False)
+
+        results = model.fit(disp=0)
+        return results
+
+
 
 
 
