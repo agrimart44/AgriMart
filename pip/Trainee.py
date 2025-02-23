@@ -10,12 +10,22 @@ import re
 import tensorflow as tf
 from sklearn.preprocessing import RobustScaler
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import LSTM, Dense, Dropout, Bidirectional, Input, Flatten, MultiHeadAttention
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Bidirectional, Input, Flatten, MultiHeadAttention, GlobalAveragePooling1D
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import keras_tuner as kt
 from datetime import datetime
 import pandas as pd
+import firebase_admin
+from firebase_admin import credentials, firestore
+from tensorflow.keras import regularizers
+from tensorflow.keras.layers import LeakyReLU
+
+
+
+
+
+
 
 def extract_vegetable_wholesale_prices(pdf_path):
     """
@@ -51,11 +61,9 @@ def extract_vegetable_wholesale_prices(pdf_path):
 
         # Filter specific vegetables
         df = df[df['Vegetable'].str.strip().isin([
-            'Beans', 'Carrot', 'Cabbage', 'Tomato', 'Brinjal',
-            'Pumpkin', 'Snake gourd', 'Lime'
+            'Pumpkin'
         ])]
 
-        # Add the extracted date to the DataFrame
         df['Date'] = formatted_date
 
         return df
@@ -72,27 +80,13 @@ class MultiVegetablePricePredictor:
 
         self.scalers = {veg: RobustScaler() for veg in vegetables}
         self.models = {veg: None for veg in vegetables}
-        self._prediction_fns = {}  # Initialize prediction functions dictionary
+        self._prediction_fns = {}
         logging.basicConfig(level=logging.INFO)
+        cred = credentials.Certificate(
+            r'C:\Users\rukshan\PycharmProjects\PythonProject\.venv\Lib\site-packages\pip\connect-model-firebase-adminsdk-fbsvc-06db006c16.json')
+        firebase_admin.initialize_app(cred)
+        self.db = firestore.client()
 
-    # def _prepare_data(self, df):
-    #     """
-    #     Prepare data for each vegetable
-    #     """
-    #     data = {}
-    #     for veg in self.vegetables:
-    #         # Extract prices for specific vegetable
-    #         veg_df = df[df['Vegetable'] == veg]
-    #
-    #         # Apply Z-Score function to the vegetable data
-    #         veg_df = add_z_score(veg_df)
-    #
-    #         # Ensure there's data available for processing
-    #         if len(veg_df) > 0:
-    #             # Store the price and Z-Score in the dictionary
-    #             data[veg] = pd.DataFrame({'Price': veg_df['today'], 'Z-Score': veg_df['Z-Score']})
-    #
-    #     return data
     def _prepare_data(self, df):
         """
         Prepare data for each vegetable and handle outliers
@@ -152,10 +146,17 @@ class MultiVegetablePricePredictor:
 
     def predict_next_7_days(self, df):
         """
-        Predicts the vegetable prices for the next 7 days
+        Predicts the vegetable prices for the next 7 days and saves the predictions with dates to Firestore.
+        Returns a dictionary with vegetables as keys and lists of (date, price) tuples as values.
         """
+        from datetime import datetime, timedelta
+        import numpy as np
+
         predictions = {}
         data, _, _ = self._prepare_data(df)  # Get cleaned data
+
+        # Get tomorrow's date as the starting point for predictions
+        start_date = datetime.now().date() + timedelta(days=1)
 
         for veg, prices in data.items():
             if len(prices) < self.window_size:
@@ -170,61 +171,79 @@ class MultiVegetablePricePredictor:
 
             predictions_list = []
 
-            for _ in range(7):  # Predict next 7 days
+            for i in range(7):  # Predict next 7 days
+                prediction_date = start_date + timedelta(days=i)
+
                 input_seq = scaled_data[-self.window_size:].reshape(1, self.window_size, 1)
                 predicted_price = self.models[veg].predict(input_seq, verbose=0)[0, 0]
 
-                # Inverse transform to get original scale price
+                # Inverse transform to get the original scale price
                 actual_price = self.scalers[veg].inverse_transform([[predicted_price]])[0, 0]
-                predictions_list.append(actual_price)
 
-                # Append the new prediction to scaled_data for next iteration
+                # Store date and price as a tuple
+                predictions_list.append((prediction_date, actual_price))
+
+                # Append the new prediction to scaled_data for the next iteration
                 scaled_data = np.append(scaled_data, [[predicted_price]], axis=0)
 
             predictions[veg] = predictions_list
 
+            # Prepare the data for Firestore
+            firestore_data = {
+                'predictions_updated': [{
+                    'date': pred_date.isoformat(),
+                    'price': float(pred_price)  # Convert numpy float to Python float
+                } for pred_date, pred_price in predictions_list],
+                'timestamp': firestore.SERVER_TIMESTAMP
+            }
+
+            # Save to Firestore
+            doc_ref = self.db.collection('predictions_updated').document(veg)
+            doc_ref.set(firestore_data)
+
         return predictions
 
     def build_model(self, hp, input_shape):
+
         inputs = Input(shape=input_shape)
 
         # Tune number of LSTM layers
         x = inputs
-        for _ in range(hp.Int('num_lstm_layers', 1, 3)):
+        for _ in range(hp.Int('num_lstm_layers', 1, 4)):
             x = Bidirectional(LSTM(
-                units=hp.Int('units', min_value=32, max_value=256, step=32),
+                units=hp.Int('units', 32, 256, step=32),
                 return_sequences=True,
                 recurrent_dropout=hp.Float('recurrent_dropout', 0.0, 0.5, step=0.1)
             ))(x)
 
         # Attention Mechanism
         attention_out = MultiHeadAttention(
-            num_heads=hp.Int('num_heads', min_value=2, max_value=8, step=2),
-            key_dim=hp.Int('key_dim', min_value=16, max_value=64, step=16)
-        )(x, x)
+            num_heads=hp.Int('num_heads', 2, 8, step=2),
+            key_dim=hp.Int('key_dim', 16, 64, step=16)
+        )(x, x, x)  # ✅ Fixed by adding query, key, and value
 
         x = Flatten()(attention_out)
-        x = Dropout(hp.Float('dropout', min_value=0.1, max_value=0.5, step=0.1))(x)
-        x = Dense(hp.Int('dense_units', min_value=32, max_value=128, step=32), activation='relu')(x)
+        x = Dropout(hp.Float('dropout', 0.1, 0.5, step=0.1))(x)
+        x = Dense(hp.Int('dense_units', 32, 128, step=32), activation='relu')(x)
         outputs = Dense(1, activation='linear')(x)
 
         model = Model(inputs, outputs)
 
         # Tune learning rate and optimizer
-        lr = hp.Float('learning_rate', min_value=1e-4, max_value=1e-2, sampling='log')
+        lr = hp.Float('learning_rate', 1e-2, 1e-1, sampling='log')
         batch_size = hp.Choice('batch_size', values=[16, 32, 64])
-        optimizer = hp.Choice('optimizer', values=['adam', 'rmsprop', 'sgd'])
+        optimizer_choice = hp.Choice('optimizer', ['adam', 'rmsprop', 'sgd'])
 
-        if optimizer == 'adam':
+        if optimizer_choice == 'adam':
             optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
-        elif optimizer == 'rmsprop':
+        elif optimizer_choice == 'rmsprop':
             optimizer = tf.keras.optimizers.RMSprop(learning_rate=lr)
-        elif optimizer == 'sgd':
+        elif optimizer_choice == 'sgd':
             optimizer = tf.keras.optimizers.SGD(learning_rate=lr)
+
 
         model.compile(optimizer=optimizer, loss='mse', metrics=['mae'])
         return model
-
     def _create_sequences(self, data):
         """
         Create sequences for LSTM input
@@ -235,7 +254,7 @@ class MultiVegetablePricePredictor:
             y.append(data[i + self.window_size])
         return np.array(X), np.array(y)
 
-    def train(self, df, epochs=100, batch_size=32, base_dir='tuner_logs'):
+    def train(self, df, epochs=100, batch_size=32, base_dir='tuner_logsForPumpking'):
         """
         Train LSTM models for each vegetable with outlier handling and model saving
         """
@@ -333,16 +352,18 @@ class MultiVegetablePricePredictor:
 
         self._initialize_prediction_fns()
         return histories, removed_outliers
+
+    # Define the prediction function at class level
+    @tf.function(reduce_retracing=True)
+    def _predict_fn(self, x, model):
+        return model(x, training=False)
+
     def _create_prediction_fn(self, model):
         """
         Create a compiled prediction function for a model
         """
-
-        @tf.function(reduce_retracing=True)
-        def predict_fn(x):
-            return model(x, training=False)
-
-        return predict_fn
+        # Return a partial function that binds the model
+        return lambda x: self._predict_fn(x, model)
 
     def _initialize_prediction_fns(self):
         """
@@ -435,6 +456,32 @@ class MultiVegetablePricePredictor:
             'Accuracy (%)': accuracy
         }
 
+    # def _plot_predictions(self, vegetable, y_true, y_pred):
+    #     """
+    #     Plot actual vs predicted values
+    #     """
+    #     plt.figure(figsize=(12, 6))
+    #     plt.plot(y_true, label='Actual', alpha=0.7)
+    #     plt.plot(y_pred, label='Predicted', alpha=0.7)
+    #     plt.title(f'Actual vs Predicted Prices for {vegetable}')
+    #     plt.xlabel('Time')
+    #     plt.ylabel('Price')
+    #     plt.legend()
+    #     plt.grid(True)
+    #     plt.show()
+def _plot_predictions(self, vegetable, y_true, y_pred):
+        """
+        Plot actual vs predicted values
+        """
+        plt.figure(figsize=(12, 6))
+        plt.plot(y_true, label='Actual', alpha=0.7)
+        plt.plot(y_pred, label='Predicted', alpha=0.7)
+        plt.title(f'Actual vs Predicted Prices for {vegetable}')
+        plt.xlabel('Time')
+        plt.ylabel('Price')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 def main():
     # PDF paths
     pdf_path_1 = 'price_report_20250131_e (1).pdf'
@@ -671,6 +718,7 @@ def main():
     pdf_path_265 = 'price_report_20240206.pdf'
     pdf_path_266 = 'price_report_20240205_e.pdf'
     pdf_path_267 = 'price_report_20240202_e.pdf'
+
 
     # Extract prices from PDFs
     vegetable_prices_1 = extract_vegetable_wholesale_prices(pdf_path_1)
@@ -912,6 +960,7 @@ def main():
     vegetable_prices_266 = extract_vegetable_wholesale_prices(pdf_path_266)
     vegetable_prices_267 = extract_vegetable_wholesale_prices(pdf_path_267)
 
+
     combined_df = pd.concat([
         vegetable_prices_1, vegetable_prices_2, vegetable_prices_3, vegetable_prices_4,
         vegetable_prices_5, vegetable_prices_6, vegetable_prices_7, vegetable_prices_8,
@@ -1033,7 +1082,7 @@ def main():
         vegetable_prices_264,
         vegetable_prices_265,
         vegetable_prices_266,
-        vegetable_prices_267
+        vegetable_prices_267,
 
     ], ignore_index=True)
 
@@ -1058,33 +1107,60 @@ def main():
     for veg, prices in predicted_prices.items():
         print(f"{veg} price predictions for next 7 days: {prices}")
 
-
-
     for veg, prices in data.items():
-        scaled_data = model.scalers[veg].transform(prices['Price'].values.reshape(-1, 1))
-        X, y = model._create_sequences(scaled_data)
+        try:
 
-        if len(X) > 0:
-            # Splitting data into train and test sets
-            split_index = int(0.8 * len(X))
-            X_train, X_test = X[:split_index], X[split_index:]
-            y_train, y_test = y[:split_index], y[split_index:]
 
-            # Evaluate model
+            split_index = int(0.8 * len(prices))
+            train_prices = prices['Price'].values[:split_index]
+            test_prices = prices['Price'].values[split_index:]
+
+            # Step 2: Fit Scaler Only on Train Data
+            scaler = model.scalers[veg].fit(train_prices.reshape(-1, 1))
+
+            # Step 3: Transform Train & Test Separately
+            train_scaled = scaler.transform(train_prices.reshape(-1, 1))
+            test_scaled = scaler.transform(test_prices.reshape(-1, 1))
+
+            # Step 4: Generate Sequences After Splitting
+            X_train, y_train = model._create_sequences(train_scaled)
+            X_test, y_test = model._create_sequences(test_scaled)
+
+            # Check for sufficient data
+            if len(X_train) < model.window_size * 2:
+                print(
+                    f"\nInsufficient data for {veg}: Need at least {model.window_size * 2} points, got {len(X_train)}")
+                continue
+
+            # Step 5: Ensure Model Exists
+            if veg not in model.models:
+                print(f"\nNo trained model found for {veg}")
+                continue
+
+            # Step 6: Get Predictions from the model
+            y_pred = model.models[veg].predict(X_test)
+
+            # Step 7: Ensure y_pred Matches y_test Shape
+            if y_pred.shape != y_test.shape:
+                y_pred = y_pred.reshape(y_test.shape)
+
+            # Step 8: Transform Back to Original Scale
+            y_test_orig = scaler.inverse_transform(y_test)
+            y_pred_orig = scaler.inverse_transform(y_pred)
+
+            # Step 9: Evaluate Model Performance
             performance = model.evaluate_model(veg, X_test, y_test)
 
             # Print performance metrics
+
             print(f"\nPerformance Metrics for {veg}:")
             for metric, value in performance.items():
                 print(f"{metric}: {value:.4f}")
 
-
-        else:
-            print(f"\nNot enough data to evaluate the model for {veg}")
-
-
-
-        # Print predictions
+        except Exception as e:
+            # Handle and log any errors that occur during evaluation
+            print(f"\nError evaluating model for {veg}: {str(e)}")
+            continue
 
 
 if __name__ == "__main__":

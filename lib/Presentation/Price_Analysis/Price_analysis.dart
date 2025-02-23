@@ -285,7 +285,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               alignment: Alignment.centerLeft,
               child: Text(
                 "High",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
               ),
             ),
           ],
