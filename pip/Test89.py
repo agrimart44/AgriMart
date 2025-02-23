@@ -59,6 +59,50 @@ def load_and_prepare_data(csv_path, commodity_name, market_region=None):
 
     return price_series
 
+def find_optimal_parameters(train_data):
+    """
+    Find optimal SARIMA parameters using grid search
+    """
+    # Define parameter ranges
+    p = range(0, 2)
+    d = range(0, 2)
+    q = range(0, 2)
+
+    # Create list of all parameter combinations
+    pdq = list(itertools.product(p, d, q))
+    seasonal_pdq = [(x[0], x[1], x[2], 7) for x in pdq]
+
+    best_aic = float('inf')
+    best_params = None
+    best_seasonal_params = None
+
+    # Try each combination
+    for param in pdq:
+        for seasonal_param in seasonal_pdq:
+            try:
+                model = SARIMAX(train_data['price'],
+                                order=param,
+                                seasonal_order=seasonal_param,
+                                enforce_stationarity=False,
+                                enforce_invertibility=False)
+                results = model.fit(disp=0)
+
+                if results.aic < best_aic:
+                    best_aic = results.aic
+                    best_params = param
+                    best_seasonal_params = seasonal_param
+
+            except:
+                continue
+
+    # If no parameters worked, use default
+    if best_params is None:
+        best_params = (1, 1, 1)
+        best_seasonal_params = (1, 1, 1, 7)
+
+    return best_params, best_seasonal_params
+
+
 
 
 def main():
