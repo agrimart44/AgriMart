@@ -178,6 +178,73 @@ def calculate_metrics(y_true, y_pred):
 
 
 
+def analyze_commodity(csv_path, commodity_name, market_region=None):
+    """
+    Enhanced analysis with optimized parameters and additional metrics
+    """
+    print(f"\nAnalyzing {commodity_name}" + (f" in {market_region}" if market_region else " (all regions)"))
+
+    # Load and prepare data
+    price_series = load_and_prepare_data(csv_path, commodity_name, market_region)
+
+    if len(price_series) < 14:
+        print("Insufficient data for analysis")
+        return
+
+    # Split data into training and testing sets
+    train_size = int(len(price_series) * 0.8)
+    train_data = price_series[:train_size]
+    test_data = price_series[train_size:]
+
+    # Find optimal parameters
+    print("Finding optimal model parameters...")
+    order, seasonal_order = find_optimal_parameters(train_data)
+    print(f"Optimal parameters - SARIMA{order}x{seasonal_order}")
+
+    # Train model
+    print("Training model with optimized parameters...")
+    model = train_sarima_model(train_data, order, seasonal_order)
+
+    # Make predictions on test set
+    test_exog = test_data[['rolling_mean', 'rolling_std']]
+    test_predictions = model.predict(start=test_data.index[0],
+                                     end=test_data.index[-1],
+                                     exog=test_exog)
+
+    # Calculate metrics
+    metrics = calculate_metrics(test_data['price'], test_predictions)
+    print("\nPerformance Metrics:")
+    for metric, value in metrics.items():
+        print(f"{metric}: {value:.4f}")
+
+    # Make future predictions
+    predictions, confidence_intervals = make_predictions(model, price_series)
+    firestore_data = {
+        'predictions_updated56': [
+            {'date': str(date), 'price': float(price)}
+            for date, price in predictions
+        ],
+        'timestamp': firestore.SERVER_TIMESTAMP
+    }
+
+    doc_ref = db.collection('predictions_updated56').document(commodity_name)
+    doc_ref.set(firestore_data)
+
+    print(f"\n{commodity_name} price predictions for next 7 days:")
+    for date, price in predictions:
+        print(f"{date}: {price:.2f} LKR/kg")
+
+    # Plot results
+    title = f"{commodity_name} Price Predictions" + (f" - {market_region}" if market_region else "")
+    # plot_predictions(price_series, predictions, confidence_intervals, title)
+
+    return predictions, metrics
+
+
+
+
+
+
 
 
 def main():
