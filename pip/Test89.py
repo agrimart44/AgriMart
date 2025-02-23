@@ -152,18 +152,28 @@ def make_predictions(model, data, steps=7):
 
     predictions_list = list(zip(prediction_dates, forecast.values))
 
-    firestore_data = {
-        'predictions_updated': [
-            {'date': str(date), 'price': float(price)}
-            for date, price in predictions_list
-        ],
-        'timestamp': firestore.SERVER_TIMESTAMP
-    }
 
-    doc_ref = db.collection('predictions_updated').document()
-    doc_ref.set(firestore_data)
 
     return list(zip(prediction_dates, forecast.values)), confidence_intervals
+
+def calculate_metrics(y_true, y_pred):
+    """
+    Calculate comprehensive performance metrics
+    """
+    mse = mean_squared_error(y_true, y_pred)
+    mae = mean_absolute_error(y_true, y_pred)
+    r2 = r2_score(y_true, y_pred)
+    mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+    accuracy = 100 - mape
+
+    return {
+        'Mean Squared Error': mse,
+        'Mean Absolute Error': mae,
+        'R-squared': r2,
+        'MAPE (%)': mape,
+        'Accuracy (%)': accuracy
+    }
+
 
 
 
