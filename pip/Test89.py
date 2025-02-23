@@ -227,7 +227,7 @@ def analyze_commodity(csv_path, commodity_name, market_region=None):
         'timestamp': firestore.SERVER_TIMESTAMP
     }
 
-    doc_ref = db.collection('predictions_updated56').document(commodity_name)
+    doc_ref = db.collection('predictions_for_next_7days').document(commodity_name)
     doc_ref.set(firestore_data)
 
     print(f"\n{commodity_name} price predictions for next 7 days:")
