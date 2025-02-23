@@ -128,6 +128,44 @@ def train_sarima_model(data, order, seasonal_order):
         results = model.fit(disp=0)
         return results
 
+def make_predictions(model, data, steps=7):
+    """
+    Make predictions with confidence intervals and trend analysis
+    """
+    # Prepare exogenous variables for forecasting
+    last_rolling_mean = data['rolling_mean'].iloc[-1]
+    last_rolling_std = data['rolling_std'].iloc[-1]
+
+    # Create future exog data
+    future_exog = pd.DataFrame({
+        'rolling_mean': [last_rolling_mean] * steps,
+        'rolling_std': [last_rolling_std] * steps
+    })
+
+    # Make predictions
+    forecast = model.forecast(steps=steps, exog=future_exog)
+    confidence_intervals = model.get_forecast(steps=steps, exog=future_exog).conf_int()
+
+    # Generate future dates
+    last_date = data.index[-1]
+    prediction_dates = [(last_date + timedelta(days=i + 1)).date() for i in range(steps)]
+
+    predictions_list = list(zip(prediction_dates, forecast.values))
+
+    firestore_data = {
+        'predictions_updated': [
+            {'date': str(date), 'price': float(price)}
+            for date, price in predictions_list
+        ],
+        'timestamp': firestore.SERVER_TIMESTAMP
+    }
+
+    doc_ref = db.collection('predictions_updated').document()
+    doc_ref.set(firestore_data)
+
+    return list(zip(prediction_dates, forecast.values)), confidence_intervals
+
+
 
 
 
