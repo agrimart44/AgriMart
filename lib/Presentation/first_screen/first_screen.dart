@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/Presentation/registerpage/registerpage.dart';
 
 import 'Login.dart';
 
@@ -20,11 +21,7 @@ class FirstScreen extends StatelessWidget {
                   image: AssetImage('lib/assets/first_page_background.jpg'),
                   fit: BoxFit.cover)
 
-              // Ensure appTheme is defined
-              // image: DecorationImage(
-              //   image: AssetImage(ImageConstant.imgFirst), // Ensure ImageConstant is imported
-              //   fit: BoxFit.fill,
-              // ),
+
               ),
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -42,13 +39,7 @@ class FirstScreen extends StatelessWidget {
     );
   }
 
-  // Widget _builtPostHarvestSection(BuildContext context) {
-  //   // Implement your logic here
-  //   return Container(
-  //     // Example content for post-harvest section
-  //     child: Text("Post-Harvest Section", style: TextStyle(fontSize: 20,color:Color.fromARGB(255, 255, 255, 255))),
-  //   );
-  // }
+
 
   Widget _builtAuthenticationButtons(BuildContext context) {
     return Column(
@@ -86,7 +77,12 @@ class FirstScreen extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
 
@@ -98,7 +94,7 @@ class FirstScreen extends StatelessWidget {
             ),
             // Text color
           ),
-          child: Text("Sign Up"),
+          child: Text("Register"),
         ),
       ],
     );
