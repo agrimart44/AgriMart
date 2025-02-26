@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 
 enum Vegetable {
-  carrot('Carrot'),
-  tomato('Tomato'),
-  potato('Potato'),
-  cucumber('Cucumber'),
-  spinach('Spinach');
+  carrot('Carrot', 'lib/assets/first_page_background.jpg'),
+  tomato('Tomato', 'lib/assets/first_page_background.jpg'),
+  snakeGourd('Snake-gourd', 'lib/assets/first_page_background.jpg'),
+  pumpkin('Pumpkin', 'lib/assets/first_page_background.jpg'),
+  lime('Lime', 'lib/assets/first_page_background.jpg');
 
-  const Vegetable(this.label);
+  const Vegetable(this.label, this.imagePath);
   final String label;
+  final String imagePath;
 }
 
 class DropdownMenuExample extends StatefulWidget {
@@ -25,11 +26,97 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController vegetableController = TextEditingController();
   Vegetable? selectedVegetable;
+  List<double> priceData = []; // Define priceData variable
+  List<double> currentData = [];
 
   @override
   void initState() {
     super.initState();
-    selectedVegetable = Vegetable.potato; // Set initial selection to tomato
+    selectedVegetable = Vegetable.carrot; // Set initial selection to carrot
+    _initializeFirebase(); // Initialize Firebase
+  }
+
+  Future<void> _initializeFirebase() async {
+    try {
+      await Firebase.initializeApp();
+      print('Firebase initialized successfully');
+      await fetchPriceData(selectedVegetable!.label); // Fetch initial data
+      await fetchPriceData2(selectedVegetable!.label); // Fetch current data
+    } catch (e) {
+      print('Error initializing Firebase: $e');
+    }
+  }
+   
+  Future<void> fetchPriceData(String vegetable) async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection("predictions_for_next_days")
+          .doc(vegetable)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data();
+
+        if (data != null && data.containsKey('predictions_for_next_days')) {
+          final List<dynamic> predictions = data['predictions_for_next_days'];
+
+          List<Map<String, dynamic>> formattedData = predictions.map((entry) {
+            return {
+              "date": entry["date"],
+              "Price": entry["Price"],
+            };
+          }).toList();
+
+          setState(() {
+            priceData = formattedData.map((entry) => entry["Price"] as double).toList();
+          });
+
+          print('Fetched Predictions: $formattedData');
+        } else {
+          print('No predictions found');
+        }
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchPriceData2(String vegetable) async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection("predictions_updated_for_current")
+          .doc(vegetable)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data();
+
+        if (data != null && data.containsKey('predictions_updated_for_current')) {
+          final List<dynamic> predictions = data['predictions_updated_for_current'];
+
+          List<Map<String, dynamic>> formattedData = predictions.map((entry) {
+            return {
+              "date": entry["date"],
+              "Price": entry["Price"],
+            };
+          }).toList();
+
+          setState(() {
+            currentData = formattedData.map((entry) => entry["Price"] as double).toList();
+          });
+
+          print('Fetched Predictions: $formattedData');
+        } else {
+          print('No predictions found');
+        }
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
   }
 
   @override
@@ -42,7 +129,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           height: MediaQuery.of(context).size.height * 0.9,
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.grey,
+            color: Colors.white,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -50,7 +137,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               child: Column(
                 children: [
                   _buildPostHarvestSection0(context),
-                  // const SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // Post-Harvest Section
                   _buildPostHarvestSection(context),
@@ -67,8 +154,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
 
                   _buildPostHarvestSection5(context),
                   const SizedBox(height: 30),
-
-                 
                 ],
               ),
             ),
@@ -84,50 +169,47 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        // borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-
-         child:  Container(
-          color: Colors.greenAccent,
-        child:  IconButton(onPressed: () {
-          print("Back Button Pressed");
-           // Add your onPressed functionality here
-         }, icon: Icon(Icons.chevron_left)
-          ,color: Colors.white,
-         ),
-
-         
-         ),
+            child: Container(
+              color: Colors.greenAccent,
+              child: IconButton(
+                onPressed: () {
+                  print("Back Button Pressed");
+                  // Add your onPressed functionality here
+                },
+                icon: Icon(Icons.chevron_left),
+                color: Colors.white,
+              ),
+            ),
           ),
-          
           const SizedBox(width: 190),
-          IconButton(onPressed: (){
-            print("Notification Button Pressed");
-            
-
-          }, icon: Icon(Icons.notifications),
-             color: Colors.green,
-             iconSize: 30,
+          IconButton(
+            onPressed: () {
+              print("Notification Button Pressed");
+            },
+            icon: Icon(Icons.notifications),
+            color: Colors.greenAccent,
+            iconSize: 30,
           ),
           const SizedBox(width: 5),
           Container(
-            
             color: Colors.white,
-          child: IconButton(
-            onPressed: () {
-              print("Profile Button Pressed");
-            },
-            icon: Icon(Icons.menu),
-            color: Colors.black,
+            width: 40,
+            height: 40,
+            child: IconButton(
+              onPressed: () {
+                print("Profile Button Pressed");
+              },
+              icon: Icon(Icons.menu),
+              color: Colors.black,
+            ),
           ),
-          ),
-           
-          
         ],
       ),
     );
@@ -138,8 +220,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        // borderRadius: BorderRadius.circular(12),
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -147,45 +229,41 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Market Price Analysis",
-              style: TextStyle(fontSize: 19, color: Colors.black,fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(width: 52),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child:
-          Container(
-            color: Colors.white,
-         child:  Align(
+          const SizedBox(width: 25),
+          Align(
             alignment: Alignment.centerLeft,
-            
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<Vegetable>(
-                iconEnabledColor: Colors.blue,
-                focusColor: Colors.red,
-                value: selectedVegetable,
-                dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
-                items: Vegetable.values.map((Vegetable vegetable) {
-                  return DropdownMenuItem<Vegetable>(
-                    value: vegetable,
-                    child:Center(
-                    child: Text(
-                      vegetable.label,
-                      style: TextStyle(color: Colors.black, fontSize: 15,),
-                      // textAlign: TextAlign.right,
-                    ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (Vegetable? newValue) {
-                  setState(() {
-                    selectedVegetable = newValue;
-                  });
-                },
-              ),
+            child: DropdownButton<Vegetable>(
+              iconEnabledColor: Colors.blue,
+              focusColor: Colors.red,
+              value: selectedVegetable,
+              dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
+              items: Vegetable.values.map((Vegetable vegetable) {
+                return DropdownMenuItem<Vegetable>(
+                  value: vegetable,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        vegetable.imagePath,
+                        width: 24,
+                        height: 24,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(vegetable.label),
+                    ],
+                  ),
+                );
+              }).toList(),
+              onChanged: (Vegetable? newValue) {
+                setState(() {
+                  selectedVegetable = newValue;
+                  fetchPriceData(selectedVegetable!.label); // Fetch data when selection changes
+                  fetchPriceData2(selectedVegetable!.label); // Fetch current data when selection changes
+                });
+              },
             ),
-          ),
-          ),
           ),
         ],
       ),
@@ -200,7 +278,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-           color: Colors.white,
+          color: Colors.green[100],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -216,8 +294,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Rs.  175/Kg",
-                style: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
+                currentData.isNotEmpty ? "Rs. ${currentData.last.toStringAsFixed(2)}/Kg" : 'not available',
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -227,6 +305,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   }
 
   Widget _buildPostHarvestSection3(BuildContext context) {
+    print("Selected Vegetable: $selectedVegetable");
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -234,7 +313,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-         color: Colors.white,
+          color: Colors.green[100],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -250,8 +329,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Rs.  185/Kg",
-                style: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
+                priceData.isNotEmpty ? "Rs. ${priceData.last.toStringAsFixed(2)}/Kg" : 'not available',
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -268,7 +347,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-         color: Colors.white,
+          color: Colors.green[100],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -284,10 +363,10 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "High",
-                style: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
+                (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last) ? "Demand is High" : "Demand is Low",
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -303,7 +382,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         margin: const EdgeInsets.symmetric(horizontal: 20.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-         color: Colors.white,
+          color: Colors.green[100],
           borderRadius: BorderRadius.circular(12),
         ),
         child: SingleChildScrollView(
@@ -326,15 +405,11 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                     borderData: FlBorderData(show: true),
                     lineBarsData: [
                       LineChartBarData(
-                        spots: [
-                          FlSpot(0, 80),
-                          FlSpot(1, 120),
-                          FlSpot(2, 100),
-                          FlSpot(3, 150),
-                          FlSpot(4, 130),
-                          FlSpot(5, 110),
-                          FlSpot(6, 90),
-                        ],
+                        spots: priceData
+                            .asMap()
+                            .entries
+                            .map((entry) => FlSpot(entry.key.toDouble(), entry.value))
+                            .toList(),
                         isCurved: true,
                         barWidth: 4,
                         color: Colors.green,

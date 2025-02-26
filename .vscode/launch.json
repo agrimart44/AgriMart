@@ -3,35 +3,5 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-        
-        {
-            "name": "Flutter: Attach to Device",
-            "type": "dart",
-            "request": "attach"
-        },
-        {
-            "name": "AgriMart",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "AgriMart (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "AgriMart (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "flutter",
-            "cwd": "lib\\Presentation\\Price_Analysis\\flutter",
-            "request": "launch",
-            "type": "dart"
-        }
-    ]
+    "configurations": []
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/Price_Analysis/Price_analysis.dart';
-import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,7 +60,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:DropdownMenuExample() ,
+      home: DropdownMenuExample()
       );
     
   }

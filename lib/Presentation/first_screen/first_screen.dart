@@ -24,11 +24,7 @@ class FirstScreen extends StatelessWidget {
             
 
 
-            // Ensure appTheme is defined
-            // image: DecorationImage(
-            //   image: AssetImage(ImageConstant.imgFirst), // Ensure ImageConstant is imported
-            //   fit: BoxFit.fill,
-            // ),
+            
           ),
           child: Container(
             padding: EdgeInsets.symmetric(vertical:50), // Ensure h extension is defined
@@ -46,18 +42,12 @@ class FirstScreen extends StatelessWidget {
     );
   }
 
-  // Widget _builtPostHarvestSection(BuildContext context) {
-  //   // Implement your logic here
-  //   return Container(
-  //     // Example content for post-harvest section
-  //     child: Text("Post-Harvest Section", style: TextStyle(fontSize: 20,color:Color.fromARGB(255, 255, 255, 255))),
-  //   );
-  // }
+  
 
   
 
   Widget _builtAuthenticationButtons(BuildContext context) {
-    // Implement your logic here
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
