@@ -1,0 +1,1 @@
+ C:\\Users\\danut\\OneDrive\\Desktop\\Agri\ Mart\\AgriMart\\.dart_tool\\flutter_build\\f2000e96a2e7a1db1ec38d5934011774\\native_assets.yaml: 
