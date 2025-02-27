@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -62,7 +59,8 @@ class CropUploadView(APIView):
             'location': location,
             'quantity': int(quantity),
             'harvestDate': harvest_date,
-            'userId': user_id  # Store the user ID of the authenticated farmer
+            'userId': user_id,  # Store the user ID of the authenticated farmer
+            'is_booked': False  # Set default value of is_booked to False
         }
 
         # Store the crop data in Firestore
