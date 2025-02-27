@@ -3,6 +3,8 @@ import 'package:namer_app/Presentation/Price_analysis.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 import 'package:namer_app/Presentation/list_crops/listcrop.dart';
 
+import 'Presentation/list_crops/listcrop.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -63,23 +65,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Home Screen'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Hours: $_hours'),
-              ElevatedButton(
-                onPressed: changeHour,
-                child: Text('Increase Hours'),
-              ),
-            ],
-          ),
-        ),
-      ), // Your home screen
+      home: ListCropScreen(), // Your home screen
     );
   }
 }
