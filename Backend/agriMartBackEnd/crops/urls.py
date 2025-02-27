@@ -1,6 +1,7 @@
+# crops/urls.py
 from django.urls import path
-from .views import CropListingView
+from .views import CropUploadView
 
 urlpatterns = [
-    path('list-crop/', CropListingView.as_view(), name='list_crop'),
+    path('upload_crop/', CropUploadView.as_view(), name='upload_crop'),
 ]
