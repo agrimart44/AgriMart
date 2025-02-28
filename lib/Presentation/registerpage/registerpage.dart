@@ -83,6 +83,64 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 40),
 
                   
+                  // Username Field 
+                  _buildDarkInputField(
+                    controller: _usernameController,
+                    label: 'Username',
+                    icon: Icons.person_outline,
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Enter username' : null,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Email Field 
+                  _buildDarkInputField(
+                    controller: _emailController,
+                    label: 'Email',
+                    icon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) return 'Enter email';
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(value!)) {
+                        return 'Invalid email format';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Password Field 
+                  _buildDarkInputField(
+                    controller: _passwordController,
+                    label: 'Password',
+                    icon: Icons.lock_outline,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) return 'Enter password';
+                      if (value!.length < 6) return 'Minimum 6 characters';
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Confirm Password Field
+                  _buildDarkInputField(
+                    controller: _confirmPasswordController,
+                    label: 'Confirm Password',
+                    icon: Icons.lock_reset,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) return 'Confirm password';
+                      if (value != _passwordController.text) {
+                        return 'Passwords mismatch';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+
 
                   // Done Button
                   SizedBox(
