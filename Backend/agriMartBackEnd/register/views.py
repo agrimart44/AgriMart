@@ -1,11 +1,11 @@
 import json
 import re
-from firebase import db
+from firebase_admin import auth
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import auth, firestore
 import firebase_admin
 from django.contrib.auth.hashers import make_password
+from firebase import db
 
 
 # Validation function
@@ -47,8 +47,8 @@ def register_user(request):
 
         email = user_data['email']
 
-        # Check if the user already exists in Firestore
-        user_ref = db.collection('users').document(email)  # Using email as the document ID
+        # Check if the user already exists in Firestore using UID as the document ID
+        user_ref = db.collection('users').document(email)  # Using email to look up the user
         user_doc = user_ref.get()
 
         if user_doc.exists:
@@ -71,8 +71,15 @@ def register_user(request):
 
             user_data['uid'] = user.uid  # Store Firebase UID
 
-            # Store user data including the location in Firestore
-            user_ref.set(user_data)
+            # Store user data in Firestore under the UID
+            user_ref = db.collection('users').document(user.uid)  # Use UID as the document ID
+            user_ref.set({
+                'name': user_data.get('username'),
+                'email': user_data.get('email'),
+                'occupation': user_data.get('occupation'),
+                'location': user_data.get('location'),
+                # Add any additional user data you need to store
+            })
 
             return JsonResponse({'status': 'success', 'message': 'User registered successfully'})
         
