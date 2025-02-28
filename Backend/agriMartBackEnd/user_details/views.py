@@ -2,8 +2,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import auth
-from agriMartBackEnd.firebsae_config import db  # Importing the db object from your firebase_config.py
-
+from agriMartBackEnd.firebsae_config import db  
 
 # Utility function to verify Firebase ID token
 def verify_firebase_token(token):
@@ -42,8 +41,18 @@ def get_user_details(request):
             if not user_doc.exists:
                 return JsonResponse({'error': 'User not found'}, status=404)
 
+            # Fetch the user data
             user_data = user_doc.to_dict()
-            return JsonResponse({'status': 'success', 'user_data': user_data}, status=200)
+
+            # Ensure the data is returned in the desired order
+            ordered_user_data = {
+                'name': user_data.get('name'),
+                'email': user_data.get('email'),
+                'occupation': user_data.get('occupation'),
+                'location': user_data.get('location'),
+            }
+
+            return JsonResponse({'status': 'success', 'user_data': ordered_user_data}, status=200)
 
         except Exception as e:
             return JsonResponse({'error': f"Error retrieving user data: {str(e)}"}, status=500)
