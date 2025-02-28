@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
 from datetime import datetime
-
 from agriMartBackEnd.firebsae_config import db, verify_firebase_token
 
 class CropUploadView(APIView):
@@ -60,7 +59,8 @@ class CropUploadView(APIView):
             'quantity': int(quantity),
             'harvestDate': harvest_date,
             'userId': user_id,  # Store the user ID of the authenticated farmer
-            'is_booked': False  # Set default value of is_booked to False
+            'is_booked': False,  # Set default value of is_booked to False
+            'is_in_cart': False  # Set default value of is_in_cart to False
         }
 
         # Store the crop data in Firestore
