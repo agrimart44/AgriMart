@@ -8,7 +8,6 @@ import firebase_admin
 from django.contrib.auth.hashers import make_password
 
 
-
 # Validation function
 def validate_user_data(user_data):
     errors = []
@@ -30,6 +29,10 @@ def validate_user_data(user_data):
     
     if not user_data.get('occupation'):
         errors.append('Occupation is required.')
+    
+    # Check if location is provided
+    if not user_data.get('location'):
+        errors.append('Location is required.')
     
     return errors if errors else None
 
@@ -67,7 +70,9 @@ def register_user(request):
             user_data['password'] = hashed_password  # Optional: If you want to store a hashed password in Firestore
 
             user_data['uid'] = user.uid  # Store Firebase UID
-            user_ref.set(user_data)  # Store additional details in Firestore
+
+            # Store user data including the location in Firestore
+            user_ref.set(user_data)
 
             return JsonResponse({'status': 'success', 'message': 'User registered successfully'})
         
