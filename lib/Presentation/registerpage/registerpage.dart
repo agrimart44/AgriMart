@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -30,12 +31,20 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: Stack(
         children: [
-          // Background Image
+
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/first_page_background.jpg'),
                 fit: BoxFit.cover,
+              ),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+              child: Container(
+                color: Colors.black.withOpacity(0.1),
+                width: double.infinity,
+                height: double.infinity,
               ),
             ),
           ),
@@ -73,93 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 40),
 
-                  // Username Field
-                  _buildInputField(
-                    controller: _usernameController,
-                    label: 'Username',
-                    icon: Icons.person_outline,
-                    validator: (value) =>
-                        value?.isEmpty ?? true ? 'Enter username' : null,
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Email Field
-                  _buildInputField(
-                    controller: _emailController,
-                    label: 'Email',
-                    icon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) return 'Enter email';
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(value!)) {
-                        return 'Invalid email format';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Password Field
-                  _buildInputField(
-                    controller: _passwordController,
-                    label: 'Password',
-                    icon: Icons.lock_outline,
-                    obscureText: true,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) return 'Enter password';
-                      if (value!.length < 6) return 'Minimum 6 characters';
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Confirm Password Field
-                  _buildInputField(
-                    controller: _confirmPasswordController,
-                    label: 'Confirm Password',
-                    icon: Icons.lock_reset,
-                    obscureText: true,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) return 'Confirm password';
-                      if (value != _passwordController.text) {
-                        return 'Passwords mismatch';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Occupation Dropdown
-                  InputDecorator(
-                    decoration: InputDecoration(
-                      labelText: 'Select Your Occupation',
-                      border: const OutlineInputBorder(),
-                      prefixIcon:
-                          const Icon(Icons.work_outline, color: Colors.grey),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 16),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedOccupation,
-                        items: _occupations
-                            .map((occupation) => DropdownMenuItem(
-                                  value: occupation,
-                                  child: Text(occupation),
-                                ))
-                            .toList(),
-                        onChanged: (value) =>
-                            setState(() => _selectedOccupation = value),
-                        validator: (value) =>
-                            value == null ? 'Select occupation' : null,
-                        decoration:
-                            const InputDecoration(border: InputBorder.none),
-                        hint: const Text('Choose occupation'),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
+                  
 
                   // Done Button
                   SizedBox(
@@ -196,26 +119,4 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildInputField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    TextInputType? keyboardType,
-    bool obscureText = false,
-    String? Function(String?)? validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-        prefixIcon: Icon(icon, color: Colors.grey),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      ),
-      validator: validator,
-    );
-  }
-}
+  
