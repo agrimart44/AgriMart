@@ -31,7 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: Stack(
         children: [
-
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -74,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
                       ],
@@ -82,8 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 40),
 
-                  
-                  // Username Field 
+                  // Username Field
                   _buildDarkInputField(
                     controller: _usernameController,
                     label: 'Username',
@@ -93,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Email Field 
+                  // Email Field
                   _buildDarkInputField(
                     controller: _emailController,
                     label: 'Email',
@@ -110,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Password Field 
+                  // Password Field
                   _buildDarkInputField(
                     controller: _passwordController,
                     label: 'Password',
@@ -140,7 +138,51 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
 
-
+                  // Occupation Dropdown with dark background
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: 'Select Your Occupation',
+                        labelStyle: const TextStyle(color: Colors.white70),
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.work_outline,
+                            color: Colors.white70),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedOccupation,
+                          dropdownColor: Colors.black87,
+                          items: _occupations
+                              .map((occupation) => DropdownMenuItem(
+                                    value: occupation,
+                                    child: Text(
+                                      occupation,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ))
+                              .toList(),
+                          onChanged: (value) =>
+                              setState(() => _selectedOccupation = value),
+                          validator: (value) =>
+                              value == null ? 'Select occupation' : null,
+                          decoration:
+                              const InputDecoration(border: InputBorder.none),
+                          hint: const Text(
+                            'Choose occupation',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
 
                   // Done Button
                   SizedBox(
@@ -177,4 +219,34 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  
+  Widget _buildDarkInputField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    bool obscureText = false,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: const TextStyle(color: Colors.white70),
+          border: const OutlineInputBorder(),
+          prefixIcon: Icon(icon, color: Colors.white70),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        ),
+        validator: validator,
+      ),
+    );
+  }
+}
