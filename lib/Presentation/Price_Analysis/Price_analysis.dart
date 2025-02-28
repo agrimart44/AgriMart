@@ -132,7 +132,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           body: Container(
             height: MediaQuery.of(context).size.height * 0.9,
             width: double.infinity,
-            color: Color(0xFF8EA58C), // Solid background color
+            color: Color(0xFFCBE54E), // Solid background color
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SingleChildScrollView(
@@ -173,13 +173,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8), // Slightly transparent white background
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -238,13 +231,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8), // Slightly transparent white background
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -306,13 +292,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.8), // Slightly transparent white background
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
         ),
         child: Column(
           children: [
@@ -348,13 +327,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.8), // Slightly transparent white background
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
         ),
         child: Column(
           children: [
@@ -389,13 +361,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.8), // Slightly transparent white background
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
         ),
         child: Column(
           children: [
@@ -430,13 +395,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8), // Slightly transparent white background
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+       
       ),
       child: SingleChildScrollView(
         child: Column(
