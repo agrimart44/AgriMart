@@ -29,6 +29,15 @@ class FarmerViewState extends State<FarmerView> {
               print('Show notifications');
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => AppSettings()),
+              //);
+            },
+          ),
         ],
       ),
       body: Stack(
