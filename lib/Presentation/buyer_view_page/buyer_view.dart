@@ -8,40 +8,96 @@ class BuyerView extends StatefulWidget {
 }
 
 class BuyerViewState extends State<BuyerView> {
+  int notificationCount = 0;
   int _selectedIndex = 0;
+  String? _selectedDistrict;
+  String? _selectedCategory;
+  OverlayEntry? _overlayEntry;
+
+  final List<String> _districts = [
+    'Colombo',
+    'Gampaha',
+    'Kalutara',
+    'Kandy',
+    'Matale',
+    'Nuwara Eliya',
+    'Galle',
+    'Matara',
+    'Hambantota',
+    'Jaffna',
+    'Kilinochchi',
+    'Mannar',
+    'Vavuniya',
+    'Mullaitivu',
+    'Batticaloa',
+    'Ampara',
+    'Trincomalee',
+    'Kurunegala',
+    'Puttalam',
+    'Anuradhapura',
+    'Polonnaruwa',
+    'Badulla',
+    'Monaragala',
+    'Ratnapura',
+    'Kegalle'
+  ];
+
+  final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
+
+  final GlobalKey _locationButtonKey = GlobalKey();
+  final GlobalKey _categoryButtonKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('AgriMART'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _buildSearchBar(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() => _selectedIndex = index);
-        },
-        selectedItemColor: Colors.green[600],
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque, // Detect taps outside widgets
+      onTap: () {
+        if (_overlayEntry != null) {
+          _overlayEntry?.remove();
+          _overlayEntry = null;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('AgriMART'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications),
+              onPressed: () {
+                setState(() => notificationCount = 0);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const AppSettings()),
+                // );
+              },
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            _buildSearchBar(),
+            _buildFilterButtons(),
+            _buildViewToggleButtons(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() => _selectedIndex = index);
+          },
+          selectedItemColor: Colors.green[600],
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart), label: 'Cart'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+        ),
       ),
     );
   }
@@ -53,7 +109,10 @@ class BuyerViewState extends State<BuyerView> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2)),
+          BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: const Offset(0, 2)),
         ],
       ),
       child: Row(
@@ -65,7 +124,8 @@ class BuyerViewState extends State<BuyerView> {
                 hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
                 prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ),
@@ -76,14 +136,165 @@ class BuyerViewState extends State<BuyerView> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               ),
               child: const Text('Search'),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFilterButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          _buildAllButton(),
+          const SizedBox(width: 20),
+          _buildLocationButton(),
+          const SizedBox(width: 20),
+          _buildCategoryButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAllButton() {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _selectedDistrict = null;
+          _selectedCategory = null;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      ),
+      child: const Text('All'),
+    );
+  }
+
+  Widget _buildLocationButton() {
+    return ElevatedButton(
+      key: _locationButtonKey,
+      onPressed: () => _showOverlay(_districts, (value) {
+        setState(() {
+          _selectedDistrict = value;
+        });
+      }),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(_selectedDistrict ?? 'Location'),
+          const SizedBox(width: 5),
+          const Icon(Icons.arrow_drop_down, color: Colors.black),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryButton() {
+    return ElevatedButton(
+      key: _categoryButtonKey,
+      onPressed: () => _showOverlay(_categories, (value) {
+        setState(() {
+          _selectedCategory = value;
+        });
+      }),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(_selectedCategory ?? 'Category'),
+          const SizedBox(width: 5),
+          const Icon(Icons.arrow_drop_down, color: Colors.black),
+        ],
+      ),
+    );
+  }
+
+  void _showOverlay(List<String> items, Function(String) onSelect) {
+    final RenderBox renderBox = _locationButtonKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset position = renderBox.localToGlobal(Offset.zero);
+    final double buttonHeight = renderBox.size.height;
+    final double overlayWidth = MediaQuery.of(context).size.width / 2;
+
+    _overlayEntry?.remove();
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        left: position.dx,
+        top: position.dy + buttonHeight,
+        width: overlayWidth,
+        child: Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            constraints: const BoxConstraints(maxHeight: 400),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: items.map((item) {
+                return ListTile(
+                  title: Text(item),
+                  onTap: () {
+                    setState(() {
+                      onSelect(item);
+                      _overlayEntry?.remove();
+                      _overlayEntry = null;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  Widget _buildViewToggleButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          _buildToggleButton('Buyer View', true),
+          const SizedBox(width: 25),
+          _buildToggleButton('Farmer View', false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToggleButton(String label, bool isActive) {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isActive ? Colors.green : Colors.white,
+        foregroundColor: isActive ? Colors.white : Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      ),
+      child: Text(label),
     );
   }
 }
