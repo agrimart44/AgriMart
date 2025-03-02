@@ -20,11 +20,11 @@ class FarmerViewState extends State<FarmerView> {
         elevation: 0, // Remove shadow
         title: const Text(
           'AgriMART',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.white), // White icon for visibility
+            icon: Icon(Icons.notifications, color: const Color.fromARGB(255, 45, 179, 54)),
             onPressed: () {
               print('Show notifications');
             },
