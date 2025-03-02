@@ -41,27 +41,26 @@ class FarmerViewState extends State<FarmerView> {
         ],
       ),
       body: Stack(
-        children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              'lib/assets/first_page_background.jpg', // Path to the background image
-              fit: BoxFit.cover,
-            ),
+      children: [
+        Image.asset(
+          'lib/assets/first_page_background.jpg',
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              _buildSearchBar(),
+              _buildViewToggleButtons(),
+              _buildDashboardGrid(),
+            ],
           ),
-          // Content
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 100), // Push content below the AppBar
-                _buildSearchBar(),
-                _buildViewToggleButtons(),
-                _buildDashboardGrid(),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
+    ),
+
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
