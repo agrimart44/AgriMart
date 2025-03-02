@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/Price_analysis.dart';
+import 'package:namer_app/Presentation/farmer_view_page/farmer_view.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 import 'package:namer_app/Presentation/list_crops/listcrop.dart';
 
@@ -65,7 +66,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ListCropScreen(), // Your home screen
+      //home: ListCropScreen(), // Your home screen
+      home: FarmerView(),
     );
   }
 }
