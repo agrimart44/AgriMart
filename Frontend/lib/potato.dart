@@ -45,6 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: const BackButton(),
         backgroundColor: const Color(0xFFD3D3D3),
       ),
+      backgroundColor: const Color(0xFFD3D3D3),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Image.asset ('lib/assets/potato.jpg',
+            width: 300,
+            height:300,
+            fit: BoxFit.cover,
+            ),
+
+          ],
+        ),
+      ),
     );
   }
 }
