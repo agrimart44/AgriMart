@@ -1,118 +1,85 @@
 import 'package:flutter/material.dart';
 
 void main() {
-    runApp(const ChangePasswordScreen());
+  runApp(const ChangePasswordScreen());
 }
 
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-        return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                home: Scaffold(
-                body: Stack(
-                children: [
-        Container(
-                decoration: const BoxDecoration(
-                image: DecorationImage(
-                image: AssetImage("assets/background.jpg"), // Background image
-                fit: BoxFit.cover,
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {},
+                  ),
                 ),
-              ),
-            ),
-        SafeArea(
-                child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-        // Back button and menu icon
-        Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-        IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () {},
-        style: IconButton.styleFrom(
-                backgroundColor: Colors.green,
-                shape: const CircleBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-
-        // Title and description
-                    const Text(
-                "Enter code",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                "Enter the six degit code sent to your email",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 20),
-
-
-        Container(
-          width: MediaQuery.of(context).size.width * 0.85,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(20),
-        ),),
-
-        
-
-
-                    
-
-        Align(
-          alignment: Alignment.center,
-          // Change Password Button
-        child:SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
-                onPressed: () {},
-        style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-        child: const Text(
-                "Done",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                const SizedBox(height: 10),
+                const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 100,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "Your two-factor authentication has been updated",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  // Change Password Button
+                  child: SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
                       ),
+                      child: const Text(
+                        "Done",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
                     ),
-        )
-                  ],
-                ),
-              ),
+                  ),
+                )
+              ],
             ),
           ],
         ),
       ),
     );
-    }
+  }
 
-    Widget buildPasswordField(String hint) {
-        return TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                hintText: hint,
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+  Widget buildPasswordField(String hint) {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
       ),
     );
-    }
+  }
 }
