@@ -7,8 +7,6 @@ void main() {
 class SecurityScreen extends StatelessWidget {
     SecurityScreen({super.key});
 
-    List<String> options = ['option 1', 'option 2'];
-
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
@@ -80,8 +78,24 @@ class SecurityScreen extends StatelessWidget {
             isSelected: false,
           ),
 
-            
-
+        // next
+        SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                onPressed: () {},
+        style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+        child: const Text(
+                "Next",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -90,8 +104,11 @@ class SecurityScreen extends StatelessWidget {
         ),
       ),
     );
-    }
+  }
 
+            
+
+                  
     Widget buildListTile(String title) {
         return ListTile(
                 title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -100,6 +117,8 @@ class SecurityScreen extends StatelessWidget {
     );
     }
 }
+
+
 
 
 Widget buildSecurityMethod(String title, String description, 
