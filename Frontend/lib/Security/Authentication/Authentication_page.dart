@@ -57,32 +57,31 @@ class SecurityScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
 
-                    const SizedBox(height: 20),
-          _buildSecurityMethod(
-            'Authentication app',
-            'Recommended. We\'ll recommend an app to download if you don\'t have one. It will send a code that you\'ll enter when you login',
-            isRecommended: true,
-            isSelected: true,
-          ),
+                    
                     const SizedBox(height: 20),
                     const Text(
                 "Choose your security method",
                 style:
         TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 4),
-        Container(
-                decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-        BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 1,
-                          ),
-                        ],
-                      ),
-                    ),
+
+                  const SizedBox(height: 20),
+          buildSecurityMethod(
+            'Authentication app',
+            'Recommended. We\'ll recommend an app to download if you don\'t have one. It will send a code that you\'ll enter when you login',
+            isRecommended: true,
+            isSelected: true,
+            ),
+
+                const SizedBox(height: 20),
+            buildSecurityMethod(
+            'SMS or WhatsApp',
+            'We\'ll send a code to the mobile number that we have on file for your account',
+            isSelected: false,
+          ),
+
+            
+
                   ],
                 ),
               ),
@@ -103,7 +102,7 @@ class SecurityScreen extends StatelessWidget {
 }
 
 
-Widget _buildSecurityMethod(String title, String description, 
+Widget buildSecurityMethod(String title, String description, 
       {bool isRecommended = false, bool isSelected = false}) {
     return Container(
       decoration: BoxDecoration(
@@ -113,13 +112,11 @@ Widget _buildSecurityMethod(String title, String description,
           color: isSelected ? Colors.green : Colors.grey.shade300,
           width: 2,
         ),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.1),
-        //     spreadRadius: 2,
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 4),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            )
+        ],
       ),
       padding: const EdgeInsets.all(16),
       child: Row(
