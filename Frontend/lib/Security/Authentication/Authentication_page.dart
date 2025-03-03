@@ -66,7 +66,7 @@ class SecurityScreen extends StatelessWidget {
                   const SizedBox(height: 20),
           buildSecurityMethod(
             'Authentication app',
-            'Recommended. We\'ll recommend an app to download if you don\'t have one. It will send a code that you\'ll enter when you login',
+            'We\'ll recommend an app to download if you don\'t have one. It will send a code that you\'ll enter when you login',
             isRecommended: true,
             isSelected: true,
             ),
@@ -79,24 +79,31 @@ class SecurityScreen extends StatelessWidget {
           ),
 
         // next
-        SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
+        const SizedBox(height: 200),
+
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 200,
+              height: 50,
+              child: ElevatedButton(
                 onPressed: () {},
-        style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-        child: const Text(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                
+              
+              child: const Text(
                 "Next",
                 style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
-                  ],
+                ),
+                ],
                 ),
               ),
             ),
