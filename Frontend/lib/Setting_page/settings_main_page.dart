@@ -38,13 +38,42 @@ class AppSettings extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildSettingsOption(context, 'Personal Information', 'Your account information'),
+                _buildSettingsOption(
+                    context, 'Personal Information', 'Your account information'),
                 const SizedBox(height: 15),
-                _buildSettingsOption(context, 'Password and Account', 'Your account security settings'),
+                _buildSettingsOption(
+                    context, 'Password and Account', 'Your account security settings'),
                 const SizedBox(height: 15),
-                _buildSettingsOption(context, 'Language Settings', 'Change your preferred language'),
+                _buildSettingsOption(
+                    context, 'Language Settings', 'Change your preferred language'),
                 const SizedBox(height: 15),
-                _buildSettingsOption(context, 'Privacy & Security', 'Manage your privacy settings'),
+                _buildSettingsOption(
+                    context, 'Privacy & Security', 'Manage your privacy settings'),
+                const SizedBox(height: 30), // Space between settings and sign-out button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Implement sign out functionality
+                      print('Sign out pressed');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4CAF50),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Sign out',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -76,6 +105,8 @@ class AppSettings extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
