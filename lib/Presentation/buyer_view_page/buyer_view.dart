@@ -1,113 +1,4 @@
-// import 'package:flutter/material.dart';
-// //import 'app_settings.dart';
 
-// class BuyerView extends StatefulWidget {
-//   const BuyerView({super.key});
-
-//   @override
-//   BuyerViewState createState() => BuyerViewState();
-// }
-
-// class BuyerViewState extends State<BuyerView> {
-//   int notificationCount = 0;
-//   int _selectedIndex = 0;
-//   String? _selectedDistrict;
-//   String? _selectedCategory;
-//   OverlayEntry? _overlayEntry;
-
-//   final List<String> _districts = [
-//     'Colombo',
-//     'Gampaha',
-//     'Kalutara',
-//     'Kandy',
-//     'Matale',
-//     'Nuwara Eliya',
-//     'Galle',
-//     'Matara',
-//     'Hambantota',
-//     'Jaffna',
-//     'Kilinochchi',
-//     'Mannar',
-//     'Vavuniya',
-//     'Mullaitivu',
-//     'Batticaloa',
-//     'Ampara',
-//     'Trincomalee',
-//     'Kurunegala',
-//     'Puttalam',
-//     'Anuradhapura',
-//     'Polonnaruwa',
-//     'Badulla',
-//     'Monaragala',
-//     'Ratnapura',
-//     'Kegalle'
-//   ];
-
-//   final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
-
-//   final GlobalKey _locationButtonKey = GlobalKey();
-//   final GlobalKey _categoryButtonKey = GlobalKey();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       behavior: HitTestBehavior.opaque, // Detect taps outside widgets
-//       onTap: () {
-//         if (_overlayEntry != null) {
-//           _overlayEntry?.remove();
-//           _overlayEntry = null;
-//         }
-//       },
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('AgriMART'),
-//           actions: [
-//             IconButton(
-//               icon: const Icon(Icons.notifications),
-//               onPressed: () {
-//                 setState(() => notificationCount = 0);
-//               },
-//             ),
-//             IconButton(
-//               icon: const Icon(Icons.menu),
-//               onPressed: () {
-//                 // Navigator.push(
-//                 //   context,
-//                 //   MaterialPageRoute(builder: (context) => const AppSettings()),
-//                 // );
-//               },
-//             ),
-//           ],
-//         ),
-//         body: Column(
-//           children: [
-//             _buildSearchBar(),
-//             _buildFilterButtons(),
-//             _buildViewToggleButtons(),
-//             const SizedBox(
-//                 height: 20), // Added a gap between buttons and th card
-//             Expanded(
-//               child: _buildProductList(),
-//             ),
-//           ],
-//         ),
-
-//         bottomNavigationBar: BottomNavigationBar(
-//           currentIndex: _selectedIndex,
-//           onTap: (index) {
-//             setState(() => _selectedIndex = index);
-//           },
-//           selectedItemColor: Colors.green[600],
-//           items: const [
-//             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//             BottomNavigationBarItem(
-//                 icon: Icon(Icons.shopping_cart), label: 'Cart'),
-//             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
 import 'package:flutter/material.dart';
 //import 'app_settings.dart';
 
@@ -126,31 +17,8 @@ class BuyerViewState extends State<BuyerView> {
   OverlayEntry? _overlayEntry;
 
   final List<String> _districts = [
-    'Colombo',
-    'Gampaha',
-    'Kalutara',
-    'Kandy',
-    'Matale',
-    'Nuwara Eliya',
-    'Galle',
-    'Matara',
-    'Hambantota',
-    'Jaffna',
-    'Kilinochchi',
-    'Mannar',
-    'Vavuniya',
-    'Mullaitivu',
-    'Batticaloa',
-    'Ampara',
-    'Trincomalee',
-    'Kurunegala',
-    'Puttalam',
-    'Anuradhapura',
-    'Polonnaruwa',
-    'Badulla',
-    'Monaragala',
-    'Ratnapura',
-    'Kegalle'
+    'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale','Nuwara Eliya','Galle','Matara','Hambantota','Jaffna','Kilinochchi','Mannar','Vavuniya',
+    'Mullaitivu','Batticaloa','Ampara','Trincomalee','Kurunegala','Puttalam','Anuradhapura','Polonnaruwa','Badulla','Monaragala','Ratnapura','Kegalle'
   ];
 
   final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
@@ -173,17 +41,15 @@ class BuyerViewState extends State<BuyerView> {
         appBar: AppBar(
           backgroundColor: Colors.transparent, // Make AppBar transparent
           elevation: 0, // Remove shadow
-          title: const Text(
-            'AgriMART',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+          title: const Text('AgriMART',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
           actions: [
             IconButton(
-              icon: const Icon(Icons.notifications),
+              icon: Icon(Icons.notifications, color: const Color.fromARGB(255, 45, 179, 54)),
               onPressed: () {
                 setState(() => notificationCount = 0);
               },
             ),
+            //Path to the App Settings Page
             IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
@@ -434,9 +300,8 @@ class BuyerViewState extends State<BuyerView> {
       child: Text(label),
     );
   }
-
-  Widget _buildProductList() {
-    // This is a placeholder.
+  // This is a placeholder.
+  Widget _buildProductList() {   
     // this would fetch data from list of crops.
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -570,7 +435,6 @@ class BuyerViewState extends State<BuyerView> {
   }
 
   String _formatDate(DateTime date) {
-    //return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
     return '${date.day}/${date.month}/${date.year}';
   }
 }
