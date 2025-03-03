@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/list_crops/listcrop.dart';
+import 'package:namer_app/Presentation/buyer_view_page/buyer_view.dart';
 
 class FarmerView extends StatefulWidget {
   const FarmerView({Key? key}) : super(key: key);
@@ -24,7 +25,8 @@ class FarmerViewState extends State<FarmerView> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: const Color.fromARGB(255, 45, 179, 54)),
+            icon: Icon(Icons.notifications,
+                color: const Color.fromARGB(255, 45, 179, 54)),
             onPressed: () {
               print('Show notifications');
             },
@@ -41,25 +43,25 @@ class FarmerViewState extends State<FarmerView> {
         ],
       ),
       body: Stack(
-      children: [
-        Image.asset(
-          'lib/assets/first_page_background.jpg',
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        ),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 100),
-              _buildSearchBar(),
-              _buildViewToggleButtons(),
-              _buildDashboardGrid(),
-            ],
+        children: [
+          Image.asset(
+            'lib/assets/first_page_background.jpg',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
           ),
-        ),
-      ],
-    ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 100),
+                _buildSearchBar(),
+                _buildViewToggleButtons(),
+                _buildDashboardGrid(),
+              ],
+            ),
+          ),
+        ],
+      ),
 
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -88,7 +90,8 @@ class FarmerViewState extends State<FarmerView> {
                 hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
                 prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ),
@@ -104,7 +107,8 @@ class FarmerViewState extends State<FarmerView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               ),
               child: const Text('Search'),
             ),
@@ -114,42 +118,46 @@ class FarmerViewState extends State<FarmerView> {
     );
   }
 
-  Widget _buildViewToggleButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      child: Row(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              // TODO: Implement Buyer View
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+Widget _buildViewToggleButtons() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+    child: Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            // Replace current screen with Buyer View when clicked
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const BuyerView()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            child: const Text('Buyer View'),
           ),
-          const SizedBox(width: 25),
-          ElevatedButton(
-            onPressed: () {
-              // TODO: Implement Farmer View
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+          child: const Text('Buyer View'),
+        ),
+        const SizedBox(width: 25),
+        ElevatedButton(
+          onPressed: () {
+            // No action needed when already on Farmer View
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            child: const Text('Farmer View'),
           ),
-        ],
-      ),
-    );
-  }
+          child: const Text('Farmer View'),
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildDashboardGrid() {
     return Padding(
@@ -255,6 +263,3 @@ class FarmerViewState extends State<FarmerView> {
     );
   }
 }
-
-
-
