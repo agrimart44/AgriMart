@@ -12,6 +12,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: TextTheme(
+          //Add arimo font
+          bodyLarge: GoogleFonts.arimo(
+            textStyle: const TextStyle(fontSize: 24),
+            fontWeight: FontWeight.bold,
+          ),
+          bodyMedium: GoogleFonts.arimo(
+            textStyle: const TextStyle(fontSize: 18),
+          ),
+        ),
+      ),
       home: const MyHomePage(title: 'Home'), // Set Home Widget
     );
   }
