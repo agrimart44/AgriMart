@@ -75,6 +75,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   SizedBox(height: 8),
                   SizedBox(height: 16),
+                  Text(
+                    '34 Watching This Now',
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Chat with Seller functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:Color(0xFF23D048), // Button color
+                          ),
+                          child: Text('Chat with Seller',style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
