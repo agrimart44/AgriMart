@@ -7,7 +7,7 @@ enum Vegetable {
   carrot('Carrot', 'lib/assets/carrot.jpg'),
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
-  lime('Lime', 'lib/assets/first_page_background.jpg');
+  lime('Lime', 'lib/assets/lime.jpg');
 
   const Vegetable(this.label, this.imagePath);
   final String label;
