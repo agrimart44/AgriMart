@@ -56,6 +56,14 @@ class SecurityScreen extends StatelessWidget {
                 "Two - factor authentication protects your account by requiring an additional code when you log in on a device that we don't recognize.",
                 style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
+
+                    const SizedBox(height: 20),
+          _buildSecurityMethod(
+            'Authentication app',
+            'Recommended. We\'ll recommend an app to download if you don\'t have one. It will send a code that you\'ll enter when you login',
+            isRecommended: true,
+            isSelected: true,
+          ),
                     const SizedBox(height: 20),
                     const Text(
                 "Choose your security method",
@@ -71,21 +79,6 @@ class SecurityScreen extends StatelessWidget {
         BoxShadow(
                 color: Colors.grey,
                 spreadRadius: 1,
-                          ),
-                        ],
-                      ),
-        child: Row(
-                children: [
-        Radio(
-                value: false,
-                onChanged: (value) {},
-                          ),
-                          const Expanded(
-                child: Text(
-                "Log out of other devices. Choose this if someone else used your account.",
-                style:
-        TextStyle(fontSize: 14, color: Colors.grey),
-                            ),
                           ),
                         ],
                       ),
@@ -108,3 +101,87 @@ class SecurityScreen extends StatelessWidget {
     );
     }
 }
+
+
+Widget _buildSecurityMethod(String title, String description, 
+      {bool isRecommended = false, bool isSelected = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isSelected ? Colors.green : Colors.grey.shade300,
+          width: 2,
+        ),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey.withOpacity(0.1),
+        //     spreadRadius: 2,
+        //     blurRadius: 8,
+        //     offset: const Offset(0, 4),
+        // ],
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Radio(
+            value: isSelected,
+            groupValue: true,
+            activeColor: Colors.green,
+            onChanged: null,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    if (isRecommended) ...[
+                      const SizedBox(width: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade100,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'Recommended',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+
