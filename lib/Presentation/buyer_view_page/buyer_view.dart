@@ -16,16 +16,34 @@ class BuyerViewState extends State<BuyerView> {
   OverlayEntry? _overlayEntry;
 
   final List<String> _districts = [
-    'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya',
-    'Galle', 'Matara', 'Hambantota', 'Jaffna', 'Kilinochchi', 'Mannar',
-    'Vavuniya', 'Mullaitivu', 'Batticaloa', 'Ampara', 'Trincomalee', 'Kurunegala',
-    'Puttalam', 'Anuradhapura', 'Polonnaruwa', 'Badulla', 'Monaragala',
-    'Ratnapura', 'Kegalle'
+    'Colombo',
+    'Gampaha',
+    'Kalutara',
+    'Kandy',
+    'Matale',
+    'Nuwara Eliya',
+    'Galle',
+    'Matara',
+    'Hambantota',
+    'Jaffna',
+    'Kilinochchi',
+    'Mannar',
+    'Vavuniya',
+    'Mullaitivu',
+    'Batticaloa',
+    'Ampara',
+    'Trincomalee',
+    'Kurunegala',
+    'Puttalam',
+    'Anuradhapura',
+    'Polonnaruwa',
+    'Badulla',
+    'Monaragala',
+    'Ratnapura',
+    'Kegalle'
   ];
 
-  final List<String> _categories = [
-    'Potato', 'Tomato', 'Brinjal', 'Carrot'
-  ];
+  final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
 
   final GlobalKey _locationButtonKey = GlobalKey();
   final GlobalKey _categoryButtonKey = GlobalKey();
@@ -66,7 +84,8 @@ class BuyerViewState extends State<BuyerView> {
             _buildSearchBar(),
             _buildFilterButtons(),
             _buildViewToggleButtons(),
-            const SizedBox(height: 20), // Added a gap between buttons and th card
+            const SizedBox(
+                height: 20), // Added a gap between buttons and th card
             Expanded(
               child: _buildProductList(),
             ),
@@ -80,7 +99,8 @@ class BuyerViewState extends State<BuyerView> {
           selectedItemColor: Colors.green[600],
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart), label: 'Cart'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
@@ -95,7 +115,10 @@ class BuyerViewState extends State<BuyerView> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2)),
+          BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: const Offset(0, 2)),
         ],
       ),
       child: Row(
@@ -107,7 +130,8 @@ class BuyerViewState extends State<BuyerView> {
                 hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
                 prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ),
@@ -118,8 +142,10 @@ class BuyerViewState extends State<BuyerView> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               ),
               child: const Text('Search'),
             ),
@@ -215,7 +241,8 @@ class BuyerViewState extends State<BuyerView> {
   }
 
   void _showOverlay(List<String> items, Function(String) onSelect) {
-    final RenderBox renderBox = _locationButtonKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _locationButtonKey.currentContext!.findRenderObject() as RenderBox;
     final Offset position = renderBox.localToGlobal(Offset.zero);
     final double buttonHeight = renderBox.size.height;
     final double overlayWidth = MediaQuery.of(context).size.width / 2;
@@ -286,18 +313,21 @@ class BuyerViewState extends State<BuyerView> {
   Widget _buildProductList() {
     // This is a placeholder.
     // this would fetch data from list of crops.
-    return ListView.builder(
-      itemCount: 1, // Replace with actual number of products
-      itemBuilder: (context, index) {
-        return _buildProductCard(
-          name: 'Product Name',
-          location: 'Location',
-          harvestDate: DateTime.now(),
-          price: 100.0,
-          rating: 4.5,
-         // imageUrl: '', // image
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView.builder(
+        itemCount: 1, // Replace with actual number of products
+        itemBuilder: (context, index) {
+          return _buildProductCard(
+            name: 'Product Name',
+            location: 'Location',
+            harvestDate: DateTime.now(),
+            price: 100.0,
+            rating: 4.5,
+            // imageUrl: '', // image
+          );
+        },
+      ),
     );
   }
 
@@ -307,10 +337,10 @@ class BuyerViewState extends State<BuyerView> {
     required DateTime harvestDate,
     required double price,
     required double rating,
-   // required String imageUrl,
+    // required String imageUrl,
   }) {
     return Card(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
@@ -318,73 +348,82 @@ class BuyerViewState extends State<BuyerView> {
           children: [
             // Left side: Product details
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on, size: 16),
-                      Text(location),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text('Harvest Date: ${_formatDate(harvestDate)}'),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Rs. ${price.toStringAsFixed(2)}/kg',
-                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: List.generate(5, (index) {
-                      return Icon(
-                        index < rating ? Icons.star : Icons.star_border,
-                        color: Colors.amber,
-                        size: 16,
-                      );
-                    }),
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 140,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Handle view action
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 400,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 16),
+                        Text(location),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text('Harvest Date: ${_formatDate(harvestDate)}'),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Rs. ${price.toStringAsFixed(2)}/kg',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.green),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: List.generate(5, (index) {
+                        return Icon(
+                          index < rating ? Icons.star : Icons.star_border,
+                          color: Colors.amber,
+                          size: 16,
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 140,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Handle view action
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                            child: const Text('View'),
                           ),
-                          child: const Text('View'),
                         ),
-                      ),
-                      const SizedBox(width: 15),
-                      Container(
-                        width: 140,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            // Handle watch later action
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                        const SizedBox(width: 15),
+                        Container(
+                          width: 140,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              // Handle watch later action
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                            child: const Text('Watch Later'),
                           ),
-                          child: const Text('Watch Later'),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             // Right side: Product image
@@ -393,11 +432,11 @@ class BuyerViewState extends State<BuyerView> {
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-               // image: DecorationImage(
-                  //image: NetworkImage(imageUrl),
-                 // fit: BoxFit.cover,
-                ),
+                // image: DecorationImage(
+                //image: NetworkImage(imageUrl),
+                // fit: BoxFit.cover,
               ),
+            ),
             //),
           ],
         ),
