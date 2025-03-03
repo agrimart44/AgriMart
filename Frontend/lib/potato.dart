@@ -109,7 +109,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text('Add to cart',style: TextStyle(color: Colors.white)),
                         ),
                       ),
-                      
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Buy now functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF23D048), // Button color
+                          ),
+                          child: Text('Buy now',style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
                     ],
                   ),
                 ],
