@@ -66,6 +66,7 @@ class BuyerViewState extends State<BuyerView> {
             _buildSearchBar(),
             _buildFilterButtons(),
             _buildViewToggleButtons(),
+            const SizedBox(height: 20), // Added a gap between buttons and th card
             Expanded(
               child: _buildProductList(),
             ),
@@ -405,6 +406,7 @@ class BuyerViewState extends State<BuyerView> {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    //return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    return '${date.day}/${date.month}/${date.year}';
   }
 }
