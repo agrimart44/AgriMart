@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 
 enum Vegetable {
   carrot('Carrot', 'lib/assets/first_page_background.jpg'),
-  tomato('Tomato', 'lib/assets/first_page_background.jpg'),
+  tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/first_page_background.jpg'),
   lime('Lime', 'lib/assets/first_page_background.jpg');
 
