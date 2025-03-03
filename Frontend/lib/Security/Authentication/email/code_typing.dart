@@ -61,11 +61,13 @@ class ChangePasswordScreen extends StatelessWidget {
 
 
 
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 500),
 
-        // Change Password Button
-        SizedBox(
-                width: double.infinity,
+        Align(
+          alignment: Alignment.center,
+          // Change Password Button
+        child:SizedBox(
+                width: 200,
                 height: 50,
                 child: ElevatedButton(
                 onPressed: () {},
@@ -76,11 +78,12 @@ class ChangePasswordScreen extends StatelessWidget {
                           ),
                         ),
         child: const Text(
-                "Change Password",
+                "Next",
                 style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
+        )
                   ],
                 ),
               ),
