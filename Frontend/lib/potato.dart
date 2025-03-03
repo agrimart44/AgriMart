@@ -55,6 +55,30 @@ class _MyHomePageState extends State<MyHomePage> {
             height:300,
             fit: BoxFit.cover,
             ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Rs.210/kg',
+                    style: TextStyle(
+                      color:Color(0xFF23D048),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Premium-quality potatoes sourced from the fertile lands of Nuwara Eliya, harvested on June 15, 2024. Available at just Rs. 210 per kilogram, these potatoes are ideal for a variety of dishes, offering a rich texture and delightful flavor to enhance your meals.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  SizedBox(height: 16),
+                ],
+              ),
+            ),
+
 
           ],
         ),
