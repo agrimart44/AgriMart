@@ -37,12 +37,45 @@ class AppSettings extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [],
+              children: [
+                _buildSettingsOption(context, 'Personal Information', 'Your account information'),
+                const SizedBox(height: 15),
+                _buildSettingsOption(context, 'Password and Account', 'Your account security settings'),
+                const SizedBox(height: 15),
+                _buildSettingsOption(context, 'Language Settings', 'Change your preferred language'),
+                const SizedBox(height: 15),
+                _buildSettingsOption(context, 'Privacy & Security', 'Manage your privacy settings'),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+
+  Widget _buildSettingsOption(BuildContext context, String title, String subtitle) {
+    return ListTile(
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.grey,
+        ),
+      ),
+      onTap: () {
+        // TODO: Implement navigation to respective settings pages
+        print('Navigating to $title');
+      },
+    );
+  }
 }
+
+
 
