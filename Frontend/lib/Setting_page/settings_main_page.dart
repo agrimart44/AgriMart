@@ -1,5 +1,5 @@
- import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart';
+import 'package:namer_app/Settings/language_settings.dart';
 
 class AppSettings extends StatelessWidget {
   const AppSettings({super.key});
@@ -80,10 +80,17 @@ class AppSettings extends StatelessWidget {
                             title: 'Language Settings',
                             subtitle: 'Change your language here',
                             onTap: () {
-                              // TODO: Navigate to Language Settings page
-                              print('Navigate to Language Settings');
+                              // Navigate to Language Settings page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const LanguageSettingsPage(),
+                                ),
+                              );
                             },
                           ),
+
                           const SizedBox(height: 15),
                           _buildSettingsCard(
                             context,
@@ -95,7 +102,9 @@ class AppSettings extends StatelessWidget {
                               print('Navigate to Privacy & Security');
                             },
                           ),
-                          const SizedBox(height: 30), // Space between settings and sign-out button
+                          const SizedBox(
+                              height:
+                                  30), // Space between settings and sign-out button
                           Padding(
                             padding: const EdgeInsets.all(30),
                             child: SizedBox(
@@ -108,7 +117,8 @@ class AppSettings extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF4CAF50),
                                   foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -137,12 +147,12 @@ class AppSettings extends StatelessWidget {
   }
 
   Widget _buildSettingsCard(
-      BuildContext context, {
-        required IconData icon,
-        required String title,
-        String? subtitle,
-        required VoidCallback onTap,
-      }) {
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    required VoidCallback onTap,
+  }) {
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -194,9 +204,3 @@ class AppSettings extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
