@@ -17,14 +17,7 @@ class ChangePasswordScreen extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {},
-                  ),
-                ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 250),
                 const Icon(
                   Icons.check_circle,
                   color: Colors.green,
@@ -35,10 +28,12 @@ class ChangePasswordScreen extends StatelessWidget {
                   "Your two-factor authentication has been updated",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 50),
+
                 Align(
                   alignment: Alignment.center,
                   // Change Password Button
