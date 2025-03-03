@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 //import 'app_settings.dart';
+import 'package:namer_app/Presentation/farmer_view_page/farmer_view.dart';
 
 class BuyerView extends StatefulWidget {
   const BuyerView({super.key});
@@ -289,17 +290,26 @@ class BuyerViewState extends State<BuyerView> {
     );
   }
 
-  Widget _buildToggleButton(String label, bool isActive) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isActive ? Colors.green : Colors.white,
-        foregroundColor: isActive ? Colors.white : Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Text(label),
-    );
-  }
+Widget _buildToggleButton(String label, bool isActive) {
+  return ElevatedButton(
+    onPressed: () {
+      if (label == 'Farmer View') {
+        // Navigate to Farmer View when clicked
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const FarmerView()),
+        );
+      }
+      // No action needed for Buyer View button when already on Buyer View
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: isActive ? Colors.green : Colors.white,
+      foregroundColor: isActive ? Colors.white : Colors.black,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    ),
+    child: Text(label),
+  );
+}
   // This is a placeholder.
   Widget _buildProductList() {   
     // this would fetch data from list of crops.
