@@ -95,9 +95,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Add to cart functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:Color(0xFF23D048), // Button color
+                          ),
+                          child: Text('Add to cart',style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      
+                    ],
+                  ),
                 ],
               ),
             ),
+
 
 
           ],
