@@ -1,79 +1,123 @@
 import 'package:flutter/material.dart';
 
 void main() {
-    runApp(const SecurityScreen());
+  runApp(const SecurityScreen());
 }
 
 class SecurityScreen extends StatelessWidget {
   const SecurityScreen({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-        return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                home: Scaffold(
-                body: Stack(
-                children: [
-        Container(
-                decoration: const BoxDecoration(
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Stack(
+          children: [
+            // Background Image
+            Container(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
-                image: AssetImage("assets/first_page_background.jpg"), // Background image
-                fit: BoxFit.cover,
+                  image: AssetImage("assets/first_page_background.jpg"), // Background image
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-        SafeArea(
-                child: Padding(
+            SafeArea(
+              child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-        Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-        IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () {},
-        style: IconButton.styleFrom(
-                backgroundColor: Colors.green,
-                shape: const CircleBorder(),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Top Row with Back Button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () {},
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            shape: const CircleBorder(),
                           ),
                         ),
                       ],
                     ),
+                    
                     const SizedBox(height: 10),
+
+                    // Title
                     const Text(
-                "Security",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      "Accounts centre",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 4),
+
+                    const SizedBox(height: 5),
+
+                    // Subtitle
                     const Text(
-                "Login & Recovery",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      "Add or remove accounts from this Accounts centre. Removing an account will also remove any profiles managed by that account.",
+                      style: TextStyle(fontSize: 14, color: Colors.black54),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                "Manage your passwords, login preferences and recovery methods.",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
+
                     const SizedBox(height: 20),
-        Container(
-                decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-        BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 1,
-                          ),
-                        ],
+
+                    // Add Account Button
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey),
                       ),
-        child: Column(
-                children: [
-        buildListTile("Change password"),
-                buildListTile("Two - factor authentication"),
-                buildListTile("Account centre"),
-                buildListTile("Login details"),
+                      child: const Text(
+                        "Add accounts",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Account Card
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Account Name
+                          const Text(
+                            "Rathnayake",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const Text(
+                            "Facebook",
+                            style: TextStyle(fontSize: 14, color: Colors.black45),
+                          ),
+                          const SizedBox(height: 10),
+
+                          // Profile Row
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.grey[300],
+                                radius: 20,
+                                child: const Icon(Icons.person, color: Colors.black),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                "Rathnayake",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -85,13 +129,5 @@ class SecurityScreen extends StatelessWidget {
         ),
       ),
     );
-    }
-
-    Widget buildListTile(String title) {
-        return ListTile(
-                title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {},
-    );
-    }
+  }
 }
