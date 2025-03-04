@@ -51,7 +51,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                "Enter the six digit code sent to your email",
+                "Enter the six digit code sent to your mobile number",
                 style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     const SizedBox(height: 20),
