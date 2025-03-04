@@ -46,76 +46,68 @@ class SecurityScreen extends StatelessWidget {
                     
                     const SizedBox(height: 10),
 
-                    // Title
-                    const Text(
-                      "Accounts centre",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
+              // Title
+              const Text(
+                "Login details",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
 
-                    const SizedBox(height: 5),
+              const SizedBox(height: 5),
 
-                    // Subtitle
-                    const Text(
-                      "Add or remove accounts from this Accounts centre. Removing an account will also remove any profiles managed by that account.",
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
-                    ),
+              // Subtitle
+              const Text(
+                "See what devices are used to log in to your accounts.",
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
 
-                    const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-                    // Add Account Button
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: const Text(
-                        "Add accounts",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                    ),
+              // Section Header
+              const Text(
+                "Account login activity",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
 
-                    const SizedBox(height: 20),
+              const SizedBox(height: 5),
 
-                    // Account Card
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Account Name
-                          const Text(
-                            "Rathnayake",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            "Facebook",
-                            style: TextStyle(fontSize: 14, color: Colors.black45),
-                          ),
-                          const SizedBox(height: 10),
+              const Text(
+                "You're currently logged in on these devices:",
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
 
-                          // Profile Row
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.grey[300],
-                                radius: 20,
-                                child: const Icon(Icons.person, color: Colors.black),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "Rathnayake",
-                                style: TextStyle(fontSize: 16),
-                              ),
+              const SizedBox(height: 20),
+
+              // Device Card
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: Row(
+                  children: [
+                    // Device Icon
+                    const Icon(Icons.phone_android, size: 30, color: Colors.black54),
+                    const SizedBox(width: 10),
+                    
+                    // Device Details
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Xiaomi 13C",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const Text(
+                          "Colombo, Sri Lanka.",
+                          style: TextStyle(fontSize: 14, color: Colors.black45),
+                        ),
+                        const Text(
+                          "This device",
+                          style: TextStyle(fontSize: 14, color: Colors.green),
+                        ),
                             ],
                           ),
                         ],
