@@ -5,12 +5,6 @@
 import FlutterMacOS
 import Foundation
 
-<<<<<<< HEAD:Frontend/macos/Flutter/GeneratedPluginRegistrant.swift
-import path_provider_foundation
-
-func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
-=======
 import cloud_firestore
 import facebook_auth_desktop
 import firebase_auth
@@ -29,5 +23,4 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTGoogleSignInPlugin.register(with: registry.registrar(forPlugin: "FLTGoogleSignInPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
->>>>>>> Chat:macos/Flutter/GeneratedPluginRegistrant.swift
 }
