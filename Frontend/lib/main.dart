@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Presentation/Price_analysis.dart';
+import 'package:namer_app/Presentation/farmer_view_page/farmer_view.dart';
+import 'package:namer_app/Presentation/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
+import 'package:namer_app/Presentation/list_crops/listcrop.dart';
+
+import 'Presentation/list_crops/listcrop.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +14,6 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
-  
 }
 
 class _MyAppState extends State<MyApp> {
@@ -18,9 +21,9 @@ class _MyAppState extends State<MyApp> {
   Color _scaffoldColor = Colors.white;
   double _isVisible = 0.0;
   String _nameToChange = "flow";
-  String _inputText = "";
-  int _hours=0;
-  final ScrollController _scrollController = ScrollController(); // Step 1: Declare ScrollController
+  int _hours = 0;
+  final ScrollController _scrollController =
+      ScrollController(); // Step 1: Declare ScrollController
 
   void numbers() {
     setState(() {
@@ -30,7 +33,8 @@ class _MyAppState extends State<MyApp> {
 
   void changeColor() {
     setState(() {
-      _scaffoldColor = _scaffoldColor == Colors.black12 ? Colors.blue : Colors.black12;
+      _scaffoldColor =
+          _scaffoldColor == Colors.black12 ? Colors.blue : Colors.black12;
     });
   }
 
@@ -45,17 +49,17 @@ class _MyAppState extends State<MyApp> {
       _nameToChange = _nameToChange == "flow" ? "rukaass" : "flow";
     });
   }
-  void changeHour(){
+
+  void changeHour() {
     setState(() {
       _hours++;
-      
-      
     });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose the controller to prevent memory leaks
+    _scrollController
+        .dispose(); // Dispose the controller to prevent memory leaks
     super.dispose();
   }
 
@@ -63,8 +67,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ShoppingCartPage()
-      );
-    
+      //home: ListCropScreen(), // Your home screen
+      home: BuyerView(),
+    );
   }
 }
