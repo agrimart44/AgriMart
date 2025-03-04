@@ -43,13 +43,13 @@ class ChangePasswordScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
                       child: const Text(
-                        "Done",
+                        "Next",
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),

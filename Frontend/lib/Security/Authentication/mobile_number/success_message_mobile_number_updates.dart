@@ -20,19 +20,31 @@ class ChangePasswordScreen extends StatelessWidget {
                 const SizedBox(height: 250),
                 const Icon(
                   Icons.check_circle,
-                  color: Colors.green,
+                  color: Colors.black,
                   size: 100,
                 ),
                 const SizedBox(height: 20),
                 const Text(
                   "Your mobile number"
-                  "has been updated",
+                  " has been updated",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
+                const SizedBox(height: 20),
+                const Text(
+                  "We will send a code to your mobile number",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black38,
+                  ),
+                ),
+
+
                 const SizedBox(height: 50),
 
                 Align(
