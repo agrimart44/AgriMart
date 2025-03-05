@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: ListCropScreen(), // Your home screen
-      home: BuyerView(),
+      home: ListCropScreen(),
     );
   }
 }

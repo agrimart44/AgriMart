@@ -130,7 +130,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
                     child: TextFormField(
                       controller: _locationController,
                       decoration: const InputDecoration(
-                        labelText: 'Location (%)',
+                        labelText: 'Location',
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,
