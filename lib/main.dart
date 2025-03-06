@@ -4,7 +4,6 @@ import 'package:namer_app/Presentation/farmer_view_page/farmer_view.dart';
 import 'package:namer_app/Presentation/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 import 'package:namer_app/Presentation/list_crops/listcrop.dart';
-
 import 'Presentation/list_crops/listcrop.dart';
 
 void main() {
