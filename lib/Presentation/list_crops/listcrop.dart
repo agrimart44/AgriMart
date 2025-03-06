@@ -79,6 +79,14 @@ class _ListCropScreenState extends State<ListCropScreen> {
                                 ),
                               ),
                             )
+
+                            Positioned(
+                              right: 0,
+                              child: IconButton(
+                                icon: const Icon(Icons.close, size: 20),
+                                onPressed: () => _removePhoto(_photos.indexOf(photo)),
+                              ),
+                            ),
                           ],
                           width: 80,
                           height: 80,
