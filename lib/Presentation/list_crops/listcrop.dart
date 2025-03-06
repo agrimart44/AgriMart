@@ -39,6 +39,9 @@ class _ListCropScreenState extends State<ListCropScreen> {
     }
   }
 
+  void _removePhoto(int index) {
+    setState(() => _photos.removeAt(index));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
