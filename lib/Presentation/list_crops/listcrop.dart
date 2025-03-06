@@ -87,6 +87,23 @@ class _ListCropScreenState extends State<ListCropScreen> {
                                 onPressed: () => _removePhoto(_photos.indexOf(photo)),
                               ),
                             ),
+
+                            if (_photos.length < 3)
+                    GestureDetector(
+                      onTap: _addPhoto,
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                ],
+              ),
+              const Divider(height: 40, thickness: 1),
                           ],
                           width: 80,
                           height: 80,
