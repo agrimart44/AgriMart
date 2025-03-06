@@ -65,7 +65,21 @@ class _ListCropScreenState extends State<ListCropScreen> {
                 children: [
                   ..._photos.map((photo) => Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Container(
+                        child: Stack(
+                          children: [
+
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: FileImage(photo),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          ],
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
