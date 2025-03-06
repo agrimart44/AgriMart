@@ -11,7 +11,8 @@ class ListCropScreen extends StatefulWidget {
 
 class _ListCropScreenState extends State<ListCropScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final List<String> _photos = <String>[];
+  final List<File> _photos = [];
+  final ImagePicker _picker = ImagePicker();
   final TextEditingController _harvestDataController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
