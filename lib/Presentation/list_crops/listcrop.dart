@@ -32,6 +32,13 @@ class _ListCropScreenState extends State<ListCropScreen> {
     }
   }
 
+  Future<void> _addPhoto() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null && _photos.length < 3) {
+      setState(() => _photos.add(File(image.path)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
