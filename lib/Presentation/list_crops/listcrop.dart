@@ -41,6 +41,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
   void _removePhoto(int index) {
     setState(() => _photos.removeAt(index));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Photo Upload Section
+              // PHOTO UPLOAD SECTION
               const Text(
                 'Add Photos',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -63,32 +64,38 @@ class _ListCropScreenState extends State<ListCropScreen> {
               const SizedBox(height: 8),
               Row(
                 children: [
+                  // Display existing photos
                   ..._photos.map((photo) => Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Stack(
                           children: [
-
+                            // Photo thumbnail container
                             Container(
                               width: 80,
                               height: 80,
                               decoration: BoxDecoration(
+                                color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(
                                   image: FileImage(photo),
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                            )
-
+                            ),
+                            // Remove button overlay
                             Positioned(
                               right: 0,
                               child: IconButton(
                                 icon: const Icon(Icons.close, size: 20),
-                                onPressed: () => _removePhoto(_photos.indexOf(photo)),
+                                onPressed: () =>
+                                    _removePhoto(_photos.indexOf(photo)),
                               ),
                             ),
-
-                            if (_photos.length < 3)
+                          ],
+                        ),
+                      )),
+                  // Add photo button (shown if less than 3 photos)
+                  if (_photos.length < 5)
                     GestureDetector(
                       onTap: _addPhoto,
                       child: Container(
@@ -104,133 +111,13 @@ class _ListCropScreenState extends State<ListCropScreen> {
                 ],
               ),
               const Divider(height: 40, thickness: 1),
-                          ],
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.image, size: 40),
-                        ),
-                      )),
-                  if (_photos.length < 3)
-                    GestureDetector(
-                      onTap: () => setState(() => _photos.add('')),
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Icon(Icons.add_a_photo),
-                      ),
-                    ),
-                ],
-              ),
-              const Divider(height: 40, thickness: 1),
 
-              // Listing Details
               const Text(
                 'Listing Details',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
 
-              // Name Field
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) =>
-                    value?.isEmpty ?? true ? 'Enter crop name' : null,
-              ),
-              const SizedBox(height: 16),
-
-              // Description Field
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
-                ),
-                maxLines: 3,
-                validator: (value) =>
-                    value?.isEmpty ?? true ? 'Enter description' : null,
-              ),
-              const SizedBox(height: 16),
-
-              // Price and Location Row
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _priceController,
-                      decoration: const InputDecoration(
-                        labelText: 'Price (LKR)',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Enter price' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _locationController,
-                      decoration: const InputDecoration(
-                        labelText: 'Location',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Enter location' : null,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // Quantity and Harvest Date Row
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _quantityController,
-                      decoration: const InputDecoration(
-                        labelText: 'Quantity (KG)',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Enter quantity' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _harvestDataController,
-                      decoration: InputDecoration(
-                        labelText: 'Harvest Date',
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.calendar_today),
-                          onPressed: () => _selectData(context),
-                        ),
-                      ),
-                      readOnly: true,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'Select date' : null,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              // Done Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
