@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
+import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
-// Import the chat list page
 import 'package:namer_app/ChatScreen/chat_list_page.dart'; // Add this import
 
 class FarmerView extends StatefulWidget {
@@ -21,32 +21,6 @@ class FarmerViewState extends State<FarmerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true, // Extends the body behind AppBar
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent, // Make AppBar transparent
-      //   elevation: 0, // Remove shadow
-      //   title: const Text(
-      //     'AgriMart',
-      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.notifications,
-      //           color: const Color.fromARGB(255, 45, 179, 54)),
-      //       onPressed: () {
-      //         print('Show notifications');
-      //       },
-      //     ),
-      //     IconButton(
-      //       icon: const Icon(Icons.menu),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => AppSettings()),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
       body: Stack(
         children: [
@@ -68,10 +42,32 @@ class FarmerViewState extends State<FarmerView> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      // Use the imported BottomNavigationBarWidget
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          
+          // Add navigation logic based on the selected index
+          if (index == 1) { // Cart index
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+            );
+          } else if (index == 2) { // Profile index
+            // Navigate to profile page
+            print('Navigate to Profile page');
+            // Implement profile navigation
+          }
+          // For index 0 (Home), we're already on the home page
+        },
+      ),
     );
   }
 
+  // Other widget methods (like _buildSearchBar, _buildViewToggleButtons, etc.) remain unchanged
   Widget _buildSearchBar() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -243,45 +239,6 @@ class FarmerViewState extends State<FarmerView> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-        
-        // Add navigation logic based on the selected index
-        if (index == 1) { // Cart index
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-          );
-        } else if (index == 2) { // Profile index
-          // Navigate to profile page
-          print('Navigate to Profile page');
-          // Implement profile navigation
-        }
-        // For index 0 (Home), we're already on the home page
-      },
-      selectedItemColor: Colors.green[600],
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          label: 'Cart',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
     );
   }
 }
