@@ -14,7 +14,27 @@ class AppSettingsState extends State<AppSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AgriMartAppBar(context,title: 'Settings'),
+      appBar: AppBar(
+    backgroundColor: Colors.transparent, // Make AppBar background transparent
+    elevation: 0, // Remove shadow
+    title: Text(
+      "Settings", // Set the dynamic title
+      style: TextStyle(
+        color: Colors.black, // Set text color to black
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    actions: [
+      IconButton(
+        icon: Icon(Icons.notifications,
+            color: const Color.fromARGB(255, 45, 179, 54)),
+        onPressed: () {
+          print('Show notifications');
+        },
+      ),
+      
+    ],
+  ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [

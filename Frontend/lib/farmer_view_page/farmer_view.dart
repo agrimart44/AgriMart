@@ -5,7 +5,7 @@ import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
-import 'package:namer_app/ChatScreen/chat_list_page.dart'; // Add this import
+import 'package:namer_app/ChatScreen/chat_list_page.dart';
 
 class FarmerView extends StatefulWidget {
   const FarmerView({Key? key}) : super(key: key);
@@ -20,29 +20,35 @@ class FarmerViewState extends State<FarmerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // Extends the body behind AppBar
+      extendBodyBehindAppBar: true,
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
       body: Stack(
         children: [
+          // Background image
           Image.asset(
             'lib/assets/first_page_background.jpg',
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 100),
-                _buildSearchBar(),
-                _buildViewToggleButtons(),
-                _buildDashboardGrid(),
-              ],
-            ),
+          
+          // Fixed position elements (search bar and toggle buttons)
+          Column(
+            children: [
+              const SizedBox(height: 100), // Space for app bar
+              _buildSearchBar(),
+              _buildViewToggleButtons(),
+              
+              // Scrollable content (only the dashboard grid)
+              Expanded(
+                child: SingleChildScrollView(
+                  child: _buildDashboardGrid(),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-      // Use the imported BottomNavigationBarWidget
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: _selectedIndex,
         onTap: (index) {
@@ -50,27 +56,22 @@ class FarmerViewState extends State<FarmerView> {
             _selectedIndex = index;
           });
           
-          // Add navigation logic based on the selected index
-          if (index == 1) { // Cart index
+          if (index == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
             );
-          } else if (index == 2) { // Profile index
-            // Navigate to profile page
+          } else if (index == 2) {
             print('Navigate to Profile page');
-            // Implement profile navigation
           }
-          // For index 0 (Home), we're already on the home page
         },
       ),
     );
   }
 
-  // Other widget methods (like _buildSearchBar, _buildViewToggleButtons, etc.) remain unchanged
   Widget _buildSearchBar() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10), // Reduced vertical margin
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -121,12 +122,11 @@ class FarmerViewState extends State<FarmerView> {
 
   Widget _buildViewToggleButtons() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Reduced vertical padding
       child: Row(
         children: [
           ElevatedButton(
             onPressed: () {
-              // Replace current screen with Buyer View when clicked
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const BuyerView()),
@@ -167,23 +167,21 @@ class FarmerViewState extends State<FarmerView> {
         crossAxisCount: 2,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: 20, // Reduced spacing
-        crossAxisSpacing: 20, // Reduced spacing
-        childAspectRatio: 1, // Ensures cards are square
+        mainAxisSpacing: 15, // Further reduced spacing
+        crossAxisSpacing: 15, // Further reduced spacing
+        childAspectRatio: 1, // Square cards
         children: [
           _buildDashboardCard(
             'Market\nPrices\nTrends',
             Icons.trending_up,
             () {
               print('Navigate to Market Prices Trends page');
-              // Implement navigation logic
             },
           ),
           _buildDashboardCard(
             'Negotiations',
             Icons.handshake,
             () {
-              // Navigate to ChatListPage when Negotiations card is tapped
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ChatListPage()),
@@ -231,7 +229,7 @@ class FarmerViewState extends State<FarmerView> {
                 title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 14, // Reduced font size
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
