@@ -373,15 +373,16 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         ),
         child: Stack(
           children: [
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.6,
-                child: Image.asset(
-                  selectedVegetable!.imagePath,
-                  fit: BoxFit.cover,
+            if (selectedVegetable != null)
+              Positioned.fill(
+                child: Opacity(
+                  opacity: 0.6,
+                  child: Image.asset(
+                    selectedVegetable!.imagePath,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
             Column(
               children: [
                 Align(
@@ -425,7 +426,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                     "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
                     style: TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.bold),
                   )
-                else
+                else if (_selectedDay != null)
                   Text(
                     "No price available for the ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
                     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
