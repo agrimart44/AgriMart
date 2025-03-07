@@ -371,54 +371,67 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           color: Colors.white.withOpacity(0.8), // Slightly transparent white background
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
+        child: Stack(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Predicted Price",
-                style: TextStyle(fontSize: 17, color: Colors.black),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TableCalendar(
-              firstDay: DateTime.now(),
-              lastDay: DateTime.now().add(Duration(days: 28)),
-              focusedDay: _focusedDay,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay; // update `_focusedDay` here as well
-                  String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
-                  fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
-                });
-              },
-              calendarFormat: CalendarFormat.month,
-              calendarStyle: CalendarStyle(
-                todayDecoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  shape: BoxShape.circle,
-                ),
-                selectedDecoration: BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.3,
+                child: Image.asset(
+                  selectedVegetable!.imagePath,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            if (_selectedDayPrice != null)
-              Text(
-                "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              )
-            else
-              Text(
-                "No price available for the ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Predicted Price",
+                    style: TextStyle(fontSize: 17, color: Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TableCalendar(
+                  firstDay: DateTime.now(),
+                  lastDay: DateTime.now().add(Duration(days: 28)),
+                  focusedDay: _focusedDay,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay; // update `_focusedDay` here as well
+                      String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
+                      fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
+                    });
+                  },
+                  calendarFormat: CalendarFormat.month,
+                  calendarStyle: CalendarStyle(
+                    todayDecoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
+                    ),
+                    selectedDecoration: BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (_selectedDayPrice != null)
+                  Text(
+                    "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  )
+                else
+                  Text(
+                    "No price available for the ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+              ],
+            ),
           ],
         ),
       ),
