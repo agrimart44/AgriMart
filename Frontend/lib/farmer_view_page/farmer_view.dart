@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
+import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 // Import the chat list page
@@ -37,10 +38,10 @@ class FarmerViewState extends State<FarmerView> {
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => AppSettings()),
-              //);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AppSettings()),
+              );
             },
           ),
         ],

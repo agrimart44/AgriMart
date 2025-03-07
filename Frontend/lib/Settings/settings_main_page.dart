@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Settings/language_settings.dart';
+import 'package:namer_app/personal%20Info/personal_info.dart';
 
-class AppSettings extends StatelessWidget {
+class AppSettings extends StatefulWidget {
   const AppSettings({super.key});
 
+  @override
+  AppSettingsState createState() => AppSettingsState();
+}
+
+class AppSettingsState extends State<AppSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,8 +64,15 @@ class AppSettings extends StatelessWidget {
                             title: 'Personal Information',
                             subtitle: 'Your account information',
                             onTap: () {
-                              // TODO: Navigate to Personal Information page
-                              print('Navigate to Personal Information');
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PersonalInformation(),
+                                ),
+                              );
+
                             },
                           ),
                           const SizedBox(height: 15),
@@ -69,8 +82,9 @@ class AppSettings extends StatelessWidget {
                             title: 'Password and account',
                             subtitle: 'Your account information',
                             onTap: () {
-                              // TODO: Navigate to Password and account page
-                              print('Navigate to Password and account');
+
+                             
+
                             },
                           ),
                           const SizedBox(height: 15),
@@ -90,7 +104,6 @@ class AppSettings extends StatelessWidget {
                               );
                             },
                           ),
-
                           const SizedBox(height: 15),
                           _buildSettingsCard(
                             context,
@@ -103,8 +116,7 @@ class AppSettings extends StatelessWidget {
                             },
                           ),
                           const SizedBox(
-                              height:
-                                  30), // Space between settings and sign-out button
+                              height: 30), // Space between settings and sign-out button
                           Padding(
                             padding: const EdgeInsets.all(30),
                             child: SizedBox(
