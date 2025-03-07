@@ -375,7 +375,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           children: [
             Positioned.fill(
               child: Opacity(
-                opacity: 0.3,
+                opacity: 0.6,
                 child: Image.asset(
                   selectedVegetable!.imagePath,
                   fit: BoxFit.cover,
@@ -388,7 +388,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Predicted Price",
-                    style: TextStyle(fontSize: 17, color: Colors.black),
+                    style: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -423,7 +423,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 if (_selectedDayPrice != null)
                   Text(
                     "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
-                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.bold),
                   )
                 else
                   Text(
