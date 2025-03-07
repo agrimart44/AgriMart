@@ -6,6 +6,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
 import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
+import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -48,7 +49,10 @@ class _LoginState extends State<Login> {
         _passwordController.text,
       );
       // Navigate to the next screen on success
-      Navigator.pushReplacementNamed(context, '/home'); // Replace with your route
+      Navigator.pushReplacement(
+          context,
+        MaterialPageRoute(builder: (context) => const FarmerView()),
+); // Replace with your route
     } catch (e) {
       showDialog(
         context: context,

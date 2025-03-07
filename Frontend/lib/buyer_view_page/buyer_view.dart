@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 //import 'app_settings.dart';
-import 'package:namer_app/Presentation/farmer_view_page/farmer_view.dart';
+import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 class BuyerView extends StatefulWidget {
   const BuyerView({super.key});
@@ -150,14 +149,17 @@ class BuyerViewState extends State<BuyerView> {
   Widget _buildFilterButtons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          _buildAllButton(),
-          const SizedBox(width: 20),
-          _buildLocationButton(),
-          const SizedBox(width: 20),
-          _buildCategoryButton(),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildAllButton(),
+            const SizedBox(width: 20),
+            _buildLocationButton(),
+            const SizedBox(width: 20),
+            _buildCategoryButton(),
+          ],
+        ),
       ),
     );
   }
@@ -280,36 +282,40 @@ class BuyerViewState extends State<BuyerView> {
   Widget _buildViewToggleButtons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          _buildToggleButton('Buyer View', true),
-          const SizedBox(width: 25),
-          _buildToggleButton('Farmer View', false),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildToggleButton('Buyer View', true),
+            const SizedBox(width: 25),
+            _buildToggleButton('Farmer View', false),
+          ],
+        ),
       ),
     );
   }
 
-Widget _buildToggleButton(String label, bool isActive) {
-  return ElevatedButton(
-    onPressed: () {
-      if (label == 'Farmer View') {
-        // Navigate to Farmer View when clicked
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const FarmerView()),
-        );
-      }
-      // No action needed for Buyer View button when already on Buyer View
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: isActive ? Colors.green : Colors.white,
-      foregroundColor: isActive ? Colors.white : Colors.black,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    ),
-    child: Text(label),
-  );
-}
+  Widget _buildToggleButton(String label, bool isActive) {
+    return ElevatedButton(
+      onPressed: () {
+        if (label == 'Farmer View') {
+          // Navigate to Farmer View when clicked
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const FarmerView()),
+          );
+        }
+        // No action needed for Buyer View button when already on Buyer View
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isActive ? Colors.green : Colors.white,
+        foregroundColor: isActive ? Colors.white : Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      ),
+      child: Text(label),
+    );
+  }
+  
   // This is a placeholder.
   Widget _buildProductList() {   
     // this would fetch data from list of crops.
@@ -389,8 +395,7 @@ Widget _buildToggleButton(String label, bool isActive) {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 140,
+                        Expanded(
                           child: ElevatedButton(
                             onPressed: () {
                               // Handle view action
@@ -405,8 +410,7 @@ Widget _buildToggleButton(String label, bool isActive) {
                           ),
                         ),
                         const SizedBox(width: 15),
-                        Container(
-                          width: 140,
+                        Expanded(
                           child: OutlinedButton(
                             onPressed: () {
                               // Handle watch later action

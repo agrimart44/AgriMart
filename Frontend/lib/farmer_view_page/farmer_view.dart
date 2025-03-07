@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/Presentation/list_crops/listcrop.dart';
-import 'package:namer_app/Presentation/buyer_view_page/buyer_view.dart';
+import 'package:namer_app/Cart/shopping_cart_page.dart';
+import 'package:namer_app/list_crops/listcrop.dart';
+import 'package:namer_app/buyer_view_page/buyer_view.dart';
+// Import the chat list page
+import 'package:namer_app/ChatScreen/chat_list_page.dart'; // Add this import
 
 class FarmerView extends StatefulWidget {
   const FarmerView({Key? key}) : super(key: key);
@@ -62,7 +65,6 @@ class FarmerViewState extends State<FarmerView> {
           ),
         ],
       ),
-
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -118,46 +120,46 @@ class FarmerViewState extends State<FarmerView> {
     );
   }
 
-Widget _buildViewToggleButtons() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-    child: Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            // Replace current screen with Buyer View when clicked
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const BuyerView()),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+  Widget _buildViewToggleButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Row(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              // Replace current screen with Buyer View when clicked
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BuyerView()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
             ),
+            child: const Text('Buyer View'),
           ),
-          child: const Text('Buyer View'),
-        ),
-        const SizedBox(width: 25),
-        ElevatedButton(
-          onPressed: () {
-            // No action needed when already on Farmer View
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+          const SizedBox(width: 25),
+          ElevatedButton(
+            onPressed: () {
+              // No action needed when already on Farmer View
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
             ),
+            child: const Text('Farmer View'),
           ),
-          child: const Text('Farmer View'),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 
   Widget _buildDashboardGrid() {
     return Padding(
@@ -166,8 +168,9 @@ Widget _buildViewToggleButtons() {
         crossAxisCount: 2,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: 40,
-        crossAxisSpacing: 25,
+        mainAxisSpacing: 20, // Reduced spacing
+        crossAxisSpacing: 20, // Reduced spacing
+        childAspectRatio: 1, // Ensures cards are square
         children: [
           _buildDashboardCard(
             'Market\nPrices\nTrends',
@@ -181,8 +184,12 @@ Widget _buildViewToggleButtons() {
             'Negotiations',
             Icons.handshake,
             () {
-              print('Navigate to Negotiations page');
-              // Implement navigation logic
+              // Navigate to ChatListPage when Negotiations card is tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ChatListPage()),
+              );
+              print('Navigated to Negotiations (Chat List) page');
             },
           ),
           _buildDashboardCard(
@@ -220,12 +227,12 @@ Widget _buildViewToggleButtons() {
                 size: 40,
                 color: Colors.green,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Text(
                 title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14, // Reduced font size
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -243,7 +250,19 @@ Widget _buildViewToggleButtons() {
         setState(() {
           _selectedIndex = index;
         });
-        // TODO: Implement navigation logic
+        
+        // Add navigation logic based on the selected index
+        if (index == 1) { // Cart index
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+          );
+        } else if (index == 2) { // Profile index
+          // Navigate to profile page
+          print('Navigate to Profile page');
+          // Implement profile navigation
+        }
+        // For index 0 (Home), we're already on the home page
       },
       selectedItemColor: Colors.green[600],
       items: const [
