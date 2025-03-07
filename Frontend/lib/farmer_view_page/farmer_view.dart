@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
@@ -20,32 +21,33 @@ class FarmerViewState extends State<FarmerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true, // Extends the body behind AppBar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent, // Make AppBar transparent
-        elevation: 0, // Remove shadow
-        title: const Text(
-          'AgriMART',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications,
-                color: const Color.fromARGB(255, 45, 179, 54)),
-            onPressed: () {
-              print('Show notifications');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AppSettings()),
-              );
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent, // Make AppBar transparent
+      //   elevation: 0, // Remove shadow
+      //   title: const Text(
+      //     'AgriMart',
+      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.notifications,
+      //           color: const Color.fromARGB(255, 45, 179, 54)),
+      //       onPressed: () {
+      //         print('Show notifications');
+      //       },
+      //     ),
+      //     IconButton(
+      //       icon: const Icon(Icons.menu),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => AppSettings()),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
+      appBar: AgriMartAppBar(context, title: 'AgriMart'),
       body: Stack(
         children: [
           Image.asset(

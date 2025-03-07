@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Settings/language_settings.dart';
 import 'package:namer_app/personal%20Info/personal_info.dart';
 
@@ -13,24 +14,8 @@ class AppSettingsState extends State<AppSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'App Settings',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
+      appBar: AgriMartAppBar(context,title: 'Settings'),
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           // Background image
