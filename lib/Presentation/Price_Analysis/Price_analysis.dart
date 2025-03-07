@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'package:table_calendar/table_calendar.dart'; // Import TableCalendar
+import 'package:intl/intl.dart'; // Import intl package
 
 enum Vegetable {
   carrot('Carrot', 'lib/assets/carrot.jpg'),
@@ -27,6 +29,9 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   Vegetable? selectedVegetable;
   List<double> priceData = []; // Define priceData variable
   List<double> currentData = [];
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  double? _selectedDayPrice;
 
   @override
   void initState() {
@@ -115,6 +120,44 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       }
     } catch (e) {
       print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchPriceForSelectedDay(String vegetable, String formattedDay) async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection("predictions_for_next_days")
+          .doc(vegetable)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data();
+
+        if (data != null && data.containsKey('predictions_for_next_days')) {
+          final List<dynamic> predictions = data['predictions_for_next_days'];
+
+          for (var entry in predictions) {
+            if (entry["date"] == formattedDay) {
+              setState(() {
+                _selectedDayPrice = entry["Price"];
+              });
+              print('Price for selected day: $_selectedDayPrice');
+              return;
+            }
+          }
+
+          setState(() {
+            _selectedDayPrice = null;
+          });
+          print('No price found for selected day');
+        } else {
+          print('No predictions found');
+        }
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching price for selected day: $e');
     }
   }
 
@@ -337,14 +380,45 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 style: TextStyle(fontSize: 17, color: Colors.black),
               ),
             ),
-            const SizedBox(width: 30),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                priceData.isNotEmpty ? "Rs. ${priceData.last.toStringAsFixed(2)}/Kg" : 'not available',
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+            const SizedBox(height: 10),
+            TableCalendar(
+              firstDay: DateTime.now(),
+              lastDay: DateTime.now().add(Duration(days: 28)),
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay; // update `_focusedDay` here as well
+                  String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
+                  fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
+                });
+              },
+              calendarFormat: CalendarFormat.month,
+              calendarStyle: CalendarStyle(
+                todayDecoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  shape: BoxShape.circle,
+                ),
+                selectedDecoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
               ),
             ),
+            const SizedBox(height: 10),
+            if (_selectedDayPrice != null)
+              Text(
+                "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+              )
+            else
+              Text(
+                "No price available for the ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+              ),
           ],
         ),
       ),
@@ -395,7 +469,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.8), // Slightly transparent white background
         borderRadius: BorderRadius.circular(12),
-       
       ),
       child: SingleChildScrollView(
         child: Column(
