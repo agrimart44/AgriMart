@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/Cart/shopping_cart_page.dart';
+import 'package:namer_app/Security/security_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ShoppingCartPage()
+      home: SecurityScreen()
       );
     
   }
