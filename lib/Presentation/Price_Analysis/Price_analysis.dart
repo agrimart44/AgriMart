@@ -142,6 +142,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 _selectedDayPrice = entry["Price"];
               });
               print('Price for selected day: $_selectedDayPrice');
+              _showPriceDialog(formattedDay, _selectedDayPrice);
               return;
             }
           }
@@ -150,6 +151,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             _selectedDayPrice = null;
           });
           print('No price found for selected day');
+          _showPriceDialog(formattedDay, null);
         } else {
           print('No predictions found');
         }
@@ -161,12 +163,65 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     }
   }
 
+  void _showPriceDialog(String formattedDay, double? price) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "How will it change🤔",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                price != null ? Icons.check_circle : Icons.error,
+                color: price != null ? Colors.green : Colors.red,
+                size: 50,
+              ),
+              SizedBox(height: 10),
+              Text(
+                price != null
+                    ? "Predicted Price: Rs. ${price.toStringAsFixed(2)} per/Kg"
+                    : "No price available for $formattedDay",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "OK",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.green,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Helvetica Neue', // Set the default font family to SF Pro Text
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.grey,
       ),
       home: SafeArea(
         child: Scaffold(
@@ -175,7 +230,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           body: Container(
             height: MediaQuery.of(context).size.height * 0.9,
             width: double.infinity,
-            color: Color(0xFFCBE54E), // Solid background color
+            color: Colors.grey, // Solid background color
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SingleChildScrollView(
