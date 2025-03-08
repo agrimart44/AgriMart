@@ -2,9 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from agriMartBackEnd.firebsae_config import db, verify_firebase_token
 
-
 def available_crops(request):
-    """View to display all crops with is_in_cart=true that are not from the current user"""
     
     # Get Firebase token from request headers
     firebase_token = request.headers.get('Authorization')
@@ -20,7 +18,7 @@ def available_crops(request):
     current_user_id = decoded_token.get('uid')
     
     try:
-        # Query crops collection for documents where is_in_cart is true
+        # Query crops collection for documents where is_in_cart is True
         crops_ref = db.collection('crops')
         query = crops_ref.where('is_in_cart', '==', True).stream()
         
@@ -28,11 +26,19 @@ def available_crops(request):
         available_crops = []
         for crop in query:
             crop_data = crop.to_dict()
-            # Include the document ID
-            crop_data['id'] = crop.id
+            crop_data['id'] = crop.id  # Include the document ID
             
             # Only include crops that don't belong to the current user
             if crop_data.get('userId') != current_user_id:
+                # Extract only one image URL (if available)
+                image_url = None
+                if 'imageURLs' in crop_data and isinstance(crop_data['imageURLs'], list) and crop_data['imageURLs']:
+                    image_url = crop_data['imageURLs'][0]  # Take the first image URL
+                
+                # Add the selected image URL to the response
+                crop_data['imageURL'] = image_url
+                del crop_data['imageURLs']  # Remove the full imageURLs list
+
                 available_crops.append(crop_data)
         
         # Return the available crops
