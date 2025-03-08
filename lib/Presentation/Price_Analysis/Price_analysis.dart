@@ -168,13 +168,25 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "How will it change🤔",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
+          title: Row(
+            children: [
+              Text(
+                "How will it change ",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                price != null ? "📈" : "❓",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+            ],
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -221,43 +233,57 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Helvetica Neue', // Set the default font family to SF Pro Text
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.blue,
       ),
       home: SafeArea(
         child: Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: true,
-          body: Container(
-            height: MediaQuery.of(context).size.height * 0.9,
-            width: double.infinity,
-            color: Colors.grey, // Solid background color
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildPostHarvestSection0(context),
-                    const SizedBox(height: 30),
-
-                    // Post-Harvest Section
-                    _buildPostHarvestSection(context),
-                    const SizedBox(height: 30),
-
-                    _buildPostHarvestSection2(context),
-                    const SizedBox(height: 30),
-
-                    _buildPostHarvestSection3(context),
-                    const SizedBox(height: 30),
-
-                    _buildPostHarvestSection4(context),
-                    const SizedBox(height: 30),
-
-                    _buildPostHarvestSection5(context),
-                    const SizedBox(height: 30),
-                  ],
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  'lib/assets/first_page_background.jpg',
+                  fit: BoxFit.cover,
+                  opacity: AlwaysStoppedAnimation(1.0), // Set the opacity of the background image to 1.0
                 ),
               ),
-            ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.9,
+                width: double.infinity,
+                color: Colors.white.withOpacity(0.1), // Slightly transparent white background
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildPostHarvestSection0(context),
+                        const SizedBox(height: 30),
+
+                        // Post-Harvest Section
+                        _buildPostHarvestSection(context),
+                        const SizedBox(height: 30),
+
+                        _buildPostHarvestSection2(context),
+                        const SizedBox(height: 30),
+
+                         _buildPostHarvestSection7(context),
+                      
+
+                        _buildPostHarvestSection3(context),
+                        const SizedBox(height: 30),
+
+                        _buildPostHarvestSection4(context),
+                        const SizedBox(height: 30),
+
+                        _buildPostHarvestSection5(context),
+                        const SizedBox(height: 30),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -414,8 +440,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     );
   }
 
-  Widget _buildPostHarvestSection3(BuildContext context) {
-    print("Selected Vegetable: $selectedVegetable");
+  Widget _buildPostHarvestSection7(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -426,29 +451,67 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           color: Colors.white.withOpacity(0.8), // Slightly transparent white background
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Stack(
+        child: Column(
           children: [
-            if (selectedVegetable != null)
-              Positioned.fill(
-                child: Opacity(
-                  opacity: 0.6,
-                  child: Image.asset(
-                    selectedVegetable!.imagePath,
-                    fit: BoxFit.cover,
-                  ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Predicted Price",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Predicted Price",
-                    style: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
+            ),
+           
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPostHarvestSection3(BuildContext context) {
+  print("Selected Vegetable: $selectedVegetable");
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Container(
+      // width: MediaQuery.of(context).size.width * 0.9,
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(6.0),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Stack(
+        children: [
+          if (selectedVegetable != null)
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.6,
+                child: Image.asset(
+                  selectedVegetable!.imagePath,
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(height: 10),
-                TableCalendar(
+              ),
+            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Text(
+              //   "Predicted Price",
+              //   style: TextStyle(
+              //     fontSize: 18,
+              //     color: Colors.black,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              
+              // Full-width calendar implementation
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: TableCalendar(
                   firstDay: DateTime.now(),
                   lastDay: DateTime.now().add(Duration(days: 28)),
                   focusedDay: _focusedDay,
@@ -458,13 +521,14 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
                       _selectedDay = selectedDay;
-                      _focusedDay = focusedDay; // update `_focusedDay` here as well
+                      _focusedDay = focusedDay;
                       String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
                       fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
                     });
                   },
                   calendarFormat: CalendarFormat.month,
                   calendarStyle: CalendarStyle(
+                    cellMargin: EdgeInsets.zero, // Full width cells
                     todayDecoration: BoxDecoration(
                       color: Colors.redAccent,
                       shape: BoxShape.circle,
@@ -474,26 +538,38 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                       shape: BoxShape.circle,
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                if (_selectedDayPrice != null)
-                  Text(
-                    "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for vegetable ${selectedVegetable!.label}", 
-                    style: TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.bold),
-                  )
-                else if (_selectedDay != null)
-                  Text(
-                    "No price available for the ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
-                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  headerStyle: HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
                   ),
-              ],
-            ),
-          ],
-        ),
+                ),
+              ),
+              // const SizedBox(height: 10),
+              // if (_selectedDayPrice != null)
+              //   Text(
+              //     "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for ${selectedVegetable!.label}",
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //       color: Colors.black87,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   )
+              // else if (_selectedDay != null)
+              //   Text(
+              //     "No price available for ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //       color: Colors.black,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
-
+    ),
+  );
+}
   Widget _buildPostHarvestSection4(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
