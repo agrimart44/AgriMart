@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+import cloudinary
+import cloudinary.uploader
+
+
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name="dkxs4ycz3",
+    api_key="587471489591572",
+    api_secret="kMPAuQYbG3U4xGQgkBi5Wn6i6ag"
+)
+
 
 # Application definition
 
