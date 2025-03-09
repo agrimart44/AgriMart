@@ -96,3 +96,42 @@ def available_non_booked_crops(request):
         return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
 
 
+def get_crop_details(request, crop_id):
+    try:
+        # Get Firebase token from request headers
+        firebase_token = request.headers.get('Authorization')
+        if not firebase_token:
+            return JsonResponse({"error": "Firebase token is missing"}, status=400)
+        
+        # Remove 'Bearer ' prefix if present
+        if firebase_token.startswith('Bearer '):
+            firebase_token = firebase_token[7:]
+        
+        # Verify the Firebase token
+        decoded_token = verify_firebase_token(firebase_token)
+        if isinstance(decoded_token, dict) and 'error' in decoded_token:
+            return JsonResponse(decoded_token, status=401)
+        
+        # Query the crop details from Firestore
+        crops_ref = db.collection('crops').document(crop_id)
+        crop = crops_ref.get()
+
+        if crop.exists:
+            crop_data = crop.to_dict()
+            # Return the full crop details
+            return JsonResponse({
+                "id": crop.id,
+                "cropName": crop_data.get('cropName', ''),
+                "price": crop_data.get('price', 0),
+                "description": crop_data.get('description', ''),
+                "location": crop_data.get('location', ''),
+                "quantity": crop_data.get('quantity', 0),
+                "imageURLs": crop_data.get('imageURLs', []),
+                # Add more fields if necessary
+            }, status=200)
+        else:
+            return JsonResponse({"error": "Crop not found"}, status=404)
+    
+    except Exception as e:
+        logger.error(f"Error fetching crop details: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
