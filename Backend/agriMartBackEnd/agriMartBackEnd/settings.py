@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'buyerview'
-    'cart',  # Add the cart app to the installed apps
+    'buyerview',
+    'cart',
+    'crops', 
+      # Add the cart app to the installed apps
 ]
 
 
