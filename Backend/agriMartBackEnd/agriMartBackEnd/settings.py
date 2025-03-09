@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+import cloudinary
+import cloudinary.uploader
+
+
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name="dkxs4ycz3",
+    api_key="587471489591572",
+    api_secret="kMPAuQYbG3U4xGQgkBi5Wn6i6ag"
+)
+
 
 # Application definition
 
@@ -47,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
