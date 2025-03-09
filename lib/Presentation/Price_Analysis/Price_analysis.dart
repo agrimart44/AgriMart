@@ -125,45 +125,66 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
 
   Future<void> fetchPriceForSelectedDay(String vegetable, String formattedDay) async {
     try {
-      final docSnapshot = await FirebaseFirestore.instance
-          .collection("predictions_for_next_days")
-          .doc(vegetable)
-          .get();
+      final DateTime today = DateTime.now();
+      final String formattedToday = DateFormat('yyyy-MM-dd').format(today);
 
-      if (docSnapshot.exists) {
-        final data = docSnapshot.data();
-
-        if (data != null && data.containsKey('predictions_for_next_days')) {
-          final List<dynamic> predictions = data['predictions_for_next_days'];
-
-          for (var entry in predictions) {
-            if (entry["date"] == formattedDay) {
-              setState(() {
-                _selectedDayPrice = entry["Price"];
-              });
-              print('Price for selected day: $_selectedDayPrice');
-              _showPriceDialog(formattedDay, _selectedDayPrice);
-              return;
-            }
-          }
-
+      if (formattedDay == formattedToday) {
+        // Fetch current price
+        if (currentData.isNotEmpty) {
+          setState(() {
+            _selectedDayPrice = currentData.last;
+          });
+          print('Current price for selected day: $_selectedDayPrice');
+          _showPriceDialog(formattedDay, _selectedDayPrice, isCurrentPrice: true);
+        } else {
           setState(() {
             _selectedDayPrice = null;
           });
-          print('No price found for selected day');
-          _showPriceDialog(formattedDay, null);
-        } else {
-          print('No predictions found');
+          print('No current price found for selected day');
+          _showPriceDialog(formattedDay, null, isCurrentPrice: true);
         }
       } else {
-        print('Document does not exist');
+        // Fetch predicted price
+        final docSnapshot = await FirebaseFirestore.instance
+            .collection("predictions_for_next_days")
+            .doc(vegetable)
+            .get();
+
+        if (docSnapshot.exists) {
+          final data = docSnapshot.data();
+
+          if (data != null && data.containsKey('predictions_for_next_days')) {
+            final List<dynamic> predictions = data['predictions_for_next_days'];
+
+            for (var entry in predictions) {
+              if (entry["date"] == formattedDay) {
+                setState(() {
+                  _selectedDayPrice = entry["Price"];
+                });
+                print('Predicted price for selected day: $_selectedDayPrice');
+                _showPriceDialog(formattedDay, _selectedDayPrice, isCurrentPrice: false);
+                return;
+              }
+            }
+
+            setState(() {
+              _selectedDayPrice = null;
+            });
+            print('No predicted price found for selected day');
+            _showPriceDialog(formattedDay, null, isCurrentPrice: false);
+          } else {
+            print('No predictions found');
+          }
+        } else {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
       print('Error fetching price for selected day: $e');
     }
   }
 
-  void _showPriceDialog(String formattedDay, double? price) {
+  void _showPriceDialog(String formattedDay, double? price, {required bool isCurrentPrice}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -171,7 +192,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           title: Row(
             children: [
               Text(
-                "How will it change ",
+                isCurrentPrice ? "Current Price" : "Predicted Price",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -199,7 +220,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               SizedBox(height: 10),
               Text(
                 price != null
-                    ? "Predicted Price: Rs. ${price.toStringAsFixed(2)} per/Kg"
+                    ? "${isCurrentPrice ? "Current" : "Predicted"} Price: Rs. ${price.toStringAsFixed(2)} per/Kg"
                     : "No price available for $formattedDay",
                 style: TextStyle(
                   fontSize: 18,
