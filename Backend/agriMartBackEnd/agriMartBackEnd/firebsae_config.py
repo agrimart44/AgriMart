@@ -7,3 +7,10 @@ firebase_admin.initialize_app(cred)
 
 # Initialize Firestore
 db = firestore.client()
+
+def verify_firebase_token(token):
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return decoded_token
+    except Exception as e:
+        return None
