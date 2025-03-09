@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'buyerview'
+    'cart',  # Add the cart app to the installed apps
 ]
 
 
