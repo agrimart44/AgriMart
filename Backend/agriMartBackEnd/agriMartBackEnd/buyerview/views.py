@@ -135,3 +135,70 @@ def get_crop_details(request, crop_id):
     except Exception as e:
         logger.error(f"Error fetching crop details: {str(e)}")
         return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
+
+
+@csrf_exempt
+
+def add_to_cart(request):
+    try:
+        # Ensure the request method is POST
+        if request.method != 'POST':
+            return JsonResponse({"error": "Invalid request method"}, status=405)
+        
+        # Get Firebase token from request headers
+        firebase_token = request.headers.get('Authorization')
+        if not firebase_token:
+            return JsonResponse({"error": "Firebase token is missing"}, status=400)
+        
+        # Remove 'Bearer ' prefix if present
+        if firebase_token.startswith('Bearer '):
+            firebase_token = firebase_token[7:]
+        
+        # Verify the Firebase token
+        decoded_token = verify_firebase_token(firebase_token)
+        if isinstance(decoded_token, dict) and 'error' in decoded_token:
+            return JsonResponse(decoded_token, status=401)
+        
+        # Extract user ID from the decoded token
+        current_user_id = decoded_token.get('uid')
+        
+        # Get the crop_id from the request body (JSON)
+        body = json.loads(request.body.decode('utf-8'))  # Parse the body as JSON
+        
+        crop_id = body.get('crop_id')  # Now body is a dictionary, so you can use .get() safely
+        
+        if not crop_id:
+            return JsonResponse({"error": "Crop ID is required"}, status=400)
+        
+        # 1. Update the Crop document to set `is_in_cart = true`
+        crop_ref = db.collection('crops').document(crop_id)
+        crop_doc = crop_ref.get()
+        
+        if not crop_doc.exists:
+            return JsonResponse({"error": "Crop not found"}, status=404)
+        
+        crop_ref.update({'is_in_cart': True})
+        
+        # 2. Add crop ID to the user's cart (UsersCart array)
+        user_ref = db.collection('users').document(current_user_id)
+        user_doc = user_ref.get()
+
+        if not user_doc.exists:
+            return JsonResponse({"error": "User not found"}, status=404)
+
+        # Check if the user already has a cart; if not, create one
+        user_data = user_doc.to_dict()
+        if 'cart' not in user_data:
+            user_ref.update({'cart': []})
+        
+        # Add crop ID to the cart array using firestore.ArrayUnion()
+        user_ref.update({
+            'cart': firestore.ArrayUnion([crop_id])  # Add crop_id to the user's cart
+        })
+
+        return JsonResponse({"message": "Crop added to cart successfully"}, status=200)
+    
+    except Exception as e:
+        # Log the error
+        logger.error(f"Error adding crop to cart: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
