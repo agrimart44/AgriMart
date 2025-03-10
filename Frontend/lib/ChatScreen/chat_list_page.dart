@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/ChatScreen/chat_screen.dart';
+import 'package:namer_app/ChatScreen/chat_service.dart';
 
-class ChatListPage extends StatelessWidget {
+class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
+
+  @override
+  _ChatListPageState createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends State<ChatListPage> {
+  late Future<List<Chat>> _chatListFuture; // To hold the dynamic list of chats
+  late ChatService _chatService;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize ChatService with your Stream API key
+    _chatService = ChatService('xqww9xknukff'); // Replace with your actual API key
+
+    // Fetch chats when the page loads
+    _chatListFuture = _chatService.fetchChatsFromStream();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +63,41 @@ class ChatListPage extends StatelessWidget {
             ),
             // Chat List
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                itemCount: dummyChats.length,
-                itemBuilder: (context, index) {
-                  final chat = dummyChats[index];
-                  return ChatListItem(chat: chat);
+              child: FutureBuilder<List<Chat>>(
+                future: _chatListFuture, // Fetch chats using the future
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Error: ${snapshot.error}'),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _chatListFuture = _chatService.fetchChatsFromStream(); // Retry fetching chats
+                              });
+                            },
+                            child: Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('No chats available.'));
+                  } else {
+                    final chatList = snapshot.data!;
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      itemCount: chatList.length,
+                      itemBuilder: (context, index) {
+                        final chat = chatList[index];
+                        return ChatListItem(chat: chat);
+                      },
+                    );
+                  }
                 },
               ),
             ),
@@ -77,15 +126,17 @@ class ChatListItem extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              //Link to the Chat Screen
-              builder: (context) => const ChatScreen(),
+              // Link to the Chat Screen
+              builder: (context) => ChatScreen(channelId: chat.name), // Pass the channel ID dynamically
             ),
           );
         },
         leading: CircleAvatar(
           radius: 24,
           backgroundColor: Colors.grey[300],
-          backgroundImage: AssetImage(chat.profileImage),
+          backgroundImage: chat.profileImage.isNotEmpty
+              ? NetworkImage(chat.profileImage)
+              : AssetImage('lib/assets/default_avatar.png') as ImageProvider,
         ),
         title: Text(
           chat.name,
@@ -135,50 +186,3 @@ class ChatListItem extends StatelessWidget {
     );
   }
 }
-
-// Dummy Data Model
-class Chat {
-  final String name;
-  final String lastMessage;
-  final String profileImage;
-  final DateTime timestamp;
-  final int unreadCount;
-
-  Chat({
-    required this.name,
-    required this.lastMessage,
-    required this.profileImage,
-    required this.timestamp,
-    this.unreadCount = 0,
-  });
-}
-
-// Dummy Data
-final List<Chat> dummyChats = [
-  Chat(
-    name: 'Silva',
-    lastMessage: 'Hello, how are you?',
-    profileImage: 'lib/assets/rukaass.jpg',
-    timestamp: DateTime.now().subtract(const Duration(minutes: 10)),
-    unreadCount: 2,
-  ),
-  Chat(
-    name: 'Danutha',
-    lastMessage: 'Can we meet tomorrow?',
-    profileImage: 'lib/assets/rukaass.jpg',
-    timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-  ),
-  Chat(
-    name: 'Sahan',
-    lastMessage: 'I sent you the details.',
-    profileImage: 'lib/assets/rukaass.jpg',
-    timestamp: DateTime.now().subtract(const Duration(days: 1)),
-    unreadCount: 1,
-  ),
-  Chat(
-    name: 'Gokul',
-    lastMessage: 'Thanks for the help!',
-    profileImage: 'lib/assets/rukaass.jpg',
-    timestamp: DateTime.now().subtract(const Duration(days: 3)),
-  ),
-];

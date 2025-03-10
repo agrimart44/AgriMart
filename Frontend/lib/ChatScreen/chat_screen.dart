@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String channelId; // Add channelId as a named parameter
+
+  const ChatScreen({super.key, required this.channelId});  // Constructor to accept channelId
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -13,6 +15,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
 
+  // Send message function
   void _sendMessage() {
     if (_messageController.text.trim().isEmpty) return;
 
@@ -27,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
       _messageController.clear();
     });
 
+    // Scroll to the latest message after sending
     Future.delayed(const Duration(milliseconds: 100), () {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
@@ -59,37 +63,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.grey[300],
-                      backgroundImage: const AssetImage('lib/assets/rukaass.jpg')
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Silva',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '(+94) 77 1285 3022',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Chat',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.phone, color: Colors.white),
-                      onPressed: () {},
                     ),
                   ],
                 ),
@@ -209,17 +190,9 @@ class MessageBubble extends StatelessWidget {
                       DateFormat('HH:mm').format(message.timestamp),
                       style: TextStyle(
                         fontSize: 12,
-                        color: message.isMe ? Colors.white70 : Colors.black54,
+                        color: message.isMe ? Colors.white70 : Colors.black45,
                       ),
                     ),
-                    if (message.isMe) ...[
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.check,
-                        size: 14,
-                        color: Colors.white70,
-                      ),
-                    ],
                   ],
                 ),
               ],

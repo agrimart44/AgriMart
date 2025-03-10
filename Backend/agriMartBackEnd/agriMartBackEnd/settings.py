@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-x!9vfzb0a-bmyw+pxzyuk7ep-x0xgm493pb)cvk&&usw*7c+yd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.27', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -58,21 +58,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-]
-
-CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
-    'x-csrftoken',
-    # Add any additional headers you might need
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'agriMartBackEnd.urls'
