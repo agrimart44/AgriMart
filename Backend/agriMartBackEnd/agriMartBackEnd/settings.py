@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config  # Import config from python-decouple
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Define BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Read API keys from the .env file
+STREAM_API_KEY = config('STREAM_API_KEY')
+STREAM_API_SECRET = config('STREAM_API_SECRET')
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'corsheaders',  # Add corsheaders to the list of installed apps
 ]
 
 MIDDLEWARE = [
@@ -47,7 +55,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+    # Add any additional headers you might need
+]
+
 
 ROOT_URLCONF = 'agriMartBackEnd.urls'
 
