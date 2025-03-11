@@ -9,7 +9,14 @@ enum Vegetable {
   carrot('Carrot', 'lib/assets/carrot.jpg'),
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
-  lime('Lime', 'lib/assets/lime.jpg');
+  lime('Lime', 'lib/assets/lime.jpg'),
+  cabbage('Cabbage', 'lib/assets/lime.jpg'),
+  brinjal('Brinjal', 'lib/assets/lime.jpg'),
+  // ignore: constant_identifier_names
+  Snakegourd('Snake gourd', 'lib/assets/lime.jpg'),
+  // ignore: constant_identifier_names
+  GreenChilli('Green Chilli', 'lib/assets/lime.jpg');
+
 
   const Vegetable(this.label, this.imagePath);
   final String label;
@@ -477,7 +484,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Predicted Price",
+                "Select date to view predicted price",
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.black,
@@ -679,7 +686,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                           value: priceData.isNotEmpty && currentData.isNotEmpty
                               ? (priceData.last - currentData.last).abs()
                               : 0,
-                          title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Difference" : "",
+                          title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
                           color: Colors.blue,
                           radius: 80, // Increased radius
                           titleStyle: TextStyle(
@@ -725,7 +732,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               children: [
                 _buildLegendItem(Colors.green, 'Predicted Price'),
                 _buildLegendItem(Colors.red, 'Current Price'),
-                _buildLegendItem(Colors.blue, 'Gap'),
+                _buildLegendItem(Colors.blue, 'Change'),
               ],
             ),
           ],
