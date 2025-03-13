@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config  # Import config from python-decouple
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Define BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Read API keys from the .env file
+STREAM_API_KEY = config('STREAM_API_KEY')
+STREAM_API_SECRET = config('STREAM_API_SECRET')
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +31,7 @@ SECRET_KEY = 'django-insecure-x!9vfzb0a-bmyw+pxzyuk7ep-x0xgm493pb)cvk&&usw*7c+yd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.27', 'localhost', '127.0.0.1']
 
 import cloudinary
 import cloudinary.uploader
@@ -52,9 +58,9 @@ INSTALLED_APPS = [
     'buyerview',
     'cart',
     'crops', 
-      # Add the cart app to the installed apps
     'register',
     'user_details'
+    'corsheaders',  # Add corsheaders to the list of installed apps
 ]
 
 
@@ -66,7 +72,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'agriMartBackEnd.urls'
 

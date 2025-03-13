@@ -1,5 +1,6 @@
-import 'dart:ui'; // Import the dart:ui library for BackdropFilter
+import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -7,6 +8,8 @@ import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
 import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
+// Add this import
+import 'package:namer_app/chatScreen/chat_service.dart'; // Adjust path as needed
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,13 +22,28 @@ class _LoginState extends State<Login> {
   // Controllers for email and password fields
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  
+  // Add ChatService instance
+  final ChatService _chatService = ChatService('xqww9xknukff'); // Replace with your actual Stream API key
 
   // Login function
   void login(BuildContext context) async {
     final authService = AuthService();
 
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     // Validate fields
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      // Close loading indicator
+      Navigator.pop(context);
+      
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -44,21 +62,79 @@ class _LoginState extends State<Login> {
 
     // Try login
     try {
-      await authService.signinWithEmailpassword(
+      UserCredential userCredential = await authService.signinWithEmailpassword(
         _emailController.text,
         _passwordController.text,
       );
+
+      String userId = userCredential.user?.uid ?? '';
+
+      if (userId.isEmpty) {
+        throw Exception('User ID is empty');
+      }
+
+      // Send user ID to backend to retrieve the Stream JWT token
+      final streamToken = await authService.getStreamToken(userId);
+      
+      // Connect to Stream chat using the token
+      await _chatService.connectUser(userId, streamToken);
+      print("User connected to Stream from login");
+
+      // Close loading indicator
+      Navigator.pop(context);
+
       // Navigate to the next screen on success
       Navigator.pushReplacement(
-          context,
+        context,
         MaterialPageRoute(builder: (context) => const FarmerView()),
-); // Replace with your route
+      );
     } catch (e) {
+      // Close loading indicator
+      Navigator.pop(context);
+      
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
           content: Text(e.toString()),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  // Also update the social sign-in methods to connect to Stream
+  void handleSuccessfulAuth(UserCredential userCredential, BuildContext context) async {
+    try {
+      String userId = userCredential.user?.uid ?? '';
+      
+      if (userId.isEmpty) {
+        throw Exception('User ID is empty');
+      }
+      
+      final authService = AuthService();
+      final streamToken = await authService.getStreamToken(userId);
+      
+      // Connect to Stream chat using the token
+      await _chatService.connectUser(userId, streamToken);
+      print("User connected to Stream from social login");
+      
+      // Navigate to the next screen on success
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const FarmerView()),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: Text("Error connecting to chat: ${e.toString()}"),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -104,7 +180,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-      
+
             // Main Content
             SafeArea(
               child: Column(
@@ -129,7 +205,7 @@ class _LoginState extends State<Login> {
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 40),
-      
+
                             // Email Field
                             TextField(
                               controller: _emailController,
@@ -148,7 +224,7 @@ class _LoginState extends State<Login> {
                               keyboardType: TextInputType.emailAddress,
                             ),
                             const SizedBox(height: 20),
-      
+
                             // Password Field
                             TextField(
                               controller: _passwordController,
@@ -167,7 +243,7 @@ class _LoginState extends State<Login> {
                               obscureText: true,
                             ),
                             const SizedBox(height: 20),
-      
+
                             // Login Button
                             SizedBox(
                               width: double.infinity,
@@ -188,7 +264,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                             const SizedBox(height: 10),
-      
+
                             // Forgot Password Link
                             Align(
                               alignment: Alignment.centerRight,
@@ -205,7 +281,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                             const SizedBox(height: 30),
-      
+
                             // Divider with "Or Login With"
                             Row(
                               children: [
@@ -235,14 +311,17 @@ class _LoginState extends State<Login> {
                               ],
                             ),
                             const SizedBox(height: 20),
-      
+
                             // Social Login Buttons (Facebook, Google, Apple)
                             Column(
                               children: [
                                 SignInButton(
                                   Buttons.Facebook,
-                                  onPressed: () {
-                                    signInWithFacebook(context);
+                                  onPressed: () async {
+                                    UserCredential? credential = await signInWithFacebook(context);
+                                    if (credential != null) {
+                                      handleSuccessfulAuth(credential, context);
+                                    }
                                   },
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -252,8 +331,11 @@ class _LoginState extends State<Login> {
                                 const SizedBox(height: 10),
                                 SignInButton(
                                   Buttons.Google,
-                                  onPressed: () {
-                                    signInWithGoogle(context);
+                                  onPressed: () async {
+                                    UserCredential? credential = await signInWithGoogle(context);
+                                    if (credential != null) {
+                                      handleSuccessfulAuth(credential, context);
+                                    }
                                   },
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),

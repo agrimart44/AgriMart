@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // If using Firebase
+import 'package:firebase_auth/firebase_auth.dart';
 
-void signInWithFacebook(BuildContext context) async {
+Future<UserCredential?> signInWithFacebook(BuildContext context) async {
   try {
     // Trigger Facebook login
     final LoginResult result = await FacebookAuth.instance.login();
@@ -13,12 +13,15 @@ void signInWithFacebook(BuildContext context) async {
       final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
 
       if (accessToken != null) {
-        // Use the access token to authenticate with Firebase (if using Firebase)
-        final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.tokenString); // Use tokenString
+        // Use the access token to authenticate with Firebase
+        final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.tokenString);
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
-        // If successful, navigate to the home screen or perform other actions
-        Navigator.pushReplacementNamed(context, '/home'); // Replace with your route
+        // Navigate to home screen
+        Navigator.pushReplacementNamed(context, '/home');
+        
+        // Return the userCredential
+        return userCredential;
       } else {
         // Handle missing access token
         showDialog(
@@ -34,6 +37,7 @@ void signInWithFacebook(BuildContext context) async {
             ],
           ),
         );
+        return null;
       }
     } else if (result.status == LoginStatus.cancelled) {
       // Handle the case when the user cancels the login
@@ -50,6 +54,7 @@ void signInWithFacebook(BuildContext context) async {
           ],
         ),
       );
+      return null;
     } else {
       // Handle other errors
       showDialog(
@@ -65,6 +70,7 @@ void signInWithFacebook(BuildContext context) async {
           ],
         ),
       );
+      return null;
     }
   } catch (e) {
     // Handle any other errors
@@ -81,5 +87,6 @@ void signInWithFacebook(BuildContext context) async {
         ],
       ),
     );
+    return null;
   }
 }
