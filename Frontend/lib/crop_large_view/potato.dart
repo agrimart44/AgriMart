@@ -1,462 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/AppBar/appbar.dart';
-import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
-import 'package:namer_app/Cart/shopping_cart_page.dart';
-import 'package:namer_app/crop_large_view/potato.dart';
-//import 'app_settings.dart';
-import 'package:namer_app/farmer_view_page/farmer_view.dart';
+import 'package:namer_app/buyer_view_page/buyer_view.dart';
 
+class CropLargeView extends StatefulWidget {
+  final Crop crop;
 
-class Crop {
-  final String name;
-  final double price;
-  final String description;
-  final String location;
-  final String farmerName;
-  final DateTime harvestDate;
-  final String contactNumber;
-  final String imagePath;
-
-  Crop({
-    required this.name,
-    required this.price,
-    required this.description,
-    required this.location,
-    required this.farmerName,
-    required this.harvestDate,
-    required this.contactNumber,
-    required this.imagePath,
-  });
-}
-
-class BuyerView extends StatefulWidget {
-  const BuyerView({super.key});
+  const CropLargeView({super.key, required this.crop});
 
   @override
-  BuyerViewState createState() => BuyerViewState();
+  State<CropLargeView> createState() => _CropLargeViewState();
 }
 
-class BuyerViewState extends State<BuyerView> {
-  int notificationCount = 0;
-  int _selectedIndex = 0;
-  String? _selectedDistrict;
-  String? _selectedCategory;
-  OverlayEntry? _overlayEntry;
-
-  final List<String> _districts = [
-    'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale','Nuwara Eliya','Galle','Matara','Hambantota','Jaffna','Kilinochchi','Mannar','Vavuniya',
-    'Mullaitivu','Batticaloa','Ampara','Trincomalee','Kurunegala','Puttalam','Anuradhapura','Polonnaruwa','Badulla','Monaragala','Ratnapura','Kegalle'
-  ];
-
-  final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
-
-  final GlobalKey _locationButtonKey = GlobalKey();
-  final GlobalKey _categoryButtonKey = GlobalKey();
+class _CropLargeViewState extends State<CropLargeView> {
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque, // Detect taps outside widgets
-      onTap: () {
-        if (_overlayEntry != null) {
-          _overlayEntry?.remove();
-          _overlayEntry = null;
-        }
-      },
-      child: Scaffold(
-        extendBodyBehindAppBar: true, // Extends the body behind AppBar
-        appBar: AgriMartAppBar(context, title: 'AgriMart'),
-        body: Stack(
-          children: [
-            Image.asset(
-              'lib/assets/first_page_background.jpg',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Column(
-              children: [
-                const SizedBox(height: 100), // Space for AppBar
-                _buildSearchBar(),
-                _buildFilterButtons(),
-                _buildViewToggleButtons(),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: _buildProductList(),
-                ),
-              ],
-            ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBarWidget(
-          selectedIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-
-            // Add navigation logic based on the selected index
-            if (index == 1) { // Cart index
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-              );
-            } else if (index == 2) { // Profile index
-              // Navigate to profile page
-              print('Navigate to Profile page');
-              // Implement profile navigation
-            }
-            // For index 0 (Home), we're already on the home page
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: const Color(0xFFD3D3D3),
+        title: Text(widget.crop.name),
       ),
-    );
-  }
-  Widget _buildSearchBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for products or categories...',
-                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
-                border: InputBorder.none,
-                contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      backgroundColor: const Color(0xFFD3D3D3),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              // Use widget.crop.imagePath instead of hardcoded path
+              Image.asset(
+                widget.crop.imagePath,
+                width: 300,
+                height: 300,
+                fit: BoxFit.cover,
               ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(right: 2),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-              ),
-              child: const Text('Search'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildAllButton(),
-            const SizedBox(width: 20),
-            _buildLocationButton(),
-            const SizedBox(width: 20),
-            _buildCategoryButton(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAllButton() {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          _selectedDistrict = null;
-          _selectedCategory = null;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text('All'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationButton() {
-    return ElevatedButton(
-      key: _locationButtonKey,
-      onPressed: () => _showOverlay(_districts, (value) {
-        setState(() {
-          _selectedDistrict = value;
-        });
-      }),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(_selectedDistrict ?? 'Location'),
-          const SizedBox(width: 5),
-          const Icon(Icons.arrow_drop_down, color: Colors.black),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryButton() {
-    return ElevatedButton(
-      key: _categoryButtonKey,
-      onPressed: () => _showOverlay(_categories, (value) {
-        setState(() {
-          _selectedCategory = value;
-        });
-      }),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(_selectedCategory ?? 'Category'),
-          const SizedBox(width: 5),
-          const Icon(Icons.arrow_drop_down, color: Colors.black),
-        ],
-      ),
-    );
-  }
-
-  void _showOverlay(List<String> items, Function(String) onSelect) {
-    final RenderBox renderBox =
-    _locationButtonKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset position = renderBox.localToGlobal(Offset.zero);
-    final double buttonHeight = renderBox.size.height;
-    final double overlayWidth = MediaQuery.of(context).size.width / 2;
-
-    _overlayEntry?.remove();
-    _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        left: position.dx,
-        top: position.dy + buttonHeight,
-        width: overlayWidth,
-        child: Material(
-          elevation: 4,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            constraints: const BoxConstraints(maxHeight: 400),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListView(
-              shrinkWrap: true,
-              children: items.map((item) {
-                return ListTile(
-                  title: Text(item),
-                  onTap: () {
-                    setState(() {
-                      onSelect(item);
-                      _overlayEntry?.remove();
-                      _overlayEntry = null;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(_overlayEntry!);
-  }
-
-  Widget _buildViewToggleButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildToggleButton('Buyer View', true),
-            const SizedBox(width: 25),
-            _buildToggleButton('Farmer View', false),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildToggleButton(String label, bool isActive) {
-    return ElevatedButton(
-      onPressed: () {
-        if (label == 'Farmer View') {
-          // Navigate to Farmer View when clicked
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmerView()),
-          );
-        }
-        // No action needed for Buyer View button when already on Buyer View
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isActive ? Colors.green : Colors.white,
-        foregroundColor: isActive ? Colors.white : Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Text(label),
-    );
-  }
-
-  // This is a placeholder.
-  Widget _buildProductList() {
-    // this would fetch data from list of crops.
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView.builder(
-        itemCount: 1, // Replace with actual number of products
-        itemBuilder: (context, index) {
-          return _buildProductCard(
-            name: 'Product Name',
-            location: 'Location',
-            harvestDate: DateTime.now(),
-            price: 100.0,
-            rating: 4.5,
-            // imageUrl: '', // image
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildProductCard({
-    required String name,
-    required String location,
-    required DateTime harvestDate,
-    required double price,
-    required double rating,
-    // required String imageUrl,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Left side: Product details
-            Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 400,
-                ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      'Rs.${widget.crop.price.toStringAsFixed(2)}/kg',
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                        color: Color(0xFF23D048),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on, size: 16),
-                        Text(location),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text('Harvest Date: ${_formatDate(harvestDate)}'),
-                    const SizedBox(height: 4),
+                    // Rest of the code remains the same
+                    const SizedBox(height: 8),
                     Text(
-                      'Rs. ${price.toStringAsFixed(2)}/kg',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.green),
+                      widget.crop.description,
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: List.generate(5, (index) {
-                        return Icon(
-                          index < rating ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
-                          size: 16,
-                        );
-                      }),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Location: ${widget.crop.location}',
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Farmer: ${widget.crop.farmerName}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Harvest Date: ${_formatDate(widget.crop.harvestDate)}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Contact: ${widget.crop.contactNumber}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      '34 Watching This Now',
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildQuantitySelector(),
+                    const SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
                           child: ElevatedButton(
-
-                            // On button press, navigate to CropLargeView
                             onPressed: () {
-                              final crop = Crop(
-                                name: name,
-                                location: location,
-                                harvestDate: harvestDate,
-                                price: price,
-                                farmerName: 'Farmer Name',
-                                description: 'No description available',
-                                contactNumber: '+94 XX XXX XXXX',
-                                imagePath: 'lib/assets/potato.jpg',
-
-
-                                // Add any other properties your CropLargeView needs
-                              );
-
-                              // Navigate to CropLargeView with the crop data
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CropLargeView(crop: crop),
+                              // Chat with Seller functionality
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF23D048),
+                            ),
+                            child: const Text('Chat with Seller', style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Add to cart functionality
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${quantity}kg of ${widget.crop.name} added to cart'),
+                                  duration: const Duration(seconds: 2),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
+                              backgroundColor: const Color(0xFF23D048),
                             ),
-                            child: const Text('View'),
+                            child: const Text('Add to cart', style: TextStyle(color: Colors.white)),
                           ),
                         ),
-                        const SizedBox(width: 15),
+                        const SizedBox(width: 8),
                         Expanded(
-                          child: OutlinedButton(
+                          child: ElevatedButton(
                             onPressed: () {
-                              // Handle watch later action
+                              // Buy now functionality
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
+                              backgroundColor: const Color(0xFF23D048),
                             ),
-                            child: const Text('Add to Cart'),
+                            child: const Text('Buy now', style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],
@@ -464,22 +133,52 @@ class BuyerViewState extends State<BuyerView> {
                   ],
                 ),
               ),
-            ),
-            // Right side: Product image
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                // image: DecorationImage(
-                //image: NetworkImage(imageUrl),
-                // fit: BoxFit.cover,
-              ),
-            ),
-            //),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  // Rest of the methods remain the same
+  Widget _buildQuantitySelector() {
+    return Row(
+      children: [
+        const Text("Quantity (kg): ", style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 8),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: () {
+                  if (quantity > 1) {
+                    setState(() {
+                      quantity--;
+                    });
+                  }
+                },
+              ),
+              Text(
+                quantity.toString(),
+                style: const TextStyle(fontSize: 16),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  setState(() {
+                    quantity++;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
