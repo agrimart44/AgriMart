@@ -4,13 +4,8 @@ import logging
 import google.cloud.firestore_v1.base_query
 import google.api_core.exceptions
 from google.cloud import firestore
-from django.views.decorators.csrf import csrf_exempt  # Import csrf_exempt
-import json  # Import json to parse the request body
-
-
-
-
-
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -51,11 +46,6 @@ def available_non_booked_crops(request):
                 
                 # Only include crops that don't belong to the current user
                 if crop_data.get('userId') != current_user_id:
-                    # Extract the first image URL (if available)
-                    image_url = None
-                    if 'imageURLs' in crop_data and isinstance(crop_data['imageURLs'], list) and crop_data['imageURLs']:
-                        image_url = crop_data['imageURLs'][0]
-                    
                     # Format the crop details
                     crop_details = {
                         "id": crop.id,
@@ -63,7 +53,11 @@ def available_non_booked_crops(request):
                         "price": crop_data.get('price', 0),
                         "location": crop_data.get('location', ''),
                         "quantity": crop_data.get('quantity', 0),
-                        "imageURL": image_url
+                        "userId": crop_data.get('userId', ''),
+                        "harvestDate": crop_data.get('harvestDate', ''),
+                        "description": crop_data.get('description', ''),
+                        "is_in_cart": crop_data.get('is_in_cart', False),
+                        "imageURLs": crop_data.get('imageURLs', [])
                     }
                     
                     available_crops.append(crop_details)
@@ -127,7 +121,10 @@ def get_crop_details(request, crop_id):
                 "location": crop_data.get('location', ''),
                 "quantity": crop_data.get('quantity', 0),
                 "imageURLs": crop_data.get('imageURLs', []),
-                # Add more fields if necessary
+                "userId": crop_data.get('userId', ''),
+                "harvestDate": crop_data.get('harvestDate', ''),
+                "is_booked": crop_data.get('is_booked', False),
+                "is_in_cart": crop_data.get('is_in_cart', False)
             }, status=200)
         else:
             return JsonResponse({"error": "Crop not found"}, status=404)
@@ -136,8 +133,6 @@ def get_crop_details(request, crop_id):
         logger.error(f"Error fetching crop details: {str(e)}")
         return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
 
-
-@csrf_exempt
 
 @csrf_exempt
 def add_to_cart(request):
