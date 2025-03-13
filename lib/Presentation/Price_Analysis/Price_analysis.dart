@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-import 'package:table_calendar/table_calendar.dart'; // Import TableCalendar
 import 'package:intl/intl.dart'; // Import intl package
 
 enum Vegetable {
@@ -10,27 +10,20 @@ enum Vegetable {
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
   lime('Lime', 'lib/assets/lime.jpg'),
-  cabbage('Cabbage', 'lib/assets/lime.jpg'),
-  brinjal('Brinjal', 'lib/assets/lime.jpg'),
-  // ignore: constant_identifier_names
-  Snakegourd('Snake gourd', 'lib/assets/lime.jpg'),
-  // ignore: constant_identifier_names
-  GreenChilli('Green Chilli', 'lib/assets/lime.jpg');
-
+  cucumber('Cucumber', 'lib/assets/lime.jpg'),
+  beetroot('Beetroot', 'lib/assets/lime.jpg');
 
   const Vegetable(this.label, this.imagePath);
   final String label;
   final String imagePath;
 }
 
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
-
+class VegetableAnalysisScreen extends StatefulWidget {
   @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
+  _VegetableAnalysisScreenState createState() => _VegetableAnalysisScreenState();
 }
 
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
+class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController vegetableController = TextEditingController();
   Vegetable? selectedVegetable;
@@ -39,6 +32,8 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   double? _selectedDayPrice;
+  double? latestCurrentPrice;
+  double? latestPredictedPrice;
 
   @override
   void initState() {
@@ -80,6 +75,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
 
           setState(() {
             priceData = formattedData.map((entry) => entry["Price"] as double).toList();
+            latestPredictedPrice = priceData.isNotEmpty ? priceData.last : null;
           });
 
           print('Fetched Predictions: $formattedData');
@@ -116,6 +112,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
 
           setState(() {
             currentData = formattedData.map((entry) => entry["Price"] as double).toList();
+            latestCurrentPrice = currentData.isNotEmpty ? currentData.last : null;
           });
 
           print('Fetched Predictions: $formattedData');
@@ -167,6 +164,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               if (entry["date"] == formattedDay) {
                 setState(() {
                   _selectedDayPrice = entry["Price"];
+                  latestPredictedPrice = _selectedDayPrice; // Update the predicted price for the selected date
                 });
                 print('Predicted price for selected day: $_selectedDayPrice');
                 _showPriceDialog(formattedDay, _selectedDayPrice, isCurrentPrice: false);
@@ -199,7 +197,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           title: Row(
             children: [
               Text(
-                isCurrentPrice ? "Current Price" : "Predicted Price",
+                isCurrentPrice ? "Current Price" : "How will it change",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -207,7 +205,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 ),
               ),
               Text(
-                price != null ? "📈" : "❓",
+                price != null ? "🤔" : "❓",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -256,60 +254,28 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Helvetica Neue', // Set the default font family to SF Pro Text
-        primarySwatch: Colors.blue,
-      ),
-      home: SafeArea(
-        child: Scaffold(
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          body: Stack(
+  Widget _buildPostHarvestSection4(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Positioned.fill(
-                child: Image.asset(
-                  'lib/assets/first_page_background.jpg',
-                  fit: BoxFit.cover,
-                  opacity: AlwaysStoppedAnimation(1.0), // Set the opacity of the background image to 1.0
-                ),
+              Text(
+                "Market Demand",
+                style: TextStyle(fontSize: 17, color: Colors.black),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.9,
-                width: double.infinity,
-                color: Colors.white.withOpacity(0.1), // Slightly transparent white background
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _buildPostHarvestSection0(context),
-                        const SizedBox(height: 30),
-
-                        // Post-Harvest Section
-                        _buildPostHarvestSection(context),
-                        const SizedBox(height: 30),
-
-                        _buildPostHarvestSection2(context),
-                        const SizedBox(height: 30),
-
-                         _buildPostHarvestSection7(context),
-                      
-
-                        _buildPostHarvestSection3(context),
-                        const SizedBox(height: 30),
-
-                        _buildPostHarvestSection4(context),
-                        const SizedBox(height: 30),
-
-                        _buildPostHarvestSection5(context),
-                        const SizedBox(height: 30),
-                      ],
-                    ),
-                  ),
-                ),
+              const SizedBox(height: 10),
+              Text(
+                (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
+                    ? "Demand is High"
+                    : "Demand is Low",
+                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -318,86 +284,157 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     );
   }
 
-  Widget _buildPostHarvestSection0(BuildContext context) {
+  Widget _buildPostHarvestSection5(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.greenAccent,
-                  shape: BoxShape.circle, // Make the container circular
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    print("Back Button Pressed");
-                    // Add your onPressed functionality here
-                  },
-                  icon: Icon(Icons.chevron_left),
-                  color: Colors.white,
+      width: double.infinity,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Price Trends",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              
+              // Adding the Enhanced Pie Chart Below
+              SizedBox(
+                height: 290, // Increased height for better visibility
+                child: Stack(
+                  children: [
+                    PieChart(
+                      PieChartData(
+                        sections: [
+                          PieChartSectionData(
+                            value: priceData.isNotEmpty ? priceData.last : 0,
+                            color: Colors.green,
+                            title: 'Predicted',
+                            radius: 80, // Increased radius
+                            titleStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          PieChartSectionData(
+                            value: currentData.isNotEmpty ? currentData.last : 0,
+                            color: Colors.red,
+                            title: 'Current',
+                            radius: 80, // Increased radius
+                            titleStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          PieChartSectionData(
+                            value: priceData.isNotEmpty && currentData.isNotEmpty
+                                ? (priceData.last - currentData.last).abs()
+                                : 0,
+                            title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
+                            color: Colors.blue,
+                            radius: 80, // Increased radius
+                            titleStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                        sectionsSpace: 8, // Space between sections
+                        centerSpaceRadius: 60, // Larger center space
+                        borderData: FlBorderData(show: false),
+                        pieTouchData: PieTouchData(
+                          touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                            if (pieTouchResponse?.touchedSection != null) {
+                              print('Touched Section Index: ${pieTouchResponse?.touchedSection!.touchedSectionIndex}');
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Price\nBreakdown",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(width: 150),
-            IconButton(
-              onPressed: () {
-                print("Notification Button Pressed");
-              },
-              icon: Icon(Icons.notifications),
-              color: Colors.greenAccent,
-              iconSize: 30,
-            ),
-            const SizedBox(width: 5),
-            Container(
-              color: Colors.white,
-              width: 40,
-              height: 40,
-              child: IconButton(
-                onPressed: () {
-                  print("Profile Button Pressed");
-                },
-                icon: Icon(Icons.menu),
-                color: Colors.black,
+              const SizedBox(height: 20),
+              // Legend Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildLegendItem(Colors.green, 'Predicted Price'),
+                  _buildLegendItem(Colors.red, 'Current Price'),
+                  _buildLegendItem(Colors.blue, 'Change'),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildPostHarvestSection(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Vegetable Analysis",
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(width: 25),
-            Align(
-              alignment: Alignment.centerLeft,
+  // Helper method to build legend items
+  Widget _buildLegendItem(Color color, String label) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+
+Widget _buildPostHarvestSection(BuildContext context) {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20.0),
+    padding: const EdgeInsets.all(16.0),
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.8), // Slightly transparent white background
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Row(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Vegetable Analysis",
+            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(width: 25),
+        Flexible(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
               child: DropdownButton<Vegetable>(
                 iconEnabledColor: Colors.blue,
                 focusColor: Colors.red,
@@ -428,338 +465,166 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 },
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPostHarvestSection2(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Current Price",
-                style: TextStyle(fontSize: 17, color: Colors.black),
-              ),
-            ),
-            const SizedBox(width: 30),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                currentData.isNotEmpty ? "Rs. ${currentData.last.toStringAsFixed(2)}/Kg" : 'not available',
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPostHarvestSection7(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Select date to view predicted price",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-           
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPostHarvestSection3(BuildContext context) {
-  print("Selected Vegetable: $selectedVegetable");
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Container(
-      // width: MediaQuery.of(context).size.width * 0.9,
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      padding: const EdgeInsets.all(6.0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Stack(
-        children: [
-          if (selectedVegetable != null)
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.6,
-                child: Image.asset(
-                  selectedVegetable!.imagePath,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Text(
-              //   "Predicted Price",
-              //   style: TextStyle(
-              //     fontSize: 18,
-              //     color: Colors.black,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              
-              // Full-width calendar implementation
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: TableCalendar(
-                  firstDay: DateTime.now(),
-                  lastDay: DateTime.now().add(Duration(days: 28)),
-                  focusedDay: _focusedDay,
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                      String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
-                      fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
-                    });
-                  },
-                  calendarFormat: CalendarFormat.month,
-                  calendarStyle: CalendarStyle(
-                    cellMargin: EdgeInsets.zero, // Full width cells
-                    todayDecoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      shape: BoxShape.circle,
-                    ),
-                    selectedDecoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  headerStyle: HeaderStyle(
-                    formatButtonVisible: false,
-                    titleCentered: true,
-                  ),
-                ),
-              ),
-              // const SizedBox(height: 10),
-              // if (_selectedDayPrice != null)
-              //   Text(
-              //     "Price: Rs. ${_selectedDayPrice!.toStringAsFixed(2)}/Kg for ${selectedVegetable!.label}",
-              //     style: TextStyle(
-              //       fontSize: 18,
-              //       color: Colors.black87,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   )
-              // else if (_selectedDay != null)
-              //   Text(
-              //     "No price available for ${DateFormat('yyyy-MM-dd').format(_selectedDay!)}",
-              //     style: TextStyle(
-              //       fontSize: 18,
-              //       color: Colors.black,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-            ],
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
-  Widget _buildPostHarvestSection4(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Market Demand",
-                style: TextStyle(fontSize: 17, color: Colors.black),
-              ),
-            ),
-            const SizedBox(width: 30),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last) ? "Demand is High" : "Demand is Low",
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildPostHarvestSection5(BuildContext context) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8), // Slightly transparent white background
-        borderRadius: BorderRadius.circular(12),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Vegetable Analysis"),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Price Trends",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            
-            // Adding the Enhanced Pie Chart Below
-            SizedBox(
-              height: 290, // Increased height for better visibility
-              child: Stack(
-                children: [
-                  PieChart(
-                    PieChartData(
-                      sections: [
-                        PieChartSectionData(
-                          value: priceData.isNotEmpty ? priceData.last : 0,
-                          color: Colors.green,
-                          title: 'Predicted',
-                          radius: 80, // Increased radius
-                          titleStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Enhanced Dropdown Card
+              _buildPostHarvestSection(context),
+              SizedBox(height: 10),
+
+              // Price Section
+              Container(
+                width: double.infinity,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Current Price",
+                            style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        Text(
+                          latestCurrentPrice != null
+                              ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /Kg"
+                              : "Loading...",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
                         ),
-                        PieChartSectionData(
-                          value: currentData.isNotEmpty ? currentData.last : 0,
-                          color: Colors.red,
-                          title: 'Current',
-                          radius: 80, // Increased radius
-                          titleStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        PieChartSectionData(
-                          value: priceData.isNotEmpty && currentData.isNotEmpty
-                              ? (priceData.last - currentData.last).abs()
-                              : 0,
-                          title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
-                          color: Colors.blue,
-                          radius: 80, // Increased radius
-                          titleStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                        SizedBox(height: 8),
+                        Text("Predicted Price",
+                            style: TextStyle(color: Colors.grey, fontSize: 14)),
+                        Text(
+                          latestPredictedPrice != null
+                              ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /Kg"
+                              : "Loading...",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.blue),
                         ),
                       ],
-                      sectionsSpace: 8, // Space between sections
-                      centerSpaceRadius: 60, // Larger center space
-                      borderData: FlBorderData(show: false),
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          if (pieTouchResponse?.touchedSection != null) {
-                            print('Touched Section Index: ${pieTouchResponse?.touchedSection!.touchedSectionIndex}');
-                          }
-                        },
-                      ),
                     ),
                   ),
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Price\nBreakdown",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            // Legend Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildLegendItem(Colors.green, 'Predicted Price'),
-                _buildLegendItem(Colors.red, 'Current Price'),
-                _buildLegendItem(Colors.blue, 'Change'),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+              SizedBox(height: 10),
 
-// Helper method to build legend items
-Widget _buildLegendItem(Color color, String label) {
-  return Row(
-    children: [
-      Container(
-        width: 12,
-        height: 12,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
+              // Calendar Section
+              Container(
+                width: double.infinity,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Select date to view price",
+                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                        TableCalendar(
+                          firstDay: DateTime.now(),
+                          lastDay: DateTime.now().add(Duration(days: 27)),
+                          focusedDay: _focusedDay,
+                          calendarFormat: CalendarFormat.month,
+                          headerStyle: HeaderStyle(
+                            formatButtonVisible: false,
+                            titleCentered: true,
+                          ),
+                          selectedDayPredicate: (day) {
+                            return isSameDay(day, _selectedDay);
+                          },
+                          onDaySelected: (selectedDay, focusedDay) {
+                            setState(() {
+                              _selectedDay = selectedDay;
+                              _focusedDay = focusedDay;
+                              String formattedDay = DateFormat('yyyy-MM-dd').format(selectedDay);
+                              fetchPriceForSelectedDay(selectedVegetable!.label, formattedDay);
+                            });
+                          },
+                          calendarBuilders: CalendarBuilders(
+                            todayBuilder: (context, date, _) {
+                              return Center(
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            selectedBuilder: (context, date, _) {
+                              return Center(
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          availableGestures: AvailableGestures.all,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+
+              // Market Demand Section
+              _buildPostHarvestSection4(context),
+              SizedBox(height: 10),
+
+              // Enhanced Pie Chart Section
+              _buildPostHarvestSection5(context),
+            ],
+          ),
         ),
       ),
-      const SizedBox(width: 8),
-      Text(
-        label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-      ),
-    ],
-  );
-}
+    );
+  }
 }
