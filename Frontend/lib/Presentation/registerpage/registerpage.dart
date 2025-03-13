@@ -15,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   String? _selectedOccupation;
 
   final List<String> _occupations = [
@@ -132,6 +133,22 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (value?.isEmpty ?? true) return 'Confirm password';
                       if (value != _passwordController.text) {
                         return 'Passwords mismatch';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Phone Number Field
+                  _buildDarkInputField(
+                    controller: _phoneNumberController,
+                    label: 'Phone Number',
+                    icon: Icons.phone,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) return 'Enter phone number';
+                      if (!RegExp(r'^\d{10}$').hasMatch(value!)) {
+                        return 'Invalid phone number';
                       }
                       return null;
                     },
