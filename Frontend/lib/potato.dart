@@ -1,43 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CropLargeView extends StatefulWidget {
+  const CropLargeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(
-          // Add arimo font
-          bodyLarge: GoogleFonts.arimo(
-            textStyle: const TextStyle(fontSize: 24),
-            fontWeight: FontWeight.bold,
-          ),
-          bodyMedium: GoogleFonts.arimo(
-            textStyle: const TextStyle(fontSize: 18),
-          ),
-        ),
-      ),
-      home: const MyHomePage(title: 'Home'), // Set Home Widget
-    );
-  }
+  State<CropLargeView> createState() => _CropLargeViewState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _CropLargeViewState extends State<CropLargeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,90 +17,90 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xFFD3D3D3),
       ),
       backgroundColor: const Color(0xFFD3D3D3),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Image.asset ('lib/assets/potato.jpg',
-            width: 300,
-            height:300,
-            fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Rs.210/kg',
-                    style: TextStyle(
-                      color:Color(0xFF23D048),
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Premium-quality potatoes sourced from the fertile lands of Nuwara Eliya, harvested on June 15, 2024. Available at just Rs. 210 per kilogram, these potatoes are ideal for a variety of dishes, offering a rich texture and delightful flavor to enhance your meals.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  SizedBox(height: 16),
-                  Text(
-                    '34 Watching This Now',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Chat with Seller functionality
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:Color(0xFF23D048), // Button color
-                          ),
-                          child: Text('Chat with Seller',style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Add to cart functionality
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:Color(0xFF23D048), // Button color
-                          ),
-                          child: Text('Add to cart',style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Buy now functionality
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF23D048), // Button color
-                          ),
-                          child: Text('Buy now',style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(
+                'lib/assets/potato.jpg',
+                width: 300,
+                height: 300,
+                fit: BoxFit.cover,
               ),
-            ),
-
-
-
-          ],
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rs.210/kg',
+                      style: const TextStyle(
+                        color: Color(0xFF23D048),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Premium-quality potatoes sourced from the fertile lands of Nuwara Eliya, harvested on June 15, 2024. Available at just Rs. 210 per kilogram, these potatoes are ideal for a variety of dishes, offering a rich texture and delightful flavor to enhance your meals.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
+                    const Text(
+                      '34 Watching This Now',
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Chat with Seller functionality
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF23D048), // Button color
+                            ),
+                            child: const Text('Chat with Seller', style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Add to cart functionality
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF23D048), // Button color
+                            ),
+                            child: const Text('Add to cart', style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Buy now functionality
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF23D048), // Button color
+                            ),
+                            child: const Text('Buy now', style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
