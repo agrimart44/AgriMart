@@ -53,9 +53,8 @@ INSTALLED_APPS = [
     'cart',
     'crops', 
       # Add the cart app to the installed apps
-
-
     'register',
+    'user_details'
 ]
 
 

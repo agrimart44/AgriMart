@@ -11,7 +11,5 @@ urlpatterns = [
     path('buyerview/', include('buyerview.urls')),
     path('cart/', include('cart.urls')),
     path('api/crops/', include('crops.urls')),
-
+    path('auth/', include('user_details.urls')),
 ]
-
-
