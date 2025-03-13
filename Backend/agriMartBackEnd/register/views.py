@@ -33,7 +33,12 @@ def validate_user_data(user_data):
     # Check if location is provided
     if not user_data.get('location'):
         errors.append('Location is required.')
-    
+
+    # Check if phone number is provided and valid
+    phone_number = user_data.get('phone_number')
+    if not phone_number or not re.match(r"^\+?[1-9]\d{1,14}$", phone_number):
+        errors.append('Invalid phone number.')
+
     return errors if errors else None
 
 # View to register user
@@ -78,6 +83,7 @@ def register_user(request):
                 'email': user_data.get('email'),
                 'occupation': user_data.get('occupation'),
                 'location': user_data.get('location'),
+                'phone_number': user_data.get('phone_number'),  # Store phone number
                 # Add any additional user data you need to store
             })
 

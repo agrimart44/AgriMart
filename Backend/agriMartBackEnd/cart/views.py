@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from agriMartBackEnd.firebsae_config import db, verify_firebase_token
+from firebase import db, verify_firebase_token
 
 def available_crops(request):
     

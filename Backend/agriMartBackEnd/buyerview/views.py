@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from agriMartBackEnd.firebsae_config import db, verify_firebase_token
+from firebase import db, verify_firebase_token
 import logging
 import google.cloud.firestore_v1.base_query
 import google.api_core.exceptions

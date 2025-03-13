@@ -4,7 +4,7 @@ from rest_framework import status
 from django.http import JsonResponse
 from datetime import datetime
 import cloudinary.uploader
-from agriMartBackEnd.firebsae_config import db, verify_firebase_token
+from firebase import db, verify_firebase_token
 
 class CropUploadView(APIView):
     def post(self, request):
