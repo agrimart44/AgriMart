@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import auth
-from agriMartBackEnd.firebsae_config import db  
+from firebase import db  
 
 # Utility function to verify Firebase ID token
 def verify_firebase_token(token):
@@ -50,6 +50,7 @@ def get_user_details(request):
                 'email': user_data.get('email'),
                 'occupation': user_data.get('occupation'),
                 'location': user_data.get('location'),
+                'phone_number': user_data.get('phone_number')  # Add phone number to the response
             }
 
             return JsonResponse({'status': 'success', 'user_data': ordered_user_data}, status=200)
