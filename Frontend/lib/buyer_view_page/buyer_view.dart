@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
-//import 'app_settings.dart';
+import 'package:namer_app/buyer_view_page/crop.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 class BuyerView extends StatefulWidget {
@@ -25,6 +25,36 @@ class BuyerViewState extends State<BuyerView> {
   ];
 
   final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
+
+  // Sample crops list
+  final List<Crop> _crops = [
+    Crop(
+      id: '1',
+      name: 'Fresh Potatoes',
+      description: 'Freshly harvested potatoes from local farm. Perfect for cooking and frying.',
+      price: 120.0,
+      location: 'Nuwara Eliya',
+      category: 'Potato',
+      farmerName: 'K. Perera',
+      contactNumber: '+94 77 123 4567',
+      harvestDate: DateTime.now().subtract(const Duration(days: 2)),
+      imagePath: 'lib/assets/potato.jpg',
+      rating: 4.5,
+    ),
+    Crop(
+      id: '2',
+      name: 'Organic Tomatoes',
+      description: 'Organic tomatoes grown without pesticides. Juicy and perfect for salads.',
+      price: 180.0,
+      location: 'Kandy',
+      category: 'Tomato',
+      farmerName: 'S. Fernando',
+      contactNumber: '+94 76 234 5678',
+      harvestDate: DateTime.now().subtract(const Duration(days: 1)),
+      imagePath: 'lib/assets/tomato.jpg',
+      rating: 4.8,
+    ),
+  ];
 
   final GlobalKey _locationButtonKey = GlobalKey();
   final GlobalKey _categoryButtonKey = GlobalKey();
@@ -65,29 +95,30 @@ class BuyerViewState extends State<BuyerView> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          
-          // Add navigation logic based on the selected index
-          if (index == 1) { // Cart index
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-            );
-          } else if (index == 2) { // Profile index
-            // Navigate to profile page
-            print('Navigate to Profile page');
-            // Implement profile navigation
-          }
-          // For index 0 (Home), we're already on the home page
-        },
-      ),
+          selectedIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            
+            // Add navigation logic based on the selected index
+            if (index == 1) { // Cart index
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+              );
+            } else if (index == 2) { // Profile index
+              // Navigate to profile page
+              print('Navigate to Profile page');
+              // Implement profile navigation
+            }
+            // For index 0 (Home), we're already on the home page
+          },
+        ),
       ),
     );
   }
+  
   Widget _buildSearchBar() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -225,7 +256,8 @@ class BuyerViewState extends State<BuyerView> {
 
   void _showOverlay(List<String> items, Function(String) onSelect) {
     final RenderBox renderBox =
-        _locationButtonKey.currentContext!.findRenderObject() as RenderBox;
+        (_categoryButtonKey.currentContext?.findRenderObject() ?? 
+         _locationButtonKey.currentContext?.findRenderObject()) as RenderBox;
     final Offset position = renderBox.localToGlobal(Offset.zero);
     final double buttonHeight = renderBox.size.height;
     final double overlayWidth = MediaQuery.of(context).size.width / 2;
@@ -305,21 +337,27 @@ class BuyerViewState extends State<BuyerView> {
     );
   }
   
-  // This is a placeholder.
-  Widget _buildProductList() {   
-    // this would fetch data from list of crops.
+  Widget _buildProductList() {
+    List<Crop> filteredCrops = _crops;
+    
+    // Apply district filter
+    if (_selectedDistrict != null) {
+      filteredCrops = filteredCrops.where((crop) => crop.location == _selectedDistrict).toList();
+    }
+    
+    // Apply category filter
+    if (_selectedCategory != null) {
+      filteredCrops = filteredCrops.where((crop) => crop.category == _selectedCategory).toList();
+    }
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView.builder(
-        itemCount: 1, // Replace with actual number of products
+        itemCount: filteredCrops.length,
         itemBuilder: (context, index) {
+          final crop = filteredCrops[index];
           return _buildProductCard(
-            name: 'Product Name',
-            location: 'Location',
-            harvestDate: DateTime.now(),
-            price: 100.0,
-            rating: 4.5,
-            // imageUrl: '', // image
+            crop: crop,
           );
         },
       ),
@@ -327,12 +365,7 @@ class BuyerViewState extends State<BuyerView> {
   }
 
   Widget _buildProductCard({
-    required String name,
-    required String location,
-    required DateTime harvestDate,
-    required double price,
-    required double rating,
-    // required String imageUrl,
+    required Crop crop,
   }) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -351,7 +384,7 @@ class BuyerViewState extends State<BuyerView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      crop.name,
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -359,14 +392,14 @@ class BuyerViewState extends State<BuyerView> {
                     Row(
                       children: [
                         const Icon(Icons.location_on, size: 16),
-                        Text(location),
+                        Text(crop.location),
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text('Harvest Date: ${_formatDate(harvestDate)}'),
+                    Text('Harvest Date: ${_formatDate(crop.harvestDate)}'),
                     const SizedBox(height: 4),
                     Text(
-                      'Rs. ${price.toStringAsFixed(2)}/kg',
+                      'Rs. ${crop.price.toStringAsFixed(2)}/kg',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.green),
                     ),
@@ -374,7 +407,7 @@ class BuyerViewState extends State<BuyerView> {
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
-                          index < rating ? Icons.star : Icons.star_border,
+                          index < crop.rating ? Icons.star : Icons.star_border,
                           color: Colors.amber,
                           size: 16,
                         );
@@ -387,7 +420,13 @@ class BuyerViewState extends State<BuyerView> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              // Handle view action
+                              // Navigate to CropLargeView
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CropLargeView(crop: crop),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
@@ -425,12 +464,12 @@ class BuyerViewState extends State<BuyerView> {
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                // image: DecorationImage(
-                //image: NetworkImage(imageUrl),
-                // fit: BoxFit.cover,
+                image: DecorationImage(
+                  image: AssetImage(crop.imagePath),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            //),
           ],
         ),
       ),
