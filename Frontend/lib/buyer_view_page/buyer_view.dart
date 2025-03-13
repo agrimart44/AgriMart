@@ -3,6 +3,7 @@ import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
+import 'package:namer_app/crop_large_view/potato.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 class BuyerView extends StatefulWidget {

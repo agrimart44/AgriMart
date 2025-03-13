@@ -36,7 +36,7 @@ def validate_user_data(user_data):
 
     # Check if phone number is provided and valid
     phone_number = user_data.get('phone_number')
-    if not phone_number or not re.match(r"^\+?[1-9]\d{1,14}$", phone_number):
+    if not phone_number or not re.match(r"^0\d{9}$", phone_number):
         errors.append('Invalid phone number.')
 
     return errors if errors else None

@@ -1,5 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:namer_app/AppBar/appbar.dart';
+import 'package:namer_app/Presentation/registerpage/registerpageService.dart';
+// Import the service file
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,23 +16,85 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController(); // Add location controller
   String? _selectedOccupation;
+  bool _isLoading = false;
 
   final List<String> _occupations = [
     'Farmer',
     'Buyer',
   ];
 
+  // Function to handle registration
+  Future<void> _registerUser() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final result = await RegistrationService.registerUser(
+          username: _usernameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+          phoneNumber: _phoneNumberController.text,
+          occupation: _selectedOccupation ?? '',
+          location: _locationController.text,
+        );
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        // Show response message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['message']),
+            backgroundColor: result['success'] ? Colors.green : Colors.red,
+          ),
+        );
+
+        // If registration was successful, navigate to login or home page
+        if (result['success']) {
+          // You can replace this with your navigation logic
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.pushReplacementNamed(context, '/login');
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+    backgroundColor: Colors.transparent, // Make AppBar background transparent
+    elevation: 0, // Remove shadow
+    title: Text(
+     " " , // Set the dynamic title
+      style: TextStyle(
+        color: Colors.black, // Set text color to black
+        fontWeight: FontWeight.bold,
       ),
+    ),
+    
+  ),
       body: Stack(
         children: [
           Container(
@@ -117,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: true,
                     validator: (value) {
                       if (value?.isEmpty ?? true) return 'Enter password';
-                      if (value!.length < 6) return 'Minimum 6 characters';
+                      if (value!.length < 8) return 'Minimum 8 characters';
                       return null;
                     },
                   ),
@@ -147,11 +212,21 @@ class _RegisterPageState extends State<RegisterPage> {
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value?.isEmpty ?? true) return 'Enter phone number';
-                      if (!RegExp(r'^\d{10}$').hasMatch(value!)) {
+                      if (!RegExp(r'^0\d{9}$').hasMatch(value!)) {
                         return 'Invalid phone number';
                       }
                       return null;
                     },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Location Field (Added as required by your API)
+                  _buildDarkInputField(
+                    controller: _locationController,
+                    label: 'Location',
+                    icon: Icons.location_on_outlined,
+                    validator: (value) =>
+                        value?.isEmpty ?? true ? 'Enter location' : null,
                   ),
                   const SizedBox(height: 16),
 
@@ -212,19 +287,17 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Handle registration logic
-                        }
-                      },
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      onPressed: _isLoading ? null : _registerUser,
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Done',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ),
                 ],

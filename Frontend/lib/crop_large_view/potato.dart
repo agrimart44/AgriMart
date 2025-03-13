@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
+import 'package:namer_app/buyer_view_page/crop.dart';
 
 class CropLargeView extends StatefulWidget {
   final Crop crop;

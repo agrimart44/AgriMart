@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'cart',
     'crops', 
     'register',
-    'user_details'
+    'user_details',
     'corsheaders',  # Add corsheaders to the list of installed apps
 ]
 
