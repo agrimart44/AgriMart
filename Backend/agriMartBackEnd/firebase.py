@@ -18,6 +18,7 @@ db = firestore.client()
 def verify_firebase_token(token):
     try:
         decoded_token = auth.verify_id_token(token)
+        print(decoded_token)
         return decoded_token
     except auth.ExpiredIdTokenError:
         return {"error": "Token has expired"}

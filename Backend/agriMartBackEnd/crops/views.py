@@ -9,18 +9,28 @@ from firebase import db, verify_firebase_token
 class CropUploadView(APIView):
     def post(self, request):
         # Extract Firebase token from headers
-        firebase_token = request.headers.get('Authorization')
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+                return JsonResponse({"error": "Firebase token is missing"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not firebase_token:
-            return JsonResponse({"error": "Firebase token is missing"}, status=status.HTTP_400_BAD_REQUEST)
+            # Remove 'Bearer ' prefix if present
+        if auth_header.startswith('Bearer '):
+                firebase_token = auth_header[7:]  # Remove 'Bearer ' prefix
+        else:
+                firebase_token = auth_header
 
         # Verify the Firebase token
         decoded_token = verify_firebase_token(firebase_token)
+        print(decoded_token)
 
         if not decoded_token:
             return JsonResponse({"error": "Invalid Firebase token"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        user_id = decoded_token['uid']  # Extract the user ID from the token
+        user_id = decoded_token.get('user_id') or decoded_token.get('sub') or decoded_token.get('uid')
+
+
+        if not user_id:
+            return JsonResponse({"error": "User ID not found in token"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Extract other fields from the request data
         crop_name = request.data.get('cropName')
