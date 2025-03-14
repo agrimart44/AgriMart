@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
+import 'package:namer_app/buyer_view_page/crop_service.dart';
 
 class CropLargeView extends StatefulWidget {
   final Crop crop;
@@ -12,178 +12,214 @@ class CropLargeView extends StatefulWidget {
 }
 
 class _CropLargeViewState extends State<CropLargeView> {
+  final CropService _cropService = CropService();
+  bool _isAddingToCart = false;
   int quantity = 1;
+  int _currentImageIndex = 0;
+  late Crop _cropDetails;
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCropDetails();
+  }
+
+  Future<void> _loadCropDetails() async {
+    try {
+      setState(() => _isLoading = true);
+      // Get detailed information including farmer details
+      _cropDetails = await _cropService.getCropDetails(widget.crop.id);
+      setState(() => _isLoading = false);
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Failed to load crop details: $e';
+        _cropDetails = widget.crop; // Fallback to passed crop
+      });
+    }
+  }
+
+  Future<void> _addToCart() async {
+    // Check if requested quantity is available
+    if (quantity > _cropDetails.quantity) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Requested quantity exceeds available stock (${_cropDetails.quantity} kg)')),
+      );
+      return;
+    }
+    
+    setState(() => _isAddingToCart = true);
+    try {
+      await _cropService.addToCart(widget.crop.id, quantity);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$quantity kg of ${widget.crop.name} added to cart')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add to cart: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAddingToCart = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        backgroundColor: const Color(0xFFD3D3D3),
         title: Text(widget.crop.name),
+        backgroundColor: const Color(0xFFD3D3D3),
       ),
       backgroundColor: const Color(0xFFD3D3D3),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              // Use widget.crop.imagePath instead of hardcoded path
-              Image.asset(
-                widget.crop.imagePath,
-                width: 300,
-                height: 300,
-                fit: BoxFit.cover,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Rs.${widget.crop.price.toStringAsFixed(2)}/kg',
-                      style: const TextStyle(
-                        color: Color(0xFF23D048),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    // Rest of the code remains the same
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.crop.description,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Location: ${widget.crop.location}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Farmer: ${widget.crop.farmerName}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Harvest Date: ${_formatDate(widget.crop.harvestDate)}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Contact: ${widget.crop.contactNumber}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      '34 Watching This Now',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildQuantitySelector(),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Chat with Seller functionality
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF23D048),
-                            ),
-                            child: const Text('Chat with Seller', style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Add to cart functionality
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('${quantity}kg of ${widget.crop.name} added to cart'),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF23D048),
-                            ),
-                            child: const Text('Add to cart', style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Buy now functionality
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF23D048),
-                            ),
-                            child: const Text('Buy now', style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage != null
+              ? Center(child: Text(_errorMessage!, style: TextStyle(color: Colors.red)))
+              : _buildCropDetails(),
+    );
+  }
+
+  Widget _buildCropDetails() {
+    Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
+    
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImageCarousel(displayCrop),
+            const SizedBox(height: 12),
+            _buildImageIndicators(displayCrop),
+            const SizedBox(height: 16),
+            Text(
+              'Rs. ${displayCrop.price.toStringAsFixed(2)}/kg', 
+              style: const TextStyle(color: Colors.green, fontSize: 24, fontWeight: FontWeight.bold)
+            ),
+            const SizedBox(height: 8),
+            Text(displayCrop.description, style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Location: ${displayCrop.location}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Farmer: ${displayCrop.farmerName}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Harvest Date: ${_formatDate(displayCrop.harvestDate)}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Contact: ${displayCrop.contactNumber}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text(
+              'Available Quantity: ${displayCrop.quantity} kg', 
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+            ),
+            const SizedBox(height: 16),
+            _buildQuantitySelector(),
+            const SizedBox(height: 24),
+            _buildAddToCartButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageCarousel(Crop crop) {
+    return SizedBox(
+      height: 250,
+      child: PageView.builder(
+        itemCount: crop.imagePaths.length,
+        onPageChanged: (index) => setState(() => _currentImageIndex = index),
+        itemBuilder: (_, index) => Image.network(
+          crop.imagePaths[index],
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => Icon(Icons.error, size: 50, color: Colors.red),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageIndicators(Crop crop) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        crop.imagePaths.length,
+        (index) => Container(
+          width: 8,
+          height: 8,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: _currentImageIndex == index ? Colors.green : Colors.grey,
           ),
         ),
       ),
     );
   }
 
-  // Rest of the methods remain the same
   Widget _buildQuantitySelector() {
+    Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
+    // Ensure quantity doesn't exceed available stock
+    int maxQuantity = displayCrop.quantity;
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Select Quantity (kg):", style: TextStyle(fontSize: 16)),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.remove), 
+              onPressed: quantity > 1 ? () => setState(() => quantity--) : null
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text("$quantity", style: const TextStyle(fontSize: 16)),
+            ),
+            IconButton(
+              icon: const Icon(Icons.add), 
+              onPressed: quantity < maxQuantity ? () => setState(() => quantity++) : null
+            ),
+          ],
+        ),
+        if (maxQuantity < 5) 
+          Text(
+            "Only $maxQuantity kg left in stock!", 
+            style: const TextStyle(color: Colors.red, fontStyle: FontStyle.italic)
+          ),
+      ],
+    );
+  }
+
+  Widget _buildAddToCartButton() {
     return Row(
       children: [
-        const Text("Quantity (kg): ", style: TextStyle(fontSize: 16)),
-        const SizedBox(width: 8),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () {
-                  if (quantity > 1) {
-                    setState(() {
-                      quantity--;
-                    });
-                  }
-                },
-              ),
-              Text(
-                quantity.toString(),
-                style: const TextStyle(fontSize: 16),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  setState(() {
-                    quantity++;
-                  });
-                },
-              ),
-            ],
+        Expanded(
+          child: ElevatedButton(
+            onPressed: _isAddingToCart ? null : _addToCart,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            child: _isAddingToCart 
+              ? const CircularProgressIndicator(color: Colors.white) 
+              : const Text('Add to Cart', style: TextStyle(color: Colors.white, fontSize: 16)),
           ),
         ),
       ],
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
+  String _formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
 }
