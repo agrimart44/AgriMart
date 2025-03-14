@@ -1,7 +1,10 @@
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/AppBar/appbar.dart';
+import 'package:namer_app/Cart/CartService.dart';
+import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   const ShoppingCartPage({super.key});
@@ -12,37 +15,50 @@ class ShoppingCartPage extends StatefulWidget {
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   final List<CartItem> _cartItems = [];
+  late CartService _cartService;
+  late AuthService _authService;
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _fetchCartItems(); 
+    _cartService = CartService();
+    _authService = AuthService();
+    _fetchCartItems();
   }
 
   void _fetchCartItems() async {
-    await Future.delayed(const Duration(seconds: 2)); 
     setState(() {
-      _cartItems.addAll([
-        CartItem(
-          id: '1',
-          name: 'Fresh Tomatoes',
-          price: 120.00,
-          quantity: 1,
-          image: 'lib/assets/tomato.jpg',
-          seller: 'Green Farm',
-          unit: 'kg',
-        ),
-        CartItem(
-          id: '2',
-          name: 'Potatoes',
-          price: 80.00,
-          quantity: 2,
-          image: 'lib/assets/Potato.jpg',
-          seller: 'Organic Valley',
-          unit: 'kg',
-        ),
-      ]);
+      _isLoading = true;
+      _errorMessage = null;
     });
+
+    try {
+      // Get the Firebase token dynamically using AuthService
+      final firebaseToken = await _authService.getStoredFirebaseToken();
+      if (firebaseToken == null) {
+        throw Exception("No Firebase token found. Please login again.");
+      }
+
+      // Use the token to fetch cart items
+      final cartItems = await _cartService.fetchCartItems(firebaseToken);
+
+      setState(() {
+        _cartItems.clear();
+        _cartItems.addAll(cartItems);
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = e.toString();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
   }
 
   double get _subtotal =>
@@ -50,24 +66,56 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   double get _total => _subtotal;
 
-  void _updateQuantity(String id, int change) {
+  void _updateQuantity(String id, int change) async {
+    final index = _cartItems.indexWhere((item) => item.id == id);
+    if (index == -1) return;
+
+    final newQuantity = _cartItems[index].quantity + change;
+    if (newQuantity <= 0) {
+      _removeItem(id);
+      return;
+    }
+
     setState(() {
-      final index = _cartItems.indexWhere((item) => item.id == id);
-      if (index != -1) {
-        final newQuantity = _cartItems[index].quantity + change;
-        if (newQuantity > 0) {
-          _cartItems[index].quantity = newQuantity;
-        } else {
-          _cartItems.removeAt(index);
-        }
-      }
+      _cartItems[index].quantity = newQuantity;
     });
+
+    try {
+      // Get the Firebase token
+      final firebaseToken = await _authService.getStoredFirebaseToken();
+      if (firebaseToken == null) {
+        throw Exception("No Firebase token found");
+      }
+
+      // Update on backend
+      await _cartService.updateCartItemQuantity(firebaseToken, id, newQuantity);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update quantity: $e')),
+      );
+    }
   }
 
-  void _removeItem(String id) {
+  void _removeItem(String id) async {
     setState(() {
       _cartItems.removeWhere((item) => item.id == id);
     });
+
+    try {
+      // Get the Firebase token
+      final firebaseToken = await _authService.getStoredFirebaseToken();
+      if (firebaseToken == null) {
+        throw Exception("No Firebase token found");
+      }
+
+      // Remove from backend
+      await _cartService.removeCartItem(firebaseToken, id);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to remove item: $e')),
+      );
+      _fetchCartItems(); // Refresh to get accurate state
+    }
   }
 
   void _checkout() async {
@@ -91,14 +139,45 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
     if (confirm) {
       try {
-        await Future.delayed(const Duration(seconds: 2));
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Order placed successfully!')),
+        // Show loading indicator
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         );
-        setState(() {
-          _cartItems.clear();
-        });
+
+        // Get the Firebase token
+        final firebaseToken = await _authService.getStoredFirebaseToken();
+        if (firebaseToken == null) {
+          throw Exception("No Firebase token found");
+        }
+
+        // Process checkout on backend
+        final success = await _cartService.checkoutCart(firebaseToken);
+
+        // Close loading dialog
+        Navigator.pop(context);
+
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Order placed successfully!')),
+          );
+          setState(() {
+            _cartItems.clear();
+          });
+        } else {
+          throw Exception("Checkout failed");
+        }
       } catch (e) {
+        // Close loading dialog if still showing
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Checkout failed: $e')),
         );
@@ -113,11 +192,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AgriMartAppBar(context, title: "Shopping Cart"),
-
-        // Extends the body behind the app bar
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
+            // Background image
             Positioned.fill(
               child: Image.asset(
                 'lib/assets/first_page_background.jpg',
@@ -127,18 +205,46 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               ),
             ),
 
-            // Padding the body content to avoid overlap with AppBar
-            Padding(
-              padding: const EdgeInsets.only(top: 50),  // Avoid overlap with AppBar
-              child: _cartItems.isEmpty
-                  ? _buildEmptyCart()
-                  : Column(
-                      children: [
-                        Expanded(child: _buildCartList(currencyFormat)),
-                        _buildOrderSummary(currencyFormat),
-                      ],
+            // Loading indicator
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+            else if (_errorMessage != null)
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline,
+                        size: 64, color: Colors.red),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Error loading cart',
+                      style: TextStyle(fontSize: 18, color: Colors.red[700]),
                     ),
-            ),
+                    const SizedBox(height: 8),
+                    Text(_errorMessage!,
+                        style: const TextStyle(color: Colors.red)),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: _fetchCartItems,
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: 70),
+                child: _cartItems.isEmpty
+                    ? _buildEmptyCart()
+                    : Column(
+                        children: [
+                          Expanded(child: _buildCartList(currencyFormat)),
+                          _buildOrderSummary(currencyFormat),
+                        ],
+                      ),
+              ),
           ],
         ),
       ),
@@ -152,12 +258,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         children: [
           const Icon(Icons.shopping_cart, size: 64, color: Colors.grey),
           const SizedBox(height: 16),
-          const Text('Your cart is empty', style: TextStyle(fontSize: 18, color: Colors.grey)),
+          const Text('Your cart is empty',
+              style: TextStyle(fontSize: 18, color: Colors.grey)),
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
               // Navigate to shop page
+              Navigator.pop(context);
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+            ),
             child: const Text('Start Shopping'),
           ),
         ],
@@ -174,57 +286,63 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         return Card(
           margin: const EdgeInsets.only(bottom: 16),
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //  Product Image
+                // Product image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(item.image, width: 80, height: 80, fit: BoxFit.cover),
+                  child: item.image.isNotEmpty
+                      ? Image.network(
+                          item.image,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 80,
+                              height: 80,
+                              color: Colors.grey[300],
+                              child: const Icon(Icons.image_not_supported),
+                            );
+                          },
+                        )
+                      : Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.image),
+                        ),
                 ),
                 const SizedBox(width: 12),
-
-                //  Product Details
+                // Product details
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product Name
                       Text(
                         item.name,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-
-                      // Seller Name
                       Text(
                         'Seller: ${item.seller}',
                         style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-
                       const SizedBox(height: 6),
-
-                      //  Price
                       Text(
                         '${currencyFormat.format(item.price)}/${item.unit}',
                         style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                        ),
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green),
                       ),
-
                       const SizedBox(height: 8),
-
-                      // Quantity Controls
+                      // Quantity selector
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -242,7 +360,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               ),
                               Text(
                                 '${item.quantity}',
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.add, size: 18),
@@ -255,8 +374,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     ],
                   ),
                 ),
-
-                //  Delete Button
+                // Delete button
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.black),
                   onPressed: () => _removeItem(item.id),
@@ -271,36 +389,53 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   Widget _buildOrderSummary(NumberFormat currencyFormat) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
             border: Border.all(color: Colors.white.withOpacity(0.4)),
             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 10,
-              ),
+              BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)
             ],
           ),
           child: Column(
             children: [
               _buildSummaryRow('Subtotal', currencyFormat.format(_subtotal)),
               const Divider(color: Colors.white70),
-              _buildSummaryRow('Total', currencyFormat.format(_total), isTotal: true),
+              _buildSummaryRow('Total', currencyFormat.format(_total),
+                  isTotal: true),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _checkout,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.withOpacity(0.9),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: _checkout,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.withOpacity(0.9),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 3,
+                  ),
+                  child: const Text(
+                    'Proceed to Checkout',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                child: const Text('Proceed to Checkout'),
               ),
             ],
           ),
@@ -310,32 +445,29 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Widget _buildSummaryRow(String label, String amount, {bool isTotal = false}) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(label,
-          style: TextStyle(fontSize: isTotal ? 18 : 16, fontWeight: isTotal ? FontWeight.bold : FontWeight.normal)),
-      Text(amount,
-          style: TextStyle(
-              fontSize: isTotal ? 18 : 16, fontWeight: FontWeight.bold, color: isTotal ? const Color.fromARGB(255, 0, 0, 0) : Colors.black)),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isTotal ? 18 : 16,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+              color: Colors.black87,
+            ),
+          ),
+          Text(
+            amount,
+            style: TextStyle(
+              fontSize: isTotal ? 18 : 16,
+              fontWeight: FontWeight.bold,
+              color: isTotal ? Colors.black : Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
   }
-}
-
-class CartItem {
-  final String id;
-  final String name;
-  final double price;
-  int quantity;
-  final String image;
-  final String seller;
-  final String unit;
-
-  CartItem({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.quantity,
-    required this.image,
-    required this.seller,
-    required this.unit,
-  });
 }
