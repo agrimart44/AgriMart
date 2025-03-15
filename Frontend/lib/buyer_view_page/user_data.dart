@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
+import 'package:namer_app/buyer_view_page/update_crop_page.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class UserProfilePageState extends State<UserProfilePage> {
+
   final CropService _cropService = CropService();
   bool _isLoading = true;
   String _errorMessage = '';
@@ -22,7 +24,6 @@ class UserProfilePageState extends State<UserProfilePage> {
     super.initState();
     _fetchUserCropsAndStats();
   }
-
   Future<void> _fetchUserCropsAndStats() async {
     setState(() {
       _isLoading = true;
@@ -329,18 +330,39 @@ class UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  Widget _buildCropListItem(dynamic crop) {
-    final NumberFormat currencyFormat = NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
-    final String cropName = crop['cropName'] ?? 'Unknown Crop';
-    final double price = (crop['price'] ?? 0).toDouble();
-    final String location = crop['location'] ?? 'Unknown Location';
-    final int quantity = crop['quantity'] ?? 0;
-    final double cropValue = (crop['cropValue'] ?? 0).toDouble();
-    final bool isBooked = crop['is_booked'] ?? false;
-    final List<dynamic> imageUrls = crop['imageURLs'] ?? [];
-    final String harvestDate = crop['harvestDate'] ?? '';
-    
-    return Card(
+Widget _buildCropListItem(dynamic crop) {
+  final NumberFormat currencyFormat = NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
+  final String cropId = crop['id'] ?? '';  // Make sure you have the crop ID
+  final String cropName = crop['cropName'] ?? 'Unknown Crop';
+  final double price = (crop['price'] ?? 0).toDouble();
+  final String location = crop['location'] ?? 'Unknown Location';
+  final int quantity = crop['quantity'] ?? 0;
+  final double cropValue = (crop['cropValue'] ?? 0).toDouble();
+  final bool isBooked = crop['is_booked'] ?? false;
+  final List<dynamic> imageUrls = crop['imageURLs'] ?? [];
+  final String harvestDate = crop['harvestDate'] ?? '';
+  final String description = crop['description'] ?? '';
+  
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UpdateCropPage(
+            cropId: cropId,
+            initialCropName: cropName,
+            initialDescription: description,
+            initialPrice: price,
+            initialLocation: location,
+            initialQuantity: quantity,
+            initialHarvestDate: harvestDate,
+            initialImageUrls: imageUrls,
+            onCropUpdated: _fetchUserCropsAndStats,
+          ),
+        ),
+      );
+    },
+    child: Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -349,8 +371,7 @@ class UserProfilePageState extends State<UserProfilePage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Crop Image
-            ClipRRect(
+                        ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
                 width: 80,
@@ -495,9 +516,11 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ],
               ),
             ),
+          
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
@@ -258,4 +259,87 @@ class CropService {
       throw Exception('Failed to load user crops: $e');
     }
   }
+
+// Method to update crop
+Future<Map<String, dynamic>> updateCrop(
+  String cropId,
+  String cropName,
+  String description,
+  double price,
+  String location,
+  int quantity,
+  String harvestDate,
+  List<dynamic> existingImageUrls,
+  List<File> newImages,
+) async {
+  try {
+    final token = await _getAuthToken();
+    
+    // Create multipart request
+    var request = http.MultipartRequest(
+      'PUT',
+      Uri.parse('$baseUrl/buyerview/update-crop/$cropId/'),
+    );
+    
+    // Add headers
+    request.headers['Authorization'] = 'Bearer $token';
+    
+    // Add text fields
+    request.fields['cropName'] = cropName;
+    request.fields['description'] = description;
+    request.fields['price'] = price.toString();
+    request.fields['location'] = location;
+    request.fields['quantity'] = quantity.toString();
+    request.fields['harvestDate'] = harvestDate;
+    request.fields['existingImageUrls'] = json.encode(existingImageUrls);
+    
+    // Add image files if any
+    for (var i = 0; i < newImages.length; i++) {
+      var file = newImages[i];
+      var stream = http.ByteStream(file.openRead());
+      var length = await file.length();
+      
+      var multipartFile = http.MultipartFile(
+        'images',
+        stream,
+        length,
+        filename: 'image_$i.jpg',
+      );
+      
+      request.files.add(multipartFile);
+    }
+    
+    // Send request
+    var streamedResponse = await request.send().timeout(_timeout);
+    var response = await http.Response.fromStream(streamedResponse);
+    
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to update crop: ${response.statusCode} - ${response.body}');
+    }
+  } catch (e) {
+    print('Error updating crop: $e');
+    throw Exception('Failed to update crop: $e');
+  }
+}
+
+// Method to delete crop
+Future<void> deleteCrop(String cropId) async {
+  try {
+    final token = await _getAuthToken();
+    
+    final response = await http.delete(
+      Uri.parse('$baseUrl/buyerview/delete-crop/$cropId/'),
+      headers: _createHeaders(token),
+    ).timeout(_timeout);
+    
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete crop: ${response.statusCode} - ${response.body}');
+    }
+  } catch (e) {
+    print('Error deleting crop: $e');
+    throw Exception('Failed to delete crop: $e');
+  }
+}
 }

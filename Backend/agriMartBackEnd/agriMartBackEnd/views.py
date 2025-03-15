@@ -17,3 +17,7 @@ def get_stream_jwt(request):
     client = StreamChat(api_key=settings.STREAM_API_KEY, api_secret=settings.STREAM_API_SECRET)
     token = client.create_token(user_id)
     return JsonResponse({'token': token})
+
+
+
+

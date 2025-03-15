@@ -16,5 +16,6 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('api/crops/', include('crops.urls')),
     path('auth/', include('user_details.urls')),
+    
 ]
 

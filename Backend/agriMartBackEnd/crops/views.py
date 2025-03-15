@@ -59,8 +59,8 @@ class CropUploadView(APIView):
         except ValueError:
             return JsonResponse({"error": "Invalid harvest date format. Use YYYY-MM-DD"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if datetime.strptime(harvest_date, "%Y-%m-%d").date() < datetime.now().date():
-            return JsonResponse({"error": "Harvest date cannot be in the past"}, status=status.HTTP_400_BAD_REQUEST)
+        if datetime.strptime(harvest_date, "%Y-%m-%d").date() > datetime.now().date():
+            return JsonResponse({"error": "Harvest date cannot be in the Future date"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Upload images to Cloudinary (up to 3 images)
         image_urls = []

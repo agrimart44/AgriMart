@@ -1,11 +1,16 @@
-from django.http import JsonResponse
-from firebase import db, verify_firebase_token
 import logging
 import google.cloud.firestore_v1.base_query
 import google.api_core.exceptions
-from google.cloud import firestore
-from django.views.decorators.csrf import csrf_exempt
 import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import JsonResponse
+from datetime import datetime
+import cloudinary.uploader
+from firebase import db, verify_firebase_token
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -329,3 +334,150 @@ def get_user_crops_and_stats(request):
         
         # Return a cleaner error message
         return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
+    
+    
+@csrf_exempt
+def delete_crop(request, crop_id):
+    try:
+        # Ensure the request method is DELETE (for deleting)
+        if request.method != 'DELETE':
+            return JsonResponse({"error": "Invalid request method. Use DELETE."}, status=405)
+        
+        # Get Firebase token from request headers
+        firebase_token = request.headers.get('Authorization')
+        if not firebase_token:
+            return JsonResponse({"error": "Firebase token is missing"}, status=400)
+        
+        # Remove 'Bearer ' prefix if present
+        if firebase_token.startswith('Bearer '):
+            firebase_token = firebase_token[7:]
+        
+        # Verify the Firebase token
+        decoded_token = verify_firebase_token(firebase_token)
+        if isinstance(decoded_token, dict) and 'error' in decoded_token:
+            return JsonResponse(decoded_token, status=401)
+        
+        # Extract user ID from the decoded token
+        current_user_id = decoded_token.get('uid')
+        
+        # Get the crop document from Firestore
+        crop_ref = db.collection('crops').document(crop_id)
+        crop_doc = crop_ref.get()
+        
+        if not crop_doc.exists:
+            return JsonResponse({"error": "Crop not found"}, status=404)
+        
+        crop_data = crop_doc.to_dict()
+        
+        # Check if the current user is the owner of the crop
+        if crop_data.get('userId') != current_user_id:
+            return JsonResponse({"error": "You are not authorized to delete this crop"}, status=403)
+        
+        # Delete the crop document from Firestore
+        crop_ref.delete()
+        
+        return JsonResponse({"message": "Crop deleted successfully"}, status=200)
+
+    except Exception as e:
+        logger.error(f"Error deleting crop: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
+
+class CropUpdateView(APIView):
+    def put(self, request, crop_id):
+        # Extract Firebase token from headers
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return JsonResponse({"error": "Firebase token is missing"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Remove 'Bearer ' prefix if present
+        if auth_header.startswith('Bearer '):
+            firebase_token = auth_header[7:]  # Remove 'Bearer ' prefix
+        else:
+            firebase_token = auth_header
+
+        # Verify the Firebase token
+        decoded_token = verify_firebase_token(firebase_token)
+        if not decoded_token:
+            return JsonResponse({"error": "Invalid Firebase token"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user_id = decoded_token.get('user_id') or decoded_token.get('sub') or decoded_token.get('uid')
+        if not user_id:
+            return JsonResponse({"error": "User ID not found in token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Extract other fields from the request data
+        crop_name = request.data.get('cropName')
+        description = request.data.get('description')
+        price = request.data.get('price')
+        location = request.data.get('location')
+        quantity = request.data.get('quantity')
+        harvest_date = request.data.get('harvestDate')
+
+        # Extract images (Supports up to 3 images)
+        images = request.FILES.getlist('images')  # Get a list of uploaded images
+
+        # Validate inputs
+        if not crop_name or not description or not price or not location or not quantity or not harvest_date:
+            return JsonResponse({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if float(price) <= 0:
+            return JsonResponse({"error": "Price must be greater than 0"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if int(quantity) <= 0:
+            return JsonResponse({"error": "Quantity must be greater than 0"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Convert to correct format: YYYY-MM-DD (Remove time part)
+            harvest_date = datetime.strptime(harvest_date, "%Y-%m-%d").date().isoformat()
+        except ValueError:
+            return JsonResponse({"error": "Invalid harvest date format. Use YYYY-MM-DD"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if datetime.strptime(harvest_date, "%Y-%m-%d").date() > datetime.now().date():
+            return JsonResponse({"error": "Harvest date cannot be in the Future date"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Upload images to Cloudinary (up to 3 images)
+        image_urls = []
+        try:
+            for i, image in enumerate(images[:3]):  # Limit to 3 images
+                upload_result = cloudinary.uploader.upload(image)
+                image_urls.append(upload_result["secure_url"])  # Store each image URL
+        except Exception as e:
+            return JsonResponse({"error": f"Image upload failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # Prepare the updated crop data
+        crop_data = {
+            'cropName': crop_name,
+            'description': description,
+            'price': float(price),
+            'location': location,
+            'quantity': int(quantity),
+            'harvestDate': harvest_date,  # Stores only date (YYYY-MM-DD)
+            'userId': user_id,
+            'imageURLs': image_urls,  # Stores multiple image URLs
+            'is_booked': False,
+            'is_in_cart': False
+        }
+
+        # Fetch the existing crop from Firestore to check ownership and update
+        try:
+            crop_ref = db.collection('crops').document(crop_id)
+            crop_doc = crop_ref.get()
+
+            if not crop_doc.exists:
+                return JsonResponse({"error": "Crop not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            existing_crop_data = crop_doc.to_dict()
+
+            # Check if the current user is the owner of the crop
+            if existing_crop_data.get('userId') != user_id:
+                return JsonResponse({"error": "You are not authorized to update this crop"}, status=status.HTTP_403_FORBIDDEN)
+
+            # Update the crop document in Firestore
+            crop_ref.update(crop_data)
+
+            return JsonResponse({
+                "message": "Crop updated successfully!",
+                "cropId": crop_id,
+                "imageURLs": image_urls
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return JsonResponse({"error": f"Failed to update crop: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
