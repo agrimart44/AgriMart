@@ -103,7 +103,7 @@ class CartItem {
       price: double.parse(json['price'].toString()),
       quantity: json['quantity'] ?? 1, // Default to 1 if not provided
       image: json['imageURL'] ?? '',
-      seller: json['seller'] ?? 'Unknown',
+      seller: json['farmer'] ?? 'Unknown',
       unit: json['unit'] ?? 'kg',
     );
   }

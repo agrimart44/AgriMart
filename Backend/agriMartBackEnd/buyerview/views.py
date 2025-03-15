@@ -216,3 +216,5 @@ def add_to_cart(request):
         # Log the error
         logger.error(f"Error adding crop to cart: {str(e)}")
         return JsonResponse({"error": "Internal Server Error", "details": str(e)}, status=500)
+    
+    

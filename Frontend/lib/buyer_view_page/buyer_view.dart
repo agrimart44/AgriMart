@@ -290,24 +290,33 @@ Widget _buildProductCard({required Crop crop}) {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(12),
                       ),
+
+                      // Add to cart button
                       child: IconButton(
-                        onPressed: () {
-                          // Add to cart functionality
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${crop.name} added to cart!')),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.add_shopping_cart,
-                          color: Color(0xFF2E7D32),
-                        ),
-                        constraints: const BoxConstraints.tightFor(
-                          width: 42,
-                          height: 42,
-                        ),
-                        padding: EdgeInsets.zero,
-                        iconSize: 22,
-                      ),
+                                onPressed: () async {
+                                  try {
+                                    await _cropService.addToCart(crop.id, 1); // Call the method with crop ID and quantity
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('${crop.name} added to cart!')),
+                                    );
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Failed to add ${crop.name} to cart: $e')),
+                                    );
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.add_shopping_cart,
+                                  color: Color(0xFF2E7D32),
+                                ),
+                                constraints: const BoxConstraints.tightFor(
+                                  width: 42,
+                                  height: 42,
+                                ),
+                                padding: EdgeInsets.zero,
+                                iconSize: 22,
+                  ),
                     ),
                   ],
                 ),
