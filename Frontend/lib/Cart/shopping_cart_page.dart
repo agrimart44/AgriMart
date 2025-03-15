@@ -6,6 +6,8 @@ import 'package:namer_app/Cart/CartService.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:http/http.dart' as http;
 
+import '../buyer_view_page/buyer_view.dart';
+
 
 class ShoppingCartPage extends StatefulWidget {
   const ShoppingCartPage({super.key});
@@ -527,8 +529,10 @@ Widget _buildEmptyCart() {
               width: 200,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Navigate to shop page
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BuyerView()),
+                  );
                 },
                 icon: const Icon(Icons.shop),
                 style: ElevatedButton.styleFrom(

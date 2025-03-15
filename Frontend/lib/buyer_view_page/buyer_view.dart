@@ -5,6 +5,7 @@ import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/crop_large_view/potato.dart';
+import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 class BuyerView extends StatefulWidget {
   const BuyerView({super.key});
@@ -62,18 +63,27 @@ class BuyerViewState extends State<BuyerView> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() => _selectedIndex = index);
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-            );
-          }
-        },
-      ),
+
+              bottomNavigationBar: BottomNavigationBarWidget(
+          selectedIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() => _selectedIndex = index);
+            if (index == 1) {
+              // Navigate to Shopping Cart Page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+              );
+            } else if (index == 0) {
+              // Navigate to Farm View Page
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const FarmerView()),
+              );
+            }
+          },
+        ),
+
     );
   }
 
