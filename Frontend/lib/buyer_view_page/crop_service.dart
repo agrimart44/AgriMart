@@ -237,4 +237,25 @@ class CropService {
       throw Exception('Failed to search crops: $e');
     }
   }
+
+  // Method to get user crops and stats
+  Future<Map<String, dynamic>> getUserCropsAndStats() async {
+    try {
+      final token = await _getAuthToken();
+      
+      final response = await http.get(
+        Uri.parse('$baseUrl/buyerview/users-crops-details/'),
+        headers: _createHeaders(token),
+      ).timeout(_timeout);
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load user crops: ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      print('Error fetching user crops and stats: $e');
+      throw Exception('Failed to load user crops: $e');
+    }
+  }
 }

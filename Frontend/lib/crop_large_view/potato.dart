@@ -47,13 +47,11 @@ class _CropLargeViewState extends State<CropLargeView> {
     // Check if requested quantity is available
     if (quantity > _cropDetails.quantity) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                'Requested quantity exceeds available stock (${_cropDetails.quantity} kg)')),
+        SnackBar(content: Text('Requested quantity exceeds available stock (${_cropDetails.quantity} kg)')),
       );
       return;
     }
-
+    
     setState(() => _isAddingToCart = true);
     try {
       await _cropService.addToCart(widget.crop.id, quantity);
@@ -80,7 +78,7 @@ class _CropLargeViewState extends State<CropLargeView> {
       }
     }
   }
-
+  
   Future<void> _callSeller(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
     if (!await launchUrl(phoneUri)) {
@@ -107,23 +105,21 @@ class _CropLargeViewState extends State<CropLargeView> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Colors.grey.shade100,
         elevation: 0,
       ),
       backgroundColor: Colors.grey.shade100,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator(color: Colors.green))
           : _errorMessage != null
-          ? Center(
-          child: Text(_errorMessage!,
-              style: GoogleFonts.poppins(color: Colors.red)))
-          : _buildCropDetails(),
+              ? Center(child: Text(_errorMessage!, style: GoogleFonts.poppins(color: Colors.red)))
+              : _buildCropDetails(),
     );
   }
 
   Widget _buildCropDetails() {
     Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
-
+    
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -150,8 +146,7 @@ class _CropLargeViewState extends State<CropLargeView> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
                         color: Colors.green.shade100,
                         borderRadius: BorderRadius.circular(16),
@@ -210,57 +205,55 @@ class _CropLargeViewState extends State<CropLargeView> {
   Widget _buildImageCarousel(Crop crop) {
     return Stack(
       children: [
-      Container(
-      height: 280,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      child: PageView.builder(
-        itemCount: crop.imagePaths.length,
-        onPageChanged: (index) =>
-            setState(() => _currentImageIndex = index),
-        itemBuilder: (_, index) => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-                crop.imagePaths[index],
-                fit: BoxFit.cover,
-                errorBuilder: (, _, _) => Icon(Icons.image_not_supported,
-                size: 50, color: Colors.red),
+        Container(
+          height: 280,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: PageView.builder(
+            itemCount: crop.imagePaths.length,
+            onPageChanged: (index) => setState(() => _currentImageIndex = index),
+            itemBuilder: (_, index) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  crop.imagePaths[index],
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Icon(Icons.image_not_supported, size: 50, color: Colors.red),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-    ),
-    ),
-    Positioned(
-    bottom: 16,
-    left: 0,
-    right: 0,
-    child: _buildImageIndicators(crop),
-    ),
-    if (crop.quantity < 5)
-    Positioned(
-    top: 16,
-    right: 16,
-    child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-    decoration: BoxDecoration(
-    color: Colors.red,
-    borderRadius: BorderRadius.circular(16),
-    ),
-    child: Text(
-    'Only ${crop.quantity} left!',
-    style: GoogleFonts.poppins(
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-    fontSize: 12,
-    ),
-    ),
-    ),
-    ),
-    ],
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: _buildImageIndicators(crop),
+        ),
+        if (crop.quantity < 5)
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                'Only ${crop.quantity} left!',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -269,16 +262,14 @@ class _CropLargeViewState extends State<CropLargeView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         crop.imagePaths.length,
-            (index) => AnimatedContainer(
+        (index) => AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: _currentImageIndex == index ? 16 : 8,
           height: 8,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: _currentImageIndex == index
-                ? Colors.green
-                : Colors.grey.shade400,
+            color: _currentImageIndex == index ? Colors.green : Colors.grey.shade400,
           ),
         ),
       ),
@@ -444,7 +435,7 @@ class _CropLargeViewState extends State<CropLargeView> {
     Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
     // Ensure quantity doesn't exceed available stock
     int maxQuantity = displayCrop.quantity;
-
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -458,13 +449,10 @@ class _CropLargeViewState extends State<CropLargeView> {
             icon: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color:
-                quantity > 1 ? Colors.green.shade50 : Colors.grey.shade100,
+                color: quantity > 1 ? Colors.green.shade50 : Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: quantity > 1
-                      ? Colors.green.shade200
-                      : Colors.grey.shade300,
+                  color: quantity > 1 ? Colors.green.shade200 : Colors.grey.shade300,
                 ),
               ),
               child: Icon(
@@ -490,27 +478,19 @@ class _CropLargeViewState extends State<CropLargeView> {
             icon: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: quantity < maxQuantity
-                    ? Colors.green.shade50
-                    : Colors.grey.shade100,
+                color: quantity < maxQuantity ? Colors.green.shade50 : Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: quantity < maxQuantity
-                      ? Colors.green.shade200
-                      : Colors.grey.shade300,
+                  color: quantity < maxQuantity ? Colors.green.shade200 : Colors.grey.shade300,
                 ),
               ),
               child: Icon(
                 Icons.add,
                 size: 16,
-                color: quantity < maxQuantity
-                    ? Colors.green.shade700
-                    : Colors.grey,
+                color: quantity < maxQuantity ? Colors.green.shade700 : Colors.grey,
               ),
-            ),
-            onPressed: quantity < maxQuantity
-                ? () => setState(() => quantity++)
-                : null,
+              ),
+            onPressed: quantity < maxQuantity ? () => setState(() => quantity++) : null,
           ),
         ],
       ),
@@ -519,7 +499,7 @@ class _CropLargeViewState extends State<CropLargeView> {
 
   Widget _buildButtons() {
     Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
-
+    
     return Column(
       children: [
         Row(
@@ -535,23 +515,23 @@ class _CropLargeViewState extends State<CropLargeView> {
                   ),
                   elevation: 2,
                 ),
-                child: _isAddingToCart
-                    ? SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
-                )
-                    : Text(
-                  'Add to Cart',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: _isAddingToCart 
+                  ? SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Text(
+                      'Add to Cart',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
               ),
             ),
           ],
@@ -590,6 +570,5 @@ class _CropLargeViewState extends State<CropLargeView> {
     );
   }
 
-  String _formatDate(DateTime date) =>
-      '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  String _formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
 }
