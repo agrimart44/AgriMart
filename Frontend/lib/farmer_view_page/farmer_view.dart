@@ -32,37 +32,38 @@ class FarmerViewState extends State<FarmerView> {
             fit: BoxFit.cover,
           ),
           
-          // Fixed position elements (search bar and toggle buttons)
-          Column(
-            children: [
-              const SizedBox(height: 100), // Space for app bar
-              _buildSearchBar(),
-              _buildViewToggleButtons(),
-              
-              // Scrollable content (only the dashboard grid)
-              Expanded(
-                child: SingleChildScrollView(
+          // Main content layout with SafeArea to respect system UI
+          SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 60), // Adjusted space for app bar
+                _buildSearchBar(),
+                
+                // Scrollable content (dashboard grid)
+                Expanded(
                   child: _buildDashboardGrid(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: _selectedIndex,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          
+          setState(() => _selectedIndex = index);
           if (index == 1) {
+            // Navigate to Shopping Cart Page
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
             );
-          } else if (index == 2) {
-            print('Navigate to Profile page');
+          } else if (index == 0) {
+            // Navigate to Farm View Page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const FarmerView()),
+            );
           }
         },
       ),
@@ -71,14 +72,14 @@ class FarmerViewState extends State<FarmerView> {
 
   Widget _buildSearchBar() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10), // Reduced vertical margin
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
+            blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
@@ -93,7 +94,7 @@ class FarmerViewState extends State<FarmerView> {
                 prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
                 border: InputBorder.none,
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
             ),
           ),
@@ -107,53 +108,16 @@ class FarmerViewState extends State<FarmerView> {
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
-              child: const Text('Search'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildViewToggleButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Reduced vertical padding
-      child: Row(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const BuyerView()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+              child: const Text(
+                'Search',
+                style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            child: const Text('Buyer View'),
-          ),
-          const SizedBox(width: 25),
-          ElevatedButton(
-            onPressed: () {
-              // No action needed when already on Farmer View
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            child: const Text('Farmer View'),
           ),
         ],
       ),
@@ -162,17 +126,16 @@ class FarmerViewState extends State<FarmerView> {
 
   Widget _buildDashboardGrid() {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(16),
       child: GridView.count(
         crossAxisCount: 2,
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        mainAxisSpacing: 15, // Further reduced spacing
-        crossAxisSpacing: 15, // Further reduced spacing
-        childAspectRatio: 1, // Square cards
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 1.05, // Slightly wider than tall to fit content better
         children: [
           _buildDashboardCard(
-            'Market\nPrices\nTrends',
+            'Market\nPrices',
             Icons.trending_up,
             () {
               print('Navigate to Market Prices Trends page');
@@ -180,7 +143,7 @@ class FarmerViewState extends State<FarmerView> {
           ),
           _buildDashboardCard(
             'Negotiations',
-            Icons.handshake,
+            Icons.handshake_outlined,
             () {
               Navigator.push(
                 context,
@@ -190,7 +153,7 @@ class FarmerViewState extends State<FarmerView> {
             },
           ),
           _buildDashboardCard(
-            'List New\nCrop',
+            'List Crop',
             Icons.add_circle_outline,
             () {
               Navigator.push(
@@ -200,6 +163,17 @@ class FarmerViewState extends State<FarmerView> {
               print('Navigate to List New Crop page');
             },
           ),
+          _buildDashboardCard(
+            'Market\nPlace',
+            Icons.store_outlined,
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BuyerView()),
+              );
+              print('Navigate to Market Place (Buyer View) page');
+            },
+          ),
         ],
       ),
     );
@@ -207,30 +181,42 @@ class FarmerViewState extends State<FarmerView> {
 
   Widget _buildDashboardCard(String title, IconData icon, VoidCallback onTap) {
     return Card(
-      elevation: 4,
+      elevation: 3,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(20),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white, Colors.green.withOpacity(0.1)],
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min, // This helps with overflow
             children: [
               Icon(
                 icon,
-                size: 40,
+                size: 40, // Reduced from 48 to avoid overflow
                 color: Colors.green,
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 8), // Reduced spacing
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 14, // Reduced from 16 to fit better
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

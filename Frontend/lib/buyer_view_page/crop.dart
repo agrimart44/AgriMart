@@ -1,4 +1,3 @@
-// models/crop.dart
 class Crop {
   final String id;
   final String name;
@@ -9,8 +8,9 @@ class Crop {
   final String farmerName;
   final String contactNumber;
   final DateTime harvestDate;
-  final String imagePath;
+  final List<String> imagePaths;
   final double rating;
+  final int quantity; // Added quantity field
 
   Crop({
     required this.id,
@@ -22,7 +22,8 @@ class Crop {
     required this.farmerName,
     required this.contactNumber,
     required this.harvestDate,
-    required this.imagePath,
+    required this.imagePaths,
     required this.rating,
+    required this.quantity, // Added quantity parameter
   });
 }

@@ -1,10 +1,5 @@
 
 import firebase_admin
-from firebase_admin import credentials, firestore
-from firebase_admin import credentials, firestore, auth
-
-from firebase_admin import credentials, firestore, auth
-
 from firebase_admin import credentials, auth, firestore
 
 # Initialize Firebase with the service account key

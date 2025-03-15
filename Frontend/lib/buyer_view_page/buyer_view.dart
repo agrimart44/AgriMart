@@ -3,6 +3,7 @@ import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
+import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/crop_large_view/potato.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
@@ -14,470 +15,333 @@ class BuyerView extends StatefulWidget {
 }
 
 class BuyerViewState extends State<BuyerView> {
-  int notificationCount = 0;
+  final CropService _cropService = CropService();
   int _selectedIndex = 0;
-  String? _selectedDistrict;
-  String? _selectedCategory;
-  OverlayEntry? _overlayEntry;
+  List<Crop> _crops = [];
+  bool _isLoading = true;
+  String? _errorMessage;
 
-  final List<String> _districts = [
-    'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale','Nuwara Eliya','Galle','Matara','Hambantota','Jaffna','Kilinochchi','Mannar','Vavuniya',
-    'Mullaitivu','Batticaloa','Ampara','Trincomalee','Kurunegala','Puttalam','Anuradhapura','Polonnaruwa','Badulla','Monaragala','Ratnapura','Kegalle'
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchCrops();
+  }
 
-  final List<String> _categories = ['Potato', 'Tomato', 'Brinjal', 'Carrot'];
-
-  // Sample crops list
-  final List<Crop> _crops = [
-    Crop(
-      id: '1',
-      name: 'Fresh Potatoes',
-      description: 'Freshly harvested potatoes from local farm. Perfect for cooking and frying.',
-      price: 120.0,
-      location: 'Nuwara Eliya',
-      category: 'Potato',
-      farmerName: 'K. Perera',
-      contactNumber: '+94 77 123 4567',
-      harvestDate: DateTime.now().subtract(const Duration(days: 2)),
-      imagePath: 'lib/assets/potato.jpg',
-      rating: 4.5,
-    ),
-    Crop(
-      id: '2',
-      name: 'Organic Tomatoes',
-      description: 'Organic tomatoes grown without pesticides. Juicy and perfect for salads.',
-      price: 180.0,
-      location: 'Kandy',
-      category: 'Tomato',
-      farmerName: 'S. Fernando',
-      contactNumber: '+94 76 234 5678',
-      harvestDate: DateTime.now().subtract(const Duration(days: 1)),
-      imagePath: 'lib/assets/tomato.jpg',
-      rating: 4.8,
-    ),
-  ];
-
-  final GlobalKey _locationButtonKey = GlobalKey();
-  final GlobalKey _categoryButtonKey = GlobalKey();
+  Future<void> _fetchCrops() async {
+    try {
+      final crops = await _cropService.getAvailableCrops();
+      setState(() {
+        _crops = crops;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Failed to fetch crops: $e';
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque, // Detect taps outside widgets
-      onTap: () {
-        if (_overlayEntry != null) {
-          _overlayEntry?.remove();
-          _overlayEntry = null;
-        }
-      },
-      child: Scaffold(
-        extendBodyBehindAppBar: true, // Extends the body behind AppBar
-        appBar: AgriMartAppBar(context, title: 'AgriMart'),
-        body: Stack(
-          children: [
-            Image.asset(
-              'lib/assets/first_page_background.jpg',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Column(
-              children: [
-                const SizedBox(height: 100), // Space for AppBar
-                _buildSearchBar(),
-                _buildFilterButtons(),
-                _buildViewToggleButtons(),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: _buildProductList(),
-                ),
-              ],
-            ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBarWidget(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AgriMartAppBar(context, title: 'AgriMart'),
+      body: Stack(
+        children: [
+          Image.asset(
+            'lib/assets/first_page_background.jpg',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 100),
+              Expanded(child: _buildProductList()),
+            ],
+          ),
+        ],
+      ),
+
+              bottomNavigationBar: BottomNavigationBarWidget(
           selectedIndex: _selectedIndex,
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-            
-            // Add navigation logic based on the selected index
-            if (index == 1) { // Cart index
+            setState(() => _selectedIndex = index);
+            if (index == 1) {
+              // Navigate to Shopping Cart Page
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
               );
-            } else if (index == 2) { // Profile index
-              // Navigate to profile page
-              print('Navigate to Profile page');
-              // Implement profile navigation
+            } else if (index == 0) {
+              // Navigate to Farm View Page
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const FarmerView()),
+              );
             }
-            // For index 0 (Home), we're already on the home page
           },
         ),
-      ),
-    );
-  }
-  
-  Widget _buildSearchBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for products or categories...',
-                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
-                border: InputBorder.none,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(right: 2),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-              ),
-              child: const Text('Search'),
-            ),
-          ),
-        ],
-      ),
+
     );
   }
 
-  Widget _buildFilterButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildAllButton(),
-            const SizedBox(width: 20),
-            _buildLocationButton(),
-            const SizedBox(width: 20),
-            _buildCategoryButton(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAllButton() {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          _selectedDistrict = null;
-          _selectedCategory = null;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text('All'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationButton() {
-    return ElevatedButton(
-      key: _locationButtonKey,
-      onPressed: () => _showOverlay(_districts, (value) {
-        setState(() {
-          _selectedDistrict = value;
-        });
-      }),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(_selectedDistrict ?? 'Location'),
-          const SizedBox(width: 5),
-          const Icon(Icons.arrow_drop_down, color: Colors.black),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryButton() {
-    return ElevatedButton(
-      key: _categoryButtonKey,
-      onPressed: () => _showOverlay(_categories, (value) {
-        setState(() {
-          _selectedCategory = value;
-        });
-      }),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(_selectedCategory ?? 'Category'),
-          const SizedBox(width: 5),
-          const Icon(Icons.arrow_drop_down, color: Colors.black),
-        ],
-      ),
-    );
-  }
-
-  void _showOverlay(List<String> items, Function(String) onSelect) {
-    final RenderBox renderBox =
-        (_categoryButtonKey.currentContext?.findRenderObject() ?? 
-         _locationButtonKey.currentContext?.findRenderObject()) as RenderBox;
-    final Offset position = renderBox.localToGlobal(Offset.zero);
-    final double buttonHeight = renderBox.size.height;
-    final double overlayWidth = MediaQuery.of(context).size.width / 2;
-
-    _overlayEntry?.remove();
-    _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        left: position.dx,
-        top: position.dy + buttonHeight,
-        width: overlayWidth,
-        child: Material(
-          elevation: 4,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            constraints: const BoxConstraints(maxHeight: 400),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListView(
-              shrinkWrap: true,
-              children: items.map((item) {
-                return ListTile(
-                  title: Text(item),
-                  onTap: () {
-                    setState(() {
-                      onSelect(item);
-                      _overlayEntry?.remove();
-                      _overlayEntry = null;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context).insert(_overlayEntry!);
-  }
-
-  Widget _buildViewToggleButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildToggleButton('Buyer View', true),
-            const SizedBox(width: 25),
-            _buildToggleButton('Farmer View', false),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildToggleButton(String label, bool isActive) {
-    return ElevatedButton(
-      onPressed: () {
-        if (label == 'Farmer View') {
-          // Navigate to Farmer View when clicked
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmerView()),
-          );
-        }
-        // No action needed for Buyer View button when already on Buyer View
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isActive ? Colors.green : Colors.white,
-        foregroundColor: isActive ? Colors.white : Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      ),
-      child: Text(label),
-    );
-  }
-  
   Widget _buildProductList() {
-    List<Crop> filteredCrops = _crops;
-    
-    // Apply district filter
-    if (_selectedDistrict != null) {
-      filteredCrops = filteredCrops.where((crop) => crop.location == _selectedDistrict).toList();
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
     }
-    
-    // Apply category filter
-    if (_selectedCategory != null) {
-      filteredCrops = filteredCrops.where((crop) => crop.category == _selectedCategory).toList();
+    if (_errorMessage != null) {
+      return Center(child: Text(_errorMessage!, style: const TextStyle(color: Colors.red)));
     }
-    
+    if (_crops.isEmpty) {
+      return const Center(child: Text('No crops available')); // Handle empty state
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView.builder(
-        itemCount: filteredCrops.length,
+        itemCount: _crops.length,
         itemBuilder: (context, index) {
-          final crop = filteredCrops[index];
-          return _buildProductCard(
-            crop: crop,
-          );
+          final crop = _crops[index];
+          return _buildProductCard(crop: crop);
         },
       ),
     );
   }
 
-  Widget _buildProductCard({
-    required Crop crop,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Left side: Product details
-            Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 400,
+Widget _buildProductCard({required Crop crop}) {
+  return GestureDetector(
+    onTap: () => Navigator.push(
+      context, 
+      MaterialPageRoute(builder: (_) => CropLargeView(crop: crop))
+    ),
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image section with overlay gradient and location badge
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.network(
+                  crop.imagePaths.isNotEmpty ? crop.imagePaths[0] : 'lib/assets/default_crop.jpg',
+                  height: 180,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 180,
+                    color: Colors.grey[200],
+                    child: const Center(
+                      child: Icon(Icons.image_not_supported, size: 40, color: Colors.grey),
+                    ),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      crop.name,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on, size: 16),
-                        Text(crop.location),
+              ),
+              // Gradient overlay
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.5),
                       ],
+                      stops: const [0.6, 1.0],
                     ),
-                    const SizedBox(height: 4),
-                    Text('Harvest Date: ${_formatDate(crop.harvestDate)}'),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Rs. ${crop.price.toStringAsFixed(2)}/kg',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                ),
+              ),
+              // Location badge
+              Positioned(
+                top: 12,
+                left: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.location_on, size: 14, color: Colors.white),
+                      const SizedBox(width: 4),
+                      Text(
+                        crop.location,
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Price badge
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Rs. ${crop.price.toStringAsFixed(2)}/kg',
+                    style: const TextStyle(
+                      color: Colors.white, 
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: List.generate(5, (index) {
-                        return Icon(
-                          index < crop.rating ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
-                          size: 16,
-                        );
-                      }),
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Navigate to CropLargeView
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CropLargeView(crop: crop),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                            ),
-                            child: const Text('View'),
-                          ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          
+          // Content section
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title and rating row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        crop.name,
+                        style: const TextStyle(
+                          fontSize: 18, 
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
                         ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () {
-                              // Handle watch later action
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                            ),
-                            child: const Text('Watch Later'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.amber, size: 18),
+                        const SizedBox(width: 4),
+                        Text(
+                          crop.rating.toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
-            ),
-            // Right side: Product image
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                  image: AssetImage(crop.imagePath),
-                  fit: BoxFit.cover,
+                
+                const SizedBox(height: 12),
+                
+                // Harvest date
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Harvest: ${crop.harvestDate.toLocal().toShortDateString()}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+                
+                const SizedBox(height: 16),
+                
+                // Button
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (_) => CropLargeView(crop: crop))
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF2E7D32),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'View Details',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
 
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
+                      // Add to cart button
+                      child: IconButton(
+                                onPressed: () async {
+                                  try {
+                                    await _cropService.addToCart(crop.id, 1); // Call the method with crop ID and quantity
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('${crop.name} added to cart!')),
+                                    );
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Failed to add ${crop.name} to cart: $e')),
+                                    );
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.add_shopping_cart,
+                                  color: Color(0xFF2E7D32),
+                                ),
+                                constraints: const BoxConstraints.tightFor(
+                                  width: 42,
+                                  height: 42,
+                                ),
+                                padding: EdgeInsets.zero,
+                                iconSize: 22,
+                  ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+}
+
+extension DateFormatting on DateTime {
+  String toShortDateString() {
+    return '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year';
   }
 }
