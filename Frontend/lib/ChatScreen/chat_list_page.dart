@@ -19,7 +19,8 @@ class _ChatListPageState extends State<ChatListPage> {
     super.initState();
 
     // Initialize ChatService with your Stream API key
-    _chatService = ChatService('xqww9xknukff'); // Replace with your actual API key
+    _chatService =
+        ChatService('xqww9xknukff'); // Replace with your actual API key
 
     // Fetch chats when the page loads
     _chatListFuture = _chatService.fetchChatsFromStream();
@@ -40,7 +41,8 @@ class _ChatListPageState extends State<ChatListPage> {
             // Custom App Bar
             SafeArea(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 color: Colors.transparent,
                 child: Row(
                   children: [
@@ -77,7 +79,8 @@ class _ChatListPageState extends State<ChatListPage> {
                           ElevatedButton(
                             onPressed: () {
                               setState(() {
-                                _chatListFuture = _chatService.fetchChatsFromStream(); // Retry fetching chats
+                                _chatListFuture = _chatService
+                                    .fetchChatsFromStream(); // Retry fetching chats
                               });
                             },
                             child: Text('Retry'),
@@ -90,7 +93,8 @@ class _ChatListPageState extends State<ChatListPage> {
                   } else {
                     final chatList = snapshot.data!;
                     return ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       itemCount: chatList.length,
                       itemBuilder: (context, index) {
                         final chat = chatList[index];
@@ -127,7 +131,8 @@ class ChatListItem extends StatelessWidget {
             context,
             MaterialPageRoute(
               // Link to the Chat Screen
-              builder: (context) => ChatScreen(channelId: chat.id), // Pass the channel ID dynamically
+              builder: (context) => ChatScreen(
+                  channelId: chat.id), // Pass the channel ID dynamically
             ),
           );
         },

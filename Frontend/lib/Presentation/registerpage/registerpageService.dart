@@ -13,7 +13,7 @@ class RegistrationService {
     required String location,
   }) async {
     final url = Uri.parse('http://192.168.43.27:8000/api/register/');
-    
+
     try {
       // Create request body for debugging
       final requestBody = {
@@ -25,10 +25,10 @@ class RegistrationService {
         'occupation': occupation,
         'location': location,
       };
-      
+
       // Print request body for debugging
       print('Request Body: ${json.encode(requestBody)}');
-      
+
       final response = await http.post(
         url,
         headers: {
@@ -36,11 +36,11 @@ class RegistrationService {
         },
         body: json.encode(requestBody),
       );
-      
+
       // Print response status and body for debugging
       print('Response Status: ${response.statusCode}');
       print('Response Body: ${response.body}');
-      
+
       // Safely parse the response body
       Map<String, dynamic> responseData;
       try {
@@ -50,7 +50,7 @@ class RegistrationService {
         print('Raw response: ${response.body}');
         responseData = {'error': 'Invalid response format from server'};
       }
-      
+
       if (response.statusCode == 200) {
         return {
           'success': true,
@@ -66,7 +66,7 @@ class RegistrationService {
         } else {
           errorMessage = 'Registration failed: ${response.body}';
         }
-        
+
         return {
           'success': false,
           'message': errorMessage,
