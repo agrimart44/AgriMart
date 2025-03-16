@@ -71,3 +71,30 @@ class _ChatScreenState extends State<ChatScreen> {
       });
     }
   }
+
+// Method to set the chat title based on channel data
+  void _setChatTitle() {
+    try {
+      // Try to get chat title from extraData
+      final channelName = _channel.extraData['name'] as String?;
+      if (channelName != null) {
+        _chatTitle = channelName;
+      } else {
+        // If no name, check if it's a direct chat with another user
+        final currentUserId = _channel.client.state.currentUser!.id;
+        final members = _channel.state?.members ?? [];
+
+        if (members.length == 2) {
+          // Find the other member
+          final otherMember = members.firstWhere(
+            (member) => member.user?.id != currentUserId,
+            orElse: () => members.first,
+          );
+
+          if (otherMember.user != null) {
+            _chatTitle = otherMember.user!.name ?? 'Chat with seller';
+            _chatSubtitle =
+                otherMember.user!.extraData['role'] as String? ?? 'Seller';
+          }
+        }
+      }
