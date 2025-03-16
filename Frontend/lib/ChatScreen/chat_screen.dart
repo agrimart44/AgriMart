@@ -72,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-// Method to set the chat title based on channel data
+  // Method to set the chat title based on channel data
   void _setChatTitle() {
     try {
       // Try to get chat title from extraData
@@ -159,8 +159,6 @@ class _ChatScreenState extends State<ChatScreen> {
             fit: BoxFit.cover,
           ),
         ),
-
-        ),
         child: Column(
           children: [
             SafeArea(
@@ -222,7 +220,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-
             Expanded(
               child: StreamBuilder<List<Message>>(
                 stream: _messageStream,
@@ -368,3 +365,43 @@ class _MessageBubble extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildStatusIcon() {
+    // Check if the message has been read by accessing the read state from the channel
+    final readsCount = channel.state?.read
+            ?.where((read) =>
+                    read.user.id != message.user?.id && // Not the sender
+                    read.lastRead.isAfter(message.createdAt ??
+                        DateTime.now()) // Read after message was sent
+                )
+            .length ??
+        0;
+
+    // Check if the message is being handled properly
+    if (readsCount > 0) {
+      return const Icon(
+        Icons.done_all,
+        size: 12,
+        color: Colors.blue,
+      );
+    }
+
+    // Message is sent (using only the state property which is available)
+    else if (message.state == MessageState.sent) {
+      return const Icon(
+        Icons.done,
+        size: 12,
+        color: Colors.white70,
+      );
+    }
+
+    // Message is still sending or failed
+    else {
+      return const Icon(
+        Icons.access_time,
+        size: 12,
+        color: Colors.white70,
+      );
+    }
+  }
+}
