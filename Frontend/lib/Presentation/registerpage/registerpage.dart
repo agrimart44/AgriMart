@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
+import 'package:namer_app/Presentation/first_screen/Login.dart';
 import 'package:namer_app/Presentation/registerpage/registerpageService.dart';
+import 'package:namer_app/farmer_view_page/farmer_view.dart';
 // Import the service file
 
 class RegisterPage extends StatefulWidget {
@@ -28,56 +30,87 @@ class _RegisterPageState extends State<RegisterPage> {
   ];
 
   // Function to handle registration
-  Future<void> _registerUser() async {
-    if (_formKey.currentState!.validate()) {
+Future<void> _registerUser() async {
+  if (_formKey.currentState!.validate()) {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final result = await RegistrationService.registerUser(
+        username: _usernameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        confirmPassword: _confirmPasswordController.text,
+        phoneNumber: _phoneNumberController.text,
+        occupation: _selectedOccupation ?? '',
+        location: _locationController.text,
+      );
+
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
 
-      try {
-        final result = await RegistrationService.registerUser(
-          username: _usernameController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-          confirmPassword: _confirmPasswordController.text,
-          phoneNumber: _phoneNumberController.text,
-          occupation: _selectedOccupation ?? '',
-          location: _locationController.text,
+      // If registration was successful, show dialog instead of SnackBar
+      if (result['success']) {
+        showDialog(
+          context: context,
+          barrierDismissible: false, // User must tap button to close dialog
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Registration Successful'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Your account has been created successfully!'),
+                    SizedBox(height: 10),
+                    Text('You can now log in using your email and password.'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Login Now'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close dialog
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  },
+                ),
+              ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 5,
+            );
+          },
         );
-
-        setState(() {
-          _isLoading = false;
-        });
-
-        // Show response message
+      } else {
+        // Show error SnackBar if registration failed
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result['message']),
-            backgroundColor: result['success'] ? Colors.green : Colors.red,
-          ),
-        );
-
-        // If registration was successful, navigate to login or home page
-        if (result['success']) {
-          // You can replace this with your navigation logic
-          Future.delayed(const Duration(seconds: 2), () {
-            Navigator.pushReplacementNamed(context, '/login');
-          });
-        }
-      } catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
       }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {

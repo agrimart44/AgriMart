@@ -9,8 +9,7 @@ enum MessageSendingStatus { SENDING, SENT, DELIVERED, FAILED }
 
 class ChatScreen extends StatefulWidget {
   final String channelId;
-  final String?
-      cropId; // Optional parameter to identify the crop being discussed
+  final String? cropId;
 
   const ChatScreen({
     super.key,

@@ -8,14 +8,12 @@ class ChatService {
   final StreamChatClient _client;
   static const String _userIdKey = 'stream_user_id';
   static const String _userTokenKey = 'stream_user_token';
-  
-
 
   // Initialize the client with a dynamic API Key
   ChatService(String apiKey)
       : _client = StreamChatClient(
-          apiKey, 
-          logLevel: Level.INFO, 
+          apiKey,
+          logLevel: Level.INFO,
         );
 
   // Check if user is connected
@@ -47,7 +45,7 @@ class ChatService {
         print("User already connected");
         return;
       }
-      
+
       final user = User(id: userId);
       await _client.connectUser(
         user,
@@ -67,7 +65,7 @@ class ChatService {
       final credentials = await _getSavedUserCredentials();
       final userId = credentials['userId'];
       final userToken = credentials['userToken'];
-      
+
       if (userId != null && userToken != null) {
         await connectUser(userId, userToken);
         return true;
@@ -105,7 +103,8 @@ class ChatService {
   }
 
   // Example of sending a message
-  Future<SendMessageResponse> sendMessage(String channelId, String messageText) async {
+  Future<SendMessageResponse> sendMessage(
+      String channelId, String messageText) async {
     try {
       // Ensure user is connected first
       if (!isConnected()) {
@@ -114,11 +113,11 @@ class ChatService {
           throw Exception("Cannot send message: User not connected");
         }
       }
-      
+
       final channel = getChannel(channelId);
       // Ensure channel is initialized
       await channel.watch();
-      
+
       final message = Message(
         text: messageText,
       );
@@ -132,74 +131,84 @@ class ChatService {
   }
 
   // Fetch the list of chats (channels) from Stream
-  Future<List<Chat>> fetchChatsFromStream() async {
-    List<Chat> chatList = [];
+// Update this method in your ChatService class
+Future<List<Chat>> fetchChatsFromStream() async {
+  List<Chat> chatList = [];
 
-    try {
-      // Check if user is connected and try to auto-connect if not
-      if (!isConnected()) {
-        print("Client is not connected to Stream. Attempting auto-connect...");
-        final connected = await autoConnect();
-        if (!connected) {
-          print("Auto-connect failed. Please log in manually.");
-          return [];
-        }
-      }
-
-      // Get the list of channels
-      final currentUserId = _client.state.currentUser!.id;
-      final filter = Filter.and([ 
-        Filter.equal('type', 'messaging'), 
-        Filter.in_('members', [currentUserId])  // Changed from Filter.contains to Filter.in_
-      ]);
-      
-      final response = await _client.queryChannels(
-        filter: filter,
-        messageLimit: 1,
-        memberLimit: 10,
-        paginationParams: PaginationParams(limit: 20),
-      ).first;
-
-      for (var channel in response) {
-        // Get channel information
-        String chatName = channel.extraData['name'] as String? ?? 'Unknown';
-        String imageUrl = '';
-        
-        // If it's a direct message, try to get the other person's data
-        final members = await channel.queryMembers();
-        if (members.members.length == 2) {
-          final otherMember = members.members.firstWhere(
-            (member) => member.user?.id != currentUserId,
-            orElse: () => members.members.first,
-          );
-          
-          if (otherMember.user != null) {
-            chatName = otherMember.user?.name ?? otherMember.user?.id ?? 'Unknown';
-            imageUrl = otherMember.user?.image ?? '';
-          }
-        }
-        
-        chatList.add(Chat(
-          id: channel.id ?? '',
-          name: chatName, 
-          lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
-          profileImage: imageUrl.isNotEmpty ? imageUrl : 'assets/default_avatar.png',
-          timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
-          unreadCount: channel.state?.unreadCount ?? 0,
-        ));
-      }
-    } catch (e) {
-      print("Error fetching chats from Stream: $e");
-      throw Exception("Failed to fetch chats: $e");
+  try {
+    // Check if user is connected
+    if (!isConnected()) {
+      final connected = await autoConnect();
+      if (!connected) return [];
     }
 
-    return chatList;
+    final currentUserId = _client.state.currentUser!.id;
+    final filter = Filter.and([
+      Filter.equal('type', 'messaging'),
+      Filter.in_('members', [currentUserId])
+    ]);
+
+    final response = await _client.queryChannels(
+      filter: filter,
+      messageLimit: 1,
+      memberLimit: 10,
+      paginationParams: PaginationParams(limit: 20),
+    ).first;
+
+    for (var channel in response) {
+      // Default values
+      String chatName = 'Unknown';
+      String imageUrl = '';
+      
+      // First check if it's a named channel
+      if (channel.extraData.containsKey('name') && 
+          channel.extraData['name'] != null && 
+          channel.extraData['name'] is String) {
+        chatName = channel.extraData['name'] as String;
+      } else {
+        // If not a named channel, assume it's a direct message
+        final otherMembers = channel.state?.members?.where(
+          (member) => member.user?.id != currentUserId
+        ).toList();
+        
+        if (otherMembers != null && otherMembers.isNotEmpty) {
+          final otherUser = otherMembers.first.user;
+          // Make sure we have a valid name
+          if (otherUser != null && otherUser.name != null && otherUser.name!.isNotEmpty) {
+            chatName = otherUser.name!;
+          } else if (otherUser != null) {
+            // Fallback to a cleaner display name
+            chatName = "User ${otherUser.id.substring(0, 8)}";
+          }
+          
+          // Get profile image if available
+          if (otherUser != null && otherUser.image != null && otherUser.image!.isNotEmpty) {
+            imageUrl = otherUser.image!;
+          }
+        }
+      }
+
+      chatList.add(Chat(
+        id: channel.id ?? '',
+        name: chatName,
+        lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
+        profileImage: imageUrl.isNotEmpty ? imageUrl : 'lib/assets/default_avatar.png',
+        timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
+        unreadCount: channel.state?.unreadCount ?? 0,
+      ));
+    }
+  } catch (e) {
+    print("Error fetching chats from Stream: $e");
+    throw Exception("Failed to fetch chats: $e");
   }
+
+  return chatList;
+}
 
   // Listen to real-time message updates
   Stream<List<Message>> listenForMessages(String channelId) {
     final channel = getChannel(channelId);
-    
+
     // Start watching the channel if not already
     channel.watch().catchError((error) {
       print("Error watching channel: $error");
@@ -224,153 +233,159 @@ class ChatService {
     final currentUserId = _client.state.currentUser!.id;
     final filter = Filter.and([
       Filter.equal('type', 'messaging'),
-      Filter.in_('members', [currentUserId])  // Changed from Filter.contains to Filter.in_
+      Filter.in_('members',
+          [currentUserId]) // Changed from Filter.contains to Filter.in_
     ]);
 
     return _client
         .queryChannels(
-          filter: filter,
-          messageLimit: 1,
-          memberLimit: 10,
-          paginationParams: PaginationParams(limit: 20),
-        )
+      filter: filter,
+      messageLimit: 1,
+      memberLimit: 10,
+      paginationParams: PaginationParams(limit: 20),
+    )
         .map((response) {
-          List<Chat> chatList = [];
-          for (var channel in response) {
-            String chatName = channel.extraData['name'] as String? ?? 'Unknown';
-            String imageUrl = '';
-            final members = channel.state?.members;
-            if (members != null && members.length == 2) {
-              final otherMember = members.firstWhere(
-                (member) => member.user?.id != currentUserId,
-                orElse: () => members.first,
-              );
-              chatName = otherMember.user?.name ?? otherMember.user?.id ?? 'Unknown';
-              imageUrl = otherMember.user?.image ?? '';
-            }
-            chatList.add(Chat(
-              id: channel.id ?? '',
-              name: chatName, 
-              lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
-              profileImage: imageUrl.isNotEmpty ? imageUrl : 'assets/default_avatar.png',
-              timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
-              unreadCount: channel.state?.unreadCount ?? 0,
-            ));
-          }
-          return chatList;
-        });
+      List<Chat> chatList = [];
+      for (var channel in response) {
+        String chatName = channel.extraData['name'] as String? ?? 'Unknown';
+        String imageUrl = '';
+        final members = channel.state?.members;
+        if (members != null && members.length == 2) {
+          final otherMember = members.firstWhere(
+            (member) => member.user?.id != currentUserId,
+            orElse: () => members.first,
+          );
+          chatName =
+              otherMember.user?.name ?? otherMember.user?.id ?? 'Unknown';
+          imageUrl = otherMember.user?.image ?? '';
+        }
+        chatList.add(Chat(
+          id: channel.id ?? '',
+          name: chatName,
+          lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
+          profileImage:
+              imageUrl.isNotEmpty ? imageUrl : 'assets/default_avatar.png',
+          timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
+          unreadCount: channel.state?.unreadCount ?? 0,
+        ));
+      }
+      return chatList;
+    });
   }
-
 
   // Add these methods to your existing ChatService class
 
 // Method to create or join a chat with a seller based on crop
-Future<Channel> createOrJoinSellerChat(String cropId, String sellerId, String sellerName) async {
-  try {
-    // Ensure user is connected
-    if (!isConnected()) {
-      await autoConnect();
+  Future<Channel> createOrJoinSellerChat(
+      String cropId, String sellerId, String sellerName) async {
+    try {
+      // Ensure user is connected
       if (!isConnected()) {
-        throw Exception("Cannot create chat: User not connected");
+        await autoConnect();
+        if (!isConnected()) {
+          throw Exception("Cannot create chat: User not connected");
+        }
       }
+
+      // Create a unique channel ID based on crop and seller IDs, ensuring it is under 64 characters
+      final currentUserId = _client.state.currentUser!.id;
+
+      // Create a shortened but unique channel ID to stay under 64 characters
+      final shortCropId =
+          cropId.length > 10 ? cropId.substring(cropId.length - 10) : cropId;
+      final shortBuyerId = currentUserId.length > 10
+          ? currentUserId.substring(0, 10)
+          : currentUserId;
+      final shortSellerId =
+          sellerId.length > 10 ? sellerId.substring(0, 10) : sellerId;
+
+      // Combine shortened IDs to create a unique channel ID
+      String channelId = 'c_${shortCropId}_${shortBuyerId}_${shortSellerId}';
+
+      // Ensure the channel ID is under the 64 character limit
+      if (channelId.length > 64) {
+        channelId = channelId.substring(0, 64); // Truncate to 64 characters
+      }
+
+      // Log the channel ID length for debugging
+      print('Channel ID: $channelId (length: ${channelId.length})');
+
+      // Try to get an existing channel or create a new one
+      final channel = _client.channel(
+        'messaging',
+        id: channelId,
+        extraData: {
+          'members': [currentUserId, sellerId],
+          'crop_id': cropId,
+          'name': 'Chat about ${sellerName}\'s crop'
+        },
+      );
+
+      // Initialize the channel
+      await channel.watch();
+
+      // Send a regular user message to indicate the start of conversation if new
+      if (channel.state?.messages.isEmpty ?? true) {
+        await channel.sendMessage(
+          Message(
+            text:
+                'Chat started about crop #$cropId', // This is a user message, not a system message
+            user:
+                User(id: currentUserId), // The current user sends this message
+          ),
+        );
+      }
+
+      return channel;
+    } catch (e) {
+      print("Error creating or joining seller chat: $e");
+      throw Exception("Failed to create or join chat: $e");
     }
-    
-    // Create a unique channel ID based on crop and seller IDs, ensuring it is under 64 characters
-    final currentUserId = _client.state.currentUser!.id;
-    
-    // Create a shortened but unique channel ID to stay under 64 characters
-    final shortCropId = cropId.length > 10 ? cropId.substring(cropId.length - 10) : cropId;
-    final shortBuyerId = currentUserId.length > 10 ? currentUserId.substring(0, 10) : currentUserId;
-    final shortSellerId = sellerId.length > 10 ? sellerId.substring(0, 10) : sellerId;
-    
-    // Combine shortened IDs to create a unique channel ID
-    String channelId = 'c_${shortCropId}_${shortBuyerId}_${shortSellerId}';
-    
-    // Ensure the channel ID is under the 64 character limit
-    if (channelId.length > 64) {
-      channelId = channelId.substring(0, 64); // Truncate to 64 characters
-    }
-    
-    // Log the channel ID length for debugging
-    print('Channel ID: $channelId (length: ${channelId.length})');
-    
-    // Try to get an existing channel or create a new one
-    final channel = _client.channel(
-      'messaging',
-      id: channelId,
-      extraData: {
-        'members': [currentUserId, sellerId],
-        'crop_id': cropId,
-        'name': 'Chat about ${sellerName}\'s crop'
-      },
-    );
-    
-    // Initialize the channel
-    await channel.watch();
-    
-    // Send a regular user message to indicate the start of conversation if new
-    if (channel.state?.messages.isEmpty ?? true) {
-      await channel.sendMessage(
-        Message(
-          text: 'Chat started about crop #$cropId', // This is a user message, not a system message
-          user: User(id: currentUserId), // The current user sends this message
+  }
+
+// Method to navigate to the chat screen with a seller
+  Future<void> openSellerChat(BuildContext context, Crop crop) async {
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Create or join the chat channel
+      final channel = await createOrJoinSellerChat(
+        crop.id,
+        crop.sellerId,
+        crop.farmerName,
+      );
+
+      // Close loading dialog
+      Navigator.pop(context);
+
+      // Navigate to chat screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatScreen(channelId: channel.id!),
+        ),
+      );
+    } catch (e) {
+      // Close loading dialog if open
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
+      // Show error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to open chat: $e'),
+          backgroundColor: Colors.red,
         ),
       );
     }
-    
-    return channel;
-  } catch (e) {
-    print("Error creating or joining seller chat: $e");
-    throw Exception("Failed to create or join chat: $e");
   }
 }
-
-// Method to navigate to the chat screen with a seller
-Future<void> openSellerChat(BuildContext context, Crop crop) async {
-  try {
-    // Show loading indicator
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-    
-    // Create or join the chat channel
-    final channel = await createOrJoinSellerChat(
-      crop.id,
-      crop.sellerId,
-      crop.farmerName,
-    );
-    
-    // Close loading dialog
-    Navigator.pop(context);
-    
-    // Navigate to chat screen
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ChatScreen(channelId: channel.id!),
-      ),
-    );
-    
-  } catch (e) {
-    // Close loading dialog if open
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    
-    // Show error
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Failed to open chat: $e'),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-}
-
-}
-
 
 // Chat Model (Class)
 class Chat {
