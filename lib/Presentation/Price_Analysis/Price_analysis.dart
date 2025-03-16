@@ -6,12 +6,17 @@ import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 import 'package:intl/intl.dart'; // Import intl package
 
 enum Vegetable {
-  carrot('Carrot', 'lib/assets/carrot.jpg'),
+   carrot('Carrot', 'lib/assets/carrot.jpg'),
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
   lime('Lime', 'lib/assets/lime.jpg'),
-  cucumber('Cucumber', 'lib/assets/lime.jpg'),
-  beetroot('Beetroot', 'lib/assets/lime.jpg');
+  cabbage('Cabbage', 'lib/assets/lime.jpg'),
+  brinjal('Brinjal', 'lib/assets/lime.jpg'),
+  // ignore: constant_identifier_names
+  Snakegourd('Snake gourd', 'lib/assets/lime.jpg'),
+  // ignore: constant_identifier_names
+  GreenChilli('Green Chilli', 'lib/assets/lime.jpg');
+
 
   const Vegetable(this.label, this.imagePath);
   final String label;
