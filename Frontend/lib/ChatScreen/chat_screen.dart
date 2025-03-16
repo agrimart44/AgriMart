@@ -98,3 +98,39 @@ class _ChatScreenState extends State<ChatScreen> {
           }
         }
       }
+
+      // Get crop ID from channel extraData if available
+      final cropId = _channel.extraData['crop_id'] as String? ?? widget.cropId;
+      if (cropId != null) {
+        _chatSubtitle = 'About Crop #$cropId';
+      }
+    } catch (e) {
+      print("Error setting chat title: $e");
+    }
+  }
+
+  void _markChannelAsRead() {
+    _channel.markRead();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  Future<void> _sendMessage() async {
+    if (_messageController.text.trim().isEmpty) return;
+
+    try {
+      await _chatService.sendMessage(widget.channelId, _messageController.text);
+      _messageController.clear();
+    } catch (e) {
+      print("Error sending message: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to send message. Please try again.')),
+      );
+    }
+  }
