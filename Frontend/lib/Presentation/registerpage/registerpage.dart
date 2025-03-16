@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Presentation/registerpage/registerpageService.dart';
-// Import the service file
 
+// Import the service file
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -16,9 +16,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController(); // Add location controller
+  final TextEditingController _locationController =
+      TextEditingController(); // Add location controller
   String? _selectedOccupation;
   bool _isLoading = false;
 
@@ -68,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
         setState(() {
           _isLoading = false;
         });
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: ${e.toString()}'),
@@ -84,17 +86,17 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-    backgroundColor: Colors.transparent, // Make AppBar background transparent
-    elevation: 0, // Remove shadow
-    title: Text(
-     " " , // Set the dynamic title
-      style: TextStyle(
-        color: Colors.black, // Set text color to black
-        fontWeight: FontWeight.bold,
+        backgroundColor:
+            Colors.transparent, // Make AppBar background transparent
+        elevation: 0, // Remove shadow
+        title: Text(
+          " ", // Set the dynamic title
+          style: TextStyle(
+            color: Colors.black, // Set text color to black
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-    ),
-    
-  ),
       body: Stack(
         children: [
           Container(
