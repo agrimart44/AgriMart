@@ -1,26 +1,43 @@
 {
   "project_info": {
-    "project_number": "525427975450",
-    "project_id": "connect-model",
-    "storage_bucket": "connect-model.firebasestorage.app"
+    "project_number": "346281612226",
+    "project_id": "agri-mart-add65",
+    "storage_bucket": "agri-mart-add65.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:525427975450:android:660b3885c6fe9847c6b8a3",
+        "mobilesdk_app_id": "1:346281612226:android:b8883d6df13d59e08afc5b",
         "android_client_info": {
           "package_name": "com.example.flutter_application_1"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "346281612226-u5cdrf0srngqs7f32ubibpio6j2m891e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyASRxfdD14MRcRVbqDueB3eW-wv3HJURk4"
+          "current_key": "AIzaSyCpRidqxx4XggBiSZ6yEKGMJYLz7gcLQJk"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346281612226-u5cdrf0srngqs7f32ubibpio6j2m891e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "346281612226-657vbtg7k6is1973leg92a0jal8s1thr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApplication1"
+              }
+            }
+          ]
         }
       }
     }

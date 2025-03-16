@@ -41,48 +41,51 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDOuP86cXSCCe3wXoulXP_2ASoRxgjNa38',
-    appId: '1:525427975450:web:74f96c7fe08bdba2c6b8a3',
-    messagingSenderId: '525427975450',
-    projectId: 'connect-model',
-    authDomain: 'connect-model.firebaseapp.com',
-    storageBucket: 'connect-model.firebasestorage.app',
-    measurementId: 'G-CZNTGSP2HE',
+    apiKey: 'AIzaSyDP2HEvJ3sKK3Hgpunk945ylP5gn0hshmE',
+    appId: '1:346281612226:web:2d38e362de45ae198afc5b',
+    messagingSenderId: '346281612226',
+    projectId: 'agri-mart-add65',
+    authDomain: 'agri-mart-add65.firebaseapp.com',
+    storageBucket: 'agri-mart-add65.firebasestorage.app',
+    measurementId: 'G-5Z5TZR2P9N',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyASRxfdD14MRcRVbqDueB3eW-wv3HJURk4',
-    appId: '1:525427975450:android:660b3885c6fe9847c6b8a3',
-    messagingSenderId: '525427975450',
-    projectId: 'connect-model',
-    storageBucket: 'connect-model.firebasestorage.app',
+    apiKey: 'AIzaSyCpRidqxx4XggBiSZ6yEKGMJYLz7gcLQJk',
+    appId: '1:346281612226:android:b8883d6df13d59e08afc5b',
+    messagingSenderId: '346281612226',
+    projectId: 'agri-mart-add65',
+    storageBucket: 'agri-mart-add65.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBV6AXvlt4-m6W5pH6oA7OEr2Pl1Z-xtpU',
-    appId: '1:525427975450:ios:ce517d261443654dc6b8a3',
-    messagingSenderId: '525427975450',
-    projectId: 'connect-model',
-    storageBucket: 'connect-model.firebasestorage.app',
+    apiKey: 'AIzaSyCVL16XjMLgKJ2explqNFX00rphH_Z1PCU',
+    appId: '1:346281612226:ios:d6aaae89bd0aee0f8afc5b',
+    messagingSenderId: '346281612226',
+    projectId: 'agri-mart-add65',
+    storageBucket: 'agri-mart-add65.firebasestorage.app',
+    iosClientId: '346281612226-657vbtg7k6is1973leg92a0jal8s1thr.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBV6AXvlt4-m6W5pH6oA7OEr2Pl1Z-xtpU',
-    appId: '1:525427975450:ios:ce517d261443654dc6b8a3',
-    messagingSenderId: '525427975450',
-    projectId: 'connect-model',
-    storageBucket: 'connect-model.firebasestorage.app',
+    apiKey: 'AIzaSyCVL16XjMLgKJ2explqNFX00rphH_Z1PCU',
+    appId: '1:346281612226:ios:d6aaae89bd0aee0f8afc5b',
+    messagingSenderId: '346281612226',
+    projectId: 'agri-mart-add65',
+    storageBucket: 'agri-mart-add65.firebasestorage.app',
+    iosClientId: '346281612226-657vbtg7k6is1973leg92a0jal8s1thr.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDOuP86cXSCCe3wXoulXP_2ASoRxgjNa38',
-    appId: '1:525427975450:web:5e306aeee2874d83c6b8a3',
-    messagingSenderId: '525427975450',
-    projectId: 'connect-model',
-    authDomain: 'connect-model.firebaseapp.com',
-    storageBucket: 'connect-model.firebasestorage.app',
-    measurementId: 'G-HWC1EFQV7Z',
+    apiKey: 'AIzaSyDP2HEvJ3sKK3Hgpunk945ylP5gn0hshmE',
+    appId: '1:346281612226:web:ce2be4c5f26f391b8afc5b',
+    messagingSenderId: '346281612226',
+    projectId: 'agri-mart-add65',
+    authDomain: 'agri-mart-add65.firebaseapp.com',
+    storageBucket: 'agri-mart-add65.firebasestorage.app',
+    measurementId: 'G-8328F0W812',
   );
+
 }
