@@ -134,3 +134,28 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/first_page_background.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/first_page_background.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
