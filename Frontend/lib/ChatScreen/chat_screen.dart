@@ -21,3 +21,53 @@ class ChatScreen extends StatefulWidget {
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
+
+class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  late ChatService _chatService;
+  late Channel _channel;
+  late Stream<List<Message>> _messageStream;
+  bool _isLoading = true;
+  String _chatTitle = 'Chat';
+  String? _chatSubtitle;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeChat();
+  }
+
+  Future<void> _initializeChat() async {
+    try {
+      // Initialize ChatService with your Stream API key
+      _chatService = ChatService('xqww9xknukff');
+
+      // Auto-connect if not already connected
+      if (!_chatService.isConnected()) {
+        await _chatService.autoConnect();
+      }
+
+      // Get and initialize the channel
+      _channel = _chatService.getChannel(widget.channelId);
+      final channelState = await _channel.watch();
+
+      // Set up the message stream
+      _messageStream = _channel.state!.messagesStream;
+
+      // Mark the channel as read
+      _markChannelAsRead();
+
+      // Get chat title from channel extraData or members
+      _setChatTitle();
+
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (e) {
+      print("Error initializing chat: $e");
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
