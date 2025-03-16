@@ -159,3 +159,66 @@ class _ChatScreenState extends State<ChatScreen> {
             fit: BoxFit.cover,
           ),
         ),
+
+        ),
+        child: Column(
+          children: [
+            SafeArea(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _chatTitle,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          if (_chatSubtitle != null)
+                            Text(
+                              _chatSubtitle!,
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 14,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    StreamBuilder<int>(
+                      stream: _channel.state!.unreadCountStream,
+                      builder: (context, snapshot) {
+                        final unreadCount = snapshot.data ?? 0;
+                        return unreadCount > 0
+                            ? CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 12,
+                                child: Text(
+                                  unreadCount.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
