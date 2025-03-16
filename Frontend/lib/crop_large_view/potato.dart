@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/ChatScreen/chat_screen.dart';
+import 'package:namer_app/ChatScreen/chat_service.dart';
+import 'package:namer_app/ChatScreen/seller_chat_provider.dart';
 import 'package:namer_app/buyer_view_page/crop.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,12 +25,76 @@ class _CropLargeViewState extends State<CropLargeView> {
   late Crop _cropDetails;
   bool _isLoading = true;
   String? _errorMessage;
+  final ChatService _chatService = ChatService('xqww9xknukff');
+  bool _isOpeningChat = false; // Add state to track chat opening status
+
+   // Initialize ChatService
+
 
   @override
   void initState() {
     super.initState();
     _loadCropDetails();
   }
+
+// Add this method to your CropLargeView class
+
+Future<void> _openChatWithSeller() async {
+  final chatProvider = Provider.of<SellerChatProvider>(context, listen: false);
+  
+  // Show loading indicator
+  setState(() => _isOpeningChat = true);
+  
+  try {
+    // Ensure user is connected to chat service
+    final connected = await chatProvider.ensureConnected(context);
+    if (!connected) {
+      setState(() => _isOpeningChat = false);
+      return;
+    }
+    
+    // Get the seller ID from crop details
+    final sellerId = _cropDetails.sellerId;
+    print("Seller ID: $sellerId"); // Debug: Check seller ID value
+    
+    if (sellerId == null || sellerId.isEmpty) {
+      throw Exception("Seller ID not available");
+    }
+    
+    // Create or join a chat channel with the seller
+    final channel = await chatProvider.chatService.createOrJoinSellerChat(
+      _cropDetails.id,
+      sellerId,
+      _cropDetails.farmerName,
+    );
+    
+    // Navigate to chat screen
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatScreen(
+            channelId: channel.id ?? '',
+            cropId: _cropDetails.id,
+          ),
+        ),
+      );
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not start chat: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } finally {
+    if (mounted) {
+      setState(() => _isOpeningChat = false);
+    }
+  }
+}
 
   Future<void> _loadCropDetails() async {
     try {
@@ -497,6 +565,7 @@ class _CropLargeViewState extends State<CropLargeView> {
     );
   }
 
+// Modify the _buildButtons method
   Widget _buildButtons() {
     Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
     
@@ -538,7 +607,7 @@ class _CropLargeViewState extends State<CropLargeView> {
         ),
         const SizedBox(height: 12),
         OutlinedButton(
-          onPressed: () => _callSeller(displayCrop.contactNumber),
+          onPressed: _isOpeningChat ? null : _openChatWithSeller, // Use chat method instead of calling
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.green.shade700),
             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -549,14 +618,23 @@ class _CropLargeViewState extends State<CropLargeView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.phone,
-                color: Colors.green.shade700,
-                size: 20,
-              ),
+              _isOpeningChat ? 
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.green.shade700,
+                    strokeWidth: 2,
+                  ),
+                ) :
+                Icon(
+                  Icons.chat, // Change to chat icon instead of phone
+                  color: Colors.green.shade700,
+                  size: 20,
+                ),
               const SizedBox(width: 8),
               Text(
-                'Contact Seller',
+                'Chat with Seller', // Update text
                 style: GoogleFonts.poppins(
                   color: Colors.green.shade700,
                   fontSize: 16,
@@ -566,9 +644,36 @@ class _CropLargeViewState extends State<CropLargeView> {
             ],
           ),
         ),
+        // Add an option to call if you still want that functionality
+        const SizedBox(height: 8),
+        TextButton(
+          onPressed: () => _callSeller(displayCrop.contactNumber),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.phone,
+                color: Colors.grey.shade700,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Call Instead',
+                style: GoogleFonts.poppins(
+                  color: Colors.grey.shade700,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
+
+
+  
+
 
   String _formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
 }

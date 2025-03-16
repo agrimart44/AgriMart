@@ -7,6 +7,7 @@ class Crop {
   final String category;
   final String farmerName;
   final String contactNumber;
+  final String sellerId; // Add this field
   final DateTime harvestDate;
   final List<String> imagePaths;
   final double rating;
@@ -21,6 +22,7 @@ class Crop {
     required this.category,
     required this.farmerName,
     required this.contactNumber,
+    required this.sellerId, // Add this field
     required this.harvestDate,
     required this.imagePaths,
     required this.rating,

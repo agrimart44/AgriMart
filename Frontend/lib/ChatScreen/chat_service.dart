@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:namer_app/ChatScreen/chat_screen.dart';
+import 'package:namer_app/buyer_view_page/crop.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -5,12 +8,14 @@ class ChatService {
   final StreamChatClient _client;
   static const String _userIdKey = 'stream_user_id';
   static const String _userTokenKey = 'stream_user_token';
+  
+
 
   // Initialize the client with a dynamic API Key
   ChatService(String apiKey)
       : _client = StreamChatClient(
-          apiKey, // API Key from Stream (dynamic)
-          logLevel: Level.INFO, // Optional: Set the logging level for debugging
+          apiKey, 
+          logLevel: Level.INFO, 
         );
 
   // Check if user is connected
@@ -255,6 +260,115 @@ class ChatService {
           return chatList;
         });
   }
+
+
+  // Add these methods to your existing ChatService class
+
+// Method to create or join a chat with a seller based on crop
+Future<Channel> createOrJoinSellerChat(String cropId, String sellerId, String sellerName) async {
+  try {
+    // Ensure user is connected
+    if (!isConnected()) {
+      await autoConnect();
+      if (!isConnected()) {
+        throw Exception("Cannot create chat: User not connected");
+      }
+    }
+    
+    // Create a unique channel ID based on crop and seller IDs, ensuring it is under 64 characters
+    final currentUserId = _client.state.currentUser!.id;
+    
+    // Create a shortened but unique channel ID to stay under 64 characters
+    final shortCropId = cropId.length > 10 ? cropId.substring(cropId.length - 10) : cropId;
+    final shortBuyerId = currentUserId.length > 10 ? currentUserId.substring(0, 10) : currentUserId;
+    final shortSellerId = sellerId.length > 10 ? sellerId.substring(0, 10) : sellerId;
+    
+    // Combine shortened IDs to create a unique channel ID
+    String channelId = 'c_${shortCropId}_${shortBuyerId}_${shortSellerId}';
+    
+    // Ensure the channel ID is under the 64 character limit
+    if (channelId.length > 64) {
+      channelId = channelId.substring(0, 64); // Truncate to 64 characters
+    }
+    
+    // Log the channel ID length for debugging
+    print('Channel ID: $channelId (length: ${channelId.length})');
+    
+    // Try to get an existing channel or create a new one
+    final channel = _client.channel(
+      'messaging',
+      id: channelId,
+      extraData: {
+        'members': [currentUserId, sellerId],
+        'crop_id': cropId,
+        'name': 'Chat about ${sellerName}\'s crop'
+      },
+    );
+    
+    // Initialize the channel
+    await channel.watch();
+    
+    // Send a regular user message to indicate the start of conversation if new
+    if (channel.state?.messages.isEmpty ?? true) {
+      await channel.sendMessage(
+        Message(
+          text: 'Chat started about crop #$cropId', // This is a user message, not a system message
+          user: User(id: currentUserId), // The current user sends this message
+        ),
+      );
+    }
+    
+    return channel;
+  } catch (e) {
+    print("Error creating or joining seller chat: $e");
+    throw Exception("Failed to create or join chat: $e");
+  }
+}
+
+// Method to navigate to the chat screen with a seller
+Future<void> openSellerChat(BuildContext context, Crop crop) async {
+  try {
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    
+    // Create or join the chat channel
+    final channel = await createOrJoinSellerChat(
+      crop.id,
+      crop.sellerId,
+      crop.farmerName,
+    );
+    
+    // Close loading dialog
+    Navigator.pop(context);
+    
+    // Navigate to chat screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatScreen(channelId: channel.id!),
+      ),
+    );
+    
+  } catch (e) {
+    // Close loading dialog if open
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    
+    // Show error
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to open chat: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
 }
 
 

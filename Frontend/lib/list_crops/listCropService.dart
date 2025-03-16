@@ -5,13 +5,15 @@ import 'package:http/http.dart' as http;
 class CropService {
   // Base URL for your API
   final String baseUrl = 'http://192.168.43.27:8000/api';
-  
+
   // Method to upload crop details
   Future<Map<String, dynamic>> uploadCrop({
     required String cropName,
     required String description,
     required double price,
     required String location,
+    double? latitude,
+    double? longitude,
     required int quantity,
     required String harvestDate,
     required List<String> imagePaths,
@@ -24,20 +26,28 @@ class CropService {
         'POST',
         Uri.parse('$baseUrl/crops/upload_crop/'),
       );
-      
+
       // Add authorization header with Firebase token
       request.headers.addAll({
         'Authorization': 'Bearer $firebaseToken',
       });
-      
-      print("fire base token after $firebaseToken");
+
       // Add text fields
       request.fields['cropName'] = cropName;
       request.fields['description'] = description;
       request.fields['price'] = price.toString();
       request.fields['location'] = location;
+
+      // Add latitude and longitude if available
+      if (latitude != null) {
+        request.fields['latitude'] = latitude.toString();
+      }
+      if (longitude != null) {
+        request.fields['longitude'] = longitude.toString();
+      }
+
       request.fields['quantity'] = quantity.toString();
-      
+
       // Format date to YYYY-MM-DD
       final parts = harvestDate.split('/');
       if (parts.length == 3) {
@@ -46,23 +56,20 @@ class CropService {
       } else {
         request.fields['harvestDate'] = harvestDate;
       }
-      
-      print("Adding ${imagePaths.length} images to request");
+
       // Add image files
       for (String path in imagePaths) {
         var file = await http.MultipartFile.fromPath('images', path);
         request.files.add(file);
       }
-      
-      print("Sending request to server");
+
       // Send the request
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-      
-      print("Response received: Status ${response.statusCode}");
+
       // Parse response
       Map<String, dynamic> responseData = json.decode(response.body);
-      
+
       if (response.statusCode == 200) {
         print("Crop uploaded successfully");
         return {

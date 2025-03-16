@@ -127,7 +127,7 @@ class ChatListItem extends StatelessWidget {
             context,
             MaterialPageRoute(
               // Link to the Chat Screen
-              builder: (context) => ChatScreen(channelId: chat.name), // Pass the channel ID dynamically
+              builder: (context) => ChatScreen(channelId: chat.id), // Pass the channel ID dynamically
             ),
           );
         },
@@ -185,4 +185,9 @@ class ChatListItem extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+  
 }

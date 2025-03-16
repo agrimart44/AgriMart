@@ -8,6 +8,7 @@ import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:namer_app/list_crops/listCropService.dart';
+import 'package:namer_app/list_crops/locationpicker.dart';
 
 class ListCropScreen extends StatefulWidget {
   const ListCropScreen({super.key});
@@ -24,7 +25,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
   final TextEditingController _harvestDataController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
+  double? _latitude;
+  double? _longitude;  final TextEditingController _quantityController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   
   // Add service instances
@@ -174,11 +176,14 @@ class _ListCropScreenState extends State<ListCropScreen> {
         }
         
         // Upload crop details
+        // Upload crop details
         final result = await _cropService.uploadCrop(
           cropName: _cropNameController.text,
           description: _descriptionController.text,
           price: double.parse(_priceController.text),
           location: _locationController.text,
+          latitude: _latitude,
+          longitude: _longitude,
           quantity: int.parse(_quantityController.text),
           harvestDate: _harvestDataController.text,
           imagePaths: _photos,
@@ -204,6 +209,25 @@ class _ListCropScreenState extends State<ListCropScreen> {
       }
     }
   }
+
+  Future<void> _openLocationPicker() async {
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => MapLocationPicker(
+        initialLocation: _locationController.text.isNotEmpty ? _locationController.text : null,
+      ),
+    ),
+  );
+  
+  if (result != null) {
+    setState(() {
+      _locationController.text = result['address'];
+      _latitude = result['latitude'];
+      _longitude = result['longitude'];
+    });
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -365,8 +389,16 @@ class _ListCropScreenState extends State<ListCropScreen> {
                           child: _buildTextField(
                             label: 'Location',
                             controller: _locationController,
+                            readOnly: true, // Make it read-only since we'll select with map
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                Icons.location_on,
+                                color: Colors.green,
+                              ),
+                              onPressed: _openLocationPicker,
+                            ),
                             validator: (value) =>
-                                value?.isEmpty ?? true ? 'Enter location' : null,
+                                value?.isEmpty ?? true ? 'Select location' : null,
                           ),
                         ),
                       ],
@@ -492,4 +524,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
       validator: validator,
     );
   }
+
+  
 }

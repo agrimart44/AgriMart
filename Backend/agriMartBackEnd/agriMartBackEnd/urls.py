@@ -6,7 +6,7 @@ from django.urls import include, path
 from register import views
 from django.urls import include, path
 
-from agriMartBackEnd.views import get_stream_jwt
+from agriMartBackEnd.views import get_stream_jwt, get_user_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,6 +16,7 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('api/crops/', include('crops.urls')),
     path('auth/', include('user_details.urls')),
+     path('get_user_details/', get_user_details, name='get_user_details'),
     
 ]
 
