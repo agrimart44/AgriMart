@@ -303,3 +303,68 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
+
+class _MessageBubble extends StatelessWidget {
+  final Message message;
+  final bool isMe;
+  final Channel channel;
+
+  const _MessageBubble({
+    required this.message,
+    required this.isMe,
+    required this.channel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.7,
+            ),
+            decoration: BoxDecoration(
+              color: isMe ? const Color(0xFF4A4A7B) : Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  message.text ?? '',
+                  style: TextStyle(
+                    color: isMe ? Colors.white : Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      DateFormat('HH:mm')
+                          .format(message.createdAt ?? DateTime.now()),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isMe ? Colors.white70 : Colors.black45,
+                      ),
+                    ),
+                    if (isMe) ...[
+                      const SizedBox(width: 4),
+                      _buildStatusIcon(),
+                    ]
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
