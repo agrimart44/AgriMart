@@ -1,7 +1,5 @@
-
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
@@ -20,19 +18,22 @@ class ListCropScreen extends StatefulWidget {
 class _ListCropScreenState extends State<ListCropScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final List<String> _photos = <String>[];
-  final TextEditingController _cropNameController = TextEditingController(); // Added controller
-  final TextEditingController _descriptionController = TextEditingController(); // Added controller
+  final TextEditingController _cropNameController =
+      TextEditingController(); // Added controller
+  final TextEditingController _descriptionController =
+      TextEditingController(); // Added controller
   final TextEditingController _harvestDataController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   double? _latitude;
-  double? _longitude;  final TextEditingController _quantityController = TextEditingController();
+  double? _longitude;
+  final TextEditingController _quantityController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  
+
   // Add service instances
   final CropService _cropService = CropService();
   final AuthService _authService = AuthService();
-  
+
   bool _isLoading = false;
 
   Future<void> _selectData(BuildContext context) async {
@@ -109,7 +110,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
       });
     }
   }
-  
+
   // Function to show success dialog
   void _showSuccessDialog() {
     showDialog(
@@ -132,7 +133,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
       },
     );
   }
-  
+
   // Function to show error dialog
   void _showErrorDialog(String errorMessage) {
     showDialog(
@@ -153,7 +154,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
       },
     );
   }
-  
+
   // Function to handle crop submission
   Future<void> _submitCrop() async {
     if (_formKey.currentState!.validate()) {
@@ -161,21 +162,21 @@ class _ListCropScreenState extends State<ListCropScreen> {
         _showErrorDialog('Please add at least one photo of your crop');
         return;
       }
-      
+
       setState(() {
         _isLoading = true;
       });
-      
+
       try {
         // Get Firebase token
-        final String? firebaseToken = await _authService.getStoredFirebaseToken();
+        final String? firebaseToken =
+            await _authService.getStoredFirebaseToken();
         print("Fire base toke in $firebaseToken");
-        
+
         if (firebaseToken == null) {
-          throw Exception('Authentication token not found. Please login again.');
+          throw Exception(
+              'Authentication token not found. Please login again.');
         }
-        
-        // Upload crop details
         // Upload crop details
         final result = await _cropService.uploadCrop(
           cropName: _cropNameController.text,
@@ -189,13 +190,10 @@ class _ListCropScreenState extends State<ListCropScreen> {
           imagePaths: _photos,
           firebaseToken: firebaseToken,
         );
-
-        
-        
         setState(() {
           _isLoading = false;
         });
-        
+
         if (result['success']) {
           _showSuccessDialog();
         } else {
@@ -211,23 +209,25 @@ class _ListCropScreenState extends State<ListCropScreen> {
   }
 
   Future<void> _openLocationPicker() async {
-  final result = await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => MapLocationPicker(
-        initialLocation: _locationController.text.isNotEmpty ? _locationController.text : null,
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapLocationPicker(
+          initialLocation: _locationController.text.isNotEmpty
+              ? _locationController.text
+              : null,
+        ),
       ),
-    ),
-  );
-  
-  if (result != null) {
-    setState(() {
-      _locationController.text = result['address'];
-      _latitude = result['latitude'];
-      _longitude = result['longitude'];
-    });
+    );
+
+    if (result != null) {
+      setState(() {
+        _locationController.text = result['address'];
+        _latitude = result['latitude'];
+        _longitude = result['longitude'];
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +264,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
                     const Text(
                       'Add Photos',
                       style: TextStyle(
-                        fontSize: 16, 
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -300,7 +300,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.red,
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                         child: const Icon(
                                           Icons.close,
@@ -330,7 +331,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
                       ],
                     ),
                     const Divider(
-                      height: 40, 
+                      height: 40,
                       thickness: 1,
                       color: Colors.white70,
                     ),
@@ -339,7 +340,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
                     const Text(
                       'Listing Details',
                       style: TextStyle(
-                        fontSize: 20, 
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -389,7 +390,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
                           child: _buildTextField(
                             label: 'Location',
                             controller: _locationController,
-                            readOnly: true, // Make it read-only since we'll select with map
+                            readOnly:
+                                true, // Make it read-only since we'll select with map
                             suffixIcon: IconButton(
                               icon: const Icon(
                                 Icons.location_on,
@@ -397,8 +399,9 @@ class _ListCropScreenState extends State<ListCropScreen> {
                               ),
                               onPressed: _openLocationPicker,
                             ),
-                            validator: (value) =>
-                                value?.isEmpty ?? true ? 'Select location' : null,
+                            validator: (value) => value?.isEmpty ?? true
+                                ? 'Select location'
+                                : null,
                           ),
                         ),
                       ],
@@ -456,11 +459,12 @@ class _ListCropScreenState extends State<ListCropScreen> {
                         ),
                         onPressed: _isLoading ? null : _submitCrop,
                         child: _isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
                             : const Text(
                                 'Done',
                                 style: TextStyle(
-                                  fontSize: 18, 
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -515,7 +519,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
           borderSide: const BorderSide(color: Colors.red, width: 1.5),
         ),
         suffixIcon: suffixIcon,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       style: const TextStyle(color: Colors.black87, fontSize: 16),
       maxLines: maxLines,
@@ -524,6 +529,4 @@ class _ListCropScreenState extends State<ListCropScreen> {
       validator: validator,
     );
   }
-
-  
 }
