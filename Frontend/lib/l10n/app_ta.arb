@@ -1,4 +1,12 @@
 {
+  "@@locale": "ta",
+  "app_title": "அக்ரிமார்ட்",
+  "search_hint": "கட்டுரைகள், தொழில்நுட்பங்கள் அல்லது தலைப்புகளை தேடுங்கள்...",
+  "search_button": "தேடு",
+  "market_prices": "சந்தை விலைகள்",
+  "negotiations": "பேச்சுவார்த்தைகள்",
+  "list_crop": "பயிர்களை பட்டியலிடுங்கள்",
+  "market_place": "சந்தை",
   "personal_information": "தனிப்பட்ட தகவல்",
   "full_name": "முழுப் பெயர்",
   "gender": "பாலினம்",
