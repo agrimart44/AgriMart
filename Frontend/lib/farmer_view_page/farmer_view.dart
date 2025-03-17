@@ -20,6 +20,9 @@ class FarmerViewState extends State<FarmerView> {
 
   @override
   Widget build(BuildContext context) {
+    //localization access.
+    final local = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
