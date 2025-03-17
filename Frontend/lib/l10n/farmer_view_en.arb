@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "app_title": "AgriMart",
+  "search_hint": "Search for articles, technologies, or topics...",
+  "search_button": "Search",
+  "market_prices": "Market Prices",
+  "negotiations": "Negotiations",
+  "list_crop": "List Crop",
+  "market_place": "Marketplace"
+}
