@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
