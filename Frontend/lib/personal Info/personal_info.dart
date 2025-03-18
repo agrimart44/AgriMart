@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//localization package import
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
