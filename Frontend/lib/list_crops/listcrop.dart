@@ -79,7 +79,9 @@ class _ListCropScreenState extends State<ListCropScreen> {
               const SizedBox(height: 20),
               ListTile(
                 leading: const Icon(Icons.photo_library, color: Colors.green),
-                title: const Text('Gallery'),
+                // Localized string
+                title: Text(AppLocalizations.of(context)!.gallery),
+
                 onTap: () {
                   Navigator.pop(context);
                   _getImage(ImageSource.gallery);
@@ -88,7 +90,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.camera_alt, color: Colors.green),
-                title: const Text('Camera'),
+                // Localized string
+                title: Text(AppLocalizations.of(context)!.camera),
                 onTap: () {
                   Navigator.pop(context);
                   _getImage(ImageSource.camera);
@@ -122,11 +125,11 @@ class _ListCropScreenState extends State<ListCropScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Your crop has been listed successfully!'),
+          title: Text(AppLocalizations.of(context)!.success), // Localized string
+          content: Text(AppLocalizations.of(context)!.crop_listed_successfully), // Localized string
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
+              child: Text(AppLocalizations.of(context)!.ok), // Localized string
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop(); // Return to previous screen
@@ -265,8 +268,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Photo Upload Section
-                    const Text(
-                      'Add Photos',
+                    Text(
+                      AppLocalizations.of(context)!.add_photos, // Localized string
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -341,8 +344,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
                     ),
 
                     // Listing Details
-                    const Text(
-                      'Listing Details',
+                    Text(
+                      AppLocalizations.of(context)!.listing_details, // Localized string
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -353,20 +356,21 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
                     // Name Field
                     _buildTextField(
-                      label: 'Name',
+                      label: AppLocalizations.of(context)!.name, // Localized string
                       controller: _cropNameController,
                       validator: (value) =>
-                          value?.isEmpty ?? true ? 'Enter crop name' : null,
+                      value?.isEmpty ?? true ? AppLocalizations.of(context)!.enter_crop_name : null, // Localized string
                     ),
                     const SizedBox(height: 16),
 
                     // Description Field
                     _buildTextField(
-                      label: 'Description',
+                      label: AppLocalizations.of(context)!.description, // Localized string
                       controller: _descriptionController,
                       maxLines: 3,
                       validator: (value) =>
-                          value?.isEmpty ?? true ? 'Enter description' : null,
+    value?.isEmpty ?? true ? AppLocalizations.of(context)!.enter_description : null, // Localized string
+
                     ),
                     const SizedBox(height: 16),
 
@@ -375,15 +379,16 @@ class _ListCropScreenState extends State<ListCropScreen> {
                       children: [
                         Expanded(
                           child: _buildTextField(
-                            label: 'Price (LKR)',
+                            label: AppLocalizations.of(context)!.price_lkr, // Localized string
                             controller: _priceController,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
-                                return 'Enter price';
+                                return AppLocalizations.of(context)!.enter_price; // Localized string
                               }
                               if (double.tryParse(value!) == null) {
-                                return 'Enter valid price';
+                                return AppLocalizations.of(context)!
+                                    .enter_valid_price; // Localized string
                               }
                               return null;
                             },
@@ -392,10 +397,9 @@ class _ListCropScreenState extends State<ListCropScreen> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: _buildTextField(
-                            label: 'Location',
+                            label: AppLocalizations.of(context)!.location, // Localized string
                             controller: _locationController,
-                            readOnly:
-                                true, // Make it read-only since we'll select with map
+                            readOnly: true,
                             suffixIcon: IconButton(
                               icon: const Icon(
                                 Icons.location_on,
@@ -404,28 +408,26 @@ class _ListCropScreenState extends State<ListCropScreen> {
                               onPressed: _openLocationPicker,
                             ),
                             validator: (value) => value?.isEmpty ?? true
-                                ? 'Select location'
+                                ? AppLocalizations.of(context)!.select_location // Localized string
                                 : null,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
-
-                    // Quantity and Harvest Date Row
                     Row(
                       children: [
                         Expanded(
                           child: _buildTextField(
-                            label: 'Quantity (KG)',
+                            label: AppLocalizations.of(context)!.quantity_kg, // Localized string
                             controller: _quantityController,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
-                                return 'Enter quantity';
+                                return AppLocalizations.of(context)!.enter_quantity; // Localized string
                               }
                               if (int.tryParse(value!) == null) {
-                                return 'Enter valid quantity';
+                                return AppLocalizations.of(context)!.enter_valid_quantity; // Localized string
                               }
                               return null;
                             },
@@ -434,7 +436,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: _buildTextField(
-                            label: 'Harvest Date',
+                            label: AppLocalizations.of(context)!.harvest_date, // Localized string
                             controller: _harvestDataController,
                             readOnly: true,
                             suffixIcon: IconButton(
@@ -445,14 +447,12 @@ class _ListCropScreenState extends State<ListCropScreen> {
                               onPressed: () => _selectData(context),
                             ),
                             validator: (value) =>
-                                value?.isEmpty ?? true ? 'Select date' : null,
+                            value?.isEmpty ?? true ? AppLocalizations.of(context)!.select_date : null, // Localized string
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 24),
-
-                    // Done Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -464,15 +464,15 @@ class _ListCropScreenState extends State<ListCropScreen> {
                         onPressed: _isLoading ? null : _submitCrop,
                         child: _isLoading
                             ? const CircularProgressIndicator(
-                                color: Colors.white)
-                            : const Text(
-                                'Done',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            color: Colors.white)
+                            : Text(
+                          AppLocalizations.of(context)!.done, // Localized string
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -486,7 +486,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
     );
   }
 
-  // Improved TextField builder for better visibility
   Widget _buildTextField({
     required String label,
     TextEditingController? controller,
@@ -500,7 +499,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(
+        labelStyle: TextStyle(
           color: Colors.black87,
           fontWeight: FontWeight.w500,
         ),
@@ -524,7 +523,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
         ),
         suffixIcon: suffixIcon,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       style: const TextStyle(color: Colors.black87, fontSize: 16),
       maxLines: maxLines,
