@@ -32,7 +32,7 @@ class AppSettingsState extends State<AppSettings> {
           print('Show notifications');
         },
       ),
-      
+
     ],
   ),
       extendBodyBehindAppBar: true,
@@ -88,7 +88,7 @@ class AppSettingsState extends State<AppSettings> {
                             subtitle: 'Your account information',
                             onTap: () {
 
-                             
+
 
                             },
                           ),
@@ -221,3 +221,4 @@ class AppSettingsState extends State<AppSettings> {
     );
   }
 }
+
