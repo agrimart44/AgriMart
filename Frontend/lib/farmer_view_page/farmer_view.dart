@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
@@ -20,9 +19,6 @@ class FarmerViewState extends State<FarmerView> {
 
   @override
   Widget build(BuildContext context) {
-    //localization access.
-    final local = AppLocalizations.of(context)!;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
@@ -35,14 +31,14 @@ class FarmerViewState extends State<FarmerView> {
             height: double.infinity,
             fit: BoxFit.cover,
           ),
-          
+
           // Main content layout with SafeArea to respect system UI
           SafeArea(
             child: Column(
               children: [
                 const SizedBox(height: 60), // Adjusted space for app bar
                 _buildSearchBar(),
-                
+
                 // Scrollable content (dashboard grid)
                 Expanded(
                   child: _buildDashboardGrid(),
@@ -98,7 +94,7 @@ class FarmerViewState extends State<FarmerView> {
                 prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
                 border: InputBorder.none,
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
             ),
           ),
@@ -115,7 +111,7 @@ class FarmerViewState extends State<FarmerView> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
               child: const Text(
                 'Search',
@@ -141,14 +137,14 @@ class FarmerViewState extends State<FarmerView> {
           _buildDashboardCard(
             'Market\nPrices',
             Icons.trending_up,
-            () {
+                () {
               print('Navigate to Market Prices Trends page');
             },
           ),
           _buildDashboardCard(
             'Negotiations',
             Icons.handshake_outlined,
-            () {
+                () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ChatListPage()),
@@ -159,7 +155,7 @@ class FarmerViewState extends State<FarmerView> {
           _buildDashboardCard(
             'List Crop',
             Icons.add_circle_outline,
-            () {
+                () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ListCropScreen()),
@@ -170,7 +166,7 @@ class FarmerViewState extends State<FarmerView> {
           _buildDashboardCard(
             'Market\nPlace',
             Icons.store_outlined,
-            () {
+                () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const BuyerView()),

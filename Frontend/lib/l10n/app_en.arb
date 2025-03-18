@@ -1,15 +1,6 @@
 {
-  "@@locale": "en",
-  "app_title": "AgriMart",
-  "search_hint": "Search for articles, technologies, or topics...",
-  "search_button": "Search",
-  "market_prices": "Market Prices",
+  "marketPrices": "Market Prices",
   "negotiations": "Negotiations",
-  "list_crop": "List Crop",
-  "market_place": "Marketplace",
-  "personal_information": "Personal Information",
-  "full_name": "Full Name",
-  "gender": "Gender",
-  "role": "Farmer/Buyer",
-  "location": "Location"
+  "listCrop": "List Crop",
+  "marketPlace": "Market Place"
 }

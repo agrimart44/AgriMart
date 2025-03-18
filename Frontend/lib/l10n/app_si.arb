@@ -1,15 +1,6 @@
 {
-  "@@locale": "si",
-  "personal_information": "පුද්ගලික තොරතුරු",
-  "full_name": "සම්පූර්ණ නම",
-  "gender": "ස්ත්‍රී/පුරුෂ භාවය",
-  "role": "ගොවියා/මිලදීගන්නා",
-  "location": "ස්ථානය",
-  "app_title": "අග්‍රිමාර්ට්",
-  "search_hint": "නව ලිපි, තාක්ෂණ හා මාතෘකා සෙවීම...",
-  "search_button": "සෙවීම",
-  "market_prices": "වෙළඳපල මිල",
-  "negotiations": "සාකච්ඡා",
-  "list_crop": "බෝග ලැයිස්තුගත කරන්න",
-  "market_place": "වෙළඳපල"
+  "marketPrices": "වෙළඳපොළ මිල",
+  "negotiations": "ගණුදෙනු",
+  "listCrop": "බෝග ලැයිස්තුගත කරන්න",
+  "marketPlace": "වෙළඳපොළ"
 }
