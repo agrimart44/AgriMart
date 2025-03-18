@@ -43,7 +43,15 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
           //add localization delegate.
           localizationsDelegates: const [
-
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          //add languages
+          supportedLocales: const [
+            Locale('en'), // English
+            Locale('si'), // Sinhala
+            Locale('ta'), // Tamil
           ],
         home: FirstScreen(), // Your home screen
       ),
