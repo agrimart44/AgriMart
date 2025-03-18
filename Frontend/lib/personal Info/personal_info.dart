@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //localization package import
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
 
@@ -40,7 +41,7 @@ class PersonalInformationState extends State<PersonalInformation> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     //local String
                     AppLocalizations.of(context)!.personal_information,
                     style: TextStyle(
