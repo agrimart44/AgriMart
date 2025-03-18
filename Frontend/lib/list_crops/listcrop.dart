@@ -67,8 +67,9 @@ class _ListCropScreenState extends State<ListCropScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Choose an option',
+              Text(
+                // Localized string
+                AppLocalizations.of(context)!.choose_an_option,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
