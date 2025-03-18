@@ -3,5 +3,36 @@
   "full_name": "Full Name",
   "gender": "Gender",
   "role": "Farmer/Buyer",
-  "location": "Location"
+  "location": "Location",
+
+
+  "choose_an_option": "Choose an option",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "success": "Success",
+  "crop_listed_successfully": "Your crop has been listed successfully!",
+  "ok": "OK",
+  "error": "Error",
+  "add_at_least_one_photo": "Please add at least one photo of your crop",
+  "auth_token_not_found": "Authentication token not found. Please login again.",
+  "an_error_occurred": "An error occurred",
+  "list_crop": "List Crop",
+  "add_photos": "Add Photos",
+  "listing_details": "Listing Details",
+  "name": "Name",
+  "enter_crop_name": "Enter crop name",
+  "description": "Description",
+  "enter_description": "Enter description",
+  "price_lkr": "Price (LKR)",
+  "enter_price": "Enter price",
+  "enter_valid_price": "Enter valid price",
+  "location": "Location",
+  "select_location": "Select location",
+  "quantity_kg": "Quantity (KG)",
+  "enter_quantity": "Enter quantity",
+  "enter_valid_quantity": "Enter valid quantity",
+  "harvest_date": "Harvest Date",
+  "select_date": "Select date",
+  "done": "Done"
+
 }

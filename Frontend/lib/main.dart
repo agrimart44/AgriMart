@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           ],
 
           // manually change language for testing purpose.
-          locale: Locale("ta"),
+          locale: Locale("si"),
           //add languages
           supportedLocales: const [
             Locale('en'), // English
