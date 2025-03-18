@@ -8,6 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:namer_app/list_crops/listCropService.dart';
 import 'package:namer_app/list_crops/locationpicker.dart';
 
+// Import localization
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ListCropScreen extends StatefulWidget {
   const ListCropScreen({super.key});
 
