@@ -10,6 +10,7 @@ class PersonalInformation extends StatefulWidget {
 }
 
 class PersonalInformationState extends State<PersonalInformation> {
+  // default user values
   String name = "Rathnayake";
   String gender = "Male";
   String role = "Farmer";
@@ -40,7 +41,8 @@ class PersonalInformationState extends State<PersonalInformation> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    "Personal Information",
+                    //local String
+                    AppLocalizations.of(context)!.personal_information,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
