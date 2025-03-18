@@ -69,7 +69,8 @@ class PersonalInformationState extends State<PersonalInformation> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  userInfo(Icons.person, "Full Name", name),
+                  // Local string for full name.
+                  userInfo(Icons.person, AppLocalizations.of(context)!.full_name, name),
                   userInfo(Icons.male, "Gender", gender),
                   userInfo(Icons.work, "Farmer/Buyer", role),
                   userInfo(Icons.location_on, "Location", location),
