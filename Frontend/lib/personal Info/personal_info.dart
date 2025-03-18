@@ -73,8 +73,10 @@ class PersonalInformationState extends State<PersonalInformation> {
                   userInfo(Icons.person, AppLocalizations.of(context)!.full_name, name),
                   // Local string for gender.
                   userInfo(Icons.male, AppLocalizations.of(context)!.gender, gender),
-                  userInfo(Icons.work, "Farmer/Buyer", role),
-                  userInfo(Icons.location_on, "Location", location),
+                  // Local string for user role
+                  userInfo(Icons.work, AppLocalizations.of(context)!.role, role),
+                  // Local string for location
+                  userInfo(Icons.location_on, AppLocalizations.of(context)!.location, location),
                 ],
               ),
             ),
