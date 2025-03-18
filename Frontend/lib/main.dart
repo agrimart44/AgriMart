@@ -47,6 +47,9 @@ class _MyAppState extends State<MyApp> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate
           ],
+
+          // manually change language for testing purpose.
+          locale: Locale("ta"),
           //add languages
           supportedLocales: const [
             Locale('en'), // English
