@@ -262,7 +262,8 @@ Widget _buildProductCard({required Crop crop}) {
                     const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                     const SizedBox(width: 6),
                     Text(
-                      'Harvest: ${crop.harvestDate.toLocal().toShortDateString()}',
+                      // add localized string for harvest
+                      '${AppLocalizations.of(context)!.harvest}: ${crop.harvestDate.toLocal().toShortDateString()}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],
