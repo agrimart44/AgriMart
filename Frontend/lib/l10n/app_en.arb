@@ -33,6 +33,11 @@
   "enter_valid_quantity": "Enter valid quantity",
   "harvest_date": "Harvest Date",
   "select_date": "Select date",
-  "done": "Done"
+  "done": "Done",
+
+
+
+  "harvest": "Harvest",
+  "view_details": "View Details"
 
 }
