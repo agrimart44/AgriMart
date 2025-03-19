@@ -292,7 +292,7 @@ Widget _buildProductCard({required Crop crop}) {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'View Details',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
