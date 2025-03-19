@@ -7,6 +7,9 @@ import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/crop_large_view/potato.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
+// Import localization
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class BuyerView extends StatefulWidget {
   const BuyerView({super.key});
 
