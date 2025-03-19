@@ -293,7 +293,8 @@ Widget _buildProductCard({required Crop crop}) {
                           ),
                         ),
                         child: Text(
-                          'View Details',
+                          // add localized text for view details
+                          AppLocalizations.of(context)!.view_details,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
