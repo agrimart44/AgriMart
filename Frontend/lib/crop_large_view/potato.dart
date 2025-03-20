@@ -459,6 +459,7 @@ Future<void> _openChatWithSeller() async {
           _buildInfoRow(
             // Localized string for location
             label: AppLocalizations.of(context)!.location,
+
             value: crop.location,
             icon: Icons.location_on,
           ),
@@ -605,7 +606,8 @@ Future<void> _openChatWithSeller() async {
                       ),
                     )
                   : Text(
-                      'Add to Cart',
+                      //add localized string for location
+                      AppLocalizations.of(context)!.location,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 16,
