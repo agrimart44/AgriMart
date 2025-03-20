@@ -441,7 +441,8 @@ Future<void> _openChatWithSeller() async {
       child: Column(
         children: [
           _buildInfoRow(
-            label: 'Harvest Date',
+            // Localized string for harvest date;
+            label: AppLocalizations.of(context)!.harvest_date,
             value: _formatDate(crop.harvestDate),
             icon: Icons.calendar_today,
           ),
