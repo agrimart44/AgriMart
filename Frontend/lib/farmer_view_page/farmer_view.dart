@@ -163,7 +163,7 @@ class FarmerViewState extends State<FarmerView> {
             },
           ),
           _buildDashboardCard(
-            //local text for list crop
+            // local text for list crop
             AppLocalizations.of(context)!.list_crop,
             //'List Crop',
             Icons.add_circle_outline,
@@ -176,7 +176,9 @@ class FarmerViewState extends State<FarmerView> {
             },
           ),
           _buildDashboardCard(
-            'Market\nPlace',
+            //localized text for market_place
+            AppLocalizations.of(context)!.market_place,
+            //'Market\nPlace',
             Icons.store_outlined,
                 () {
               Navigator.push(
