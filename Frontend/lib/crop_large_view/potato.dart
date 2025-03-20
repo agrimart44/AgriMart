@@ -443,12 +443,15 @@ Future<void> _openChatWithSeller() async {
           _buildInfoRow(
             // Localized string for harvest date;
             label: AppLocalizations.of(context)!.harvest_date,
+
             value: _formatDate(crop.harvestDate),
             icon: Icons.calendar_today,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            label: 'Available Quantity',
+            // Localized string for available quantity
+            label: AppLocalizations.of(context)!.available_quantity,
+            
             value: '${crop.quantity} kg',
             icon: Icons.scale,
           ),
