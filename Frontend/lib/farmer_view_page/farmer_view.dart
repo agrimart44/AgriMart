@@ -143,7 +143,6 @@ class FarmerViewState extends State<FarmerView> {
           _buildDashboardCard(
             // Localized string for market prices
             AppLocalizations.of(context)!.market_prices,
-
             //'Market\nPrices',
             Icons.trending_up,
                 () {
@@ -164,7 +163,9 @@ class FarmerViewState extends State<FarmerView> {
             },
           ),
           _buildDashboardCard(
-            'List Crop',
+            //local text for list crop
+            AppLocalizations.of(context)!.list_crop,
+            //'List Crop',
             Icons.add_circle_outline,
                 () {
               Navigator.push(
