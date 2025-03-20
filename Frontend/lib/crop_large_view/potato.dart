@@ -237,7 +237,8 @@ Future<void> _openChatWithSeller() async {
                 _buildFarmerInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  'About this Product',
+                  // Localized string for about this product
+                  AppLocalizations.of(context)!.about_this_product,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
