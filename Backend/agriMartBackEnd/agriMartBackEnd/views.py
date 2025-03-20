@@ -145,3 +145,6 @@ def send_fcm_notification(token, title, body):
     except Exception as e:
         print(f"[ERROR] An unexpected error occurred: {e}")
         raise
+
+def  hii():
+ print("hii")

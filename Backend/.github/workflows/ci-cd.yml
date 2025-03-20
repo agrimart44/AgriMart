@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Django App
 on:
   push:
     branches:
-      - main # Trigger the pipeline on pushes to the main branch
+      - deploye # Trigger the pipeline on pushes to the main branch
 
 jobs:
   build-and-deploy:
