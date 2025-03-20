@@ -239,6 +239,7 @@ Future<void> _openChatWithSeller() async {
                 Text(
                   // Localized string for about this product
                   AppLocalizations.of(context)!.about_this_product,
+
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -256,7 +257,8 @@ Future<void> _openChatWithSeller() async {
                 _buildInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  'Quantity',
+                  // Localized string for quantity
+                  AppLocalizations.of(context)!.quantity,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
