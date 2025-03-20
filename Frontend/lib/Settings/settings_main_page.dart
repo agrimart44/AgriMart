@@ -89,7 +89,8 @@ class AppSettingsState extends State<AppSettings> {
                           _buildSettingsCard(
                             context,
                             icon: Icons.lock_outline,
-                            title: 'Password and account',
+                            // add localized text for Password and account
+                            title: AppLocalizations.of(context)!.password_and_account,
                             subtitle: 'Your account information',
                             onTap: () {
 
