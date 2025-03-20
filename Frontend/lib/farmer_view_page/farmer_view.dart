@@ -7,6 +7,10 @@ import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
 
+// import localization
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class FarmerView extends StatefulWidget {
   const FarmerView({Key? key}) : super(key: key);
 
