@@ -45,45 +45,33 @@ class BuyerViewState extends State<BuyerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white, // Set background to pure white
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
-      body: Stack(
+      body: Column(
         children: [
-          Image.asset(
-            'lib/assets/first_page_background.jpg',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          Column(
-            children: [
-              const SizedBox(height: 100),
-              Expanded(child: _buildProductList()),
-            ],
-          ),
+          const SizedBox(height: 16), // Reduced spacing since we don't need to account for image
+          Expanded(child: _buildProductList()),
         ],
       ),
-
-              bottomNavigationBar: BottomNavigationBarWidget(
-          selectedIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() => _selectedIndex = index);
-            if (index == 1) {
-              // Navigate to Shopping Cart Page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-              );
-            } else if (index == 0) {
-              // Navigate to Farm View Page
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const FarmerView()),
-              );
-            }
-          },
-        ),
-
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() => _selectedIndex = index);
+          if (index == 1) {
+            // Navigate to Shopping Cart Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+            );
+          } else if (index == 0) {
+            // Navigate to Farm View Page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const FarmerView()),
+            );
+          }
+        },
+      ),
     );
   }
 

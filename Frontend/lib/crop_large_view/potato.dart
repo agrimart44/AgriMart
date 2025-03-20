@@ -57,7 +57,7 @@ Future<void> _openChatWithSeller() async {
     final sellerId = _cropDetails.sellerId;
     print("Seller ID: $sellerId"); // Debug: Check seller ID value
     
-    if (sellerId == null || sellerId.isEmpty) {
+    if (sellerId.isEmpty) {
       throw Exception("Seller ID not available");
     }
     

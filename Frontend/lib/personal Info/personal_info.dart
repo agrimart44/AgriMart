@@ -1,122 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class PersonalInformation extends StatefulWidget {
-//   const PersonalInformation({super.key});
-
-//   @override
-//   PersonalInformationState createState() => PersonalInformationState();
-// }
-
-// class PersonalInformationState extends State<PersonalInformation> {
-//   String name = "Rathnayake";
-//   String gender = "Male";
-//   String role = "Farmer";
-//   String location = "Nuwara Eliya";
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Stack(
-//         children: [
-//           // Background image
-//           Positioned.fill(
-//             child: Image.asset(
-//               'lib/assets/first_page_background.jpg',
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-//           // Background-overlay
-//           Center(
-//             child: Container(
-//               margin: const EdgeInsets.symmetric(horizontal: 20),
-//               padding: const EdgeInsets.all(20),
-//               decoration: BoxDecoration(
-//                 color: Colors.black.withOpacity(0.8),
-//                 borderRadius: BorderRadius.circular(20),
-//               ),
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   const Text(
-//                     "Personal Information",
-//                     style: TextStyle(
-//                       fontSize: 24,
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.white,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 20),
-//                   const CircleAvatar(
-//                     radius: 40,
-//                     backgroundColor: Colors.white,
-//                     child: Icon(
-//                       Icons.person,
-//                       size: 50,
-//                       color: Colors.grey,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 10),
-//                   Text(
-//                     name,
-//                     style: const TextStyle(
-//                       fontSize: 18,
-//                       color: Colors.white,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 20),
-//                   userInfo(Icons.person, "Full Name", name),
-//                   userInfo(Icons.male, "Gender", gender),
-//                   userInfo(Icons.work, "Farmer/Buyer", role),
-//                   userInfo(Icons.location_on, "Location", location),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             top: 40,
-//             left: 20,
-//             child: IconButton(
-//               icon: const Icon(
-//                 Icons.arrow_back,
-//                 color: Colors.white,
-//               ),
-//               onPressed: () {
-//                 Navigator.pop(context); // Back button
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget userInfo(IconData icon, String title, String value) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(vertical: 5),
-//       padding: const EdgeInsets.all(10),
-//       decoration: BoxDecoration(
-//         color: Colors.green,
-//         borderRadius: BorderRadius.circular(30),
-//       ),
-//       child: Row(
-//         children: [
-//           Icon(icon, color: Colors.white),
-//           const SizedBox(width: 10),
-//           Text(
-//             "$title: ",
-//             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-//           ),
-//           Text(
-//             value,
-//             style: const TextStyle(fontSize: 16, color: Colors.white),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'user_Service.dart';
 
@@ -182,42 +63,47 @@ class PersonalInformationState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          "Personal Information",
+          style: TextStyle(
+            color: Colors.green[800],
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: isLoading 
+          ? _buildLoadingWidget()
+          : errorMessage.isNotEmpty
+            ? _buildErrorWidget()
+            : _buildUserInfoWidget(),
+      ),
+    );
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              'lib/assets/first_page_background.jpg',
-              fit: BoxFit.cover,
-            ),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.green[700]!),
           ),
-          // Background-overlay
-          Center(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: isLoading 
-                ? _buildLoadingWidget()
-                : errorMessage.isNotEmpty
-                  ? _buildErrorWidget()
-                  : _buildUserInfoWidget(),
-            ),
-          ),
-          Positioned(
-            top: 40,
-            left: 20,
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context); // Back button
-              },
+          const SizedBox(height: 20),
+          Text(
+            "Loading user data...",
+            style: TextStyle(
+              color: Colors.grey[800],
+              fontSize: 16,
             ),
           ),
         ],
@@ -225,100 +111,416 @@ class PersonalInformationState extends State<PersonalInformation> {
     );
   }
 
-  Widget _buildLoadingWidget() {
-    return const Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CircularProgressIndicator(color: Colors.white),
-        SizedBox(height: 20),
-        Text(
-          "Loading user data...",
-          style: TextStyle(color: Colors.white),
-        ),
-      ],
-    );
-  }
-
-
   Widget _buildErrorWidget() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.error_outline, color: Colors.red, size: 50),
-        const SizedBox(height: 20),
-        Text(
-          errorMessage,
-          style: const TextStyle(color: Colors.white),
-          textAlign: TextAlign.center,
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: _loadUserData,
-          child: const Text("Retry"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red[400],
+              size: 60,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Error Loading Data",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[800],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              errorMessage,
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _loadUserData,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[700],
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                "Retry",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   Widget _buildUserInfoWidget() {
     return SingleChildScrollView(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Personal Information",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 20),
-          const CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.white,
-            child: Icon(
-              Icons.person,
-              size: 50,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          userInfo(Icons.person, "Full Name", name),
-          userInfo(Icons.phone, "Phone", phoneNumber),
-          userInfo(Icons.email, "Email", email),
-          userInfo(Icons.work, "Role", role),
-          userInfo(Icons.location_on, "Location", location),
-          userInfo(Icons.shopping_cart, "Cart Items", "${cart.length} items"),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: _loadUserData,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
-                child: const Text("Refresh Data"),
+          // Profile header with avatar
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.green.shade50,
+                  Colors.green.shade100,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to edit profile screen
-                  // You can implement this later
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
-                child: const Text("Edit Profile"),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[800],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    role,
+                    style: TextStyle(
+                      color: Colors.green[800],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Information section title
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 18,
+                  color: Colors.grey[700],
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  "Account Details",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Container(
+                    height: 1,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // User info cards
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                _buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),
+                _buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),
+                _buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),
+                _buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red),
+                _buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),
+              ],
+            ),
+          ),
+
+          // Updated Action button section
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Animated gradient border
+                Container(
+                  width: double.infinity,
+                  height: 68,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.green.shade300,
+                        Colors.blue.shade300,
+                        Colors.green.shade400,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+                
+                // Edit Profile Button with shimmer effect
+                Container(
+                  width: double.infinity,
+                  height: 64,
+                  margin: const EdgeInsets.all(2), // Create border effect
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    color: Colors.white,
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to edit profile screen
+                      },
+                      borderRadius: BorderRadius.circular(18),
+                      splashColor: Colors.green.withOpacity(0.1),
+                      highlightColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                // Floating icon with shadow
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.green.shade500,
+                                        Colors.green.shade700,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.green.withOpacity(0.3),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit_outlined,
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Edit Profile",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green[800],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      "Update your information",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            
+                            // Animated arrow icon
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.green[700],
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Add a subtle refresh option at the bottom
+          Center(
+            child: TextButton.icon(
+              onPressed: _loadUserData,
+              icon: Icon(
+                Icons.refresh,
+                size: 16,
+                color: Colors.grey[600],
+              ),
+              label: Text(
+                "Refresh",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoItem(IconData icon, String title, String value, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey.shade200,
+            width: 1,
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              size: 22,
+              color: color,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[800],
+                ),
               ),
             ],
           ),
@@ -327,27 +529,33 @@ class PersonalInformationState extends State<PersonalInformation> {
     );
   }
 
-  Widget userInfo(IconData icon, String title, String value) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(30),
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 0,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white),
-          const SizedBox(width: 10),
+          Icon(icon, size: 18),
+          const SizedBox(width: 8),
           Text(
-            "$title: ",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Flexible(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-              overflow: TextOverflow.ellipsis,
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

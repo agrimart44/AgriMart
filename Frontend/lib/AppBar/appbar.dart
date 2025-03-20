@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 
 /// Reusable Modern AppBar Widget

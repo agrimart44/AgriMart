@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class CropService {
   // Base URL for your API
-  final String baseUrl = 'http://192.168.43.27:8000/api';
+  final String baseUrl = 'http://44.203.237.175:8000/api';
 
   // Method to upload crop details
   Future<Map<String, dynamic>> uploadCrop({

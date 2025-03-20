@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class RegistrationService {
@@ -12,7 +11,7 @@ class RegistrationService {
     required String occupation,
     required String location,
   }) async {
-    final url = Uri.parse('http://192.168.43.27:8000/api/register/');
+    final url = Uri.parse('http://44.203.237.175:8000/api/register/');
 
     try {
       // Create request body for debugging

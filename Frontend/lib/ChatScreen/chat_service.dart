@@ -167,15 +167,15 @@ Future<List<Chat>> fetchChatsFromStream() async {
         chatName = channel.extraData['name'] as String;
       } else {
         // If not a named channel, assume it's a direct message
-        final otherMembers = channel.state?.members?.where(
+        final otherMembers = channel.state?.members.where(
           (member) => member.user?.id != currentUserId
         ).toList();
         
         if (otherMembers != null && otherMembers.isNotEmpty) {
           final otherUser = otherMembers.first.user;
           // Make sure we have a valid name
-          if (otherUser != null && otherUser.name != null && otherUser.name!.isNotEmpty) {
-            chatName = otherUser.name!;
+          if (otherUser != null && otherUser.name.isNotEmpty) {
+            chatName = otherUser.name;
           } else if (otherUser != null) {
             // Fallback to a cleaner display name
             chatName = "User ${otherUser.id.substring(0, 8)}";
@@ -300,7 +300,7 @@ Future<List<Chat>> fetchChatsFromStream() async {
           sellerId.length > 10 ? sellerId.substring(0, 10) : sellerId;
 
       // Combine shortened IDs to create a unique channel ID
-      String channelId = 'c_${shortCropId}_${shortBuyerId}_${shortSellerId}';
+      String channelId = 'c_${shortCropId}_${shortBuyerId}_$shortSellerId';
 
       // Ensure the channel ID is under the 64 character limit
       if (channelId.length > 64) {
@@ -317,7 +317,7 @@ Future<List<Chat>> fetchChatsFromStream() async {
         extraData: {
           'members': [currentUserId, sellerId],
           'crop_id': cropId,
-          'name': 'Chat about ${sellerName}\'s crop'
+          'name': 'Chat about $sellerName\'s crop'
         },
       );
 

@@ -20,6 +20,8 @@ dependencies {
   implementation("com.google.firebase:firebase-analytics")
   implementation 'com.facebook.android:facebook-login:latest.release'
 
+   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+
 
 
   // Add the dependencies for any other desired Firebase products
@@ -34,6 +36,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -49,6 +52,15 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'upload' // Alias used during keystore creation
+            keyPassword 'ran12345' // Password for the key
+            storeFile file('C:/Users/rukshan/keystore/upload-keystore.jks') // Path to the keystore
+            storePassword 'ran12345' // Password for the keystore
+        }
     }
 
     buildTypes {

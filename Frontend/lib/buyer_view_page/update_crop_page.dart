@@ -18,7 +18,7 @@ class UpdateCropPage extends StatefulWidget {
   final Function onCropUpdated;
 
   const UpdateCropPage({
-    Key? key,
+    super.key,
     required this.cropId,
     required this.initialCropName,
     required this.initialDescription,
@@ -28,7 +28,7 @@ class UpdateCropPage extends StatefulWidget {
     required this.initialHarvestDate,
     required this.initialImageUrls,
     required this.onCropUpdated,
-  }) : super(key: key);
+  });
 
   @override
   State<UpdateCropPage> createState() => _UpdateCropPageState();

@@ -25,7 +25,7 @@ class UpdateCropForm extends StatelessWidget {
   final VoidCallback onCancel;
 
   const UpdateCropForm({
-    Key? key,
+    super.key,
     required this.formKey,
     required this.cropNameController,
     required this.descriptionController,
@@ -46,7 +46,7 @@ class UpdateCropForm extends StatelessWidget {
     required this.onSelectDate,
     required this.onUpdate,
     required this.onCancel,
-  }) : super(key: key);
+  });
 
   InputDecoration _getInputDecoration(String label, IconData? icon) {
     return InputDecoration(
@@ -393,8 +393,9 @@ class UpdateCropForm extends StatelessWidget {
                                         fit: BoxFit.cover,
                                         loadingBuilder:
                                             (context, child, loadingProgress) {
-                                          if (loadingProgress == null)
+                                          if (loadingProgress == null) {
                                             return child;
+                                          }
                                           return Center(
                                             child: CircularProgressIndicator(
                                               value: loadingProgress

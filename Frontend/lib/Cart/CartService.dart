@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class CartService {
-  static const String apiUrl = 'http://192.168.43.27:8000/cart/getItems/'; // Backend URL
+  static const String apiUrl = 'http://44.203.237.175:8000/cart/getItems/'; // Backend URL
   
   // Fetch cart items from the backend
   Future<List<CartItem>> fetchCartItems(String firebaseToken) async {
@@ -15,6 +15,9 @@ class CartService {
     );
     
     if (response.statusCode == 200) {
+      print('Cart items loaded successfully');
+      print(response.body);
+      print(firebaseToken);
       final List<dynamic> data = json.decode(response.body)['availableCrops'];
       return data.map((item) => CartItem.fromJson(item)).toList();
     } else {
@@ -94,17 +97,19 @@ class CartItem {
     required this.seller,
     required this.unit,
   });
-  
-  // Factory method to create CartItem from JSON
   factory CartItem.fromJson(Map<String, dynamic> json) {
+  try {
     return CartItem(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? '',
+      name: json['cropName'] ?? 'Unknown',
       price: double.parse(json['price'].toString()),
-      quantity: json['quantity'] ?? 1, // Default to 1 if not provided
+      quantity: json['quantity'] ?? 1,
       image: json['imageURL'] ?? '',
-      seller: json['farmer'] ?? 'Unknown',
+      seller: json['location'] ?? 'Unknown',
       unit: json['unit'] ?? 'kg',
     );
+  } catch (e) {
+    throw FormatException("Invalid JSON format for CartItem: $e");
+  }
   }
 }

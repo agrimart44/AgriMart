@@ -4,7 +4,7 @@ import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_page.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({super.key});
 
   @override
   UserProfilePageState createState() => UserProfilePageState();

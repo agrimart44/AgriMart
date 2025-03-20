@@ -368,7 +368,7 @@ class _MessageBubble extends StatelessWidget {
   Widget _buildStatusIcon() {
     // Check if the message has been read by accessing the read state from the channel
     final readsCount = channel.state?.read
-            ?.where((read) =>
+            .where((read) =>
                     read.user.id != message.user?.id && // Not the sender
                     read.lastRead.isAfter(message.createdAt ??
                         DateTime.now()) // Read after message was sent

@@ -1,9 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Presentation/first_screen/Login.dart';
 import 'package:namer_app/Presentation/registerpage/registerpageService.dart';
-import 'package:namer_app/farmer_view_page/farmer_view.dart';
 // Import the service file
 
 class RegisterPage extends StatefulWidget {

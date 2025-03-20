@@ -3,10 +3,15 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
+
+
 
 class AuthService {
   // Instance of FirebaseAuth
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   
   // Keys for SharedPreferences storage
   final String _firebaseTokenKey = 'firebase_token';
@@ -14,7 +19,7 @@ class AuthService {
   final String _userIdKey = 'user_id';
   
   // URL for getting Stream token - ensure this is correct and your server is running
-  final String _streamTokenUrl = 'http://192.168.43.27:8000/get-stream-jwt/';
+  final String _streamTokenUrl = 'http://44.203.237.175:8000/get-stream-jwt/';
 
   // Method to get Firebase ID token and store it
   Future<String?> getFirebaseToken() async {
@@ -195,13 +200,10 @@ class AuthService {
       switch (e.code) {
         case 'user-not-found':
           errorMessage = 'No user found with this email.';
-          break;
         case 'wrong-password':
           errorMessage = 'Incorrect password.';
-          break;
         case 'invalid-email':
           errorMessage = 'Invalid email address.';
-          break;
         default:
           errorMessage = 'Authentication error: ${e.code}';
       }
@@ -251,13 +253,10 @@ class AuthService {
       switch (e.code) {
         case 'email-already-in-use':
           errorMessage = 'This email is already in use.';
-          break;
         case 'weak-password':
           errorMessage = 'The password is too weak.';
-          break;
         case 'invalid-email':
           errorMessage = 'Invalid email address.';
-          break;
         default:
           errorMessage = 'Error signing up: ${e.code}';
       }
@@ -292,4 +291,82 @@ class AuthService {
       throw Exception('Failed to authenticate with Stream: $e');
     }
   }
+
+  // Initialize FCM
+  Future<void> initializeFCM() async {
+ 
+  try {
+    print('[DEBUG] Starting FCM initialization...');
+
+    // Request permissions for iOS
+    print('[DEBUG] Requesting notification permissions...');
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('[SUCCESS] User granted notification permissions.');
+    } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      print('[ERROR] User denied notification permissions.');
+    } else {
+      print('[WARNING] Notification permissions are not determined.');
+    }
+
+    // Get the FCM token
+    print('[DEBUG] Retrieving FCM token...');
+    String? token = await _firebaseMessaging.getToken();
+    if (token != null) {
+      print('[SUCCESS] FCM Token retrieved successfully: ${token.substring(0, 40)}... (truncated)');
+    } else {
+      print('[ERROR] FCM Token is null');
+    }
+    // Optionally, send the token to your backend server
+    // await sendTokenToServer(token);
+  
+    // Listen for token refreshes
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      print('[DEBUG] FCM Token refreshed: ${newToken.substring(0, 40)}... (truncated)');
+      // Optionally, update the token on your backend server
+      // updateTokenOnServer(newToken);
+    });
+
+    // Handle incoming messages when the app is in the foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('[DEBUG] Received a message while in the foreground!');
+      print('[DEBUG] Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('[DEBUG] Message also contained a notification:');
+        print('[DEBUG] Title: ${message.notification?.title}');
+        print('[DEBUG] Body: ${message.notification?.body}');
+      }
+    });
+
+    // Handle app opened from a notification
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('[DEBUG] App opened from a notification.');
+      print('[DEBUG] Message data: ${message.data}');
+      // Navigate to a specific screen or perform an action
+    });
+
+    print('[SUCCESS] FCM initialization completed successfully.');
+  } catch (e) {
+    print('[ERROR] An error occurred during FCM initialization: $e');
+  }
 }
+
+// Subscribe to a topic
+Future<void> subscribeToTopic(String topic) async {
+  try {
+    print('[DEBUG] Subscribing to topic: $topic...');
+    await _firebaseMessaging.subscribeToTopic(topic);
+    print('[SUCCESS] Successfully subscribed to topic: $topic');
+  } catch (e) {
+    print('[ERROR] Failed to subscribe to topic: $topic. Error: $e');
+  }
+}
+  
+}
+

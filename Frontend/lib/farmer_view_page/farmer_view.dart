@@ -8,58 +8,168 @@ import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
 
 class FarmerView extends StatefulWidget {
-  const FarmerView({Key? key}) : super(key: key);
+  const FarmerView({super.key});
 
   @override
   FarmerViewState createState() => FarmerViewState();
 }
 
-class FarmerViewState extends State<FarmerView> {
+class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Setup animations
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ),
+    );
+    
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.grey[50],
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
-      body: Stack(
-        children: [
-          // Background image
-          Image.asset(
-            'lib/assets/first_page_background.jpg',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          
-          // Main content layout with SafeArea to respect system UI
-          SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 60), // Adjusted space for app bar
-                _buildSearchBar(),
-                
-                // Scrollable content (dashboard grid)
-                Expanded(
-                  child: _buildDashboardGrid(),
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _opacityAnimation,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header section with welcome message and gradient
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.green.shade50, Colors.green.shade100],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.green.withOpacity(0.2),
+                      blurRadius: 15,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 30,
+                        color: Colors.green.shade800,
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome, Farmer',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green.shade800,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Manage your agricultural business',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.green.shade900.withOpacity(0.7),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Quick action header with modern design
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.bolt,
+                      color: Colors.amber[700],
+                      size: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.grey.shade400,
+                              Colors.grey.shade200,
+                              Colors.grey.shade50,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Scrollable content (dashboard grid)
+              Expanded(
+                child: _buildDashboardGrid(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: _selectedIndex,
         onTap: (index) {
           setState(() => _selectedIndex = index);
           if (index == 1) {
-            // Navigate to Shopping Cart Page
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
             );
           } else if (index == 0) {
-            // Navigate to Farm View Page
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const FarmerView()),
@@ -70,158 +180,339 @@ class FarmerViewState extends State<FarmerView> {
     );
   }
 
-  Widget _buildSearchBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for articles, technologies, or topics...',
-                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[900]),
-                border: InputBorder.none,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            child: ElevatedButton(
-              onPressed: () {
-                print('Search button pressed');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              ),
-              child: const Text(
-                'Search',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildDashboardGrid() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GridView.count(
         crossAxisCount: 2,
         shrinkWrap: true,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        childAspectRatio: 1.05, // Slightly wider than tall to fit content better
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        childAspectRatio: 0.9, // Slightly taller cards for more content
         children: [
           _buildDashboardCard(
             'Market\nPrices',
-            Icons.trending_up,
+            Icons.trending_up_rounded,
+            'Track market trends',
             () {
               print('Navigate to Market Prices Trends page');
             },
+            const Color(0xFF2F80ED), // Deep blue
+            [const Color(0xFF56CCF2), const Color(0xFF2F80ED)], // Gradient blue
           ),
           _buildDashboardCard(
             'Negotiations',
             Icons.handshake_outlined,
+            'Chat with buyers',
             () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ChatListPage()),
               );
-              print('Navigated to Negotiations (Chat List) page');
             },
+            const Color(0xFFF2994A), // Orange
+            [const Color(0xFFFF8A65), const Color(0xFFFF5722)], // Gradient orange
           ),
           _buildDashboardCard(
             'List Crop',
-            Icons.add_circle_outline,
+            Icons.add_circle_outline_rounded,
+            'Add new products',
             () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ListCropScreen()),
               );
-              print('Navigate to List New Crop page');
             },
+            const Color(0xFF27AE60), // Green
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
           _buildDashboardCard(
             'Market\nPlace',
-            Icons.store_outlined,
+            Icons.store_rounded,
+            'Browse crops',
             () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const BuyerView()),
               );
-              print('Navigate to Market Place (Buyer View) page');
             },
+            const Color(0xFF9B51E0), // Purple
+            [const Color(0xFFBB6BD9), const Color(0xFF9B51E0)], // Gradient purple
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDashboardCard(String title, IconData icon, VoidCallback onTap) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white, Colors.green.withOpacity(0.1)],
+  Widget _buildDashboardCard(
+    String title,
+    IconData icon,
+    String subtitle,
+    VoidCallback onTap,
+    Color mainColor,
+    List<Color> gradientColors,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: mainColor.withOpacity(0.15),
+              blurRadius: 20,
+              spreadRadius: 0,
+              offset: const Offset(0, 8),
             ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min, // This helps with overflow
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Stack(
             children: [
-              Icon(
-                icon,
-                size: 40, // Reduced from 48 to avoid overflow
-                color: Colors.green,
+              // Background design element
+              Positioned(
+                right: -15,
+                top: -15,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: mainColor.withOpacity(0.07),
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
-              const SizedBox(height: 8), // Reduced spacing
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 14, // Reduced from 16 to fit better
-                    fontWeight: FontWeight.bold,
+              
+              // Card content
+              Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Icon with gradient background
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradientColors,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: gradientColors[1].withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                    ),
+                    
+                    const Spacer(),
+                    
+                    // Title and subtitle
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2D3748), // Dark gray for better contrast
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          width: 24,
+                          height: 2,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: gradientColors,
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Decorative dot pattern (subtle)
+              Positioned(
+                bottom: 15,
+                right: 15,
+                child: _buildDotPattern(mainColor),
+              ),
+              
+              // Hover effect indicator
+              Positioned(
+                right: 18,
+                top: 18,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: mainColor,
+                    size: 16,
                   ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDotPattern(Color color) {
+    return SizedBox(
+      width: 30,
+      height: 30,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 10,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 20,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 0,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 20,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 0,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 10,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: Container(
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
