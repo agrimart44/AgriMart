@@ -36,8 +36,17 @@
   "done": "Done",
 
 
-
   "harvest": "Harvest",
-  "view_details": "View Details"
+  "view_details": "View Details",
+
+
+  "about_this_product": "About this Product",
+  "quantity": "Quantity",
+  "harvest_date": "Harvest Date",
+  "available_quantity": "Available Quantity",
+  "location": "Location",
+  "add_to_cart": "Add to Cart",
+  "chat_with_seller": "Chat with Seller",
+  "call_instead": "Call Instead"
 
 }

@@ -35,7 +35,17 @@
   "select_date": "දිනය තෝරන්න",
   "done": "සම්පූර්ණයි",
 
-
   "harvest": "කප්පාදු කල දිනය",
-  "view_details": "විස්තර බලන්න"
+  "view_details": "විස්තර බලන්න",
+
+  "about_this_product": "මෙම නිෂ්පාදනය ගැන",
+  "quantity": "ප්‍රමාණය",
+  "harvest_date": "කප්පාදු කල දිනය",
+  "available_quantity": "ලබා ගත හැකි ප්‍රමාණය",
+  "location": "ස්ථානය",
+  "add_to_cart": "කරත්තයට එක් කරන්න",
+  "chat_with_seller": "විකුණුම්කරු සමඟ කතාබස් කරන්න",
+  "call_instead": "ඒ වෙනුවට අමතන්න"
+
+
 }
