@@ -45,7 +45,15 @@
   "location": "ස්ථානය",
   "add_to_cart": "කරත්තයට එක් කරන්න",
   "chat_with_seller": "විකුණුම්කරු සමඟ කතාබස් කරන්න",
-  "call_instead": "ඒ වෙනුවට අමතන්න"
+  "call_instead": "ඒ වෙනුවට අමතන්න",
+
+  "comment_": "texts for farmer_view.dart",
+
+  "search": "සොයන්න",
+  "market_prices": "වෙළඳපල\nමිල",
+  "negotiations": "සාකච්ඡා",
+  "list_crop": "ගොවිපල ලැයිස්තුගත කරන්න",
+  "market_place": "වෙළඳපල\nස්ථානය"
 
 
 }

@@ -117,8 +117,9 @@ class FarmerViewState extends State<FarmerView> {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
-              child: const Text(
-                'Search',
+              child: Text(
+                // Localized string for search
+                AppLocalizations.of(context)!.search,
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),

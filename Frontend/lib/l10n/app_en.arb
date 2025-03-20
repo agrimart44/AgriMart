@@ -47,6 +47,15 @@
   "location": "Location",
   "add_to_cart": "Add to Cart",
   "chat_with_seller": "Chat with Seller",
-  "call_instead": "Call Instead"
+  "call_instead": "Call Instead",
+
+
+  "comment_": "texts for farmer_view.dart",
+
+  "search": "Search",
+  "market_prices": "Market\nPrices",
+  "negotiations": "Negotiations",
+  "list_crop": "List Crop",
+  "market_place": "Market\nPlace"
 
 }

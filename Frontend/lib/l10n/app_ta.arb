@@ -46,6 +46,14 @@
    "location": "இடம்",
    "add_to_cart": "கார்ட்டில் சேர்",
    "chat_with_seller": "விற்பனையாளருடன் அரட்டையடிக்கவும்",
-   "call_instead": "அதற்கு பதிலாக அழைக்கவும்"
+   "call_instead": "அதற்கு பதிலாக அழைக்கவும்",
+
+   "comment_": "texts for farmer_view.dart",
+
+   "search": "தேடு",
+   "market_prices": "சந்தை \n விலைகள்",
+   "negotiations": "பேரம்",
+   "list_crop": "பயிரை பட்டியலிடு",
+   "market_place": "சந்தை\nஇடம்"
 
 }
