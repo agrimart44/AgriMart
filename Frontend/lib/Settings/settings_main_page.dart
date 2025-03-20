@@ -152,7 +152,8 @@ class AppSettingsState extends State<AppSettings> {
                                   ),
                                 ),
                                 child:Text(
-                                  'Sign out',
+                                  // add localized text for sign out
+                                  AppLocalizations.of(context)!.sign_out,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
