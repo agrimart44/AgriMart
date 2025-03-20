@@ -105,7 +105,8 @@ class AppSettingsState extends State<AppSettings> {
                             icon: Icons.language,
                             //add localized text for Language Settings (title)
                             title: AppLocalizations.of(context)!.language_settings,
-                            subtitle: 'Change your language here',
+                            //add localized text for change your language (subtitle)
+                            subtitle: AppLocalizations.of(context)!.change_your_language_here,
                             onTap: () {
                               // Navigate to Language Settings page
                               Navigator.push(
