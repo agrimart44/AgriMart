@@ -151,7 +151,7 @@ class AppSettingsState extends State<AppSettings> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
-                                child: const Text(
+                                child:Text(
                                   'Sign out',
                                   style: TextStyle(
                                     fontSize: 16,
