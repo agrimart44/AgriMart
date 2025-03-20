@@ -141,7 +141,9 @@ class FarmerViewState extends State<FarmerView> {
         childAspectRatio: 1.05, // Slightly wider than tall to fit content better
         children: [
           _buildDashboardCard(
-            'Market\nPrices',
+            // Localized string for market prices
+            AppLocalizations.of(context)!.market_prices,
+            //'Market\nPrices',
             Icons.trending_up,
                 () {
               print('Navigate to Market Prices Trends page');
