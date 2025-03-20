@@ -69,7 +69,8 @@ class AppSettingsState extends State<AppSettings> {
                           _buildSettingsCard(
                             context,
                             icon: Icons.person_outline,
-                            title: 'Personal Information',
+                            //Add localized text for Personal Information
+                            title: AppLocalizations.of(context)!.personal_information,
                             subtitle: 'Your account information',
                             onTap: () {
 
