@@ -3,6 +3,9 @@ import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Settings/language_settings.dart';
 import 'package:namer_app/personal%20Info/personal_info.dart';
 
+// Import localization
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AppSettings extends StatefulWidget {
   const AppSettings({super.key});
 
