@@ -103,7 +103,8 @@ class AppSettingsState extends State<AppSettings> {
                           _buildSettingsCard(
                             context,
                             icon: Icons.language,
-                            title: 'Language Settings',
+                            //add localized text for Language Settings (title)
+                            title: AppLocalizations.of(context)!.language_settings,
                             subtitle: 'Change your language here',
                             onTap: () {
                               // Navigate to Language Settings page
