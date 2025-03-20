@@ -118,8 +118,9 @@ class FarmerViewState extends State<FarmerView> {
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
               child: Text(
-                // Localized string for search
+                // Localized string added for search
                 AppLocalizations.of(context)!.search,
+
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
