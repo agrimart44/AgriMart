@@ -647,7 +647,9 @@ Future<void> _openChatWithSeller() async {
                 ),
               const SizedBox(width: 8),
               Text(
-                'Chat with Seller', // Update text
+                //localized text add for chat with seller
+                AppLocalizations.of(context)!.chat_with_seller,
+
                 style: GoogleFonts.poppins(
                   color: Colors.green.shade700,
                   fontSize: 16,
