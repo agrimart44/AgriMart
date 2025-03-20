@@ -451,13 +451,14 @@ Future<void> _openChatWithSeller() async {
           _buildInfoRow(
             // Localized string for available quantity
             label: AppLocalizations.of(context)!.available_quantity,
-            
+
             value: '${crop.quantity} kg',
             icon: Icons.scale,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            label: 'Location',
+            // Localized string for location
+            label: AppLocalizations.of(context)!.location,
             value: crop.location,
             icon: Icons.location_on,
           ),
