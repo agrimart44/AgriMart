@@ -54,6 +54,17 @@
    "market_prices": "சந்தை \n விலைகள்",
    "negotiations": "பேரம்",
    "list_crop": "பயிரை பட்டியலிடு",
-   "market_place": "சந்தை\nஇடம்"
+   "market_place": "சந்தை\nஇடம்",
+
+   "comment_": "texts for settings_main_page.dart",
+
+   "your_account_information": "உங்கள் கணக்கு தகவல்",
+   "password_and_account": "கடவுச்சொல் மற்றும் கணக்கு",
+   "language_settings": "மொழி அமைப்புகள்",
+   "change_your_language_here": "உங்கள் மொழியை இங்கே மாற்றவும்",
+   "privacy_security": "தனியுரிமை மற்றும் பாதுகாப்பு",
+   "change_privacy_security_settings": "உங்கள் தனியுரிமை மற்றும் பாதுகாப்பு அமைப்புகளை மாற்றவும்",
+   "sign_out": "வெளியேறு"
+
 
 }

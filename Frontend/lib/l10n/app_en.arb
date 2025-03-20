@@ -56,6 +56,16 @@
   "market_prices": "Market\nPrices",
   "negotiations": "Negotiations",
   "list_crop": "List Crop",
-  "market_place": "Market\nPlace"
+  "market_place": "Market\nPlace",
+
+  "comment_": "texts for settings_main_page,dart",
+
+  "your_account_information": "Your account information",
+  "password_and_account": "Password and account",
+  "language_settings": "Language Settings",
+  "change_your_language_here": "Change your language here",
+  "privacy_security": "Privacy & Security",
+  "change_privacy_security_settings": "Change your privacy & security settings",
+  "sign_out": "Sign out"
 
 }
