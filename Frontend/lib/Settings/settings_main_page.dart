@@ -122,7 +122,8 @@ class AppSettingsState extends State<AppSettings> {
                           _buildSettingsCard(
                             context,
                             icon: Icons.security,
-                            title: 'Privacy & Security',
+                            //add localized text for privacy and security(title)
+                            title:AppLocalizations.of(context)!.privacy_security,
                             subtitle: 'Change your privacy & security settings',
                             onTap: () {
                               // TODO: Navigate to Privacy & Security page
