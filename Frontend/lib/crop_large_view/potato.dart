@@ -606,8 +606,8 @@ Future<void> _openChatWithSeller() async {
                       ),
                     )
                   : Text(
-                      //add localized string for location
-                      AppLocalizations.of(context)!.location,
+                      //add localized string for add to cart
+                      AppLocalizations.of(context)!.add_to_cart,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 16,
