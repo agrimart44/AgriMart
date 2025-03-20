@@ -124,7 +124,8 @@ class AppSettingsState extends State<AppSettings> {
                             icon: Icons.security,
                             //add localized text for privacy and security(title)
                             title:AppLocalizations.of(context)!.privacy_security,
-                            subtitle: 'Change your privacy & security settings',
+                            //add localized text for privacy and security (subtitle)
+                            subtitle:AppLocalizations.of(context)!.change_privacy_security_settings,
                             onTap: () {
                               // TODO: Navigate to Privacy & Security page
                               print('Navigate to Privacy & Security');
