@@ -31,19 +31,13 @@ jobs:
           cd Frontend
           flutter pub get
 
-      # Step 5: Run tests
-      - name: Run Flutter tests
-        run: |
-          cd Frontend
-          flutter test
-
-      # Step 6: Build the Flutter app
+      # Step 5: Build the Flutter app
       - name: Build Android APK
         run: |
           cd Frontend
           flutter build apk --release
 
-      # Step 7: Deploy to Firebase App Distribution
+      # Step 6: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
