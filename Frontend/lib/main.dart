@@ -31,6 +31,9 @@ class LanguageProvider extends ChangeNotifier {
   //set the default language as English
   Locale _locale = const Locale('en');
 
+  // Add getter for read local value to other parts of app
+  Locale get locale => _locale;
+
 }
 
 
