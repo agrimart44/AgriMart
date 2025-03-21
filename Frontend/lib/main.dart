@@ -34,6 +34,12 @@ class LanguageProvider extends ChangeNotifier {
   // Add getter for read local value to other parts of app
   Locale get locale => _locale;
 
+  // add method to update the language user selected.
+  void setLocale(Locale locale) {
+    _locale = locale;
+    notifyListeners();
+  }
+
 }
 
 
