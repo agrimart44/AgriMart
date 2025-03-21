@@ -66,11 +66,11 @@ flutter:
     - lib/l10n/
 
   
-    - lib/assets/Potato.jpg
-    - lib/assets/tomato.jpg
-    - lib/assets/rukaass.jpg
-    - lib/assets/flow.jpg
-    - lib/assets/first_page_background.jpg
+    # - lib/assets/Potato.jpg
+    # - lib/assets/tomato.jpg
+    # - lib/assets/rukaass.jpg
+    # - lib/assets/flow.jpg
+    # - lib/assets/first_page_background.jpg
     - lib/assets/
 
 localization:
