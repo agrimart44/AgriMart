@@ -138,7 +138,8 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
                                     ),
                               onTap: () {
                                 setState(() {
-                                  _selectedLanguageCode = language.code;
+                                  //get the selected language of app using language provider
+                                  languageProvider.setLocale(Locale(language.code));
                                 });
 
                                 // Show a snackbar or perform any action
