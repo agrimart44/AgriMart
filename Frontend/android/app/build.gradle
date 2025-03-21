@@ -58,7 +58,7 @@ android {
         release {
             keyAlias 'upload' // Alias used during keystore creation
             keyPassword 'ran12345' // Password for the key
-            storeFile file('C:/Users/rukshan/keystore/upload-keystore.jks') // Path to the keystore
+            storeFile file('upload-keystore.jks') // Path to the keystore
             storePassword 'ran12345' // Password for the keystore
         }
     }
