@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
+import 'package:namer_app/Presentation/Price_Analysis/Price_analysis.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
@@ -195,7 +196,10 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             Icons.trending_up_rounded,
             'Track market trends',
             () {
-              print('Navigate to Market Prices Trends page');
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  VegetableAnalysisScreen()),
+              );
             },
             const Color(0xFF2F80ED), // Deep blue
             [const Color(0xFF56CCF2), const Color(0xFF2F80ED)], // Gradient blue
