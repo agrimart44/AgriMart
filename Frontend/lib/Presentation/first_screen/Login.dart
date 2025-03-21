@@ -8,7 +8,9 @@ import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
 import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
-import 'package:namer_app/chatScreen/chat_service.dart';
+
+import '../../ChatScreen/chat_service.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});

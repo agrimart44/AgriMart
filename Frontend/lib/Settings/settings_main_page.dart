@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Settings/language_settings.dart';
-import 'package:namer_app/personal%20Info/personal_info.dart';
+import 'package:namer_app/personal_Info/personal_info.dart';
 
 class AppSettings extends StatefulWidget {
   const AppSettings({super.key});

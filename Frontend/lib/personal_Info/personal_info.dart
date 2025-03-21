@@ -1,12 +1,12 @@
 
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
-import 'user_Service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'user_Service.dart';
+
+
+
 
 
 class PersonalInformation extends StatefulWidget {
