@@ -31,13 +31,21 @@ jobs:
           cd Frontend
           flutter pub get
 
-      # Step 5: Build the Flutter app
+      # Step 5: Decode Keystore
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > Frontend/android/app/upload-keystore.jks
+
+      # Step 6: Build the Flutter app
       - name: Build Android APK
         run: |
           cd Frontend
           flutter build apk --release
+        env:
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 6: Deploy to Firebase App Distribution
+      # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
