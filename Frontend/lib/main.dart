@@ -26,6 +26,12 @@ void main() async {
   runApp(MyApp());
 }
 
+//create a class to manage the language that user selected via app
+class LanguageProvider extends ChangeNotifier {
+
+}
+
+
 class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
@@ -61,4 +67,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
