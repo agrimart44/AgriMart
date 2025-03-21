@@ -28,6 +28,8 @@ void main() async {
 
 //create a class to manage the language that user selected via app
 class LanguageProvider extends ChangeNotifier {
+  //set the default language as English
+  Locale _locale = const Locale('en');
 
 }
 
