@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+// import package provider
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class LanguageSettingsPage extends StatefulWidget {
   const LanguageSettingsPage({super.key});
