@@ -27,6 +27,8 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // add dynamic language selection using provider
+    final languageProvider = Provider.of<LanguageProvider>(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
