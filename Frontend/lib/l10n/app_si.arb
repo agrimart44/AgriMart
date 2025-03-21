@@ -1,0 +1,69 @@
+{
+  "personal_information": "පුද්ගලික තොරතුරු",
+  "full_name": "සම්පූර්ණ නම",
+  "gender": "ස්ත්‍රී/පුරුෂ භාවය",
+  "role": "ගොවියා/මිලදීගන්නා",
+  "location": "ස්ථානය",
+
+
+  "choose_an_option": "අභිප්‍රායක් තෝරන්න",
+  "gallery": "ගැලරිය",
+  "camera": "කැමරාව",
+  "success": "සාර්ථකයි",
+  "crop_listed_successfully": "ඔබගේ ගොවිපල සාර්ථකව ලැයිස්තුගත කර ඇත!",
+  "ok": "හරි",
+  "error": "දෝෂය",
+  "add_at_least_one_photo": "කරුණාකර ඔබගේ ගොවිපලයේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න",
+  "auth_token_not_found": "සත්‍යාපන ටෝකන් හමු නොවීය. කරුණාකර නැවත ලොග් වන්න.",
+  "an_error_occurred": "දෝෂයක් ඇතිවිය",
+  "list_crop": "ගොවිපල ලැයිස්තුගත කරන්න",
+  "add_photos": "ඡායාරූප එක් කරන්න",
+  "listing_details": "ලැයිස්තුගත කිරීමේ විස්තර",
+  "name": "නම",
+  "enter_crop_name": "ගොවිපලයේ නම ඇතුළත් කරන්න",
+  "description": "විස්තරය",
+  "enter_description": "විස්තරය ඇතුළත් කරන්න",
+  "price_lkr": "මිල (රුපියල්)",
+  "enter_price": "මිල ඇතුළත් කරන්න",
+  "enter_valid_price": "වලංගු මිලක් ඇතුළත් කරන්න",
+  "location": "ස්ථානය",
+  "select_location": "ස්ථානය තෝරන්න",
+  "quantity_kg": "ප්‍රමාණය (කිලෝ)",
+  "enter_quantity": "ප්‍රමාණය ඇතුළත් කරන්න",
+  "enter_valid_quantity": "වලංගු ප්‍රමාණයක් ඇතුළත් කරන්න",
+  "harvest_date": "කප්පාදු දිනය",
+  "select_date": "දිනය තෝරන්න",
+  "done": "සම්පූර්ණයි",
+
+  "harvest": "කප්පාදු කල දිනය",
+  "view_details": "විස්තර බලන්න",
+
+  "about_this_product": "මෙම නිෂ්පාදනය ගැන",
+  "quantity": "ප්‍රමාණය",
+  "harvest_date": "කප්පාදු කල දිනය",
+  "available_quantity": "ලබා ගත හැකි ප්‍රමාණය",
+  "location": "ස්ථානය",
+  "add_to_cart": "කරත්තයට එක් කරන්න",
+  "chat_with_seller": "විකුණුම්කරු සමඟ කතාබස් කරන්න",
+  "call_instead": "ඒ වෙනුවට අමතන්න",
+
+  "comment_": "texts for farmer_view.dart",
+
+  "search": "සොයන්න",
+  "market_prices": "වෙළඳපල\nමිල",
+  "negotiations": "සාකච්ඡා\nකරන්න",
+  "list_crop": "ලැයිස්තුගත කරන්න",
+  "market_place": "වෙළඳපල",
+
+  "comment_": "texts for settings_main_page,dart",
+
+  "your_account_information": "ඔබගේ ගිණුම් තොරතුරු",
+  "password_and_account": "මුරපදය සහ ගිණුම",
+  "language_settings": "භාෂා සැකසුම්",
+  "change_your_language_here": "ඔබගේ භාෂාව මෙතැනින් වෙනස් කරන්න",
+  "privacy_security": "පෞද්ගලිකත්වය සහ ආරක්ෂාව",
+  "change_privacy_security_settings": "ඔබගේ පෞද්ගලික/ආරක්ශක සැකසුම් වෙනස් කරන්න",
+  "sign_out": "පිටවන්න"
+
+
+}

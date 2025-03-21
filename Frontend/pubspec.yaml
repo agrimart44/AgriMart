@@ -19,7 +19,7 @@ dependencies:
   firebase_core: ^3.10.1
   firebase_auth: ^5.4.1
   cloud_firestore: ^5.6.2
-  intl: ^0.20.2
+  intl: ^0.19.0
   bubble: ^1.2.1
   cached_network_image: ^3.4.1
   flutter_signin_button: ^2.0.0
@@ -42,8 +42,12 @@ dependencies:
   basic_utils: ^5.7.0
   firebase_messaging: ^15.2.4
   flutter_local_notifications: ^19.0.0
-  table_calendar: ^3.2.0
+  table_calendar: ^3.0.9
   fl_chart: ^0.70.2
+  flutter_gen: ^5.10.0
+  flutter_localizations:
+    sdk: flutter
+
   
 
   
@@ -55,9 +59,12 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
+    - lib/l10n/
+
   
     - lib/assets/Potato.jpg
     - lib/assets/tomato.jpg
@@ -66,5 +73,25 @@ flutter:
     - lib/assets/first_page_background.jpg
     - lib/assets/
 
-    
+localization:
+  arb-dir: lib/l10n
+  template-arb-file: app_en.arb
+  output-localization-file: farmer_view_localizations.dart
+  output-class: AppLocalizations
+
+# Localization setup
+flutter_localizations:
+  enabled: true
+  # Uncomment these if needed for output localization settings
+  # template-arb-file: app_en.arb
+  # output-localization-file: app_localizations.dart
+  # output-class: AppLocalizations    
+
+
+
+
+
+
+
+
 

@@ -1,0 +1,2 @@
+C:/Users/rukshan/Videos/Clone_99/AgriMart/Frontend/android/app/.cxx/Debug/3c2m1x1u/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/rukshan/Videos/Clone_99/AgriMart/Frontend/android/app/.cxx/Debug/3c2m1x1u/arm64-v8a/CMakeFiles/rebuild_cache.dir

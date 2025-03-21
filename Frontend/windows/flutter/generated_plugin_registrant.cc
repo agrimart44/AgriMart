@@ -13,6 +13,7 @@
 #include <firebase_auth/firebase_auth_plugin_c_api.h>
 #include <firebase_core/firebase_core_plugin_c_api.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
+#include <gal/gal_plugin_c_api.h>
 #include <media_kit_video/media_kit_video_plugin_c_api.h>
 #include <record_windows/record_windows_plugin_c_api.h>
 #include <screen_brightness_windows/screen_brightness_windows_plugin.h>
@@ -35,6 +36,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("FirebaseCorePluginCApi"));
   FlutterSecureStorageWindowsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterSecureStorageWindowsPlugin"));
+  GalPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("GalPluginCApi"));
   MediaKitVideoPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("MediaKitVideoPluginCApi"));
   RecordWindowsPluginCApiRegisterWithRegistrar(

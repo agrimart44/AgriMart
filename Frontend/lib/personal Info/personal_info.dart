@@ -1,5 +1,13 @@
+
+
+
+
+
 import 'package:flutter/material.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 import 'user_Service.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
@@ -72,7 +80,11 @@ class PersonalInformationState extends State<PersonalInformation> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Personal Information",
+           //local String
+              AppLocalizations.of(context)!.personal_information,
+
+
+
           style: TextStyle(
             color: Colors.green[800],
             fontWeight: FontWeight.bold,
@@ -285,7 +297,7 @@ class PersonalInformationState extends State<PersonalInformation> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  "Account Details",
+                   AppLocalizations.of(context)!.your_account_information,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -410,7 +422,7 @@ class PersonalInformationState extends State<PersonalInformation> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Edit Profile",
+                                     AppLocalizations.of(context)!.Edit_Profile,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -419,7 +431,7 @@ class PersonalInformationState extends State<PersonalInformation> {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      "Update your information",
+                                     AppLocalizations.of(context)!.update_your_information,
                                       style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.grey[600],
