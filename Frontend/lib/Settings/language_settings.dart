@@ -12,7 +12,7 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
   String _searchQuery = '';
 
   //get the selected language
-  String? _selectedLanguageCode;
+  //String? _selectedLanguageCode;
 
   final List<Language> _languages = [
     Language(name: 'English', code: 'en'),
@@ -110,7 +110,8 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
                           itemBuilder: (context, index) {
                             final language = _filteredLanguages[index];
                             final isSelected =
-                                _selectedLanguageCode == language.code;
+                                // languageProvider instance manages the selected language.
+                                languageProvider.locale.languageCode  == language.code;
 
                             return ListTile(
                               title: Text(

@@ -26,6 +26,8 @@ void main() async {
   runApp(MyApp());
 }
 
+
+
 //create a class to manage the language that user selected via app
 class LanguageProvider extends ChangeNotifier {
   //set the default language as English
@@ -39,8 +41,9 @@ class LanguageProvider extends ChangeNotifier {
     _locale = locale;
     notifyListeners();
   }
-
 }
+
+
 
 
 class MyApp extends StatefulWidget {
