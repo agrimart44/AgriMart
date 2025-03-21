@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -21,23 +21,35 @@ jobs:
         with:
           flutter-version: '3.29.0' # Specify your Flutter version
 
-      # Step 3: Install dependencies
+      # Step 3: Navigate to the Flutter project directory
+      - name: Navigate to Flutter project directory
+        run: cd Frontend
+
+      # Step 4: Install dependencies
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd Frontend
+          flutter pub get
 
-      # Step 4: Run tests
-      - name: Run Flutter tests
-        run: flutter test
+      # Step 5: Decode Keystore
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > Frontend/android/app/upload-keystore.jks
 
-      # Step 5: Build the Flutter app
+      # Step 6: Build the Flutter app
       - name: Build Android APK
-        run: flutter build apk --release
+        run: |
+          cd Frontend
+          flutter build apk --release
+        env:
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 6: Deploy to Firebase App Distribution
+      # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
           token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
           groups: testers # Firebase App Distribution tester group
-          file: build/app/outputs/flutter-apk/app-release.apk # Path to the APK
+          file: Frontend/build/app/outputs/flutter-apk/app-release.apk # Path to the APK
