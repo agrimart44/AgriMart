@@ -1,0 +1,70 @@
+{
+  "personal_information": "தனிப்பட்ட தகவல்",
+  "full_name": "முழுப் பெயர்",
+  "gender": "பாலினம்",
+  "role": "பங்கு",
+  "location": "இடம்",
+
+
+  "choose_an_option": "ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்",
+  "gallery": "கேலரி",
+  "camera": "கேமரா",
+  "success": "வெற்றி",
+  "crop_listed_successfully": "உங்கள் பயிர் வெற்றிகரமாக பட்டியலிடப்பட்டது!",
+  "ok": "சரி",
+  "error": "பிழை",
+  "add_at_least_one_photo": "தயவுசெய்து உங்கள் பயிரின் குறைந்தது ஒரு புகைப்படத்தைச் சேர்க்கவும்",
+  "auth_token_not_found": "அங்கீகார டோக்கன் கிடைக்கவில்லை. மீண்டும் உள்நுழையவும்.",
+  "an_error_occurred": "ஒரு பிழை ஏற்பட்டது",
+  "list_crop": "பயிரை பட்டியலிடு",
+  "add_photos": "புகைப்படங்களைச் சேர்க்கவும்",
+  "listing_details": "பட்டியல் விவரங்கள்",
+  "name": "பெயர்",
+  "enter_crop_name": "பயிரின் பெயரை உள்ளிடவும்",
+  "description": "விளக்கம்",
+  "enter_description": "விளக்கத்தை உள்ளிடவும்",
+  "price_lkr": "விலை (ரூபாய்)",
+  "enter_price": "விலையை உள்ளிடவும்",
+  "enter_valid_price": "சரியான விலையை உள்ளிடவும்",
+  "location": "இடம்",
+  "select_location": "இடத்தைத் தேர்ந்தெடுக்கவும்",
+  "quantity_kg": "அளவு (கிலோ)",
+  "enter_quantity": "அளவை உள்ளிடவும்",
+  "enter_valid_quantity": "சரியான அளவை உள்ளிடவும்",
+  "harvest_date": "அறுவடை தேதி",
+  "select_date": "தேதியைத் தேர்ந்தெடுக்கவும்",
+  "done": "முடிந்தது",
+
+
+   "harvest": "அறுவடை",
+   "view_details": "விவரங்களைப் பார்க்க",
+
+   "about_this_product": "இந்த தயாரிப்பு பற்றி",
+   "quantity": "அளவு",
+   "harvest_date": "அறுவடை தேதி",
+   "available_quantity": "கிடைக்கும் அளவு",
+   "location": "இடம்",
+   "add_to_cart": "கார்ட்டில் சேர்",
+   "chat_with_seller": "விற்பனையாளருடன் அரட்டையடிக்கவும்",
+   "call_instead": "அதற்கு பதிலாக அழைக்கவும்",
+
+   "comment_": "texts for farmer_view.dart",
+
+   "search": "தேடு",
+   "market_prices": "சந்தை \n விலைகள்",
+   "negotiations": "பேரம்",
+   "list_crop": "பயிரை பட்டியலிடு",
+   "market_place": "சந்தை\nஇடம்",
+
+   "comment_": "texts for settings_main_page.dart",
+
+   "your_account_information": "உங்கள் கணக்கு தகவல்",
+   "password_and_account": "கடவுச்சொல் மற்றும் கணக்கு",
+   "language_settings": "மொழி அமைப்புகள்",
+   "change_your_language_here": "உங்கள் மொழியை இங்கே மாற்றவும்",
+   "privacy_security": "தனியுரிமை மற்றும் பாதுகாப்பு",
+   "change_privacy_security_settings": "உங்கள் தனியுரிமை மற்றும் பாதுகாப்பு அமைப்புகளை மாற்றவும்",
+   "sign_out": "வெளியேறு"
+
+
+}
