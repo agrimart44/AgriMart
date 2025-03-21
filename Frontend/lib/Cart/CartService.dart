@@ -15,6 +15,7 @@ class CartService {
     );
     
     if (response.statusCode == 200) {
+      
       print('Cart items loaded successfully');
       print(response.body);
       print(firebaseToken);
@@ -97,19 +98,17 @@ class CartItem {
     required this.seller,
     required this.unit,
   });
+  
+  // Factory method to create CartItem from JSON
   factory CartItem.fromJson(Map<String, dynamic> json) {
-  try {
     return CartItem(
-      id: json['id'] ?? '',
-      name: json['cropName'] ?? 'Unknown',
+      id: json['id'],
+      name: json['name'],
       price: double.parse(json['price'].toString()),
-      quantity: json['quantity'] ?? 1,
+      quantity: json['quantity'] ?? 1, // Default to 1 if not provided
       image: json['imageURL'] ?? '',
-      seller: json['location'] ?? 'Unknown',
+      seller: json['farmer'] ?? 'Unknown',
       unit: json['unit'] ?? 'kg',
     );
-  } catch (e) {
-    throw FormatException("Invalid JSON format for CartItem: $e");
-  }
   }
 }

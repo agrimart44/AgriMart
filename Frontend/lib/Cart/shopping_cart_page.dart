@@ -362,14 +362,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     try {
                                       final firebaseToken = await _authService.getStoredFirebaseToken();
                                       if (firebaseToken == null) {
-                                        
                                         throw Exception("No Firebase token found. Please login again.");
-                                      }else{
-                                        print('Cart items loaded successfully');
-                                        print(firebaseToken);
                                       }
 
-                                      final url = Uri.parse('http://44.203.237.175:8000/cart/clearCart/');
+                                      final url = Uri.parse('http://192.168.1.3:8000/cart/clearCart/');
                                       final response = await http.post(
                                         url,
                                         headers: {
