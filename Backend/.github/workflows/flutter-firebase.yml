@@ -1,0 +1,43 @@
+name: Flutter CI/CD to Firebase App Distribution
+
+on:
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the main branch
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0' # Specify your Flutter version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Run tests
+      - name: Run Flutter tests
+        run: flutter test
+
+      # Step 5: Build the Flutter app
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      # Step 6: Deploy to Firebase App Distribution
+      - name: Deploy to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
+          token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
+          groups: testers # Firebase App Distribution tester group
+          file: build/app/outputs/flutter-apk/app-release.apk # Path to the APK
