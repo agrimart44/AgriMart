@@ -45,11 +45,11 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 7: Deploy to Firebase App Distribution
+      # Step 7: Deploy to Firebase App Distribution (With Tester Email)
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
           token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
-          groups: testers # Firebase App Distribution tester group
+          testers: rukshancoc@gmail.com # Add your email as a tester
           file: Frontend/build/app/outputs/flutter-apk/app-release.apk # Path to the APK
