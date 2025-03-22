@@ -86,6 +86,6 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           token: ${{ secrets.FIREBASE_TOKEN }}
-          groups: testers
+          testers: rukshancoc@gmail.com # Add your email as a tester
           releaseNotes: "Automated build from GitHub Actions"
           file: Frontend/build/app/outputs/flutter-apk/app-release.apk
