@@ -7,6 +7,8 @@ import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class FarmerView extends StatefulWidget {
   const FarmerView({super.key});
@@ -192,7 +194,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
         childAspectRatio: 0.9, // Slightly taller cards for more content
         children: [
           _buildDashboardCard(
-            'Market\nPrices',
+            //'Market\nPrices',
+            AppLocalizations.of(context)!.market_prices,
             Icons.trending_up_rounded,
             'Track market trends',
             () {
