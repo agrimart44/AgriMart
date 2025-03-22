@@ -340,6 +340,10 @@ class PersonalInformationState extends State<PersonalInformation> {
                 _buildInfoItem(Icons.person, AppLocalizations.of(context)!.phone, phoneNumber, Colors.blue),
                 //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
 
+                // add local string for email
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.email, email, Colors.blue),
+                //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
+
 
 
               ],
