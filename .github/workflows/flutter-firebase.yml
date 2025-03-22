@@ -86,7 +86,12 @@ jobs:
         if: always()
         run: |
           echo "Checking if emulator is running..."
-          adb devices | grep emulator && adb emu kill || echo "Emulator not running."
+          if adb devices | grep emulator; then
+            echo "Terminating emulator..."
+            adb -s emulator-5554 emu kill || echo "Failed to terminate emulator."
+          else
+            echo "Emulator not running."
+          fi
 
   build-and-deploy:
     runs-on: ubuntu-latest
