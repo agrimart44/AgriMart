@@ -72,7 +72,14 @@ flutter:
 
   
     # - lib/assets/Potato.jpg
-    # - lib/assets/tomato.jpg
+    - lib/assets/tomato.jpg
+    - lib/assets/cabbage.jpg
+    - lib/assets/brinjal.jpg
+    - lib/assets/carrot.jpg
+    - lib/assets/Greenchilli.jpg
+    - lib/assets/lime.jpg
+    - lib/assets/pumpkin.jpg
+    - lib/assets/snakegourd.jpeg
     # - lib/assets/rukaass.jpg
     # - lib/assets/flow.jpg
     # - lib/assets/first_page_background.jpg

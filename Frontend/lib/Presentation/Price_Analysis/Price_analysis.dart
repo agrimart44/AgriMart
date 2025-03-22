@@ -10,12 +10,12 @@ enum Vegetable {
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
   lime('Lime', 'lib/assets/lime.jpg'),
-  cabbage('Cabbage', 'lib/assets/lime.jpg'),
-  brinjal('Brinjal', 'lib/assets/lime.jpg'),
+  cabbage('Cabbage', 'lib/assets/cabbage.jpg'),
+  brinjal('Brinjal', 'lib/assets/brinjal.jpg'),
   // ignore: constant_identifier_names
-  Snakegourd('Snake gourd', 'lib/assets/lime.jpg'),
+  Snakegourd('Snake gourd', 'lib/assets/snakegourd.jpeg'),
   // ignore: constant_identifier_names
-  GreenChilli('Green Chilli', 'lib/assets/lime.jpg');
+  GreenChilli('Green Chilli', 'lib/assets/Greenchilli.jpg');
 
 
   const Vegetable(this.label, this.imagePath);
