@@ -1,0 +1,24 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:namer_app/main.dart' as app;
+import 'package:flutter/material.dart';
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build the app and trigger a frame.
+    app.main();
+    await tester.pumpAndSettle();
+
+    // Verify that the counter starts at 0
+    expect(find.text('0'), findsOneWidget);
+
+    // Tap the '+' icon and trigger a frame.
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pumpAndSettle();
+
+    // Verify that the counter has incremented to 1
+    expect(find.text('1'), findsOneWidget);
+  });
+}

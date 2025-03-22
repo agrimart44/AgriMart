@@ -59,6 +59,10 @@ dev_dependencies:
 
   flutter_lints: ^5.0.0
 
+  # Add the integration_test package
+  integration_test:
+    sdk: flutter
+
 flutter:
   generate: true
   uses-material-design: true
