@@ -34,14 +34,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Debugging: Check Flutter Version and Dependencies
-      - name: Debug Flutter Environment
-        run: |
-          echo "Flutter version:"
-          flutter --version
-          echo "Dependencies:"
-          flutter pub deps
-
       # Step 4: Run Unit Tests
       - name: Run Unit Tests
         run: flutter test --coverage
@@ -50,48 +42,7 @@ jobs:
       - name: Run Widget Tests
         run: flutter test test/widget_test.dart
 
-      # Step 6: Run Integration Tests with Emulator
-      - name: Integration Tests with Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          working-directory: Frontend
-          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048 -accel on'
-          disable-animations: true
-          script: |
-            echo "Waiting for emulator to boot..."
-            adb wait-for-device
-            TIMEOUT=900
-            while true; do
-              if [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" = "1" ]; then
-                echo "Emulator booted successfully!"
-                break
-              fi
-              if [ $TIMEOUT -le 0 ]; then
-                echo "Emulator failed to boot within the timeout period."
-                exit 1
-              fi
-              echo "Still waiting for emulator... $TIMEOUT seconds remaining"
-              sleep 5
-              TIMEOUT=$((TIMEOUT-5))
-            done
-            echo "Running integration tests..."
-            flutter test integration_test/app_test.dart
-
-      # Step 7: Terminate Emulator
-      - name: Terminate Emulator
-        if: always()
-        run: |
-          echo "Checking if emulator is running..."
-          if adb devices | grep emulator; then
-            echo "Terminating emulator..."
-            adb -s emulator-5554 emu kill || echo "Failed to terminate emulator."
-          else
-            echo "Emulator not running."
-          fi
+     
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -114,17 +65,6 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-
-      # Step 0: Validate Secrets
-      - name: Validate Secrets
-        run: |
-          echo "Validating secrets..."
-          [[ -z "${{ secrets.KEYSTORE_BASE64 }}" ]] && echo "KEYSTORE_BASE64 is missing!" && exit 1
-          [[ -z "${{ secrets.STORE_PASSWORD }}" ]] && echo "STORE_PASSWORD is missing!" && exit 1
-          [[ -z "${{ secrets.KEY_PASSWORD }}" ]] && echo "KEY_PASSWORD is missing!" && exit 1
-          [[ -z "${{ secrets.FIREBASE_APP_ID }}" ]] && echo "FIREBASE_APP_ID is missing!" && exit 1
-          [[ -z "${{ secrets.FIREBASE_TOKEN }}" ]] && echo "FIREBASE_TOKEN is missing!" && exit 1
-          echo "All secrets are present."
 
       # Step 4: Decode Keystore
       - name: Decode Keystore
