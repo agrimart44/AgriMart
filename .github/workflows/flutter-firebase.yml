@@ -31,12 +31,28 @@ jobs:
           cd Frontend
           flutter pub get
 
-      # Step 5: Decode Keystore
+      # Step 5: Run Flutter Tests (Unit, Widget, and Integration Tests)
+      - name: Run Flutter Unit Tests
+        run: |
+          cd Frontend
+          flutter test --coverage
+
+      - name: Run Flutter Widget Tests
+        run: |
+          cd Frontend
+          flutter test test/widget_test.dart
+
+      - name: Run Flutter Integration Tests
+        run: |
+          cd Frontend
+          flutter drive --target=test_driver/app.dart
+
+      # Step 6: Decode Keystore
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > Frontend/android/app/upload-keystore.jks
 
-      # Step 6: Build the Flutter app
+      # Step 7: Build the Flutter app
       - name: Build Android APK
         run: |
           cd Frontend
@@ -45,7 +61,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 7: Deploy to Firebase App Distribution (With Tester Email)
+      # Step 8: Deploy to Firebase App Distribution (With Tester Email)
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
