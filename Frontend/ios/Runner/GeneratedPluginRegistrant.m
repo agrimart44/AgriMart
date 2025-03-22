@@ -120,6 +120,12 @@
 @import image_picker_ios;
 #endif
 
+#if __has_include(<integration_test/IntegrationTestPlugin.h>)
+#import <integration_test/IntegrationTestPlugin.h>
+#else
+@import integration_test;
+#endif
+
 #if __has_include(<just_audio/JustAudioPlugin.h>)
 #import <just_audio/JustAudioPlugin.h>
 #else
@@ -232,6 +238,7 @@
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [ImageGallerySaverPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ImageGallerySaverPlusPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
+  [IntegrationTestPlugin registerWithRegistrar:[registry registrarForPlugin:@"IntegrationTestPlugin"]];
   [JustAudioPlugin registerWithRegistrar:[registry registrarForPlugin:@"JustAudioPlugin"]];
   [LocationPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPlugin"]];
   [MediaKitVideoPlugin registerWithRegistrar:[registry registrarForPlugin:@"MediaKitVideoPlugin"]];
