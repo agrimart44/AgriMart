@@ -1,44 +1,55 @@
 name: Flutter CI/CD with Android Emulator
+
 on:
   push:
     branches:
       - main # Trigger the workflow on pushes to the main branch
   workflow_dispatch: # Allows manual triggering
+
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: Frontend # Ensure this matches the actual directory name
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       # Debugging: Check Repository Structure
       - name: Debug Repository Structure
         run: |
           echo "Checking repository structure..."
           ls -R || echo "Failed to list files!"
-          
+
       # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.0' # Specify your Flutter version
-          
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-        
+
+      # Debugging: Check Flutter Version and Dependencies
+      - name: Debug Flutter Environment
+        run: |
+          echo "Flutter version:"
+          flutter --version
+          echo "Dependencies:"
+          flutter pub deps
+
       # Step 4: Run Unit Tests
       - name: Run Unit Tests
         run: flutter test --coverage
-        
+
       # Step 5: Run Widget Tests
       - name: Run Widget Tests
         run: flutter test test/widget_test.dart
-        
+
       # Step 6: Run Integration Tests with Emulator
       - name: Integration Tests with Emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -50,33 +61,70 @@ jobs:
           working-directory: Frontend
           emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim'
           disable-animations: true
-          script: flutter test integration_test
-     
+          script: |
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+            TIMEOUT=900
+            while true; do
+              if [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" = "1" ]; then
+                echo "Emulator booted successfully!"
+                break
+              fi
+              if [ $TIMEOUT -le 0 ]; then
+                echo "Emulator failed to boot within the timeout period."
+                exit 1
+              fi
+              echo "Still waiting for emulator... $TIMEOUT seconds remaining"
+              sleep 5
+              TIMEOUT=$((TIMEOUT-5))
+            done
+            echo "Running integration tests..."
+            flutter test integration_test/app_test.dart
+
+      # Step 7: Terminate Emulator
+      - name: Terminate Emulator
+        if: always()
+        run: |
+          echo "Checking if emulator is running..."
+          adb devices | grep emulator && adb emu kill || echo "Emulator not running."
+
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: test
     defaults:
       run:
         working-directory: Frontend # Ensure this matches the actual directory name
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.0'
-          
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-        
+
+      # Step 0: Validate Secrets
+      - name: Validate Secrets
+        run: |
+          echo "Validating secrets..."
+          [[ -z "${{ secrets.KEYSTORE_BASE64 }}" ]] && echo "KEYSTORE_BASE64 is missing!" && exit 1
+          [[ -z "${{ secrets.STORE_PASSWORD }}" ]] && echo "STORE_PASSWORD is missing!" && exit 1
+          [[ -z "${{ secrets.KEY_PASSWORD }}" ]] && echo "KEY_PASSWORD is missing!" && exit 1
+          [[ -z "${{ secrets.FIREBASE_APP_ID }}" ]] && echo "FIREBASE_APP_ID is missing!" && exit 1
+          [[ -z "${{ secrets.FIREBASE_TOKEN }}" ]] && echo "FIREBASE_TOKEN is missing!" && exit 1
+          echo "All secrets are present."
+
       # Step 4: Decode Keystore
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
-        
+
       # Step 5: Create key.properties file
       - name: Create key.properties
         run: |
@@ -84,11 +132,11 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=upload" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
-          
+
       # Step 6: Build the Flutter app
       - name: Build Android APK
         run: flutter build apk --release
-        
+
       # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
