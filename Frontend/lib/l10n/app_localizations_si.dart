@@ -19,7 +19,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get location => 'ස්ථානය';
 
   @override
-  String get  Edit_Profile => 'සංස්කරණය කරන්න';
+  String get Edit_Profile => 'සංස්කරණය කරන්න';
 
   @override
   String get choose_an_option => 'විකල්පයක් තෝරන්න';
@@ -43,10 +43,12 @@ class AppLocalizationsSi extends AppLocalizations {
   String get error => 'දෝෂයක්';
 
   @override
-  String get add_at_least_one_photo => 'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
+  String get add_at_least_one_photo =>
+      'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
 
   @override
-  String get auth_token_not_found => 'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
+  String get auth_token_not_found =>
+      'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
 
   @override
   String get an_error_occurred => 'දෝෂයක් සිදු විය';
@@ -157,11 +159,12 @@ class AppLocalizationsSi extends AppLocalizations {
   String get privacy_policy => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
 
   @override
-  String get change_privacy_security_settings => 'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
+  String get change_privacy_security_settings =>
+      'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
 
   @override
   String get sign_out => 'පිටවීම';
-  
+
   @override
   String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
 
@@ -190,7 +193,8 @@ class AppLocalizationsSi extends AppLocalizations {
   String get welcome => 'ආයුබෝවන්!';
 
   @override
-  String get manage_your_agricultural_business => 'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
+  String get manage_your_agricultural_business =>
+      'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
 
   @override
   String get quick_actions => 'ඉක්මන් ක්‍රියාව';
@@ -198,14 +202,15 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get settings => 'සැකසුම්';
 
-    @override
+  @override
   String get see_your_profile_details => 'ඔබගේ ගිණුම් විස්තර බලන්න';
 
   @override
   String get choose_your_preffered_language => 'ඔබේ කැමති භාෂාව තෝරන්න';
 
   @override
-  String get checkout_our_policy_details => 'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
+  String get checkout_our_policy_details =>
+      'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
 
   @override
   String get phone => 'දුරකථන අංකය';
@@ -221,5 +226,7 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get select_your_language => 'ඔබේ භාෂාව තෝරන්න';
-  
+
+  @override
+  String get farm_statistics => 'ගොවිපළ සංඛ්‍යා ලේඛන';
 }

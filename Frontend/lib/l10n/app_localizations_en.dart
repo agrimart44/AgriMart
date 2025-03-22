@@ -227,4 +227,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get select_your_language => 'Select Your Language';
+
+  @override
+  String get farm_statistics => 'Farm Statistics';
 }

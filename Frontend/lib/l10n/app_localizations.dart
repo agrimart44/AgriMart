@@ -513,7 +513,6 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get email;
 
-
   /// No description provided for @cart_items.
   ///
   /// In en, this message translates to:
@@ -531,6 +530,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select your language'**
   String get select_your_language;
+
+  /// No description provided for @Farm Statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm Statistics'**
+  String get farm_statistics;
 }
 
 class _AppLocalizationsDelegate

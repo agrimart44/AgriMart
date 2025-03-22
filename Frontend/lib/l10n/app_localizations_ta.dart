@@ -191,14 +191,15 @@ class AppLocalizationsTa extends AppLocalizations {
   String get welcome => 'வணக்கம்!';
 
   @override
-  String get manage_your_agricultural_business => 'உங்கள் விவசாய வணிகத்தை நிர்வகிக்கவும்';
-  
+  String get manage_your_agricultural_business =>
+      'உங்கள் விவசாய வணிகத்தை நிர்வகிக்கவும்';
+
   @override
   String get cart => 'தள்ளுவண்டி';
-  
+
   @override
   String get home => 'முகப்பு';
-  
+
   @override
   String get profile => 'சுயவிவரம்';
 
@@ -209,17 +210,20 @@ class AppLocalizationsTa extends AppLocalizations {
   String get settings => 'அமைப்புகள்';
 
   @override
-  String get see_your_profile_details => 'உங்கள் கணக்கு விவரங்களைப் பார்க்கவும்';
+  String get see_your_profile_details =>
+      'உங்கள் கணக்கு விவரங்களைப் பார்க்கவும்';
 
   @override
-  String get choose_your_preffered_language => 'உங்களுக்கு விருப்பமான மொழியைத் தேர்வுசெய்யவும்';
+  String get choose_your_preffered_language =>
+      'உங்களுக்கு விருப்பமான மொழியைத் தேர்வுசெய்யவும்';
 
   @override
-  String get checkout_our_policy_details => 'எங்கள் கொள்கை விவரங்களைப் பாருங்கள்';
+  String get checkout_our_policy_details =>
+      'எங்கள் கொள்கை விவரங்களைப் பாருங்கள்';
 
   @override
   String get phone => 'தொலைபேசி எண்';
-  
+
   @override
   String get email => 'மின்னஞ்சல்';
 
@@ -232,5 +236,6 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
 
-  
+  @override
+  String get farm_statistics => 'விவசாய புள்ளிவிவரங்கள்';
 }
