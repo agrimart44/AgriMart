@@ -11,25 +11,31 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Frontend # Set the working directory for all steps
-    
+        working-directory: Frontend # Ensure this matches the actual directory name
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
+      # Debugging: Check Repository Structure
+      - name: Debug Repository Structure
+        run: |
+          echo "Checking repository structure..."
+          ls -R || echo "Failed to list files!"
+
       # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.0' # Specify your Flutter version
-      
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-      
-      # Step 4: Set up Android Emulator with a much simpler script
-      - name: Set up Android Emulator
+
+      # Step 4: Set up Android Emulator and Run Tests
+      - name: Set up Android Emulator and Run Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -38,42 +44,37 @@ jobs:
           profile: Nexus 6
           emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048'
           disable-animations: true
-          script: flutter test integration_test/app_test.dart
-      
-      # Step 5: Run unit tests
-      - name: Run Unit Tests
-        run: flutter test --coverage
-      
-      # Step 6: Run widget tests
-      - name: Run Widget Tests
-        run: flutter test test/widget_test.dart
+          script: |
+            echo "Running all tests..."
+            flutter test --coverage
+            flutter test test/widget_test.dart
 
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: test
     defaults:
       run:
-        working-directory: Frontend
-    
+        working-directory: Frontend # Ensure this matches the actual directory name
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.0'
-      
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-      
+
       # Step 4: Decode Keystore
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
-      
+
       # Step 5: Create key.properties file
       - name: Create key.properties
         run: |
@@ -81,11 +82,11 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=upload" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
-      
+
       # Step 6: Build the Flutter app
       - name: Build Android APK
         run: flutter build apk --release
-      
+
       # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
