@@ -1,4 +1,4 @@
-name: Flutter CI/CD to Firebase App Distribution
+name: Flutter CI/CD with Android Emulator (Software Rendering)
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Set up Android Emulator
+      # Step 4: Set up Android Emulator (Software Rendering)
       - name: Set up Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -37,11 +37,12 @@ jobs:
           target: google_apis # Use Google APIs
           arch: x86_64 # Architecture
           profile: pixel_3a # Device profile
+          emulator-options: '-no-snapshot -gpu swiftshader_indirect' # Enable software rendering
           script: |
-            # Run Flutter tests on the emulator
-            flutter test --coverage
-            flutter test test/widget_test.dart
-            flutter test integration_test/app_test.dart
+            echo "Running tests on the emulator..."
+            flutter test --coverage # Run unit tests
+            flutter test test/widget_test.dart # Run widget tests
+            flutter test integration_test/app_test.dart # Run integration tests
 
       # Step 5: Decode Keystore
       - name: Decode Keystore
