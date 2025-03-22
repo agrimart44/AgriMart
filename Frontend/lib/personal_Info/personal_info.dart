@@ -344,6 +344,10 @@ class PersonalInformationState extends State<PersonalInformation> {
                 _buildInfoItem(Icons.person, AppLocalizations.of(context)!.email, email, Colors.blue),
                 //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
 
+                // add local string for location
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.location, location, Colors.blue),
+                //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
+
 
 
               ],
