@@ -229,5 +229,8 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get items => 'பொருட்கள்';
 
+  @override
+  String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
+
   
 }

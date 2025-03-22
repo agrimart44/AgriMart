@@ -195,7 +195,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome!';
 
   @override
-  String get manage_your_agricultural_business => 'Manage your agricultural business';
+  String get manage_your_agricultural_business =>
+      'Manage your agricultural business';
 
   @override
   String get quick_actions => 'Quick Actions';
@@ -212,15 +213,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get checkout_our_policy_details => 'Checkout our policy  details';
 
-    @override
-  String get phone => 'Phone number';
+  @override
+  String get phone => 'Phone Number';
 
   @override
-  String get email => 'Email address';
+  String get email => 'Email Address';
 
   @override
   String get cart_items => 'Cart Items';
 
   @override
   String get items => 'Items';
+
+  @override
+  String get select_your_language => 'Select Your Language';
 }

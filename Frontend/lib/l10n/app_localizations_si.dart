@@ -218,5 +218,8 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get items => 'භාණ්ඩ';
+
+  @override
+  String get select_your_language => 'ඔබේ භාෂාව තෝරන්න';
   
 }

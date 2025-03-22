@@ -520,11 +520,17 @@ abstract class AppLocalizations {
   /// **'Cart_items'**
   String get cart_items;
 
-    /// No description provided for @Items.
+  /// No description provided for @Items.
   ///
   /// In en, this message translates to:
   /// **'Items'**
   String get items;
+
+  /// No description provided for @select_your_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your language'**
+  String get select_your_language;
 }
 
 class _AppLocalizationsDelegate
