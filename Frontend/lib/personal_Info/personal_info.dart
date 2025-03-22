@@ -334,7 +334,13 @@ class PersonalInformationState extends State<PersonalInformation> {
               children: [
                 //add Local string for full name.
                 _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.blue),
-                //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),
+                //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),   //old code
+
+                // add Local string for phone number.
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.phone, phoneNumber, Colors.blue),
+                //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
+
+
 
               ],
             ),
