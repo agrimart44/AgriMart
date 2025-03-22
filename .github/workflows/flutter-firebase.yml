@@ -1,4 +1,4 @@
-name: Flutter CI/CD with Android Emulator
+name: Flutter CI/CD with Chrome Testing
 
 on:
   push:
@@ -29,51 +29,36 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Set up Android Emulator
-      - name: Set up Android Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: google_apis
-          arch: x86_64
-          profile: pixel_3a
-          emulator-options: '-no-snapshot -gpu swiftshader_indirect -no-audio -no-boot-anim -partition-size 2048'
-          script: |
-            echo "Waiting for emulator to boot..."
-            adb wait-for-device
-            timeout=600 # 10 minutes
-            while [[ "$(adb shell getprop sys.boot_completed)" != "1" && $timeout -gt 0 ]]; do
-              sleep 5
-              timeout=$((timeout-5))
-            done
-            if [[ $timeout -eq 0 ]]; then
-              echo "Emulator failed to boot within the timeout period."
-              exit 1
-            fi
-            echo "Emulator booted successfully!"
-            flutter test --coverage
-            flutter test test/widget_test.dart
-            flutter test integration_test/app_test.dart
-
-      # Debugging: Check Emulator Status
-      - name: Debug Emulator Status
+      # Step 4: Run Unit Tests on Chrome
+      - name: Run Flutter Unit Tests on Chrome
         run: |
-          echo "Checking emulator status..."
-          adb devices || echo "No emulator detected!"
-          adb shell getprop sys.boot_completed || echo "Emulator not fully booted yet."
+          echo "Running unit tests on Chrome..."
+          flutter test --platform chrome --coverage
 
-      # Step 5: Decode Keystore
+      # Step 5: Run Widget Tests on Chrome
+      - name: Run Flutter Widget Tests on Chrome
+        run: |
+          echo "Running widget tests on Chrome..."
+          flutter test --platform chrome test/widget_test.dart
+
+      # Step 6: Run Integration Tests on Chrome
+      - name: Run Flutter Integration Tests on Chrome
+        run: |
+          echo "Running integration tests on Chrome..."
+          flutter test --platform chrome integration_test/app_test.dart
+
+      # Step 7: Decode Keystore
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      # Step 6: Build the Flutter app
+      # Step 8: Build the Flutter app
       - name: Build Android APK
         run: flutter build apk --release
         env:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 7: Deploy to Firebase App Distribution
+      # Step 9: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
@@ -82,8 +67,6 @@ jobs:
           testers: rukshancoc@gmail.com # Add your email as a tester
           file: build/app/outputs/flutter-apk/app-release.apk # Path to the APK
 
-      # Step 8: Terminate Emulator
-      - name: Terminate Emulator
-        run: |
-          echo "Checking if emulator is running..."
-          adb devices | grep emulator-5554 && adb -s emulator-5554 emu kill || echo "Emulator not running."
+      # Step 10: Terminate Chrome
+      - name: Terminate Chrome
+        run: pkill -f chrome || true
