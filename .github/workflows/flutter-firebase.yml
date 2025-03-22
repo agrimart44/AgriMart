@@ -10,6 +10,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: Frontend # Set the working directory for all steps
+
     steps:
       # Step 1: Checkout code
       - name: Checkout code
@@ -19,53 +23,40 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0' # Specify your Flutter version
+          flutter-version: '3.29.0'
 
-      # Step 3: Navigate to the Flutter project directory
-      - name: Navigate to Flutter project directory
-        run: cd Frontend
-
-      # Step 4: Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: |
-          cd Frontend
-          flutter pub get
+        run: flutter pub get
 
-      # Step 5: Run Flutter Tests (Unit, Widget, and Integration Tests)
+      # Step 4: Run Flutter Unit Tests
       - name: Run Flutter Unit Tests
-        run: |
-          cd Frontend
-          flutter test --coverage
+        run: flutter test --coverage
 
+      # Step 5: Run Flutter Widget Tests
       - name: Run Flutter Widget Tests
-        run: |
-          cd Frontend
-          flutter test test/widget_test.dart
+        run: flutter test test/widget_test.dart
 
+      # Step 6: Run Flutter Integration Tests
       - name: Run Flutter Integration Tests
-        run: |
-          cd Frontend
-          flutter drive --target=test_driver/app.dart
+        run: flutter test integration_test/app_test.dart
 
-      # Step 6: Decode Keystore
+      # Step 7: Decode Keystore
       - name: Decode Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > Frontend/android/app/upload-keystore.jks
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      # Step 7: Build the Flutter app
+      # Step 8: Build the Flutter app
       - name: Build Android APK
-        run: |
-          cd Frontend
-          flutter build apk --release
+        run: flutter build apk --release
         env:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 8: Deploy to Firebase App Distribution (With Tester Email)
+      # Step 9: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
-          token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
-          testers: rukshancoc@gmail.com # Add your email as a tester
-          file: Frontend/build/app/outputs/flutter-apk/app-release.apk # Path to the APK
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          testers: rukshancoc@gmail.com
+          file: build/app/outputs/flutter-apk/app-release.apk
