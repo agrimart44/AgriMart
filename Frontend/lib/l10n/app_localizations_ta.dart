@@ -171,4 +171,15 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   // TODO: implement update_your_information
   String get update_your_information => 'சுயவிவரத்தைத் திருத்து';
+
+
+  @override
+  String get phone => 'தொலைபேசி';
+
+  @override
+  String get email => 'மின்னஞ்சல்';
+
+  @override
+  String get cart_items => 'கார்ட் உருப்படிகள்';
+
 }

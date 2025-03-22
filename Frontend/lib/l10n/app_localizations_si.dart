@@ -169,4 +169,14 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   // TODO: implement update_your_information
   String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
+
+
+  @override
+  String get phone => 'දුරකතනය';
+
+  @override
+  String get email => 'ඊ-තැපෑල';
+
+  @override
+  String get cart_items => 'කරත්තය';
 }
