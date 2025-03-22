@@ -140,6 +140,9 @@ class AppLocalizationsSi extends AppLocalizations {
   String get market_prices => 'වෙළඳපොළ මිල';
 
   @override
+  String get track_market_trends => 'වෙළඳපොළ ප්‍රවණතා හඹා යන්න';
+
+  @override
   String get negotiations => 'සාකච්ඡා';
 
   @override

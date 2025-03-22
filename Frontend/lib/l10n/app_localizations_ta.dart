@@ -32,7 +32,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get success => 'வெற்றி';
 
   @override
-  String get crop_listed_successfully => 'உங்கள் பயிர் வெற்றிகரமாக பட்டியலிடப்பட்டது!';
+  String get crop_listed_successfully =>
+      'உங்கள் பயிர் வெற்றிகரமாக பட்டியலிடப்பட்டது!';
 
   @override
   String get ok => 'சரி';
@@ -41,10 +42,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String get error => 'பிழை';
 
   @override
-  String get add_at_least_one_photo => 'தயவுசெய்து உங்கள் பயிரின் குறைந்தது ஒரு புகைப்படத்தைச் சேர்க்கவும்';
+  String get add_at_least_one_photo =>
+      'தயவுசெய்து உங்கள் பயிரின் குறைந்தது ஒரு புகைப்படத்தைச் சேர்க்கவும்';
 
   @override
-  String get auth_token_not_found => 'அங்கீகார டோக்கன் கிடைக்கவில்லை. மீண்டும் உள்நுழைக.';
+  String get auth_token_not_found =>
+      'அங்கீகார டோக்கன் கிடைக்கவில்லை. மீண்டும் உள்நுழைக.';
 
   @override
   String get an_error_occurred => 'ஒரு பிழை ஏற்பட்டது';
@@ -155,19 +158,19 @@ class AppLocalizationsTa extends AppLocalizations {
   String get privacy_security => 'தனியுரிமை மற்றும் பாதுகாப்பு';
 
   @override
-  String get change_privacy_security_settings => 'உங்கள் தனியுரிமை மற்றும் பாதுகாப்பு அமைப்புகளை மாற்றவும்';
+  String get change_privacy_security_settings =>
+      'உங்கள் தனியுரிமை மற்றும் பாதுகாப்பு அமைப்புகளை மாற்றவும்';
 
   @override
   String get sign_out => 'வெளியேறு';
-  
+
   @override
   // TODO: implement Edit_Profile
-  String get Edit_Profile => throw UnimplementedError();
+  String get Edit_Profile => 'சுயவிவரத்தை திருத்துதிருத்து';
 
   @override
-
   String get Update_your_information => 'சுயவிவரத்தைத் திருத்து';
-  
+
   @override
   // TODO: implement update_your_information
   String get update_your_information => 'சுயவிவரத்தைத் திருத்து';

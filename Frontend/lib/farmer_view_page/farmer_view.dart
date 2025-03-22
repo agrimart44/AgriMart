@@ -204,11 +204,12 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) =>  VegetableAnalysisScreen()),
               );
             },
-            const Color(0xFF2F80ED), // Deep blue
-            [const Color(0xFF56CCF2), const Color(0xFF2F80ED)], // Gradient blue
+            const Color(0xFF27AE60), // Green
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
           _buildDashboardCard(
-            'Negotiations',
+            //'Negotiations',
+            AppLocalizations.of(context)!.negotiations,
             Icons.handshake_outlined,
             'Chat with buyers',
             () {
@@ -221,7 +222,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             [const Color(0xFFFF8A65), const Color(0xFFFF5722)], // Gradient orange
           ),
           _buildDashboardCard(
-            'List Crop',
+            //'List Crop',
+            AppLocalizations.of(context)!.list_crop,
             Icons.add_circle_outline_rounded,
             'Add new products',
             () {
@@ -234,7 +236,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
           _buildDashboardCard(
-            'Market\nPlace',
+            //'Market\nPlace',
+            AppLocalizations.of(context)!.market_place,
             Icons.store_rounded,
             'Browse crops',
             () {
