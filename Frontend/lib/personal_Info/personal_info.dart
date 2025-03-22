@@ -348,6 +348,10 @@ class PersonalInformationState extends State<PersonalInformation> {
                 _buildInfoItem(Icons.person, AppLocalizations.of(context)!.location, location, Colors.blue),
                 //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
 
+                // add local string for cart
+                _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.teal),
+                //_buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),  // old code
+
 
 
               ],
