@@ -162,7 +162,7 @@ class AppLocalizationsTa extends AppLocalizations {
   
   @override
   // TODO: implement Edit_Profile
-  String get Edit_Profile => throw UnimplementedError();
+  String get Edit_Profile => 'சுயவிவரத்தைத் திருத்து';
 
   @override
 
