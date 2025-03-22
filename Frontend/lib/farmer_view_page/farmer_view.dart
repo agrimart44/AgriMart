@@ -7,6 +7,7 @@ import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
+import 'package:namer_app/personal_Info/personal_info.dart'; // Import for UserInfoService
 
 class FarmerView extends StatefulWidget {
   const FarmerView({super.key});
@@ -19,6 +20,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
   int _selectedIndex = 0;
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
+  String _farmerName = 'Farmer'; // We'll replace this with actual name from UserInfoService
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -38,6 +41,38 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
     );
     
     _controller.forward();
+    
+    // Fetch farmer name using UserInfoService
+    _loadFarmerName();
+  }
+
+  // Updated method to use UserInfoService
+  Future<void> _loadFarmerName() async {
+    setState(() => _isLoading = true);
+    
+    try {
+      // First try to get the cached name for faster UI response
+      String name = await UserInfoService.getCachedName(firstNameOnly: true);
+      
+      setState(() {
+        _farmerName = name;
+        _isLoading = false;
+      });
+      
+      // Then get the up-to-date name from the server
+      name = await UserInfoService.getUserName(firstNameOnly: true);
+      
+      if (mounted) {
+        setState(() {
+          _farmerName = name;
+        });
+      }
+    } catch (e) {
+      print('Error loading farmer name: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -92,14 +127,23 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Welcome, Farmer',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green.shade800,
-                            ),
-                          ),
+                          _isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 150,
+                                  child: LinearProgressIndicator(
+                                    backgroundColor: Colors.green,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  'Welcome, $_farmerName',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green.shade800,
+                                  ),
+                                ),
                           const SizedBox(height: 6),
                           Text(
                             'Manage your agricultural business',

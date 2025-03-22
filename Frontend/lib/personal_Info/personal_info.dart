@@ -1,14 +1,57 @@
-
 import 'package:flutter/material.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:namer_app/personal_Info/user_Service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
-
-
+// Add this static function to get user name from anywhere in the app
+class UserInfoService {
+  // Get user's name (returns full name or first name)
+  static Future<String> getUserName({bool firstNameOnly = false}) async {
+    try {
+      final UserService userService = UserService();
+      final userData = await userService.getUserDetails();
+      
+      String fullName = userData['fullName'] ?? userData['name'] ?? "Farmer";
+      
+      if (firstNameOnly && fullName.contains(' ')) {
+        return fullName.split(' ')[0];
+      }
+      
+      return fullName;
+    } catch (e) {
+      print('Error fetching user name: $e');
+      return "Farmer"; // Default fallback
+    }
+  }
+  
+  // Get cached name (faster but might not be up-to-date)
+  static Future<String> getCachedName({bool firstNameOnly = false}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final name = prefs.getString('userName') ?? "Farmer";
+      
+      if (firstNameOnly && name.contains(' ')) {
+        return name.split(' ')[0];
+      }
+      
+      return name;
+    } catch (e) {
+      print('Error getting cached name: $e');
+      return "Farmer";
+    }
+  }
+  
+  // Cache the user's name for faster access
+  static Future<void> cacheUserName(String name) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userName', name);
+    } catch (e) {
+      print('Error caching user name: $e');
+    }
+  }
+}
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
@@ -60,6 +103,9 @@ class PersonalInformationState extends State<PersonalInformation> {
         }
         
         isLoading = false;
+        
+        // Cache the name for faster access elsewhere
+        UserInfoService.cacheUserName(name);
       });
     } catch (e) {
       setState(() {
