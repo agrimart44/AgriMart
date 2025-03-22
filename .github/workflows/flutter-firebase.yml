@@ -57,7 +57,7 @@ jobs:
           api-level: 29
           target: default
           arch: x86_64
-          profile: Nexus 6
+          profile: Pixel 3a
           working-directory: Frontend
           emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim'
           disable-animations: true
