@@ -59,7 +59,7 @@ jobs:
           arch: x86_64
           profile: Nexus 6
           working-directory: Frontend
-          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim'
+          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048 -accel on'
           disable-animations: true
           script: |
             echo "Waiting for emulator to boot..."
