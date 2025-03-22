@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Settings/language_settings.dart';
 import 'package:namer_app/personal_Info/personal_info.dart';
 
@@ -7,6 +8,9 @@ class AppSettings extends StatefulWidget {
 
   @override
   AppSettingsState createState() => AppSettingsState();
+
+  @override
+  AuthService  authService() => AuthService();
 }
 
 class AppSettingsState extends State<AppSettings> {
@@ -296,7 +300,8 @@ class AppSettingsState extends State<AppSettings> {
                 margin: const EdgeInsets.fromLTRB(16, 32, 16, 24),
                 child: ElevatedButton(
                   onPressed: () {
-                    print('Sign out pressed');
+                    widget.authService().signOut(context);
+                   
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

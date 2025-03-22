@@ -91,33 +91,75 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
   // Show Local Notification with Image
   Future<void> _showNotificationWithImage(String title, String body, String imagePath) async {
-    final String largeIconPath = await _saveFile(imagePath, 'largeIcon');
-    final String bigPicturePath = await _saveFile(imagePath, 'bigPicture');
-
-    final BigPictureStyleInformation bigPictureStyleInformation = BigPictureStyleInformation(
-      FilePathAndroidBitmap(bigPicturePath),
-      largeIcon: FilePathAndroidBitmap(largeIconPath),
-      contentTitle: title,
-      summaryText: body,
-    );
-
-    final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'general_channel',
-      'General Notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-      styleInformation: bigPictureStyleInformation,
-    );
-
-    final NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      platformChannelSpecifics,
-      payload: json.encode({'id': '1', 'status': 'done'}),
-    );
+    try {
+      print("Showing notification with image: $imagePath");
+      
+      // Create the directory if it doesn't exist
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final String dirPath = directory.path;
+      final Directory imageDir = Directory('$dirPath/notification_images');
+      if (!await imageDir.exists()) {
+        await imageDir.create(recursive: true);
+      }
+      
+      // Generate unique filenames with timestamps
+      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final String largeIconPath = '$dirPath/notification_images/largeIcon_$timestamp.jpg';
+      final String bigPicturePath = '$dirPath/notification_images/bigPicture_$timestamp.jpg';
+      
+      // Copy the file with error handling
+      try {
+        final File sourceFile = File(imagePath);
+        await sourceFile.copy(largeIconPath);
+        await sourceFile.copy(bigPicturePath);
+        
+        print("Files copied successfully to: $largeIconPath and $bigPicturePath");
+      } catch (e) {
+        print("Error copying image files: $e");
+        // Fall back to regular notification if image copy fails
+        return _showNotification(title, body);
+      }
+      
+      // Configure the notification with the image
+      final BigPictureStyleInformation bigPictureStyleInformation = BigPictureStyleInformation(
+        FilePathAndroidBitmap(bigPicturePath),
+        largeIcon: FilePathAndroidBitmap(largeIconPath),
+        contentTitle: title,
+        htmlFormatContentTitle: true,
+        summaryText: body,
+        htmlFormatSummaryText: true,
+      );
+      
+      final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'general_channel',
+        'General Notifications',
+        channelDescription: 'Notifications with images',
+        importance: Importance.max,
+        priority: Priority.high,
+        styleInformation: bigPictureStyleInformation,
+        playSound: true,
+        enableVibration: true,
+      );
+      
+      final NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+      );
+      
+      // Show the notification
+      await flutterLocalNotificationsPlugin.show(
+        DateTime.now().millisecondsSinceEpoch.remainder(100000), // Dynamic ID to avoid overwriting
+        title,
+        body,
+        platformChannelSpecifics,
+        payload: json.encode({'id': '1', 'status': 'done'}),
+      );
+      
+      print("Notification with image sent successfully");
+    } catch (e) {
+      print("Error showing notification with image: $e");
+      // Fall back to regular notification
+      await _showNotification(title, body);
+    }
   }
 
   // Helper method to save file
@@ -318,8 +360,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
       "message": {
         "topic": "all",
         "notification": {
-          "title": "New Crop Listed",
-          "body": "${_cropNameController.text} has listed a new crop."
+          "title": "🌱 New Fresh Crop Available!",
+          "body": "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!"
         },
         "data": {
           "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -342,14 +384,14 @@ class _ListCropScreenState extends State<ListCropScreen> {
       print('Notification sent successfully');
       if (_photos.isNotEmpty) {
         await _showNotificationWithImage(
-          "New Crop Listed",
-          "${_cropNameController.text} has listed a new crop.",
+          "🌱 New Fresh Crop Available!",
+          "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!",
           _photos[0], // Use the first photo as the image
         );
       } else {
         await _showNotification(
-          "New Crop Listed",
-          "${_cropNameController.text} has listed a new crop.",
+          "🌱 New Fresh Crop Available!",
+          "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!",
         );
       }
     } else {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:stream_chat/stream_chat.dart';
-
 import 'chat_service.dart';
 
 // Define the enum if it's not available in your current package
@@ -42,25 +41,19 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       // Initialize ChatService with your Stream API key
       _chatService = ChatService('xqww9xknukff');
-
       // Auto-connect if not already connected
       if (!_chatService.isConnected()) {
         await _chatService.autoConnect();
       }
-
       // Get and initialize the channel
       _channel = _chatService.getChannel(widget.channelId);
       final channelState = await _channel.watch();
-
       // Set up the message stream
       _messageStream = _channel.state!.messagesStream;
-
       // Mark the channel as read
       _markChannelAsRead();
-
       // Get chat title from channel extraData or members
       _setChatTitle();
-
       setState(() {
         _isLoading = false;
       });
@@ -83,14 +76,12 @@ class _ChatScreenState extends State<ChatScreen> {
         // If no name, check if it's a direct chat with another user
         final currentUserId = _channel.client.state.currentUser!.id;
         final members = _channel.state?.members ?? [];
-
         if (members.length == 2) {
           // Find the other member
           final otherMember = members.firstWhere(
             (member) => member.user?.id != currentUserId,
             orElse: () => members.first,
           );
-
           if (otherMember.user != null) {
             _chatTitle = otherMember.user!.name ?? 'Chat with seller';
             _chatSubtitle =
@@ -98,7 +89,6 @@ class _ChatScreenState extends State<ChatScreen> {
           }
         }
       }
-
       // Get crop ID from channel extraData if available
       final cropId = _channel.extraData['crop_id'] as String? ?? widget.cropId;
       if (cropId != null) {
@@ -123,7 +113,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _sendMessage() async {
     if (_messageController.text.trim().isEmpty) return;
-
     try {
       await _chatService.sendMessage(widget.channelId, _messageController.text);
       _messageController.clear();
@@ -150,7 +139,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
     }
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -227,16 +215,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
-
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
                   final messages = snapshot.data!.reversed.toList();
-
                   // Schedule scroll to bottom after build
                   _scrollToBottom();
-
                   return ListView.builder(
                     reverse: true,
                     controller: _scrollController,
@@ -345,8 +329,7 @@ class _MessageBubble extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      DateFormat('HH:mm')
-                          .format(message.createdAt ?? DateTime.now()),
+                      _formatMessageTime(message.createdAt),
                       style: TextStyle(
                         fontSize: 12,
                         color: isMe ? Colors.white70 : Colors.black45,
@@ -370,13 +353,12 @@ class _MessageBubble extends StatelessWidget {
     // Check if the message has been read by accessing the read state from the channel
     final readsCount = channel.state?.read
             .where((read) =>
-                    read.user.id != message.user?.id && // Not the sender
-                    read.lastRead.isAfter(message.createdAt ??
-                        DateTime.now()) // Read after message was sent
-                )
+                read.user.id != message.user?.id && // Not the sender
+                read.lastRead.isAfter(message.createdAt ??
+                    DateTime.now()) // Read after message was sent
+            )
             .length ??
         0;
-
     // Check if the message is being handled properly
     if (readsCount > 0) {
       return const Icon(
@@ -385,7 +367,6 @@ class _MessageBubble extends StatelessWidget {
         color: Colors.blue,
       );
     }
-
     // Message is sent (using only the state property which is available)
     else if (message.state == MessageState.sent) {
       return const Icon(
@@ -394,7 +375,6 @@ class _MessageBubble extends StatelessWidget {
         color: Colors.white70,
       );
     }
-
     // Message is still sending or failed
     else {
       return const Icon(
@@ -403,5 +383,32 @@ class _MessageBubble extends StatelessWidget {
         color: Colors.white70,
       );
     }
+  }
+}
+
+String _formatMessageTime(DateTime? timestamp) {
+  if (timestamp == null) return '';
+
+  // Convert UTC timestamp to local time
+  final localTimestamp = timestamp.toLocal();
+
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final yesterday = today.subtract(const Duration(days: 1));
+  final messageDate =
+      DateTime(localTimestamp.year, localTimestamp.month, localTimestamp.day);
+
+  if (messageDate == today) {
+    // Today, show only time
+    return 'Today ${DateFormat('HH:mm').format(localTimestamp)}';
+  } else if (messageDate == yesterday) {
+    // Yesterday, show "Yesterday" and time
+    return 'Yesterday ${DateFormat('HH:mm').format(localTimestamp)}';
+  } else if (now.difference(localTimestamp).inDays < 7) {
+    // Within the last week, show day name and time
+    return '${DateFormat('EEEE').format(localTimestamp)} ${DateFormat('HH:mm').format(localTimestamp)}';
+  } else {
+    // Older messages, show full date and time
+    return DateFormat('MMM d, HH:mm').format(localTimestamp);
   }
 }

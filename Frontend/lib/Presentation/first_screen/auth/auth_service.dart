@@ -1,10 +1,11 @@
-
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:namer_app/Presentation/first_screen/first_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
+import 'package:flutter/material.dart';
 
 
 
@@ -212,10 +213,23 @@ class AuthService {
     }
   }
 
-  // Sign out
-  Future<void> signOut() async {
+  // Sign out with navigation
+  Future<void> signOut(BuildContext context) async {
     try {
       print("Signing out user");
+      
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+      
+      // Perform sign-out operations
       await _auth.signOut();
       await deleteStoredTokens();
       
@@ -223,7 +237,18 @@ class AuthService {
       await prefs.remove(_userIdKey); // Also clear stored user ID on sign-out
       
       print("User signed out, credentials cleared");
+      
+      // Navigate to first screen and clear navigation stack
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => FirstScreen(),
+        ),
+        (route) => false, // Removes all previous routes
+      );
     } catch (e) {
+      // Close loading dialog if there's an error
+      Navigator.of(context).pop();
+      
       print("Error during sign out: $e");
       throw Exception('Failed to sign out properly: $e');
     }
