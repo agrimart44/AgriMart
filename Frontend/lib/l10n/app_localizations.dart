@@ -416,7 +416,23 @@ abstract class AppLocalizations {
   /// **'Sign out'**
   String get sign_out;
 
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
 
+  /// No description provided for @market.
+  ///
+  /// In en, this message translates to:
+  /// **'market'**
+  String get cart;
+
+/// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'profile'**
+  String get profile;
 }
 
 class _AppLocalizationsDelegate

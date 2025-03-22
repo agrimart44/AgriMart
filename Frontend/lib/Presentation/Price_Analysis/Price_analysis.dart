@@ -260,7 +260,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   }
 
   Widget _buildPostHarvestSection4(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -290,7 +290,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   }
 
   Widget _buildPostHarvestSection5(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -500,7 +500,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
               SizedBox(height: 10),
 
               // Price Section
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -540,7 +540,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
               SizedBox(height: 10),
 
               // Calendar Section
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Card(
                   shape: RoundedRectangleBorder(

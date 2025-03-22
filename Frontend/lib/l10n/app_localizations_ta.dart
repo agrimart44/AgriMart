@@ -174,4 +174,13 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   // TODO: implement update_your_information
   String get update_your_information => 'சுயவிவரத்தைத் திருத்து';
+
+  @override
+  String get home => 'முகப்பு';
+
+  @override
+  String get cart => 'ட்ராலி';
+
+  @override
+  String get profile => 'சுயவிவரம்';
 }

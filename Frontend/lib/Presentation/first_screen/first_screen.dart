@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/registerpage/registerpage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'Login.dart';
 

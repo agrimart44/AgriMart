@@ -56,6 +56,7 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/buyer_view_page/user_data.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   final int selectedIndex;
@@ -94,18 +95,18 @@ class BottomNavigationBarWidget extends StatelessWidget {
         }
       },
       selectedItemColor: Colors.green[600],
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+          icon: const Icon(Icons.home),
+          label: AppLocalizations.of(context)!.home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          icon: const Icon(Icons.shopping_cart),
+          label: AppLocalizations.of(context)!.cart,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'My Profile',
+          icon: const Icon(Icons.person),
+          label: AppLocalizations.of(context)!.profile,
         ),
       ],
     );

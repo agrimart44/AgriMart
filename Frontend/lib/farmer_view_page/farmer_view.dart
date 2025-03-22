@@ -3,12 +3,10 @@ import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/Presentation/Price_Analysis/Price_analysis.dart';
-import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class FarmerView extends StatefulWidget {
   const FarmerView({super.key});

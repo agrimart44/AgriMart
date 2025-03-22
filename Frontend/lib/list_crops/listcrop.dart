@@ -4,16 +4,11 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
-import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:namer_app/list_crops/listCropService.dart';
-import 'package:pointycastle/export.dart' as pc;
-import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/signers/rsa_signer.dart';
-import 'package:asn1lib/asn1lib.dart';
 import 'package:basic_utils/basic_utils.dart'; // Add this import
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'; // Add this import
 import 'package:path_provider/path_provider.dart'; // Add this import
