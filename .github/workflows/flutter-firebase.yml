@@ -1,4 +1,4 @@
-name: Flutter CI/CD with Chrome Testing
+name: Flutter CI/CD with Android Emulator
 
 on:
   push:
@@ -7,66 +7,106 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: Frontend # Set the working directory for all steps
-
+    
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
       # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.0' # Specify your Flutter version
-
+      
       # Step 3: Install dependencies
       - name: Install dependencies
         run: flutter pub get
-
-      # Step 4: Run Unit Tests on Chrome
-      - name: Run Flutter Unit Tests on Chrome
+      
+      # Step 4: Set up Android Emulator with optimized settings
+      - name: Set up Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29  # Lower API level for faster boot
+          target: default  # Use default instead of google_apis for faster boot
+          arch: x86_64
+          profile: Nexus 6  # Different device profile
+          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048 -accel on'
+          disable-animations: true
+          script: |
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+            timeout=900  # Increased to 15 minutes
+            while [[ "$(adb shell getprop sys.boot_completed)" != "1" && $timeout -gt 0 ]]; do
+              sleep 10
+              timeout=$((timeout-10))
+              echo "Still waiting for emulator... $timeout seconds remaining"
+            done
+            if [[ $timeout -eq 0 ]]; then
+              echo "Emulator failed to boot within the timeout period."
+              exit 1
+            fi
+            echo "Emulator booted successfully!"
+            flutter test --coverage
+            flutter test test/widget_test.dart
+            flutter test integration_test/app_test.dart
+      
+      # Step 5: Terminate Emulator (just to be sure)
+      - name: Terminate Emulator
+        if: always()  # Run even if previous steps fail
         run: |
-          echo "Running unit tests on Chrome..."
-          flutter test --platform chrome --coverage
+          echo "Checking if emulator is running..."
+          adb devices | grep emulator && adb emu kill || echo "Emulator not running."
 
-      # Step 5: Run Widget Tests on Chrome
-      - name: Run Flutter Widget Tests on Chrome
-        run: |
-          echo "Running widget tests on Chrome..."
-          flutter test --platform chrome test/widget_test.dart
-
-      # Step 6: Run Integration Tests on Chrome
-      - name: Run Flutter Integration Tests on Chrome
-        run: |
-          echo "Running integration tests on Chrome..."
-          flutter test --platform chrome integration_test/app_test.dart
-
-      # Step 7: Decode Keystore
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Only run after tests succeed
+    defaults:
+      run:
+        working-directory: Frontend
+    
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'
+      
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+      
+      # Step 4: Decode Keystore
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
-
-      # Step 8: Build the Flutter app
+      
+      # Step 5: Create key.properties file
+      - name: Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=upload" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
+      
+      # Step 6: Build the Flutter app
       - name: Build Android APK
         run: flutter build apk --release
-        env:
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-
-      # Step 9: Deploy to Firebase App Distribution
+      
+      # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
           token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
-          testers: rukshancoc@gmail.com # Add your email as a tester
-          file: build/app/outputs/flutter-apk/app-release.apk # Path to the APK
-
-      # Step 10: Terminate Chrome
-      - name: Terminate Chrome
-        run: pkill -f chrome || true
+          groups: testers
+          releaseNotes: "Automated build from GitHub Actions"
+          file: Frontend/build/app/outputs/flutter-apk/app-release.apk # Path to the APK
