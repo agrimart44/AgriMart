@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
-      # Step 4: Set up Android Emulator with fixed script
+      # Step 4: Set up Android Emulator with a much simpler script
       - name: Set up Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -36,43 +36,17 @@ jobs:
           target: default
           arch: x86_64
           profile: Nexus 6
-          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048 -accel on'
+          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048'
           disable-animations: true
-          script: |
-            echo "Waiting for emulator to boot..."
-            adb wait-for-device
-            
-            # Fixed syntax with proper loop closure
-            TIMEOUT=900
-            echo "Setting timeout to $TIMEOUT seconds"
-            
-            while true; do
-              if [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" = "1" ]; then
-                echo "Emulator booted successfully!"
-                break
-              fi
-              
-              if [ $TIMEOUT -le 0 ]; then
-                echo "Emulator failed to boot within the timeout period."
-                exit 1
-              fi
-              
-              echo "Still waiting for emulator... $TIMEOUT seconds remaining"
-              sleep 10
-              TIMEOUT=$((TIMEOUT-10))
-            done
-            
-            echo "Running tests..."
-            flutter test --coverage
-            flutter test test/widget_test.dart
-            flutter test integration_test/app_test.dart
+          script: flutter test integration_test/app_test.dart
       
-      # Step 5: Terminate Emulator (just to be sure)
-      - name: Terminate Emulator
-        if: always()
-        run: |
-          echo "Checking if emulator is running..."
-          adb devices | grep emulator && adb emu kill || echo "Emulator not running."
+      # Step 5: Run unit tests
+      - name: Run Unit Tests
+        run: flutter test --coverage
+      
+      # Step 6: Run widget tests
+      - name: Run Widget Tests
+        run: flutter test test/widget_test.dart
 
   build-and-deploy:
     runs-on: ubuntu-latest
