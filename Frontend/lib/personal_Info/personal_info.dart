@@ -235,7 +235,7 @@ Widget _buildUserInfoWidget() {
                   child: Icon(
                     Icons.person,
                     size: 60,
-                    color: Colors.grey,
+                    color: Color.fromRGBO(46, 125, 50, 1),
                   ),
                 ),
               ),

@@ -475,31 +475,14 @@ TfE7P3XEAKcV2z7PjdZocHI=
         title: Text(
           'List New Crop',
           style: TextStyle(
-            color: Colors.green[800],
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          TextButton.icon(
-            onPressed: () {},
-            icon: Icon(
-              Icons.help_outline, 
-              color: Colors.green[700],
-              size: 20,
-            ),
-            label: Text(
-              'Help',
-              style: TextStyle(
-                color: Colors.green[700],
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -509,63 +492,13 @@ TfE7P3XEAKcV2z7PjdZocHI=
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Progress indicator
+                // space between header and body
                 Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey[50],
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Create Listing',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green[800],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green[50],
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Step 1 of 1',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green[800],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      LinearProgressIndicator(
-                        value: 1.0,
-                        backgroundColor: Colors.grey[200],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green[700]!),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ],
                   ),
                 ),
 
@@ -948,7 +881,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.upload_outlined, size: 20),
+                                Icon(Icons.upload_outlined, size: 20, color: Colors.white),
                                 const SizedBox(width: 8),
                                 const Text(
                                   'List Crop',
