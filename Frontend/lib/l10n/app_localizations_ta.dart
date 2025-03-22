@@ -238,4 +238,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get farm_statistics => 'விவசாய புள்ளிவிவரங்கள்';
+
+  @override
+  String get total_crops => 'மொத்த பயிர்கள்';
 }

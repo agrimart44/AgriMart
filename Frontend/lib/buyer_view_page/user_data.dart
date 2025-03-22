@@ -156,7 +156,7 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Crops',
+                    AppLocalizations.of(context)!.total_crops,
                     '${_stats['totalCrops'] ?? 0}',
                     Icons.grass,
                     Colors.green,

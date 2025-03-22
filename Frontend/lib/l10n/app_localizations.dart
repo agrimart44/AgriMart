@@ -536,6 +536,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Farm Statistics'**
   String get farm_statistics;
+
+  /// No description provided for @Total Crops.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Crops'**
+  String get total_crops;
 }
 
 class _AppLocalizationsDelegate

@@ -229,4 +229,7 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get farm_statistics => 'ගොවිපළ සංඛ්‍යා ලේඛන';
+
+  @override
+  String get total_crops => 'මුළු භෝග';
 }

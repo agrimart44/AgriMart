@@ -230,4 +230,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get farm_statistics => 'Farm Statistics';
+
+  @override
+  String get total_crops => 'Total Crops';
 }
