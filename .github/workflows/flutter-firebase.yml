@@ -28,44 +28,55 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
-      # Step 4: Set up Android Emulator with optimized settings
+      # Step 4: Set up Android Emulator with fixed script
       - name: Set up Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29  # Lower API level for faster boot
-          target: default  # Use default instead of google_apis for faster boot
+          api-level: 29
+          target: default
           arch: x86_64
-          profile: Nexus 6  # Different device profile
+          profile: Nexus 6
           emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048 -accel on'
           disable-animations: true
           script: |
             echo "Waiting for emulator to boot..."
             adb wait-for-device
-            timeout=900  # Increased to 15 minutes
-            while [[ "$(adb shell getprop sys.boot_completed)" != "1" && $timeout -gt 0 ]]; do
+            
+            # Fixed syntax with proper loop closure
+            TIMEOUT=900
+            echo "Setting timeout to $TIMEOUT seconds"
+            
+            while true; do
+              if [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" = "1" ]; then
+                echo "Emulator booted successfully!"
+                break
+              fi
+              
+              if [ $TIMEOUT -le 0 ]; then
+                echo "Emulator failed to boot within the timeout period."
+                exit 1
+              fi
+              
+              echo "Still waiting for emulator... $TIMEOUT seconds remaining"
               sleep 10
-              timeout=$((timeout-10))
-              echo "Still waiting for emulator... $timeout seconds remaining"
+              TIMEOUT=$((TIMEOUT-10))
             done
-            if [[ $timeout -eq 0 ]]; then
-              echo "Emulator failed to boot within the timeout period."
-              exit 1
-            fi
-            echo "Emulator booted successfully!"
+            
+            echo "Running tests..."
             flutter test --coverage
             flutter test test/widget_test.dart
             flutter test integration_test/app_test.dart
       
       # Step 5: Terminate Emulator (just to be sure)
       - name: Terminate Emulator
-        if: always()  # Run even if previous steps fail
+        if: always()
         run: |
           echo "Checking if emulator is running..."
           adb devices | grep emulator && adb emu kill || echo "Emulator not running."
 
   build-and-deploy:
     runs-on: ubuntu-latest
-    needs: test  # Only run after tests succeed
+    needs: test
     defaults:
       run:
         working-directory: Frontend
@@ -105,8 +116,8 @@ jobs:
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID }} # Firebase App ID
-          token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
           groups: testers
           releaseNotes: "Automated build from GitHub Actions"
-          file: Frontend/build/app/outputs/flutter-apk/app-release.apk # Path to the APK
+          file: Frontend/build/app/outputs/flutter-apk/app-release.apk
