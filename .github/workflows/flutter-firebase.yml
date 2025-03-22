@@ -34,20 +34,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Set up Android Emulator and Run Tests
-      - name: Set up Android Emulator and Run Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          emulator-options: '-no-snapshot -no-window -no-audio -no-boot-anim -memory 2048'
-          disable-animations: true
-          script: |
-            echo "Running all tests..."
-            flutter test --coverage
-            flutter test test/widget_test.dart
+      # Step 4: Run Unit Tests
+      - name: Run Unit Tests
+        run: flutter test --coverage
+
+      # Step 5: Run Widget Tests
+      - name: Run Widget Tests
+        run: flutter test test/widget_test.dart
 
   build-and-deploy:
     runs-on: ubuntu-latest
