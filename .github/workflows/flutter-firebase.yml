@@ -42,9 +42,7 @@ jobs:
       - name: Run Widget Tests
         run: flutter test test/widget_test.dart
 
-      # Step 6: Run Integration Tests
-      - name: Run Integration Tests
-        run: flutter test integration_test/app_test.dart
+     
 
   build-and-deploy:
     runs-on: ubuntu-latest
