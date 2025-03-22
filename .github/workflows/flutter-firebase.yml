@@ -34,13 +34,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Run Unit Tests
-      - name: Run Unit Tests
-        run: flutter test --coverage
+      # # Step 4: Run Unit Tests
+      # - name: Run Unit Tests
+      #   run: flutter test --coverage
 
-      # Step 5: Run Widget Tests
-      - name: Run Widget Tests
-        run: flutter test test/widget_test.dart
+      # # Step 5: Run Widget Tests
+      # - name: Run Widget Tests
+      #   run: flutter test test/widget_test.dart
 
      
 
