@@ -402,7 +402,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Privacy & Security'**
-  String get privacy_security;
+  String get privacy_policy;
 
   /// No description provided for @change_privacy_security_settings.
   ///
@@ -475,7 +475,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Quick actions'**
-  String get quick_actions; 
+  String get quick_actions;
+
+    /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings; 
 }
 
 class _AppLocalizationsDelegate

@@ -155,7 +155,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get change_your_language_here => 'உங்கள் மொழியை இங்கே மாற்றவும்';
 
   @override
-  String get privacy_security => 'தனியுரிமை மற்றும் பாதுகாப்பு';
+  String get privacy_policy => 'தனியுரிமை மற்றும் பாதுகாப்பு';
 
   @override
   String get change_privacy_security_settings =>
@@ -204,6 +204,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get quick_actions => 'விரைவான நடவடிக்கைகள்';
+
+  @override
+  String get settings => 'அமைப்புகள்';
 
   
 }

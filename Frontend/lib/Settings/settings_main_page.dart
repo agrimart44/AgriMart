@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Settings/language_settings.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:namer_app/personal_Info/personal_info.dart';
 
 class AppSettings extends StatefulWidget {
@@ -22,7 +23,7 @@ class AppSettingsState extends State<AppSettings> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "Settings",
+          AppLocalizations.of(context)!.settings,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -72,7 +73,7 @@ class AppSettingsState extends State<AppSettings> {
                     _buildModernSettingsCard(
                       context,
                       icon: Icons.person_outline,
-                      title: 'Personal Information',
+                      title: AppLocalizations.of(context)!.personal_information,
                       subtitle: 'Manage your profile details',
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
@@ -89,7 +90,7 @@ class AppSettingsState extends State<AppSettings> {
                     _buildModernSettingsCard(
                       context,
                       icon: Icons.language,
-                      title: 'Language Settings',
+                      title: AppLocalizations.of(context)!.language_settings,
                       subtitle: 'Choose your preferred language',
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
@@ -106,7 +107,7 @@ class AppSettingsState extends State<AppSettings> {
                     _buildModernSettingsCard(
                       context,
                       icon: Icons.security,
-                      title: 'Privacy Policy',
+                      title: AppLocalizations.of(context)!.privacy_policy,
                       subtitle: 'Manage your privacy preferences',
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,

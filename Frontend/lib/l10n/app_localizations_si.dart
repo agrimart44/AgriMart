@@ -154,7 +154,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get change_your_language_here => 'ඔබේ භාෂාව මෙහි වෙනස් කරන්න';
 
   @override
-  String get privacy_security => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
+  String get privacy_policy => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
 
   @override
   String get change_privacy_security_settings => 'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
@@ -194,5 +194,8 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get quick_actions => 'ඉක්මන් ක්‍රියාව';
+
+  @override
+  String get settings => 'සැකසුම්';
   
 }
