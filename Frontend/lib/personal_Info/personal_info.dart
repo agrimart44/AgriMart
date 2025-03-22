@@ -4,11 +4,6 @@ import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:namer_app/personal_Info/user_Service.dart';
 
 
-
-
-
-
-
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
 
@@ -76,17 +71,14 @@ class PersonalInformationState extends State<PersonalInformation> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
            //local String
-              AppLocalizations.of(context)!.personal_information,
-
-
-
+          AppLocalizations.of(context)!.personal_information,
           style: TextStyle(
-            color: Colors.green[800],
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -193,300 +185,169 @@ class PersonalInformationState extends State<PersonalInformation> {
     );
   }
 
-  Widget _buildUserInfoWidget() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Profile header with avatar
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.green.shade50,
-                  Colors.green.shade100,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+Widget _buildUserInfoWidget() {
+  return SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Profile header with avatar
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.green.shade50,
+                Colors.green.shade100,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.green.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.green.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green[800],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    role,
-                    style: TextStyle(
-                      color: Colors.green[800],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            ],
           ),
-
-          // Information section title
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 18,
-                  color: Colors.grey[700],
-                ),
-                const SizedBox(width: 8),
-                Text(
-                   AppLocalizations.of(context)!.your_account_information,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[800],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Container(
-                    height: 1,
-                    color: Colors.grey[300],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // User info cards
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                _buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),
-                _buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),
-                _buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),
-                _buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red),
-                _buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),
-              ],
-            ),
-          ),
-
-          // Updated Action button section
-          Container(
-            margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Animated gradient border
-                Container(
-                  width: double.infinity,
-                  height: 68,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.green.shade300,
-                        Colors.blue.shade300,
-                        Colors.green.shade400,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                      offset: const Offset(0, 2),
                     ),
+                  ],
+                ),
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.person,
+                    size: 60,
+                    color: Colors.grey,
                   ),
                 ),
-                
-                // Edit Profile Button with shimmer effect
-                Container(
-                  width: double.infinity,
-                  height: 64,
-                  margin: const EdgeInsets.all(2), // Create border effect
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: Colors.white,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        // Navigate to edit profile screen
-                      },
-                      borderRadius: BorderRadius.circular(18),
-                      splashColor: Colors.green.withOpacity(0.1),
-                      highlightColor: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                // Floating icon with shadow
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.green.shade500,
-                                        Colors.green.shade700,
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withOpacity(0.3),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: const Icon(
-                                    Icons.edit_outlined,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                     AppLocalizations.of(context)!.Edit_Profile,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green[800],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                     AppLocalizations.of(context)!.update_your_information,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            
-                            // Animated arrow icon
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade50,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.green[700],
-                                size: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Add a subtle refresh option at the bottom
-          Center(
-            child: TextButton.icon(
-              onPressed: _loadUserData,
-              icon: Icon(
-                Icons.refresh,
-                size: 16,
-                color: Colors.grey[600],
               ),
-              label: Text(
-                "Refresh",
+              const SizedBox(height: 16),
+              Text(
+                name,
                 style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 13,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[800],
                 ),
               ),
-            ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  role,
+                  style: TextStyle(
+                    color: Colors.green[800],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+
+        // Information section title
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: 18,
+                color: Colors.grey[700],
+              ),
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizations.of(context)!.your_account_information,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Container(
+                  height: 1,
+                  color: Colors.grey[300],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // User info cards
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              _buildInfoItem(Icons.person_outline, "Full Name", name, Colors.green.shade600),
+              _buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.green.shade600),
+              _buildInfoItem(Icons.email_outlined, "Email", email, Colors.green.shade600),
+              _buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.green.shade600),
+              _buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.green.shade600),
+            ],
+          ),
+        ),
+
+        // Updated Action button section
+        Container(
+          margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // setup for a border
+              Container(
+                width: double.infinity,
+                height: 20,               
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildInfoItem(IconData icon, String title, String value, Color color) {
     return Container(

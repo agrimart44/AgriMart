@@ -161,7 +161,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get change_your_language_here => 'Change your language here';
 
   @override
-  String get privacy_policy => 'Privacy & Security';
+  String get privacy_policy => 'Privacy Policy';
 
   @override
   String get change_privacy_security_settings =>
