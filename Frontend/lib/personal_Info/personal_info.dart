@@ -320,11 +320,11 @@ Widget _buildUserInfoWidget() {
           ),
           child: Column(
             children: [
-              _buildInfoItem(Icons.person_outline, "Full Name", name, Colors.green.shade600),
-              _buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.green.shade600),
-              _buildInfoItem(Icons.email_outlined, "Email", email, Colors.green.shade600),
-              _buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.green.shade600),
-              _buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.green.shade600),
+              _buildInfoItem(Icons.person_outline, AppLocalizations.of(context)!.full_name, name, Colors.green.shade600),
+              _buildInfoItem(Icons.phone_outlined, AppLocalizations.of(context)!.phone, phoneNumber, Colors.green.shade600),
+              _buildInfoItem(Icons.email_outlined, AppLocalizations.of(context)!.email, email, Colors.green.shade600),
+              _buildInfoItem(Icons.location_on_outlined, AppLocalizations.of(context)!.location,location, Colors.green.shade500),
+              _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items",  Colors.green.shade600),
             ],
           ),
         ),

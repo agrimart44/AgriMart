@@ -206,5 +206,17 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get checkout_our_policy_details => 'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
+
+  @override
+  String get phone => 'දුරකථන අංකය';
+
+  @override
+  String get email => 'විද්‍යුත් ලිපිනය';
+
+  @override
+  String get cart_items => 'ගත් භාණ්ඩ';
+
+  @override
+  String get items => 'භාණ්ඩ';
   
 }

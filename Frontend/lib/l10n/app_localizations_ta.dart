@@ -155,7 +155,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get change_your_language_here => 'உங்கள் மொழியை இங்கே மாற்றவும்';
 
   @override
-  String get privacy_policy => 'தனியுரிமை மற்றும் பாதுகாப்பு';
+  String get privacy_policy => 'தனியுரிமை கொள்கை';
 
   @override
   String get change_privacy_security_settings =>
@@ -216,6 +216,18 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get checkout_our_policy_details => 'எங்கள் கொள்கை விவரங்களைப் பாருங்கள்';
+
+  @override
+  String get phone => 'தொலைபேசி எண்';
+  
+  @override
+  String get email => 'மின்னஞ்சல்';
+
+  @override
+  String get cart_items => 'எடுக்கப்பட்ட பொருட்கள்';
+
+  @override
+  String get items => 'பொருட்கள்';
 
   
 }

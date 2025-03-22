@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:namer_app/Cart/CartService.dart';
 
 import 'app_localizations_en.dart';
 import 'app_localizations_si.dart'; // Ensure this file exists and defines the AppLocalizationsSi class
@@ -439,7 +440,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Track market trends'**
   String get track_market_trends;
-  
+
   /// No description provided for @chat_with_buyers.
   ///
   /// In en, this message translates to:
@@ -452,7 +453,6 @@ abstract class AppLocalizations {
   /// **'Add new products'**
   String get add_new_products;
 
-  
   /// No description provided for @browse_crops.
   ///
   /// In en, this message translates to:
@@ -469,7 +469,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Manage your agricultural business'**
-  String get manage_your_agricultural_business;  
+  String get manage_your_agricultural_business;
 
   /// No description provided for @manage_your_agricultural_business.
   ///
@@ -500,6 +500,31 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checkout our policy details'**
   String get checkout_our_policy_details;
+
+  /// No description provided for @phone_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phone;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+
+  /// No description provided for @cart_items.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart_items'**
+  String get cart_items;
+
+    /// No description provided for @Items.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get items;
 }
 
 class _AppLocalizationsDelegate

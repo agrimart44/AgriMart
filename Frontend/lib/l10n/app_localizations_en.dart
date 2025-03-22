@@ -211,4 +211,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkout_our_policy_details => 'Checkout our policy  details';
+
+    @override
+  String get phone => 'Phone number';
+
+  @override
+  String get email => 'Email address';
+
+  @override
+  String get cart_items => 'Cart Items';
+
+  @override
+  String get items => 'Items';
 }
