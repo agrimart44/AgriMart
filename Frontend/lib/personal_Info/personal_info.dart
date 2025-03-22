@@ -332,11 +332,28 @@ class PersonalInformationState extends State<PersonalInformation> {
             ),
             child: Column(
               children: [
-                _buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),
-                _buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),
-                _buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),
-                _buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red),
-                _buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),
+                //add Local string for full name.
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.blue),
+                //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),   //old code
+
+                // add Local string for phone number.
+                _buildInfoItem(Icons.phone, AppLocalizations.of(context)!.phone, phoneNumber, Colors.blue),
+                //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
+
+                // add local string for email
+                _buildInfoItem(Icons.email, AppLocalizations.of(context)!.email, email, Colors.blue),
+                //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
+
+                // add local string for location
+                _buildInfoItem(Icons.location_on, AppLocalizations.of(context)!.location, location, Colors.blue),
+                //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
+
+                // add local string for cart
+                _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.teal),
+                //_buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),  // old code
+
+
+
               ],
             ),
           ),

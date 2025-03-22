@@ -411,8 +411,16 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Sign out'**
+
+  String get phone;
+
+  String get email;
+
+  String get cart_items;
+
   String get sign_out;
 }
+
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();

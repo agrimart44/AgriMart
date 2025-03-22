@@ -195,13 +195,14 @@ void main() async {
   runApp(MyApp());
 }
 
-
+//create a class to manage the language that user selected via app
 class LanguageProvider extends ChangeNotifier {
-
+  //set the default language as English
   Locale _locale = const Locale('en');
 
+  // Add getter for read local value to other parts of app
   Locale get locale => _locale;
-
+  // add method to update the language user selected.
   void setLocale(Locale locale) {
     _locale = locale;
     notifyListeners();

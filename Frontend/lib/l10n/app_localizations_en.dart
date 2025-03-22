@@ -167,4 +167,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sign_out => 'Sign out';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get cart_items => 'cart items';
+
+
 }
