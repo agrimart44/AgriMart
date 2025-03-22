@@ -7,7 +7,7 @@
     <application
         android:label="AgriMart"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/AgriMart">
         
         <activity
             android:name=".MainActivity"
