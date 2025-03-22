@@ -37,13 +37,19 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_3a
-          emulator-options: '-no-snapshot -gpu swiftshader_indirect -no-audio -no-boot-anim'
+          emulator-options: '-no-snapshot -gpu swiftshader_indirect -no-audio -no-boot-anim -partition-size 2048'
           script: |
             echo "Waiting for emulator to boot..."
             adb wait-for-device
-            while [[ "$(adb shell getprop sys.boot_completed)" != "1" ]]; do
+            timeout=600 # 10 minutes
+            while [[ "$(adb shell getprop sys.boot_completed)" != "1" && $timeout -gt 0 ]]; do
               sleep 5
+              timeout=$((timeout-5))
             done
+            if [[ $timeout -eq 0 ]]; then
+              echo "Emulator failed to boot within the timeout period."
+              exit 1
+            fi
             echo "Emulator booted successfully!"
             flutter test --coverage
             flutter test test/widget_test.dart
@@ -53,7 +59,7 @@ jobs:
       - name: Debug Emulator Status
         run: |
           echo "Checking emulator status..."
-          adb devices
+          adb devices || echo "No emulator detected!"
           adb shell getprop sys.boot_completed || echo "Emulator not fully booted yet."
 
       # Step 5: Decode Keystore
@@ -75,3 +81,9 @@ jobs:
           token: ${{ secrets.FIREBASE_TOKEN }} # Firebase CI token
           testers: rukshancoc@gmail.com # Add your email as a tester
           file: build/app/outputs/flutter-apk/app-release.apk # Path to the APK
+
+      # Step 8: Terminate Emulator
+      - name: Terminate Emulator
+        run: |
+          echo "Checking if emulator is running..."
+          adb devices | grep emulator-5554 && adb -s emulator-5554 emu kill || echo "Emulator not running."
