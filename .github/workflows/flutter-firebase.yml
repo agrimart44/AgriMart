@@ -1,4 +1,4 @@
-name: Flutter CI/CD with Chrome Testing
+name: Flutter CI/CD with Android Emulator
 
 on:
   push:
@@ -29,36 +29,45 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 4: Run Unit Tests on Chrome
-      - name: Run Flutter Unit Tests on Chrome
-        run: |
-          echo "Running unit tests on Chrome..."
-          flutter test --platform chrome --coverage
+      # Step 4: Set up Android Emulator
+      - name: Set up Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_3a
+          emulator-options: '-no-snapshot -gpu swiftshader_indirect -no-audio -no-boot-anim'
+          script: |
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+            while [[ "$(adb shell getprop sys.boot_completed)" != "1" ]]; do
+              sleep 5
+            done
+            echo "Emulator booted successfully!"
+            flutter test --coverage
+            flutter test test/widget_test.dart
+            flutter test integration_test/app_test.dart
 
-      # Step 5: Run Widget Tests on Chrome
-      - name: Run Flutter Widget Tests on Chrome
+      # Debugging: Check Emulator Status
+      - name: Debug Emulator Status
         run: |
-          echo "Running widget tests on Chrome..."
-          flutter test --platform chrome test/widget_test.dart
+          echo "Checking emulator status..."
+          adb devices
+          adb shell getprop sys.boot_completed || echo "Emulator not fully booted yet."
 
-      # Step 6: Run Integration Tests on Chrome
-      - name: Run Flutter Integration Tests on Chrome
-        run: |
-          echo "Running integration tests on Chrome..."
-          flutter test --platform chrome integration_test/app_test.dart
-
-      # Step 7: Decode Keystore
+      # Step 5: Decode Keystore
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      # Step 8: Build the Flutter app
+      # Step 6: Build the Flutter app
       - name: Build Android APK
         run: flutter build apk --release
         env:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
-      # Step 9: Deploy to Firebase App Distribution
+      # Step 7: Deploy to Firebase App Distribution
       - name: Deploy to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
