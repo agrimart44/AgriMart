@@ -122,7 +122,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                   children: [
                     Icon(
                       Icons.bolt,
-                      color: Colors.amber[700],
+                      color: Colors.lightGreenAccent,
                       size: 24,
                     ),
                     const SizedBox(width: 8),
@@ -216,8 +216,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) => const ChatListPage()),
               );
             },
-            const Color(0xFFF2994A), // Orange
-            [const Color(0xFFFF8A65), const Color(0xFFFF5722)], // Gradient orange
+             const Color(0xFF27AE60), // Green
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
           _buildDashboardCard(
             //'List Crop',
@@ -244,8 +244,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) => const BuyerView()),
               );
             },
-            const Color(0xFF9B51E0), // Purple
-            [const Color(0xFFBB6BD9), const Color(0xFF9B51E0)], // Gradient purple
+            const Color(0xFF27AE60), // Green
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
         ],
       ),
