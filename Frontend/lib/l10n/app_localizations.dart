@@ -428,11 +428,54 @@ abstract class AppLocalizations {
   /// **'market'**
   String get cart;
 
-/// No description provided for @profile.
+  /// No description provided for @profile.
   ///
   /// In en, this message translates to:
   /// **'profile'**
   String get profile;
+
+  /// No description provided for @track_market_trends.
+  ///
+  /// In en, this message translates to:
+  /// **'Track market trends'**
+  String get track_market_trends;
+  
+  /// No description provided for @chat_with_buyers.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat with buyers'**
+  String get chat_with_buyers;
+
+  /// No description provided for @add_new_products.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new products'**
+  String get add_new_products;
+
+  
+  /// No description provided for @browse_crops.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse crops'**
+  String get browse_crops;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'welcome'**
+  String get welcome;
+
+  /// No description provided for @manage_your_agricultural_business.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your agricultural business'**
+  String get manage_your_agricultural_business;  
+
+  /// No description provided for @manage_your_agricultural_business.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick actions'**
+  String get quick_actions; 
 }
 
 class _AppLocalizationsDelegate

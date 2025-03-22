@@ -176,11 +176,34 @@ class AppLocalizationsTa extends AppLocalizations {
   String get update_your_information => 'சுயவிவரத்தைத் திருத்து';
 
   @override
-  String get home => 'முகப்பு';
+  String get track_market_trends => 'சந்தை போக்குகளை கண்காணிக்க';
 
   @override
-  String get cart => 'ட்ராலி';
+  String get chat_with_buyers => 'வாங்குபவர்களுடன் பேச';
 
+  @override
+  String get add_new_products => 'புதிய தயாரிப்புகளைச் சேர்க்க';
+
+  @override
+  String get browse_crops => 'புதிய பயிர்களை தேட';
+
+  @override
+  String get welcome => 'வணக்கம்!';
+
+  @override
+  String get manage_your_agricultural_business => 'உங்கள் விவசாய வணிகத்தை நிர்வகிக்கவும்';
+  
+  @override
+  String get cart => 'தள்ளுவண்டி';
+  
+  @override
+  String get home => 'முகப்பு';
+  
   @override
   String get profile => 'சுயவிவரம்';
+
+  @override
+  String get quick_actions => 'விரைவான நடவடிக்கைகள்';
+
+  
 }

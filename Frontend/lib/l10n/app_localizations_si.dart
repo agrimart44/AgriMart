@@ -25,10 +25,6 @@ class AppLocalizationsSi extends AppLocalizations {
   String get choose_an_option => 'විකල්පයක් තෝරන්න';
 
   @override
-
-  String get Update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
-
-  @override
   String get gallery => 'ගැලරිය';
 
   @override
@@ -140,9 +136,6 @@ class AppLocalizationsSi extends AppLocalizations {
   String get market_prices => 'වෙළඳපොළ මිල';
 
   @override
-  String get track_market_trends => 'වෙළඳපොළ ප්‍රවණතා හඹා යන්න';
-
-  @override
   String get negotiations => 'සාකච්ඡා';
 
   @override
@@ -170,7 +163,6 @@ class AppLocalizationsSi extends AppLocalizations {
   String get sign_out => 'පිටවීම';
   
   @override
-  // TODO: implement update_your_information
   String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
 
   @override
@@ -181,4 +173,26 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get profile => 'මගේ තොරතුරු';
+
+  @override
+  String get track_market_trends => 'වෙළඳපොළ ප්‍රවණතා නිරීක්ෂණය';
+
+  @override
+  String get chat_with_buyers => 'ගැනුම්කරුවන් සමඟ කතාබස් කරන්න';
+
+  @override
+  String get add_new_products => 'නව නිෂ්පාදන එකතු කරන්න';
+
+  @override
+  String get browse_crops => 'භෝග සොයන්න';
+
+  @override
+  String get welcome => 'ආයුබෝවන්!';
+
+  @override
+  String get manage_your_agricultural_business => 'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
+
+  @override
+  String get quick_actions => 'ඉක්මන් ක්‍රියාව';
+  
 }

@@ -93,7 +93,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Welcome, Farmer',
+                            AppLocalizations.of(context)!.welcome,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -102,7 +102,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            'Manage your agricultural business',
+                            AppLocalizations.of(context)!.manage_your_agricultural_business,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.green.shade900.withOpacity(0.7),
@@ -122,12 +122,12 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                   children: [
                     Icon(
                       Icons.bolt,
-                      color: Colors.lightGreenAccent,
+                      color: Colors.green,
                       size: 24,
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Quick Actions',
+                      AppLocalizations.of(context)!.quick_actions,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -192,10 +192,9 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
         childAspectRatio: 0.9, // Slightly taller cards for more content
         children: [
           _buildDashboardCard(
-            //'Market\nPrices',
             AppLocalizations.of(context)!.market_prices,
             Icons.trending_up_rounded,
-            'Track market trends',
+            AppLocalizations.of(context)!.track_market_trends,
             () {
                Navigator.push(
                 context,
@@ -206,10 +205,9 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
           ),
           _buildDashboardCard(
-            //'Negotiations',
             AppLocalizations.of(context)!.negotiations,
             Icons.handshake_outlined,
-            'Chat with buyers',
+            AppLocalizations.of(context)!.chat_with_buyers,
             () {
               Navigator.push(
                 context,
@@ -223,7 +221,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             //'List Crop',
             AppLocalizations.of(context)!.list_crop,
             Icons.add_circle_outline_rounded,
-            'Add new products',
+            AppLocalizations.of(context)!.add_new_products,
             () {
               Navigator.push(
                 context,
@@ -237,7 +235,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
             //'Market\nPlace',
             AppLocalizations.of(context)!.market_place,
             Icons.store_rounded,
-            'Browse crops',
+            AppLocalizations.of(context)!.browse_crops,
             () {
               Navigator.push(
                 context,

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'app_localizations.dart';
 
 class AppLocalizationsEn extends AppLocalizations {
@@ -24,14 +26,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get gallery => 'Gallery';
   @override
-
-  String get  Edit_Profile => 'Edit Profile';
+  String get Edit_Profile => 'Edit Profile';
 
   @override
-
   String get update_your_information => 'Update your information';
-
-
 
   @override
   String get camera => 'Camera';
@@ -40,7 +38,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get success => 'Success';
 
   @override
-  String get crop_listed_successfully => 'Your crop has been listed successfully!';
+  String get crop_listed_successfully =>
+      'Your crop has been listed successfully!';
 
   @override
   String get ok => 'OK';
@@ -49,10 +48,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get add_at_least_one_photo => 'Please add at least one photo of your crop';
+  String get add_at_least_one_photo =>
+      'Please add at least one photo of your crop';
 
   @override
-  String get auth_token_not_found => 'Authentication token not found. Please login again.';
+  String get auth_token_not_found =>
+      'Authentication token not found. Please login again.';
 
   @override
   String get an_error_occurred => 'An error occurred';
@@ -163,7 +164,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacy_security => 'Privacy & Security';
 
   @override
-  String get change_privacy_security_settings => 'Change your privacy & security settings';
+  String get change_privacy_security_settings =>
+      'Change your privacy & security settings';
 
   @override
   String get sign_out => 'Sign out';
@@ -177,4 +179,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profile => 'My Profile';
 
+  @override
+  String get track_market_trends => 'Track market trends';
+
+  @override
+  String get chat_with_buyers => 'Chat with buyers';
+
+  @override
+  String get add_new_products => 'Add new products';
+
+  @override
+  String get browse_crops => 'Browse crops';
+
+  @override
+  String get welcome => 'Welcome!';
+
+  @override
+  String get manage_your_agricultural_business => 'Manage your agricultural business';
+
+  @override
+  String get quick_actions => 'Quick Actions';
 }
