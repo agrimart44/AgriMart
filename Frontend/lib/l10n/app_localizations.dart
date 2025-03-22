@@ -477,11 +477,29 @@ abstract class AppLocalizations {
   /// **'Quick actions'**
   String get quick_actions;
 
-    /// No description provided for @settings.
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
-  String get settings; 
+  String get settings;
+
+  /// No description provided for @see_your_profile_details.
+  ///
+  /// In en, this message translates to:
+  /// **'See your profile details'**
+  String get see_your_profile_details;
+
+  /// No description provided for @choose_your_preffered_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred language'**
+  String get choose_your_preffered_language;
+
+  /// No description provided for @checkout_our_policy_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout our policy details'**
+  String get checkout_our_policy_details;
 }
 
 class _AppLocalizationsDelegate

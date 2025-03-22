@@ -202,4 +202,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get see_your_profile_details => 'See your profile details';
+
+  @override
+  String get choose_your_preffered_language => 'Choose your preffered language';
+
+  @override
+  String get checkout_our_policy_details => 'Checkout our policy  details';
 }

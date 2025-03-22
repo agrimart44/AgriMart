@@ -197,5 +197,14 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get settings => 'සැකසුම්';
+
+    @override
+  String get see_your_profile_details => 'ඔබගේ ගිණුම් විස්තර බලන්න';
+
+  @override
+  String get choose_your_preffered_language => 'ඔබේ කැමති භාෂාව තෝරන්න';
+
+  @override
+  String get checkout_our_policy_details => 'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
   
 }

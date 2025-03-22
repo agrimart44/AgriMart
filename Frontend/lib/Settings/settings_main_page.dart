@@ -74,7 +74,7 @@ class AppSettingsState extends State<AppSettings> {
                       context,
                       icon: Icons.person_outline,
                       title: AppLocalizations.of(context)!.personal_information,
-                      subtitle: 'Manage your profile details',
+                      subtitle: AppLocalizations.of(context)!.see_your_profile_details,
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
                       onTap: () {
@@ -91,7 +91,7 @@ class AppSettingsState extends State<AppSettings> {
                       context,
                       icon: Icons.language,
                       title: AppLocalizations.of(context)!.language_settings,
-                      subtitle: 'Choose your preferred language',
+                      subtitle: AppLocalizations.of(context)!.choose_your_preffered_language,
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
                       onTap: () {
@@ -108,7 +108,7 @@ class AppSettingsState extends State<AppSettings> {
                       context,
                       icon: Icons.security,
                       title: AppLocalizations.of(context)!.privacy_policy,
-                      subtitle: 'Manage your privacy preferences',
+                      subtitle: AppLocalizations.of(context)!.checkout_our_policy_details,
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
                       onTap: () {
@@ -144,7 +144,7 @@ class AppSettingsState extends State<AppSettings> {
                       Icon(Icons.logout, color: Colors.red[700]),
                       const SizedBox(width: 8),
                       Text(
-                        'Sign out',
+                        AppLocalizations.of(context)!.sign_out,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

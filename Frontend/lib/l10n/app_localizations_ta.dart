@@ -208,5 +208,14 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get settings => 'அமைப்புகள்';
 
+  @override
+  String get see_your_profile_details => 'உங்கள் கணக்கு விவரங்களைப் பார்க்கவும்';
+
+  @override
+  String get choose_your_preffered_language => 'உங்களுக்கு விருப்பமான மொழியைத் தேர்வுசெய்யவும்';
+
+  @override
+  String get checkout_our_policy_details => 'எங்கள் கொள்கை விவரங்களைப் பாருங்கள்';
+
   
 }
