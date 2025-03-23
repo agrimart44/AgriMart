@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Settings/language_settings.dart';
+import 'package:namer_app/Settings/privacy_policy.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:namer_app/personal_Info/personal_info.dart';
 
@@ -112,7 +113,12 @@ class AppSettingsState extends State<AppSettings> {
                       iconBgColor: Colors.green.shade50,
                       iconColor: Colors.green.shade700,
                       onTap: () {
-                        print('Navigate to Privacy & Security');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicyPage(),
+                          ),
+                        );
                       },
                     ),
                   ],
