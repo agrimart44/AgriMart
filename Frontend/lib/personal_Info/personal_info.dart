@@ -1,8 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:namer_app/personal_Info/user_Service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Add this static function to get user name from anywhere in the app
+class UserInfoService {
+  // Get user's name (returns full name or first name)
+  static Future<String> getUserName({bool firstNameOnly = false}) async {
+    try {
+      final UserService userService = UserService();
+      final userData = await userService.getUserDetails();
+      
+      String fullName = userData['fullName'] ?? userData['name'] ?? "Farmer";
+      
+      if (firstNameOnly && fullName.contains(' ')) {
+        return fullName.split(' ')[0];
+      }
+      
+      return fullName;
+    } catch (e) {
+      print('Error fetching user name: $e');
+      return "Farmer"; // Default fallback
+    }
+  }
+  
+  // Get cached name (faster but might not be up-to-date)
+  static Future<String> getCachedName({bool firstNameOnly = false}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final name = prefs.getString('userName') ?? "Farmer";
+      
+      if (firstNameOnly && name.contains(' ')) {
+        return name.split(' ')[0];
+      }
+      
+      return name;
+    } catch (e) {
+      print('Error getting cached name: $e');
+      return "Farmer";
+    }
+  }
+  
+  // Cache the user's name for faster access
+  static Future<void> cacheUserName(String name) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userName', name);
+    } catch (e) {
+      print('Error caching user name: $e');
+    }
+  }
+}
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({super.key});
@@ -74,14 +123,17 @@ class PersonalInformationState extends State<PersonalInformation> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
            //local String
-          AppLocalizations.of(context)!.personal_information,
+              AppLocalizations.of(context)!.personal_information,
+
+
+
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.green[800],
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -188,169 +240,317 @@ class PersonalInformationState extends State<PersonalInformation> {
     );
   }
 
-Widget _buildUserInfoWidget() {
-  return SingleChildScrollView(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Profile header with avatar
-        Container(
-          width: double.infinity,
-          margin: const EdgeInsets.all(16),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.green.shade50,
-                Colors.green.shade100,
+  Widget _buildUserInfoWidget() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Profile header with avatar
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.green.shade50,
+                  Colors.green.shade100,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.green.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                      offset: const Offset(0, 2),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.grey,
                     ),
-                  ],
-                ),
-                child: const CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    size: 60,
-                    color: Color.fromRGBO(46, 125, 50, 1),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                name,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green[800],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  role,
+                const SizedBox(height: 16),
+                Text(
+                  name,
                   style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                     color: Colors.green[800],
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    role,
+                    style: TextStyle(
+                      color: Colors.green[800],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // Information section title
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-          child: Row(
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: 18,
-                color: Colors.grey[700],
+          // Information section title
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 18,
+                  color: Colors.grey[700],
+                ),
+                const SizedBox(width: 8),
+                Text(
+                   AppLocalizations.of(context)!.your_account_information,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Container(
+                    height: 1,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // User info cards
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                //add Local string for full name.
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.blue),
+                //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),   //old code
+
+                // add Local string for phone number.
+                _buildInfoItem(Icons.phone, AppLocalizations.of(context)!.phone, phoneNumber, Colors.blue),
+                //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
+
+                // add local string for email
+                _buildInfoItem(Icons.email, AppLocalizations.of(context)!.email, email, Colors.blue),
+                //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
+
+                // add local string for location
+                _buildInfoItem(Icons.location_on, AppLocalizations.of(context)!.location, location, Colors.blue),
+                //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
+
+                // add local string for cart
+                _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.teal),
+                //_buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),  // old code
+
+
+
+              ],
+            ),
+          ),
+
+          // Updated Action button section
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Animated gradient border
+                Container(
+                  width: double.infinity,
+                  height: 68,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.green.shade300,
+                        Colors.blue.shade300,
+                        Colors.green.shade400,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+                
+                // Edit Profile Button with shimmer effect
+                Container(
+                  width: double.infinity,
+                  height: 64,
+                  margin: const EdgeInsets.all(2), // Create border effect
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    color: Colors.white,
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to edit profile screen
+                      },
+                      borderRadius: BorderRadius.circular(18),
+                      splashColor: Colors.green.withOpacity(0.1),
+                      highlightColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                // Floating icon with shadow
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.green.shade500,
+                                        Colors.green.shade700,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.green.withOpacity(0.3),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit_outlined,
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                     AppLocalizations.of(context)!.Edit_Profile,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green[800],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                     AppLocalizations.of(context)!.update_your_information,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            
+                            // Animated arrow icon
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.green[700],
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Add a subtle refresh option at the bottom
+          Center(
+            child: TextButton.icon(
+              onPressed: _loadUserData,
+              icon: Icon(
+                Icons.refresh,
+                size: 16,
+                color: Colors.grey[600],
               ),
-              const SizedBox(width: 8),
-              Text(
-                AppLocalizations.of(context)!.your_account_information,
+              label: Text(
+                "Refresh",
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                  color: Colors.grey[600],
+                  fontSize: 13,
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Container(
-                  height: 1,
-                  color: Colors.grey[300],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-
-        // User info cards
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildInfoItem(Icons.person_outline, AppLocalizations.of(context)!.full_name, name, Colors.green.shade600),
-              _buildInfoItem(Icons.phone_outlined, AppLocalizations.of(context)!.phone, phoneNumber, Colors.green.shade600),
-              _buildInfoItem(Icons.email_outlined, AppLocalizations.of(context)!.email, email, Colors.green.shade600),
-              _buildInfoItem(Icons.location_on_outlined, AppLocalizations.of(context)!.location,location, Colors.green.shade500),
-              _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items",  Colors.green.shade600),
-            ],
-          ),
-        ),
-
-        // Updated Action button section
-        Container(
-          margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // setup for a border
-              SizedBox(
-                width: double.infinity,
-                height: 20,               
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   Widget _buildInfoItem(IconData icon, String title, String value, Color color) {
     return Container(

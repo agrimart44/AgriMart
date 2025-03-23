@@ -440,56 +440,6 @@ Widget _buildPostHarvestSection(BuildContext context) {
       color: Colors.white,
       borderRadius: BorderRadius.circular(12),
     ),
-    child: Row(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            // localization text added for vegetable analysis
-            AppLocalizations.of(context)!.vegetable_analysis,
-            // "Vegetable Analysis",
-            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(width: 25),
-        Flexible(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              child: DropdownButton<Vegetable>(
-                iconEnabledColor: Colors.blue,
-                focusColor: Colors.red,
-                value: selectedVegetable,
-                dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
-                items: Vegetable.values.map((Vegetable vegetable) {
-                  return DropdownMenuItem<Vegetable>(
-                    value: vegetable,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          vegetable.imagePath,
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(vegetable.label),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                onChanged: (Vegetable? newValue) {
-                  setState(() {
-                    selectedVegetable = newValue;
-                    fetchPriceData(selectedVegetable!.label); // Fetch data when selection changes
-                    fetchPriceData2(selectedVegetable!.label); // Fetch current data when selection changes
-                  });
-                },
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
     child: LayoutBuilder(
       builder: (context, constraints) {
         // Determine if we should use vertical layout based on available width

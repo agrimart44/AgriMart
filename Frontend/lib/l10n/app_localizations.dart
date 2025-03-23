@@ -404,11 +404,81 @@ abstract class AppLocalizations {
   /// **'Language Settings'**
   String get language_settings;
 
+  String get choose_your_preffered_language;
+
+  String get checkout_our_policy_details;
+
+  String get per_kg;
+
+  String get listing_crop;
+
+
+  String get crop_harvest_date;
+
+
+  String get add_upto_3_photos;
+
+  String get crop_location;
+
+
+  String get add_clear_photos;
+
+  String get list_new_crop;
+
+  String get organic_tomatoes;
+
+  String get tap_to_add_photos;
+
+  String get crop_photos;
+
+  String get home;
+
+  String get cart;
+
+  String get describe_your_crop;
+
+  String get avg_price;
+
+  String get active_crops;
+
+  String get profile;
+
+  String get crops_with_interest;
+
+  String get farm_statistics;
+
+  String get total_crops;
+
+  String get settings;
+
+  String get total_quantity;
+
+  String get conversations;
+
+  String get total_value;
+
+  String get welcome;
+
+  String get manage_your_agricultural_business;
+
+  String get quick_actions;
+
+  String get track_market_trends;
+
+  String get chat_with_buyers;
+
+  String get add_new_products;
+
+
+  String get browse_crops;
+
   /// No description provided for @change_your_language_here.
   ///
   /// In en, this message translates to:
   /// **'Change your language here'**
   String get change_your_language_here;
+
+  String get see_your_profile_details;
 
   /// No description provided for @privacy_security.
   ///
@@ -453,244 +523,246 @@ abstract class AppLocalizations {
 
   String get select_date_to_view_price;
 
-}
-
-
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
-  /// No description provided for @home.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get home;
-
-  /// No description provided for @market.
-  ///
-  /// In en, this message translates to:
-  /// **'market'**
-  String get cart;
-
-  /// No description provided for @profile.
-  ///
-  /// In en, this message translates to:
-  /// **'profile'**
-  String get profile;
-
-  /// No description provided for @track_market_trends.
-  ///
-  /// In en, this message translates to:
-  /// **'Track market trends'**
-  String get track_market_trends;
-
-  /// No description provided for @chat_with_buyers.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat with buyers'**
-  String get chat_with_buyers;
-
-  /// No description provided for @add_new_products.
-  ///
-  /// In en, this message translates to:
-  /// **'Add new products'**
-  String get add_new_products;
-
-  /// No description provided for @browse_crops.
-  ///
-  /// In en, this message translates to:
-  /// **'Browse crops'**
-  String get browse_crops;
-
-  /// No description provided for @welcome.
-  ///
-  /// In en, this message translates to:
-  /// **'welcome'**
-  String get welcome;
-
-  /// No description provided for @manage_your_agricultural_business.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your agricultural business'**
-  String get manage_your_agricultural_business;
-
-  /// No description provided for @manage_your_agricultural_business.
-  ///
-  /// In en, this message translates to:
-  /// **'Quick actions'**
-  String get quick_actions;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @see_your_profile_details.
-  ///
-  /// In en, this message translates to:
-  /// **'See your profile details'**
-  String get see_your_profile_details;
-
-  /// No description provided for @choose_your_preffered_language.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose your preferred language'**
-  String get choose_your_preffered_language;
-
-  /// No description provided for @checkout_our_policy_details.
-  ///
-  /// In en, this message translates to:
-  /// **'Checkout our policy details'**
-  String get checkout_our_policy_details;
-
-  /// No description provided for @phone_number.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number'**
-  String get phone;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @cart_items.
-  ///
-  /// In en, this message translates to:
-  /// **'Cart_items'**
-  String get cart_items;
-
-  /// No description provided for @Items.
-  ///
-  /// In en, this message translates to:
-  /// **'Items'**
-  String get items;
-
-  /// No description provided for @select_your_language.
-  ///
-  /// In en, this message translates to:
-  /// **'Select your language'**
   String get select_your_language;
 
-  /// No description provided for @Farm Statistics.
-  ///
-  /// In en, this message translates to:
-  /// **'Farm Statistics'**
-  String get farm_statistics;
-
-  /// No description provided for @Total Crops.
-  ///
-  /// In en, this message translates to:
-  /// **'Total Crops'**
-  String get total_crops;
-
-  /// No description provided for @list_new_crop.
-  ///
-  /// In en, this message translates to:
-  /// **'List new crop'**
-  String get list_new_crop;
-
-  /// No description provided for @crop_photos.
-  ///
-  /// In en, this message translates to:
-  /// **'Crop Photos'**
-  String get crop_photos;
-
-  /// No description provided for @add_upto_3_photos.
-  ///
-  /// In en, this message translates to:
-  /// **'Add upto 3 photos'**
-  String get add_upto_3_photos;
-
-  /// No description provided for @tap_to_add_photos.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to add photos'**
-  String get tap_to_add_photos;
-
-  /// No description provided for @add_clear_photos.
-  ///
-  /// In en, this message translates to:
-  /// **'Add clear, well-lit photos'**
-  String get add_clear_photos;
-
-  /// No description provided for @organic_tomatoes.
-  ///
-  /// In en, this message translates to:
-  /// **'Organic Tomatoes'**
-  String get organic_tomatoes;
-
-  /// No description provided for @describe_your_crop.
-  ///
-  /// In en, this message translates to:
-  /// **'Describe your crop quality, variety, etc.'**
-  String get describe_your_crop;
-
-  /// No description provided for @per_kg.
-  ///
-  /// In en, this message translates to:
-  /// **'per kg'**
-  String get per_kg;
-
-  /// No description provided for @available_kg.
-  ///
-  /// In en, this message translates to:
-  /// **'Available kg'**
-  String get available_kg;
-
-  /// No description provided for @crop_location.
-  ///
-  /// In en, this message translates to:
-  /// **'Where is your crop located?'**
-  String get crop_location;
-
-  /// No description provided for @crop_harvest_date.
-  ///
-  /// In en, this message translates to:
-  /// **'When was the crop harvested?'**
-  String get crop_harvest_date;
-
-  /// No description provided for @listing_crop.
-  ///
-  /// In en, this message translates to:
-  /// **'Listing crop...'**
-  String get listing_crop;
-
-  /// No description provided for @total_quantity.
-  ///
-  /// In en, this message translates to:
-  /// **'total_quantity...'**
-  String get total_quantity;
-
-  /// No description provided for @total_value
-  ///
-  /// In en, this message translates to:
-  /// **'total_value...'**
-  String get total_value;
-
-  /// No description provided for @avg_price
-  ///
-  /// In en, this message translates to:
-  /// **'avg_price...'**
-  String get avg_price;
-
-  /// No description provided for @active_crops
-  ///
-  /// In en, this message translates to:
-  /// **'active_crops...'**
-  String get active_crops;
-
-  /// No description provided for @crops_with_interest
-  ///
-  /// In en, this message translates to:
-  /// **'crops_with_interest...'**
-  String get crops_with_interest;
-
-  /// No description provided for @conversations
-  ///
-  /// In en, this message translates to:
-  /// **'conversations'**
-  String get conversations;
 }
+
+
+// class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+//   /// No description provided for @home.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Home'**
+//   String get home;
+
+//   /// No description provided for @market.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'market'**
+//   String get cart;
+
+//   /// No description provided for @profile.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'profile'**
+//   String get profile;
+
+//   /// No description provided for @track_market_trends.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Track market trends'**
+//   String get track_market_trends;
+
+//   /// No description provided for @chat_with_buyers.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Chat with buyers'**
+//   String get chat_with_buyers;
+
+//   /// No description provided for @add_new_products.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Add new products'**
+//   String get add_new_products;
+
+//   /// No description provided for @browse_crops.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Browse crops'**
+//   String get browse_crops;
+
+//   /// No description provided for @welcome.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'welcome'**
+//   String get welcome;
+
+//   /// No description provided for @manage_your_agricultural_business.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Manage your agricultural business'**
+//   String get manage_your_agricultural_business;
+
+//   /// No description provided for @manage_your_agricultural_business.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Quick actions'**
+//   String get quick_actions;
+
+//   /// No description provided for @settings.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Settings'**
+//   String get settings;
+
+//   /// No description provided for @see_your_profile_details.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'See your profile details'**
+//   String get see_your_profile_details;
+
+//   /// No description provided for @choose_your_preffered_language.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Choose your preferred language'**
+//   String get choose_your_preffered_language;
+
+//   /// No description provided for @checkout_our_policy_details.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Checkout our policy details'**
+//   String get checkout_our_policy_details;
+
+//   /// No description provided for @phone_number.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Phone number'**
+//   String get phone;
+
+//   /// No description provided for @email.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Email'**
+//   String get email;
+
+//   /// No description provided for @cart_items.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Cart_items'**
+//   String get cart_items;
+
+//   /// No description provided for @Items.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Items'**
+//   String get items;
+
+//   /// No description provided for @select_your_language.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Select your language'**
+//   String get select_your_language;
+
+//   /// No description provided for @Farm Statistics.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Farm Statistics'**
+//   String get farm_statistics;
+
+//   /// No description provided for @Total Crops.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Total Crops'**
+//   String get total_crops;
+
+//   /// No description provided for @list_new_crop.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'List new crop'**
+//   String get list_new_crop;
+
+//   /// No description provided for @crop_photos.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Crop Photos'**
+//   String get crop_photos;
+
+//   /// No description provided for @add_upto_3_photos.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Add upto 3 photos'**
+//   String get add_upto_3_photos;
+
+//   /// No description provided for @tap_to_add_photos.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Tap to add photos'**
+//   String get tap_to_add_photos;
+
+//   /// No description provided for @add_clear_photos.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Add clear, well-lit photos'**
+//   String get add_clear_photos;
+
+//   /// No description provided for @organic_tomatoes.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Organic Tomatoes'**
+//   String get organic_tomatoes;
+
+//   /// No description provided for @describe_your_crop.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Describe your crop quality, variety, etc.'**
+//   String get describe_your_crop;
+
+//   /// No description provided for @per_kg.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'per kg'**
+//   String get per_kg;
+
+//   /// No description provided for @available_kg.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Available kg'**
+//   String get available_kg;
+
+//   /// No description provided for @crop_location.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Where is your crop located?'**
+//   String get crop_location;
+
+//   /// No description provided for @crop_harvest_date.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'When was the crop harvested?'**
+//   String get crop_harvest_date;
+
+//   /// No description provided for @listing_crop.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'Listing crop...'**
+//   String get listing_crop;
+
+//   /// No description provided for @total_quantity.
+//   ///
+//   /// In en, this message translates to:
+//   /// **'total_quantity...'**
+//   String get total_quantity;
+
+//   /// No description provided for @total_value
+//   ///
+//   /// In en, this message translates to:
+//   /// **'total_value...'**
+//   String get total_value;
+
+//   /// No description provided for @avg_price
+//   ///
+//   /// In en, this message translates to:
+//   /// **'avg_price...'**
+//   String get avg_price;
+
+//   /// No description provided for @active_crops
+//   ///
+//   /// In en, this message translates to:
+//   /// **'active_crops...'**
+//   String get active_crops;
+
+//   /// No description provided for @crops_with_interest
+//   ///
+//   /// In en, this message translates to:
+//   /// **'crops_with_interest...'**
+//   String get crops_with_interest;
+
+//   /// No description provided for @conversations
+//   ///
+//   /// In en, this message translates to:
+//   /// **'conversations'**
+//   String get conversations;
+// }
 
 class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {

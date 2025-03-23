@@ -299,19 +299,19 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get crops_with_interest => 'උනන්දුවක් ඇති බෝග';
   
-  @override
-  // TODO: implement update_your_information
-  String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
+  // @override
+  // // TODO: implement update_your_information
+  // String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
 
 
-  @override
-  String get phone => 'දුරකතනය';
+  // @override
+  // String get phone => 'දුරකතනය';
 
-  @override
-  String get email => 'ඊ-තැපෑල';
+  // @override
+  // String get email => 'ඊ-තැපෑල';
 
-  @override
-  String get cart_items => 'කරත්තය';
+  // @override
+  // String get cart_items => 'කරත්තය';
 
   @override
   String get vegetable_analysis => 'එළවළු විශ්ලේෂණය';
@@ -339,6 +339,14 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get select_date_to_view_price => 'මිල බැලීමට දිනය තෝරන්න';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'පණිවිඩ';
+  
+  @override
+  // TODO: implement conversations
+  String get conversations => 'සංවාද';
 
 
 }
@@ -348,4 +356,4 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   // TODO: implement messages
   String get messages => 'පණිවිඩ';
-}
+

@@ -53,22 +53,34 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
     try {
       // First try to get the cached name for faster UI response
       String name = await UserInfoService.getCachedName(firstNameOnly: true);
+      print('Cached name received: "$name"');
       
-      setState(() {
-        _farmerName = name;
-        _isLoading = false;
-      });
+      if (name.isNotEmpty) {
+        setState(() {
+          _farmerName = name;
+          _isLoading = false;
+        });
+      } else {
+        print('Cached name was empty');
+      }
       
       // Then get the up-to-date name from the server
       name = await UserInfoService.getUserName(firstNameOnly: true);
+      print('Server name received: "$name"');
       
       if (mounted) {
-        setState(() {
-          _farmerName = name;
-        });
+        if (name.isNotEmpty) {
+          setState(() {
+            _farmerName = name;
+            _isLoading = false;
+          });
+        } else {
+          print('Server name was empty');
+        }
       }
     } catch (e) {
       print('Error loading farmer name: $e');
+      print('Stack trace: ${StackTrace.current}');
       if (mounted) {
         setState(() => _isLoading = false);
       }
@@ -268,7 +280,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.welcome,
+                              '${AppLocalizations.of(context)!.welcome}, $_farmerName!',
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,

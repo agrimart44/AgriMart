@@ -181,7 +181,7 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   // TODO: implement Edit_Profile
   String get Edit_Profile => 'சுயவிவரத்தைத் திருத்து';
-  String get Edit_Profile => 'சுயவிவரத்தை திருத்துதிருத்து';
+  // String get Edit_Profile => 'சுயவிவரத்தை திருத்துதிருத்து';
 
   @override
   String get Update_your_information => 'சுயவிவரத்தைத் திருத்து';
@@ -239,8 +239,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get checkout_our_policy_details =>
       'எங்கள் கொள்கை விவரங்களைப் பாருங்கள்';
 
-  @override
-  String get phone => 'தொலைபேசி எண்';
+  // @override
+  // String get phone => 'தொலைபேசி எண்';
 
   @override
   String get email => 'மின்னஞ்சல்';
@@ -274,6 +274,90 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get select_date_to_view_price => 'விலையைக் காண தேதியைத் தேர்ந்தெடுக்கவும்';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'செய்திகள்';
+  
+  @override
+  // TODO: implement select_your_language
+  String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
+  
+  @override
+  // TODO: implement conversations
+  String get conversations => 'உரையாடல்கள்';
+  
+  @override
+  // TODO: implement farm_statistics
+  String get farm_statistics => 'விவசாய புள்ளிவிவரங்கள்';
+
+  @override
+
+  String get total_crops => 'மொத்த பயிர்கள்';
+  
+  @override
+  // TODO: implement total_quantity
+  String get total_quantity => 'மொத்த அளவு';
+  
+  @override
+  // TODO: implement total_value
+  String get total_value => 'மொத்த மதிப்பு';
+  
+  @override
+  // TODO: implement avg_price
+  String get avg_price => 'சராசரி விலை';
+  
+  @override
+  // TODO: implement active_crops
+  String get active_crops => 'செயலில் உள்ள பயிர்கள்';
+  
+  @override
+  // TODO: implement crops_with_interest
+  String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
+  
+  @override
+  // TODO: implement organic_tomatoes
+  String get organic_tomatoes => 'உத்தியை தக்காளி';
+  
+  @override
+  // TODO: implement describe_your_crop
+  String get describe_your_crop => 'உங்கள் பயிரை விளக்கவும்';
+  
+  @override
+  // TODO: implement list_new_crop
+  String get list_new_crop => 'புதிய பயிர்களை பட்டியலிடுங்கள்';
+  
+  @override
+  // TODO: implement crop_photos
+  String get crop_photos => 'பயிர்களின் புகைப்படங்கள்';
+  
+  @override
+  // TODO: implement add_upto_3_photos
+  String get add_upto_3_photos => 'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
+  
+  @override
+  // TODO: implement tap_to_add_photos
+  String get tap_to_add_photos => 'புகைப்படங்களைச் சேர்க்க தட்டவும்';
+  
+  @override
+  // TODO: implement add_clear_photos
+  String get add_clear_photos => 'தெளிவான, நல்ல புகைப்படங்களைச் சேர்க்கவும்';
+  
+  @override
+  // TODO: implement per_kg
+  String get per_kg => 'ஒரு கிலோவுக்கு';
+  
+  @override
+  // TODO: implement crop_location
+  String get crop_location => 'உங்கள் பயிர் உள்ள இடம் எங்கு?';
+  
+  @override
+  // TODO: implement listing_crop
+  String get listing_crop => 'பயிரைப் பட்டியலிடுகிறது...';
+  
+  @override
+  // TODO: implement crop_harvest_date
+  String get crop_harvest_date => throw UnimplementedError();
 
 
 
@@ -352,4 +436,3 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   // TODO: implement messages
   String get messages => 'செய்திகள்';
-}
