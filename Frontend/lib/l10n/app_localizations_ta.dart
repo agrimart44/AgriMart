@@ -249,7 +249,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get crop_photos => 'பயிர்களின் புகைப்படங்கள்';
 
   @override
-  String get add_upto_3_photos => 'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
+  String get add_upto_3_photos =>
+      'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
 
   @override
   String get tap_to_add_photos => 'புகைப்படங்களைச் சேர்க்க தட்டவும்';
@@ -278,4 +279,18 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get listing_crop => 'பயிரைப் பட்டியலிடுகிறது...';
 
+  @override
+  String get total_quantity => 'மொத்த அளவு';
+
+  @override
+  String get total_value => 'மொத்த மதிப்பு';
+
+  @override
+  String get avg_price => 'சராசரி விலை';
+
+  @override
+  String get active_crops => 'செயலில் உள்ள பயிர்கள்';
+
+  @override
+  String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
 }

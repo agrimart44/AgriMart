@@ -240,7 +240,8 @@ class AppLocalizationsSi extends AppLocalizations {
   String get crop_photos => 'බෝග වල ඡායාරූප';
 
   @override
-  String get add_upto_3_photos => 'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
+  String get add_upto_3_photos =>
+      'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
 
   @override
   String get tap_to_add_photos => 'ඡායාරූප එකතු කිරීමට ටැප් කරන්න';
@@ -268,4 +269,19 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get listing_crop => 'බෝග ලැයිස්තු කිරීම...';
+
+  @override
+  String get total_quantity => 'මුළු ප්‍රමාණය';
+
+  @override
+  String get total_value => 'මුළු වටිනාකම';
+
+  @override
+  String get avg_price => 'සාමාන්‍ය මිල';
+
+  @override
+  String get active_crops => 'සක්‍රීය බෝග';
+
+  @override
+  String get crops_with_interest => 'උනන්දුවක් ඇති බෝග';
 }

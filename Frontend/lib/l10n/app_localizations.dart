@@ -555,13 +555,12 @@ abstract class AppLocalizations {
   /// **'Crop Photos'**
   String get crop_photos;
 
-    /// No description provided for @add_upto_3_photos.
+  /// No description provided for @add_upto_3_photos.
   ///
   /// In en, this message translates to:
   /// **'Add upto 3 photos'**
   String get add_upto_3_photos;
 
-  
   /// No description provided for @tap_to_add_photos.
   ///
   /// In en, this message translates to:
@@ -616,12 +615,35 @@ abstract class AppLocalizations {
   /// **'Listing crop...'**
   String get listing_crop;
 
+  /// No description provided for @total_quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'total_quantity...'**
+  String get total_quantity;
 
+  /// No description provided for @total_value
+  ///
+  /// In en, this message translates to:
+  /// **'total_value...'**
+  String get total_value;
 
+  /// No description provided for @avg_price
+  ///
+  /// In en, this message translates to:
+  /// **'avg_price...'**
+  String get avg_price;
 
+  /// No description provided for @active_crops
+  ///
+  /// In en, this message translates to:
+  /// **'active_crops...'**
+  String get active_crops;
 
-
-
+  /// No description provided for @crops_with_interest
+  ///
+  /// In en, this message translates to:
+  /// **'crops_with_interest...'**
+  String get crops_with_interest;
 }
 
 class _AppLocalizationsDelegate
