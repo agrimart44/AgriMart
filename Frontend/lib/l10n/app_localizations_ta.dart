@@ -272,4 +272,10 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get crop_location => 'உங்கள் பயிர் உள்ள இடம் எங்கு?';
 
+  @override
+  String get crop_harvest_date => 'பயிர் அறுவை தேதி எப்படி?';
+
+  @override
+  String get listing_crop => 'பயிரைப் பட்டியலிடுகிறது...';
+
 }

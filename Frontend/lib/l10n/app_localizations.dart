@@ -604,6 +604,20 @@ abstract class AppLocalizations {
   /// **'Where is your crop located?'**
   String get crop_location;
 
+  /// No description provided for @crop_harvest_date.
+  ///
+  /// In en, this message translates to:
+  /// **'When was the crop harvested?'**
+  String get crop_harvest_date;
+
+  /// No description provided for @listing_crop.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing crop...'**
+  String get listing_crop;
+
+
+
 
 
 

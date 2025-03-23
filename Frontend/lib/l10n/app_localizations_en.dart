@@ -264,6 +264,11 @@ class AppLocalizationsEn extends AppLocalizations {
     @override
   String get crop_location => 'Where is your crop located?';
 
+  @override
+  String get crop_harvest_date => 'When was the crop harvested?';
+
+  @override
+  String get listing_crop => 'Listing Crop...';
 
 
 

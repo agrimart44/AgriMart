@@ -829,7 +829,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                       
                       _buildTextField(
                         label: AppLocalizations.of(context)!.harvest_date,
-                        hint: 'When was the crop harvested?',
+                        hint: AppLocalizations.of(context)!.crop_harvest_date,
                         controller: _harvestDataController,
                         readOnly: true,
                         prefixIcon: const Icon(Icons.calendar_today, size: 18),
@@ -870,9 +870,9 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                   ),
                                 ),
                                 const SizedBox(width: 12),
-                                const Text(
-                                  'Listing crop...',
-                                  style: TextStyle(
+                                Text(
+                                  AppLocalizations.of(context)!.listing_crop,
+                                  style: const TextStyle(
                                     fontSize: 16, 
                                     fontWeight: FontWeight.bold,
                                   ),

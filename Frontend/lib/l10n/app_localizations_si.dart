@@ -262,4 +262,10 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get crop_location => 'ඔබේ බෝගය පිහිටාගත් ස්ථානය කොටනද?';
+
+  @override
+  String get crop_harvest_date => 'බෝග අස්වැන්න දිනය කුමක්ද?';
+
+  @override
+  String get listing_crop => 'බෝග ලැයිස්තු කිරීම...';
 }
