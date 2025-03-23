@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_form.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class UpdateCropPage extends StatefulWidget {
   final String cropId;

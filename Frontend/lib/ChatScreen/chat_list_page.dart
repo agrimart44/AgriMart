@@ -373,27 +373,18 @@ class EnhancedChatListItem extends StatelessWidget {
                         ),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: chat.profileImage.isNotEmpty
-                            ? Image.network(
-                                chat.profileImage,
-                                fit: BoxFit.cover,
-                              )
-                            : Center(
-                                child: Text(
-                                  chat.name.isNotEmpty
-                                      ? chat.name[0].toUpperCase()
-                                      : '?',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    color: hasUnread
-                                        ? Colors.white
-                                        : Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                      ),
+                      borderRadius: BorderRadius.circular(14),
+                      child: chat.profileImage.isNotEmpty
+                          ? Image.network(
+                              chat.profileImage,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              '/assets/chat_user.jpg', // Default profile image
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+
                     ),
                     // Unread indicator
                     if (hasUnread)
