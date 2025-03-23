@@ -184,7 +184,7 @@ Widget _buildLogoSection() {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: AssetImage('assets/AgriMart_UI.jpg'),
+            image: AssetImage('lib/assets/AgriMart_UI.jpg'),
             fit: BoxFit.contain, // Changed to contain for better centering
             alignment: Alignment.center, // Added alignment
           ),
