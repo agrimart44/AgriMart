@@ -202,7 +202,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
           title: Row(
             children: [
               Text(
-                isCurrentPrice ? "Current Price" : "How will it change",
+                isCurrentPrice ? "Current Price" : "How it will change?",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -210,7 +210,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                 ),
               ),
               Text(
-                price != null ? "🤔" : "❓",
+                price != null ? " 🤔" : " 🤔",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -271,18 +271,25 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Market Demand",
-                style: TextStyle(fontSize: 17, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
-                    ? "Demand is High"
-                    : "Demand is Low",
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-            ],
+  Text(
+    "Market Demand",
+    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+  ),
+  const SizedBox(height: 10),
+  Text(
+    (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
+        ? "Demand is High"
+        : "Demand is Low",
+    style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
+          ? Colors.green.shade900 // Green for high demand
+          : Colors.red.shade900,   // Red for low demand
+        ),
+      ),
+    ],
+
           ),
         ),
       ),
@@ -304,7 +311,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
             children: [
               Text(
                 "Price Trends",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               
               // Adding the Enhanced Pie Chart Below
@@ -317,7 +324,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                         sections: [
                           PieChartSectionData(
                             value: priceData.isNotEmpty ? priceData.last : 0,
-                            color: Colors.green,
+                            color: Colors.green.shade900,
                             title: 'Predicted',
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
@@ -328,7 +335,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           ),
                           PieChartSectionData(
                             value: currentData.isNotEmpty ? currentData.last : 0,
-                            color: Colors.red,
+                            color: Colors.green.shade600,
                             title: 'Current',
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
@@ -342,7 +349,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                                 ? (priceData.last - currentData.last).abs()
                                 : 0,
                             title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
-                            color: Colors.blue,
+                            color: Colors.green.shade300,
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
                               fontSize: 14,
@@ -385,9 +392,9 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildLegendItem(Colors.green, 'Predicted Price'),
-                  _buildLegendItem(Colors.red, 'Current Price'),
-                  _buildLegendItem(Colors.blue, 'Change'),
+                  _buildLegendItem(Colors.green.shade900, 'Predicted Price'),
+                  _buildLegendItem(Colors.green.shade600, 'Current Price'),
+                  _buildLegendItem(Colors.green.shade300, 'Change'),
                 ],
               ),
             ],
@@ -431,7 +438,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Vegetable Analysis",
+            "Select Vegetable",
             style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
@@ -512,7 +519,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Current Price",
-                            style: TextStyle(color: Colors.grey, fontSize: 14)),
+                            style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
                         Text(
                           latestCurrentPrice != null
                               ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /Kg"
@@ -522,7 +529,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                         ),
                         SizedBox(height: 8),
                         Text("Predicted Price",
-                            style: TextStyle(color: Colors.grey, fontSize: 14)),
+                            style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
                         Text(
                           latestPredictedPrice != null
                               ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /Kg"
@@ -530,7 +537,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Colors.blue),
+                              color: Colors.green.shade700),
                         ),
                       ],
                     ),
@@ -552,7 +559,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Select date to view price",
-                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                            style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
                         TableCalendar(
                           firstDay: DateTime.now(),
                           lastDay: DateTime.now().add(Duration(days: 27)),
@@ -580,7 +587,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                                   width: 35,
                                   height: 35,
                                   decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: Colors.green.shade800,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
@@ -598,7 +605,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                                   width: 35,
                                   height: 35,
                                   decoration: BoxDecoration(
-                                    color: Colors.blue,
+                                    color: Colors.green.shade300,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
