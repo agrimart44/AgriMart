@@ -101,6 +101,8 @@ abstract class AppLocalizations {
     Locale('ta')
   ];
 
+  
+
   /// No description provided for @personal_information.
   ///
   /// In en, this message translates to:
@@ -129,11 +131,19 @@ abstract class AppLocalizations {
   /// **'Farmer/Buyer'**
   String get role;
 
+  String get no;
+
   /// No description provided for @location.
   ///
   /// In en, this message translates to:
   /// **'Location'**
   String get location;
+
+  String get exit_app;
+
+  String get yes;
+
+  String get are_you_sure_you_want_to_exit;
 
   /// No description provided for @choose_an_option.
   ///
