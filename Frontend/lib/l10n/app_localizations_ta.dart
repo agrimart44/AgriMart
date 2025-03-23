@@ -203,6 +203,12 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get price_trends => 'மிள பிரோட்டின்மை';
 
+  @override
+  String get change => 'மாற்றம்';
+
+  @override
+  String get select_date_to_view_price => 'விலையைக் காண தேதியைத் தேர்ந்தெடுக்கவும்';
+
 
 
 }

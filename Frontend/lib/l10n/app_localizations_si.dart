@@ -201,5 +201,11 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get price_trends => 'මිළ ප්‍රවණතාවය';
 
+  @override
+  String get change => 'වෙනස';
+
+  @override
+  String get select_date_to_view_price => 'මිල බැලීමට දිනය තෝරන්න';
+
 
 }

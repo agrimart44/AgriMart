@@ -434,6 +434,10 @@ abstract class AppLocalizations {
 
   String get price_trends;
 
+  String get change;
+
+  String get select_date_to_view_price;
+
 }
 
 

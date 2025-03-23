@@ -394,9 +394,9 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildLegendItem(Colors.green, 'Predicted Price'),
-                  _buildLegendItem(Colors.red, 'Current Price'),
-                  _buildLegendItem(Colors.blue, 'Change'),
+                  _buildLegendItem(Colors.green,AppLocalizations.of(context)!.predicted_price), // add localized texts
+                  _buildLegendItem(Colors.red,AppLocalizations.of(context)!.current_price), // add localized texts
+                  _buildLegendItem(Colors.blue,AppLocalizations.of(context)!.change), // add localized texts
                 ],
               ),
             ],
@@ -571,7 +571,8 @@ Widget _buildPostHarvestSection(BuildContext context) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Select date to view price",
+                        // Text ('Select Date to view price',
+                        Text(AppLocalizations.of(context)!.select_date_to_view_price, // Add localized text
                             style: TextStyle(fontSize: 14, color: Colors.grey)),
                         TableCalendar(
                           firstDay: DateTime.now(),

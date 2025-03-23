@@ -198,5 +198,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get price_trends => 'Price Trends';
 
+  @override
+  String get change => 'Change';
+
+  @override
+  String get select_date_to_view_price => 'Select Date To View Price';
+
 
 }
