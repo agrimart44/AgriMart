@@ -151,10 +151,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('lib/assets/chat_user.jpg'),
-            fit: BoxFit.cover,
-          ),
+          color: Colors.white, // Replace image with solid white background
         ),
         child: Column(
           children: [
