@@ -316,6 +316,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               
               // Adding the Enhanced Pie Chart Below
               SizedBox(
+                width: double.infinity,
                 height: 290, // Increased height for better visibility
                 child: Stack(
                   children: [
@@ -430,10 +431,18 @@ Widget _buildPostHarvestSection(BuildContext context) {
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
     padding: const EdgeInsets.all(16.0),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.8), // Slightly transparent white background
+      color: Colors.white, // Slightly transparent white background
       borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1), 
+          blurRadius: 6, 
+          offset: Offset(0, 2), 
+        ),
+      ],
     ),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Align(
           alignment: Alignment.centerLeft,
@@ -448,8 +457,8 @@ Widget _buildPostHarvestSection(BuildContext context) {
             alignment: Alignment.centerLeft,
             child: Container(
               child: DropdownButton<Vegetable>(
-                iconEnabledColor: Colors.blue,
-                focusColor: Colors.red,
+                iconEnabledColor: Colors.green.shade600,
+                focusColor: Colors.white,
                 value: selectedVegetable,
                 dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
                 items: Vegetable.values.map((Vegetable vegetable) {

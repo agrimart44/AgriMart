@@ -245,7 +245,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get total_crops => 'Total Crops';
 
-   @override
+  @override
   String get list_new_crop => 'List New Crop';
 
   @override
@@ -257,22 +257,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tap_to_add_photos => 'Tap to add photos';
 
-    @override
+  @override
   String get add_clear_photos => 'Add clear, well-lit photos';
 
-    @override
+  @override
   String get organic_tomatoes => 'e.g. Organic Tomatoes';
 
-    @override
+  @override
   String get describe_your_crop => 'Describe your crop quality, variety, etc.';
 
-    @override
+  @override
   String get per_kg => 'Per kg';
 
-    @override
+  @override
   String get available_kg => 'Available kg';
 
-    @override
+  @override
   String get crop_location => 'Where is your crop located?';
 
   @override
@@ -281,9 +281,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get listing_crop => 'Listing Crop...';
 
+  @override
+  String get total_quantity => 'Total Quantity';
 
+  @override
+  String get total_value => 'Total Value';
 
+  @override
+  String get avg_price => 'Avg. Price';
 
+  @override
+  String get active_crops => 'Active Crops';
 
-
+  @override
+  String get crops_with_interest => 'Crops With Interest';
 }
