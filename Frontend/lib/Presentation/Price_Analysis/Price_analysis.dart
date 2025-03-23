@@ -3,7 +3,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-import 'package:intl/intl.dart'; // Import intl package
+import 'package:intl/intl.dart';
+
+import '../../l10n/app_localizations.dart'; // Import intl package
 
 enum Vegetable {
    carrot('Carrot', 'lib/assets/carrot.jpg'),
@@ -431,7 +433,9 @@ Widget _buildPostHarvestSection(BuildContext context) {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Vegetable Analysis",
+            // localization text added for vegetable analysis
+            AppLocalizations.of(context)!.vegetable_analysis,
+            // "Vegetable Analysis",
             style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),

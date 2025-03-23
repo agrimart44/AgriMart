@@ -182,4 +182,9 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get cart_items => 'கார்ட் உருப்படிகள்';
 
+  @override
+  String get vegetable_analysis => 'காய்கறி பகுப்பாய்வு';
+
+
+
 }
