@@ -191,6 +191,15 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get predicted_price => 'கணிக்கப்பட்ட விலை';
 
+  @override
+  String get market_demand => 'சந்தை தேவை';
+
+  @override
+  String get demand_is_high => 'தேவை அதிகம்';
+
+  @override
+  String get demand_is_low => 'தேவை குறைவு.';
+
 
 
 }

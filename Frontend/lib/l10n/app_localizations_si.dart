@@ -189,6 +189,14 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get predicted_price => 'පුරෝකථනය කළ මිල';
 
+  @override
+  String get market_demand => 'වෙළදපල ඉල්ලුම';
+
+  @override
+  String get demand_is_high => 'ඉල්ලුම වැඩියි';
+
+  @override
+  String get demand_is_low => 'ඉල්ලුම අඩුයි';
 
 
 }

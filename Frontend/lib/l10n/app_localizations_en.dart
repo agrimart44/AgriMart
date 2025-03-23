@@ -186,4 +186,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get predicted_price => 'Predicted Price';
 
+  @override
+  String get market_demand => 'Market Demand';
+
+  @override
+  String get demand_is_high => 'Demand is High';
+
+  @override
+  String get demand_is_low => 'Demand is Low';
+
+
 }

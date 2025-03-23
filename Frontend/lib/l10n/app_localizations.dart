@@ -426,6 +426,12 @@ abstract class AppLocalizations {
 
   String get predicted_price;
 
+  String get market_demand;
+
+  String get demand_is_high;
+
+  String get demand_is_low;
+
 }
 
 

@@ -274,14 +274,19 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Market Demand",
+                // add localized text for market demand
+                AppLocalizations.of(context)!.market_demand,
+                //"Market Demand",
                 style: TextStyle(fontSize: 17, color: Colors.black),
               ),
               const SizedBox(height: 10),
               Text(
                 (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
-                    ? "Demand is High"
-                    : "Demand is Low",
+                    //? "Demand is High"  // old code part
+                    // localized text added to the market demand
+                    ? AppLocalizations.of(context)!.demand_is_high
+                    // : "Demand is Low", // old code part
+                    : AppLocalizations.of(context)!.demand_is_low,
                 style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ],
