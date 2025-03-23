@@ -765,7 +765,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                       // Description Field
                       _buildTextField(
                         label: AppLocalizations.of(context)!.description,
-                        hint: 'Describe your crop quality, variety, etc.',
+                        hint: AppLocalizations.of(context)!.describe_your_crop,
                         controller: _descriptionController,
                         maxLines: 3,
                         validator: (value) =>
@@ -779,7 +779,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           Expanded(
                             child: _buildTextField(
                               label: AppLocalizations.of(context)!.price_lkr,
-                              hint: 'per kg',
+                              hint: AppLocalizations.of(context)!.per_kg,
                               controller: _priceController,
                               keyboardType: TextInputType.number,
                               prefixIcon: const Icon(Icons.attach_money, size: 18),
@@ -798,7 +798,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           Expanded(
                             child: _buildTextField(
                               label: AppLocalizations.of(context)!.quantity,
-                              hint: 'Available kg',
+                              hint: AppLocalizations.of(context)!.quantity_kg,
                               controller: _quantityController,
                               keyboardType: TextInputType.number,
                               prefixIcon: const Icon(Icons.inventory_2_outlined, size: 18),
@@ -820,10 +820,10 @@ TfE7P3XEAKcV2z7PjdZocHI=
                       // Location and Harvest Date Row
                       _buildTextField(
                         label: AppLocalizations.of(context)!.location,
-                        hint: 'Where is your crop located?',
+                        hint: AppLocalizations.of(context)!.crop_location,
                         controller: _locationController,
                         prefixIcon: const Icon(Icons.location_on_outlined, size: 18),
-                        validator: (value) => value?.isEmpty ?? true ? 'Enter location' : null,
+                        validator: (value) => value?.isEmpty ?? true ? AppLocalizations.of(context)!.select_location : null,
                       ),
                       const SizedBox(height: 18),
                       

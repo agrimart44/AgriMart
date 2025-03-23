@@ -252,6 +252,22 @@ class AppLocalizationsEn extends AppLocalizations {
     @override
   String get organic_tomatoes => 'e.g. Organic Tomatoes';
 
+    @override
+  String get describe_your_crop => 'Describe your crop quality, variety, etc.';
+
+    @override
+  String get per_kg => 'Per kg';
+
+    @override
+  String get available_kg => 'Available kg';
+
+    @override
+  String get crop_location => 'Where is your crop located?';
+
+
+
+
+
 
 
 }

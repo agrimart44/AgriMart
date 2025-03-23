@@ -257,6 +257,19 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get add_clear_photos => 'தெளிவான, நல்ல புகைப்படங்களைச் சேர்க்கவும்';
 
-      @override
+  @override
   String get organic_tomatoes => 'e.g. தக்காளி';
+
+  @override
+  String get describe_your_crop => 'உங்கள் பயிரை விளக்கவும்';
+
+  @override
+  String get per_kg => 'ஒரு கிலோவுக்கு';
+
+  @override
+  String get available_kg => 'கிலோவுக்கு கிடைக்கும்';
+
+  @override
+  String get crop_location => 'உங்கள் பயிர் உள்ள இடம் எங்கு?';
+
 }

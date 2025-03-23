@@ -250,4 +250,16 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get organic_tomatoes => 'e.g. තක්කාලි';
+
+  @override
+  String get describe_your_crop => 'ඔබේ බෝගය විස්තර කරන්න';
+
+  @override
+  String get per_kg => 'කි.ග් වන්නට';
+
+  @override
+  String get available_kg => 'ලබාගත හැකි කි.ග්';
+
+  @override
+  String get crop_location => 'ඔබේ බෝගය පිහිටාගත් ස්ථානය කොටනද?';
 }

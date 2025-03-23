@@ -580,6 +580,34 @@ abstract class AppLocalizations {
   /// **'Organic Tomatoes'**
   String get organic_tomatoes;
 
+  /// No description provided for @describe_your_crop.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your crop quality, variety, etc.'**
+  String get describe_your_crop;
+
+  /// No description provided for @per_kg.
+  ///
+  /// In en, this message translates to:
+  /// **'per kg'**
+  String get per_kg;
+
+  /// No description provided for @available_kg.
+  ///
+  /// In en, this message translates to:
+  /// **'Available kg'**
+  String get available_kg;
+
+  /// No description provided for @crop_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Where is your crop located?'**
+  String get crop_location;
+
+
+
+
+
 }
 
 class _AppLocalizationsDelegate
