@@ -257,7 +257,9 @@ Future<void> _openChatWithSeller() async {
                 _buildInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  'Quantity',
+                  // Localized string for quantity
+                  AppLocalizations.of(context)!.quantity,
+                  //'Quantity',
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -440,19 +442,25 @@ Future<void> _openChatWithSeller() async {
       child: Column(
         children: [
           _buildInfoRow(
-            label: 'Harvest Date',
+            // Localized string for harvest date;
+            label:AppLocalizations.of(context)!.harvest_date,
+            // label: 'Harvest Date',
             value: _formatDate(crop.harvestDate),
             icon: Icons.calendar_today,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            label: 'Available Quantity',
+            // Localized string for available quantity
+            label: AppLocalizations.of(context)!.available_quantity,
+            // label: 'Available Quantity',
             value: '${crop.quantity} kg',
             icon: Icons.scale,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            label: 'Location',
+            // Localized string for location
+            label: AppLocalizations.of(context)!.location,
+            // label: 'Location',
             value: crop.location,
             icon: Icons.location_on,
           ),
