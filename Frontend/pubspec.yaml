@@ -71,6 +71,10 @@ flutter:
   assets:
     - lib/l10n/
 
+    - lib/assets/AgriMart_UI.jpg
+
+    - lib/assets/chat_user.jpg
+
   
     # - lib/assets/Potato.jpg
     - lib/assets/tomato.jpg

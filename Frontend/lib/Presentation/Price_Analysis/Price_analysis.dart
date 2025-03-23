@@ -204,19 +204,19 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
           title: Row(
             children: [
               Text(
-                isCurrentPrice ? "Current Price" : "How will it change",
+                isCurrentPrice ? "Current Price" : "How it will change?",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
               Text(
-                price != null ? "🤔" : "❓",
+                price != null ? "" : "",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
             ],
@@ -248,7 +248,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                 "OK",
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
               onPressed: () {
@@ -262,9 +262,10 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   }
 
   Widget _buildPostHarvestSection4(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -273,23 +274,25 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                // add localized text for market demand
-                AppLocalizations.of(context)!.market_demand,
-                //"Market Demand",
-                style: TextStyle(fontSize: 17, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
-                    //? "Demand is High"  // old code part
-                    // localized text added to the market demand
-                    ? AppLocalizations.of(context)!.demand_is_high
-                    // : "Demand is Low", // old code part
-                    : AppLocalizations.of(context)!.demand_is_low,
-                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-            ],
+  Text(
+    "Market Demand",
+    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+  ),
+  const SizedBox(height: 10),
+  Text(
+    (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
+        ? "Demand is High"
+        : "Demand is Low",
+    style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
+          ? Colors.green.shade900 // Green for high demand
+          : Colors.red.shade900,   // Red for low demand
+        ),
+      ),
+    ],
+
           ),
         ),
       ),
@@ -297,9 +300,10 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   }
 
   Widget _buildPostHarvestSection5(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -318,6 +322,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               
               // Adding the Enhanced Pie Chart Below
               SizedBox(
+                width: double.infinity,
                 height: 290, // Increased height for better visibility
                 child: Stack(
                   children: [
@@ -326,7 +331,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                         sections: [
                           PieChartSectionData(
                             value: priceData.isNotEmpty ? priceData.last : 0,
-                            color: Colors.green,
+                            color: Colors.green.shade900,
                             title: 'Predicted',
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
@@ -337,7 +342,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           ),
                           PieChartSectionData(
                             value: currentData.isNotEmpty ? currentData.last : 0,
-                            color: Colors.red,
+                            color: Colors.green.shade600,
                             title: 'Current',
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
@@ -351,7 +356,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                                 ? (priceData.last - currentData.last).abs()
                                 : 0,
                             title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
-                            color: Colors.blue,
+                            color: Colors.green.shade300,
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
                               fontSize: 14,
@@ -381,7 +386,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -432,7 +437,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
     padding: const EdgeInsets.all(16.0),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.8), // Slightly transparent white background
+      color: Colors.white,
       borderRadius: BorderRadius.circular(12),
     ),
     child: Row(
@@ -485,6 +490,98 @@ Widget _buildPostHarvestSection(BuildContext context) {
         ),
       ],
     ),
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        // Determine if we should use vertical layout based on available width
+        final isNarrow = constraints.maxWidth < 350;
+        
+        return isNarrow
+            // Vertical layout for narrow screens
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Label
+                  Text(
+                    "Select Vegetable",
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  // Dropdown
+                  _buildDropdown(),
+                ],
+              )
+            // Horizontal layout for wider screens
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Label
+                  Text(
+                    "Select a Vegetable",
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 16),
+                  // Dropdown
+                  Expanded(child: _buildDropdown()),
+                ],
+              );
+      },
+    ),
+  );
+}
+
+// Extracted dropdown to avoid code duplication
+Widget _buildDropdown() {
+  return Container(
+    // Add decoration if needed for visual definition
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      border: Border.all(color: Colors.grey.shade200, width: 1),
+    ),
+    child: DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<Vegetable>(
+          isExpanded: true, // Makes dropdown take full width
+          iconEnabledColor: Colors.green.shade900,
+          focusColor: Colors.white,
+          value: selectedVegetable,
+          hint: const Text("Select a vegetable"),
+          dropdownColor: Colors.white,
+          items: Vegetable.values.map((Vegetable vegetable) {
+            return DropdownMenuItem<Vegetable>(
+              value: vegetable,
+              child: Row(
+                children: [
+                  Image.asset(
+                    vegetable.imagePath,
+                    width: 24,
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback when image fails to load
+                      return Icon(Icons.eco, size: 24, color: Colors.green.shade700);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      vegetable.label,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+          onChanged: (Vegetable? newValue) {
+            setState(() {
+              selectedVegetable = newValue;
+              fetchPriceData(selectedVegetable!.label);
+              fetchPriceData2(selectedVegetable!.label);
+            });
+          },
+        ),
+      ),
+    ),
   );
 }
 
@@ -511,12 +608,13 @@ Widget _buildPostHarvestSection(BuildContext context) {
               SizedBox(height: 10),
 
               // Price Section
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -550,7 +648,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Colors.blue),
+                              color: Colors.green.shade700),
                         ),
                       ],
                     ),
@@ -560,11 +658,13 @@ Widget _buildPostHarvestSection(BuildContext context) {
               SizedBox(height: 10),
 
               // Calendar Section
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Card(
+                  color: Colors.white, 
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
+                    
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -601,7 +701,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                                   width: 35,
                                   height: 35,
                                   decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: Colors.green.shade800,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
@@ -619,7 +719,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                                   width: 35,
                                   height: 35,
                                   decoration: BoxDecoration(
-                                    color: Colors.blue,
+                                    color: Colors.green.shade300,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(

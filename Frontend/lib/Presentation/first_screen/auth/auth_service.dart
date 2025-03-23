@@ -8,6 +8,8 @@ import 'package:firebase_messaging_platform_interface/firebase_messaging_platfor
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+
+
 class AuthService {
   // Instance of FirebaseAuth
   final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -15,13 +15,6 @@ AppBar AgriMartAppBar(BuildContext context, {String title = "Shopping Cart"}) {
     ),
     actions: [
       IconButton(
-        icon: Icon(Icons.notifications,
-            color: const Color.fromARGB(255, 45, 179, 54)),
-        onPressed: () {
-          print('Show notifications');
-        },
-      ),
-      IconButton(
         icon: const Icon(Icons.menu),
         onPressed: () {
           Navigator.push(

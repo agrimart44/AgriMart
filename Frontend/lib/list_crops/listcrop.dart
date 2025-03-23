@@ -4,16 +4,12 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
-import 'package:namer_app/Settings/settings_main_page.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:namer_app/list_crops/listCropService.dart';
-import 'package:pointycastle/export.dart' as pc;
-import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/signers/rsa_signer.dart';
-import 'package:asn1lib/asn1lib.dart';
 import 'package:basic_utils/basic_utils.dart'; // Add this import
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'; // Add this import
 import 'package:path_provider/path_provider.dart'; // Add this import
@@ -200,7 +196,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Choose an option',
+                AppLocalizations.of(context)!.choose_an_option,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -210,7 +206,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
               const SizedBox(height: 20),
               ListTile(
                 leading: Icon(Icons.photo_library, color: Colors.green[700]),
-                title: const Text('Gallery'),
+                title: Text(AppLocalizations.of(context)!.gallery),
                 onTap: () {
                   Navigator.pop(context);
                   _getImage(ImageSource.gallery);
@@ -219,7 +215,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
               const Divider(),
               ListTile(
                 leading: Icon(Icons.camera_alt, color: Colors.green[700]),
-                title: const Text('Camera'),
+                title: Text(AppLocalizations.of(context)!.camera),
                 onTap: () {
                   Navigator.pop(context);
                   _getImage(ImageSource.camera);
@@ -253,14 +249,14 @@ class _ListCropScreenState extends State<ListCropScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Success', style: TextStyle(color: Colors.green[700], fontWeight: FontWeight.bold)),
-          content: const Text('Your crop has been listed successfully!'),
+          title: Text(AppLocalizations.of(context)!.success, style: TextStyle(color: Colors.green[700], fontWeight: FontWeight.bold)),
+          content: Text(AppLocalizations.of(context)!.crop_listed_successfully),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('OK', style: TextStyle(color: Colors.green[700])),
+              child: Text(AppLocalizations.of(context)!.ok, style: TextStyle(color: Colors.green[700])),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop(); // Return to previous screen
@@ -278,14 +274,14 @@ class _ListCropScreenState extends State<ListCropScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Error', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+          title: Text(AppLocalizations.of(context)!.error, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
           content: Text(errorMessage),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('OK', style: TextStyle(color: Colors.red)),
+              child: Text(AppLocalizations.of(context)!.ok, style: const TextStyle(color: Colors.red)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -300,7 +296,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
   Future<void> _submitCrop() async {
     if (_formKey.currentState!.validate()) {
       if (_photos.isEmpty) {
-        _showErrorDialog('Please add at least one photo of your crop');
+        _showErrorDialog(AppLocalizations.of(context)!.add_at_least_one_photo);
         return;
       }
       
@@ -314,7 +310,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
         print("Firebase token: $firebaseToken");
         
         if (firebaseToken == null) {
-          throw Exception('Authentication token not found. Please login again.');
+          throw Exception(AppLocalizations.of(context)!.auth_token_not_found);
         }
         
         // Upload crop details with location coordinates
@@ -533,33 +529,16 @@ TfE7P3XEAKcV2z7PjdZocHI=
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          'List New Crop',
+          AppLocalizations.of(context)!.list_new_crop,
           style: TextStyle(
-            color: Colors.green[800],
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          TextButton.icon(
-            onPressed: () {},
-            icon: Icon(
-              Icons.help_outline, 
-              color: Colors.green[700],
-              size: 20,
-            ),
-            label: Text(
-              'Help',
-              style: TextStyle(
-                color: Colors.green[700],
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -569,63 +548,13 @@ TfE7P3XEAKcV2z7PjdZocHI=
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Progress indicator
+                // space between header and body
                 Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey[50],
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Create Listing',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green[800],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green[50],
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Step 1 of 1',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green[800],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      LinearProgressIndicator(
-                        value: 1.0,
-                        backgroundColor: Colors.grey[200],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green[700]!),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ],
                   ),
                 ),
 
@@ -656,7 +585,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            'Crop Photos',
+                            AppLocalizations.of(context)!.crop_photos,
                             style: TextStyle(
                               fontSize: 18, 
                               fontWeight: FontWeight.bold,
@@ -667,7 +596,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Add up to 3 photos of your crop (required)',
+                        AppLocalizations.of(context)!.add_upto_3_photos,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -699,7 +628,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                       ),
                                       const SizedBox(height: 12),
                                       Text(
-                                        'Tap to add photos',
+                                        AppLocalizations.of(context)!.tap_to_add_photos,
                                         style: TextStyle(
                                           color: Colors.grey[700],
                                           fontWeight: FontWeight.w500,
@@ -707,7 +636,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        'Add clear, well-lit photos',
+                                        AppLocalizations.of(context)!.add_clear_photos,
                                         style: TextStyle(
                                           color: Colors.grey[500],
                                           fontSize: 12,
@@ -755,7 +684,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Text(
-                                                  'Add Photo',
+                                                  AppLocalizations.of(context)!.add_photos,
                                                   style: TextStyle(
                                                     color: Colors.grey[700],
                                                     fontWeight: FontWeight.w500,
@@ -880,22 +809,22 @@ TfE7P3XEAKcV2z7PjdZocHI=
 
                       // Name Field
                       _buildTextField(
-                        label: 'Crop Name',
-                        hint: 'e.g. Organic Tomatoes',
+                        label: AppLocalizations.of(context)!.enter_crop_name,
+                        hint: AppLocalizations.of(context)!.organic_tomatoes,
                         controller: _cropNameController,
                         validator: (value) =>
-                            value?.isEmpty ?? true ? 'Enter crop name' : null,
+                            value?.isEmpty ?? true ? AppLocalizations.of(context)!.enter_crop_name : null,
                       ),
                       const SizedBox(height: 18),
 
                       // Description Field
                       _buildTextField(
-                        label: 'Description',
-                        hint: 'Describe your crop quality, variety, etc.',
+                        label: AppLocalizations.of(context)!.description,
+                        hint: AppLocalizations.of(context)!.describe_your_crop,
                         controller: _descriptionController,
                         maxLines: 3,
                         validator: (value) =>
-                            value?.isEmpty ?? true ? 'Enter description' : null,
+                            value?.isEmpty ?? true ? AppLocalizations.of(context)!.enter_description : null,
                       ),
                       const SizedBox(height: 18),
 
@@ -904,17 +833,17 @@ TfE7P3XEAKcV2z7PjdZocHI=
                         children: [
                           Expanded(
                             child: _buildTextField(
-                              label: 'Price (LKR)',
-                              hint: 'per kg',
+                              label: AppLocalizations.of(context)!.price_lkr,
+                              hint: AppLocalizations.of(context)!.per_kg,
                               controller: _priceController,
                               keyboardType: TextInputType.number,
                               prefixIcon: const Icon(Icons.attach_money, size: 18),
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
-                                  return 'Enter price';
+                                  return AppLocalizations.of(context)!.enter_price;
                                 }
                                 if (double.tryParse(value!) == null) {
-                                  return 'Enter valid price';
+                                  return AppLocalizations.of(context)!.enter_valid_price;
                                 }
                                 return null;
                               },
@@ -923,17 +852,17 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           const SizedBox(width: 16),
                           Expanded(
                             child: _buildTextField(
-                              label: 'Quantity (KG)',
-                              hint: 'Available kg',
+                              label: AppLocalizations.of(context)!.quantity,
+                              hint: AppLocalizations.of(context)!.quantity_kg,
                               controller: _quantityController,
                               keyboardType: TextInputType.number,
                               prefixIcon: const Icon(Icons.inventory_2_outlined, size: 18),
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
-                                  return 'Enter quantity';
+                                  return AppLocalizations.of(context)!.enter_quantity;
                                 }
                                 if (int.tryParse(value!) == null) {
-                                  return 'Enter valid quantity';
+                                  return AppLocalizations.of(context)!.enter_valid_quantity;
                                 }
                                 return null;
                               },
@@ -945,23 +874,23 @@ TfE7P3XEAKcV2z7PjdZocHI=
 
                       // Location and Harvest Date Row
                       _buildTextField(
-                        label: 'Location',
-                        hint: 'Where is your crop located?',
+                        label: AppLocalizations.of(context)!.location,
+                        hint: AppLocalizations.of(context)!.crop_location,
                         controller: _locationController,
                         prefixIcon: const Icon(Icons.location_on_outlined, size: 18),
-                        validator: (value) => value?.isEmpty ?? true ? 'Enter location' : null,
+                        validator: (value) => value?.isEmpty ?? true ? AppLocalizations.of(context)!.select_location : null,
                       ),
                       const SizedBox(height: 18),
                       
                       _buildTextField(
-                        label: 'Harvest Date',
-                        hint: 'When was the crop harvested?',
+                        label: AppLocalizations.of(context)!.harvest_date,
+                        hint: AppLocalizations.of(context)!.crop_harvest_date,
                         controller: _harvestDataController,
                         readOnly: true,
                         prefixIcon: const Icon(Icons.calendar_today, size: 18),
                         onTap: () => _selectData(context),
                         validator: (value) =>
-                            value?.isEmpty ?? true ? 'Select date' : null,
+                            value?.isEmpty ?? true ? AppLocalizations.of(context)!.select_date : null,
                       ),
                     ],
                   ),
@@ -996,9 +925,9 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                   ),
                                 ),
                                 const SizedBox(width: 12),
-                                const Text(
-                                  'Listing crop...',
-                                  style: TextStyle(
+                                Text(
+                                  AppLocalizations.of(context)!.listing_crop,
+                                  style: const TextStyle(
                                     fontSize: 16, 
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -1008,11 +937,11 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.upload_outlined, size: 20),
+                                Icon(Icons.upload_outlined, size: 20, color: Colors.white),
                                 const SizedBox(width: 8),
-                                const Text(
-                                  'List Crop',
-                                  style: TextStyle(
+                                Text(
+                                  AppLocalizations.of(context)!.list_crop,
+                                  style: const TextStyle(
                                     fontSize: 16, 
                                     fontWeight: FontWeight.bold,
                                   ),

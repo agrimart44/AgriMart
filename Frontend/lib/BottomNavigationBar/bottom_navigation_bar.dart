@@ -1,61 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'package:namer_app/Cart/shopping_cart_page.dart';
-// import 'package:namer_app/farmer_view_page/farmer_view.dart'; 
-
-// class BottomNavigationBarWidget extends StatelessWidget {
-//   final int selectedIndex;
-//   final Function(int) onTap;
-
-//   const BottomNavigationBarWidget({
-//     Key? key,
-//     required this.selectedIndex,
-//     required this.onTap,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       currentIndex: selectedIndex,
-//       onTap: (index) {
-//         // Handle navigation when a tab is tapped
-//         onTap(index);
-
-//         // Navigate based on the selected index
-//         if (index == 0) {
-//           Navigator.pushReplacement(
-//             context,
-//             MaterialPageRoute(builder: (context) => const FarmerView()),
-//           );
-//         } else if (index == 1) {
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-//           );
-//         }
-//       },
-//       selectedItemColor: Colors.green[600],
-//       items: const [
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.home),
-//           label: 'Home',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.shopping_cart),
-//           label: 'Cart',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.person),
-//           label: 'My Profile',
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:namer_app/Cart/shopping_cart_page.dart';
 import 'package:namer_app/buyer_view_page/user_data.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   final int selectedIndex;
@@ -94,18 +41,18 @@ class BottomNavigationBarWidget extends StatelessWidget {
         }
       },
       selectedItemColor: Colors.green[600],
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+          icon: const Icon(Icons.home),
+          label: AppLocalizations.of(context)!.home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          icon: const Icon(Icons.shopping_cart),
+          label: AppLocalizations.of(context)!.cart,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'My Profile',
+          icon: const Icon(Icons.person),
+          label: AppLocalizations.of(context)!.profile,
         ),
       ],
     );

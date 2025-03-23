@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/ChatScreen/chat_screen.dart';
 import 'package:namer_app/ChatScreen/chat_service.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
@@ -29,7 +30,8 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Light gray background instead of image
+      backgroundColor:
+          Colors.grey[50], // Light gray background instead of image
       body: Column(
         children: [
           // Modern App Bar
@@ -49,37 +51,24 @@ class _ChatListPageState extends State<ChatListPage> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () => Navigator.pop(context),
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Conversations',
+                    AppLocalizations.of(context)!.conversations,
                     style: TextStyle(
-                      color: Colors.green[800],
+                      color: Colors.black,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.search, color: Colors.grey),
-                    onPressed: () {
-                      // Search functionality would go here
-                    },
-                  ),
-                  // New chat button to replace floating action button
-                  IconButton(
-                    icon: Icon(Icons.add_circle_outline, color: Colors.green[700]),
-                    onPressed: () {
-                      // Start new conversation logic would go here
-                    },
-                  ),
                 ],
               ),
             ),
           ),
-          
+
           // Header section with total chats
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
@@ -88,14 +77,14 @@ class _ChatListPageState extends State<ChatListPage> {
               builder: (context, snapshot) {
                 int unreadCount = 0;
                 int totalChats = 0;
-                
+
                 if (snapshot.hasData) {
                   totalChats = snapshot.data!.length;
                   unreadCount = snapshot.data!
                       .where((chat) => chat.unreadCount > 0)
                       .length;
                 }
-                
+
                 return Row(
                   children: [
                     Container(
@@ -114,14 +103,6 @@ class _ChatListPageState extends State<ChatListPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Messages',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[800],
-                          ),
-                        ),
                         const SizedBox(height: 4),
                         Text(
                           unreadCount > 0
@@ -136,7 +117,8 @@ class _ChatListPageState extends State<ChatListPage> {
                     ),
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.green[700],
                         borderRadius: BorderRadius.circular(20),
@@ -155,13 +137,13 @@ class _ChatListPageState extends State<ChatListPage> {
               },
             ),
           ),
-          
+
           // Divider
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Divider(color: Colors.grey[300], height: 1),
           ),
-          
+
           // Chat List
           Expanded(
             child: FutureBuilder<List<Chat>>(
@@ -170,7 +152,8 @@ class _ChatListPageState extends State<ChatListPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green[700]!),
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.green[700]!),
                     ),
                   );
                 } else if (snapshot.hasError) {
@@ -230,7 +213,8 @@ class _ChatListPageState extends State<ChatListPage> {
                             ),
                             onPressed: () {
                               setState(() {
-                                _chatListFuture = _chatService.fetchChatsFromStream();
+                                _chatListFuture =
+                                    _chatService.fetchChatsFromStream();
                               });
                             },
                           ),
@@ -299,7 +283,8 @@ class _ChatListPageState extends State<ChatListPage> {
                 } else {
                   final chatList = snapshot.data!;
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       final chat = chatList[index];
@@ -325,7 +310,7 @@ class EnhancedChatListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool hasUnread = chat.unreadCount > 0;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -388,27 +373,18 @@ class EnhancedChatListItem extends StatelessWidget {
                         ),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: chat.profileImage.isNotEmpty
-                            ? Image.network(
-                                chat.profileImage,
-                                fit: BoxFit.cover,
-                              )
-                            : Center(
-                                child: Text(
-                                  chat.name.isNotEmpty
-                                      ? chat.name[0].toUpperCase()
-                                      : '?',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    color: hasUnread
-                                        ? Colors.white
-                                        : Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                      ),
+                      borderRadius: BorderRadius.circular(14),
+                      child: chat.profileImage.isNotEmpty
+                          ? Image.network(
+                              chat.profileImage,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'lib/assets/chat_user.jpg', // Default profile image
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+
                     ),
                     // Unread indicator
                     if (hasUnread)
@@ -497,13 +473,14 @@ class EnhancedChatListItem extends StatelessWidget {
                               ? Colors.green.shade900
                               : Colors.grey.shade600,
                           fontSize: 14,
-                          fontWeight: hasUnread ? FontWeight.w500 : FontWeight.normal,
+                          fontWeight:
+                              hasUnread ? FontWeight.w500 : FontWeight.normal,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
-                      // Message type indicator 
+                      // Message type indicator
                       Row(
                         children: [
                           Container(

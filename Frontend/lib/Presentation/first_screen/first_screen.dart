@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/registerpage/registerpage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'Login.dart';
 
@@ -112,7 +111,7 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
                       const SizedBox(height: 16),
                       // Tagline
                       Text(
-                        "Post-Harvest Farmer-Buyer Connection Network",
+                        "Empowering Farmers, Connecting Buyers",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey.shade600,
@@ -164,8 +163,9 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildLogoSection() {
-    return Container(
+Widget _buildLogoSection() {
+  return Center(
+    child: Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -181,24 +181,18 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
       child: Container(
         height: 100,
         width: 100,
-        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.green.shade100, Colors.green.shade200],
+          image: DecorationImage(
+            image: AssetImage('lib/assets/AgriMart_UI.jpg'),
+            fit: BoxFit.contain, // Changed to contain for better centering
+            alignment: Alignment.center, // Added alignment
           ),
         ),
-        child: Icon(
-          Icons.eco_rounded,
-          size: 50,
-          color: Colors.green.shade800,
-        ),
       ),
-    );
-  }
-
+    ),
+  );
+}
   Widget _buildFeatureHighlights() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

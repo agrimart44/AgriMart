@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_page.dart';
+import 'package:namer_app/l10n/app_localizations.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -11,7 +12,6 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class UserProfilePageState extends State<UserProfilePage> {
-
   final CropService _cropService = CropService();
   bool _isLoading = true;
   String _errorMessage = '';
@@ -24,6 +24,7 @@ class UserProfilePageState extends State<UserProfilePage> {
     super.initState();
     _fetchUserCropsAndStats();
   }
+
   Future<void> _fetchUserCropsAndStats() async {
     setState(() {
       _isLoading = true;
@@ -32,7 +33,7 @@ class UserProfilePageState extends State<UserProfilePage> {
 
     try {
       final data = await _cropService.getUserCropsAndStats();
-      
+
       setState(() {
         _userCrops = data['userCrops'] ?? [];
         _stats = data['stats'] ?? {};
@@ -51,7 +52,7 @@ class UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Text('My Profile',style: TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
@@ -131,8 +132,9 @@ class UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _buildStatisticsSection() {
-    final currencyFormat = NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
-    
+    final currencyFormat =
+        NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -141,8 +143,8 @@ class UserProfilePageState extends State<UserProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Farm Statistics',
+            Text(
+              AppLocalizations.of(context)!.farm_statistics,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -153,18 +155,18 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Crops',
+                    AppLocalizations.of(context)!.total_crops,
                     '${_stats['totalCrops'] ?? 0}',
                     Icons.grass,
-                    Colors.green,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Quantity',
+                    AppLocalizations.of(context)!.total_quantity,
                     '${_stats['totalQuantity'] ?? 0} kg',
                     Icons.scale,
-                    Colors.orange,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -174,18 +176,18 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Value',
+                    AppLocalizations.of(context)!.total_value,
                     currencyFormat.format(_stats['totalValue'] ?? 0),
                     Icons.monetization_on,
-                    Colors.blue,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Avg. Price',
+                    AppLocalizations.of(context)!.avg_price,
                     currencyFormat.format(_stats['averagePricePerUnit'] ?? 0),
                     Icons.trending_up,
-                    Colors.purple,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -195,18 +197,18 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Active Crops',
+                    AppLocalizations.of(context)!.active_crops,
                     '${_stats['activeCrops'] ?? 0}',
                     Icons.check_circle_outline,
-                    Colors.teal,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Crops With Interest',
+                    AppLocalizations.of(context)!.crops_with_interest,
                     '${_stats['bookedCrops'] ?? 0}',
                     Icons.shopping_cart,
-                    Colors.amber,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -267,16 +269,6 @@ class UserProfilePageState extends State<UserProfilePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextButton.icon(
-              onPressed: () {
-                // Navigate to a more detailed crop management page if needed
-              },
-              icon: const Icon(Icons.arrow_forward, size: 16),
-              label: const Text('Manage'),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.green,
-              ),
-            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -330,197 +322,197 @@ class UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-Widget _buildCropListItem(dynamic crop) {
-  final NumberFormat currencyFormat = NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
-  final String cropId = crop['id'] ?? '';  // Make sure you have the crop ID
-  final String cropName = crop['cropName'] ?? 'Unknown Crop';
-  final double price = (crop['price'] ?? 0).toDouble();
-  final String location = crop['location'] ?? 'Unknown Location';
-  final int quantity = crop['quantity'] ?? 0;
-  final double cropValue = (crop['cropValue'] ?? 0).toDouble();
-  final bool isBooked = crop['is_booked'] ?? false;
-  final List<dynamic> imageUrls = crop['imageURLs'] ?? [];
-  final String harvestDate = crop['harvestDate'] ?? '';
-  final String description = crop['description'] ?? '';
-  
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UpdateCropPage(
-            cropId: cropId,
-            initialCropName: cropName,
-            initialDescription: description,
-            initialPrice: price,
-            initialLocation: location,
-            initialQuantity: quantity,
-            initialHarvestDate: harvestDate,
-            initialImageUrls: imageUrls,
-            onCropUpdated: _fetchUserCropsAndStats,
-          ),
-        ),
-      );
-    },
-    child: Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-                        ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: SizedBox(
-                width: 80,
-                height: 80,
-                child: imageUrls.isNotEmpty
-                    ? Image.network(
-                        imageUrls[0],
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            'lib/assets/default_crop.jpg',
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      )
-                    : Image.asset(
-                        'lib/assets/default_crop.jpg',
-                        fit: BoxFit.cover,
-                      ),
-              ),
+  Widget _buildCropListItem(dynamic crop) {
+    final NumberFormat currencyFormat =
+        NumberFormat.currency(symbol: 'Rs', decimalDigits: 2, locale: 'si_LK');
+    final String cropId = crop['id'] ?? ''; // Make sure you have the crop ID
+    final String cropName = crop['cropName'] ?? 'Unknown Crop';
+    final double price = (crop['price'] ?? 0).toDouble();
+    final String location = crop['location'] ?? 'Unknown Location';
+    final int quantity = crop['quantity'] ?? 0;
+    final double cropValue = (crop['cropValue'] ?? 0).toDouble();
+    final bool isBooked = crop['is_booked'] ?? false;
+    final List<dynamic> imageUrls = crop['imageURLs'] ?? [];
+    final String harvestDate = crop['harvestDate'] ?? '';
+    final String description = crop['description'] ?? '';
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UpdateCropPage(
+              cropId: cropId,
+              initialCropName: cropName,
+              initialDescription: description,
+              initialPrice: price,
+              initialLocation: location,
+              initialQuantity: quantity,
+              initialHarvestDate: harvestDate,
+              initialImageUrls: imageUrls,
+              onCropUpdated: _fetchUserCropsAndStats,
             ),
-            const SizedBox(width: 12),
-            // Crop Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          cropName,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+          ),
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.only(bottom: 12),
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: imageUrls.isNotEmpty
+                      ? Image.network(
+                          imageUrls[0],
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'lib/assets/default_crop.jpg',
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          'lib/assets/default_crop.jpg',
+                          fit: BoxFit.cover,
                         ),
-                      ),
-                      isBooked
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.orange.shade100,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Text(
-                                'Booked',
-                                style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade100,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Text(
-                                'Available',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Crop Details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            cropName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on,
-                          size: 14, color: Colors.grey[600]),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          location,
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 12,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
-                  ),
-                  if (harvestDate.isNotEmpty) ...[
+                        isBooked
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange.shade100,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Text(
+                                  'Booked',
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade100,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Text(
+                                  'Available',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today,
+                        Icon(Icons.location_on,
                             size: 14, color: Colors.grey[600]),
                         const SizedBox(width: 4),
-                        Text(
-                          'Harvested: $harvestDate',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 12,
+                        Expanded(
+                          child: Text(
+                            location,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                  ],
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        currencyFormat.format(price),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        '$quantity kg',
-                        style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.w500,
-                        ),
+                    if (harvestDate.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_today,
+                              size: 14, color: Colors.grey[600]),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Harvested: $harvestDate',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Total Value: ${currencyFormat.format(cropValue)}',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          currencyFormat.format(price),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(56, 142, 60, 1),
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          '$quantity kg',
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 4),
+                    Text(
+                      'Total Value: ${currencyFormat.format(cropValue)}',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

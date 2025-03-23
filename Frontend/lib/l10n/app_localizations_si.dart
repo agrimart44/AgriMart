@@ -19,14 +19,24 @@ class AppLocalizationsSi extends AppLocalizations {
   String get location => 'ස්ථානය';
 
   @override
-  String get  Edit_Profile => 'සංස්කරණය කරන්න';
+  String get Edit_Profile => 'සංස්කරණය කරන්න';
+
+  @override
+  String get no => 'නැත';
 
   @override
   String get choose_an_option => 'විකල්පයක් තෝරන්න';
 
   @override
+  String get exit_app => 'ඉවත් වන්න';
 
-  String get Update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
+  @override
+
+  String get yes => 'ඔව්';
+
+  @override
+
+  String get are_you_sure_you_want_to_exit=> 'ඔබ ඉවත් වෙනවාද?';
 
   @override
   String get gallery => 'ගැලරිය';
@@ -47,10 +57,12 @@ class AppLocalizationsSi extends AppLocalizations {
   String get error => 'දෝෂයක්';
 
   @override
-  String get add_at_least_one_photo => 'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
+  String get add_at_least_one_photo =>
+      'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
 
   @override
-  String get auth_token_not_found => 'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
+  String get auth_token_not_found =>
+      'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
 
   @override
   String get an_error_occurred => 'දෝෂයක් සිදු විය';
@@ -158,13 +170,134 @@ class AppLocalizationsSi extends AppLocalizations {
   String get change_your_language_here => 'ඔබේ භාෂාව මෙහි වෙනස් කරන්න';
 
   @override
-  String get privacy_security => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
+  String get privacy_policy => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
 
   @override
-  String get change_privacy_security_settings => 'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
+  String get change_privacy_security_settings =>
+      'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
 
   @override
   String get sign_out => 'පිටවීම';
+
+  @override
+  String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
+
+  @override
+  String get home => 'මුල් පිටුව';
+
+  @override
+  String get cart => 'කරට්ටුව';
+
+  @override
+  String get profile => 'මගේ තොරතුරු';
+
+  @override
+  String get track_market_trends => 'වෙළඳපොළ ප්‍රවණතා නිරීක්ෂණය';
+
+  @override
+  String get chat_with_buyers => 'ගැනුම්කරුවන් සමඟ කතාබස් කරන්න';
+
+  @override
+  String get add_new_products => 'නව නිෂ්පාදන එකතු කරන්න';
+
+  @override
+  String get browse_crops => 'භෝග සොයන්න';
+
+  @override
+  String get welcome => 'ආයුබෝවන්!';
+
+  @override
+  String get manage_your_agricultural_business =>
+      'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
+
+  @override
+  String get quick_actions => 'ඉක්මන් ක්‍රියාව';
+
+  @override
+  String get settings => 'සැකසුම්';
+
+  @override
+  String get see_your_profile_details => 'ඔබගේ ගිණුම් විස්තර බලන්න';
+
+  @override
+  String get choose_your_preffered_language => 'ඔබේ කැමති භාෂාව තෝරන්න';
+
+  @override
+  String get checkout_our_policy_details =>
+      'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
+
+  @override
+  String get phone => 'දුරකථන අංකය';
+
+  @override
+  String get email => 'විද්‍යුත් ලිපිනය';
+
+  @override
+  String get cart_items => 'ගත් භාණ්ඩ';
+
+  @override
+  String get items => 'භාණ්ඩ';
+
+  @override
+  String get select_your_language => 'ඔබේ භාෂාව තෝරන්න';
+
+  @override
+  String get farm_statistics => 'ගොවිපළ සංඛ්‍යා ලේඛන';
+
+  @override
+  String get total_crops => 'මුළු භෝග';
+
+  @override
+  String get list_new_crop => 'නව බෝග ලැයිස්තුගත කරන්න';
+
+  @override
+  String get crop_photos => 'බෝග වල ඡායාරූප';
+
+  @override
+  String get add_upto_3_photos =>
+      'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
+
+  @override
+  String get tap_to_add_photos => 'ඡායාරූප එකතු කිරීමට ටැප් කරන්න';
+
+  @override
+  String get add_clear_photos => 'සැහැල්ලු, සුදු ඡායාරූප එකතු කරන්න';
+
+  @override
+  String get organic_tomatoes => 'e.g. තක්කාලි';
+
+  @override
+  String get describe_your_crop => 'ඔබේ බෝගය විස්තර කරන්න';
+
+  @override
+  String get per_kg => 'කි.ග් වන්නට';
+
+  @override
+  String get available_kg => 'ලබාගත හැකි කි.ග්';
+
+  @override
+  String get crop_location => 'ඔබේ බෝගය පිහිටාගත් ස්ථානය කොටනද?';
+
+  @override
+  String get crop_harvest_date => 'බෝග අස්වැන්න දිනය කුමක්ද?';
+
+  @override
+  String get listing_crop => 'බෝග ලැයිස්තු කිරීම...';
+
+  @override
+  String get total_quantity => 'මුළු ප්‍රමාණය';
+
+  @override
+  String get total_value => 'මුළු වටිනාකම';
+
+  @override
+  String get avg_price => 'සාමාන්‍ය මිල';
+
+  @override
+  String get active_crops => 'සක්‍රීය බෝග';
+
+  @override
+  String get crops_with_interest => 'උනන්දුවක් ඇති බෝග';
   
   @override
   // TODO: implement update_your_information
@@ -208,4 +341,11 @@ class AppLocalizationsSi extends AppLocalizations {
   String get select_date_to_view_price => 'මිල බැලීමට දිනය තෝරන්න';
 
 
+}
+  // TODO: implement conversations
+  String get conversations => 'සංවාද';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'පණිවිඩ';
 }

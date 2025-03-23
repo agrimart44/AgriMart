@@ -1,0 +1,2 @@
+C:/Users/rifer/OneDrive/Desktop/SDG/AgriMart/Frontend/android/app/.cxx/Debug/225v4h5l/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/rifer/OneDrive/Desktop/SDG/AgriMart/Frontend/android/app/.cxx/Debug/225v4h5l/armeabi-v7a/CMakeFiles/rebuild_cache.dir
