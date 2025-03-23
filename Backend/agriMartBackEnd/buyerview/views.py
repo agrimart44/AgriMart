@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from datetime import datetime
 import cloudinary.uploader
 from firebase import db, verify_firebase_token
+from google.cloud import firestore
 from django.views.decorators.csrf import csrf_exempt
 
 

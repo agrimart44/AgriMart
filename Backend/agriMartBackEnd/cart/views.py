@@ -127,3 +127,4 @@ def clear_cart(request):
 
     except Exception as e:
         return JsonResponse({"error": f"Failed to clear cart: {str(e)}"}, status=500)
+
