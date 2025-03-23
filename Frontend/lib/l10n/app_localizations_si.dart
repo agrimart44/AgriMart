@@ -298,4 +298,12 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'උනන්දුවක් ඇති බෝග';
+  
+  @override
+  // TODO: implement conversations
+  String get conversations => 'සංවාද';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'පණිවිඩ';
 }

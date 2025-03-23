@@ -199,6 +199,8 @@ abstract class AppLocalizations {
   /// **'Authentication token not found. Please login again.'**
   String get auth_token_not_found;
 
+  String get messages;
+
   /// No description provided for @an_error_occurred.
   ///
   /// In en, this message translates to:

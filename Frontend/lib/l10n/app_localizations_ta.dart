@@ -307,4 +307,12 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
+  
+  @override
+  // TODO: implement conversations
+  String get conversations => 'உரையாடல்கள்';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'செய்திகள்';
 }

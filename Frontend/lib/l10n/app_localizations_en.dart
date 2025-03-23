@@ -295,4 +295,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'Crops With Interest';
+  
+  @override
+  // TODO: implement conversations
+  String get conversations => 'Conversations';
+  
+  @override
+  // TODO: implement messages
+  String get messages => 'Messages';
 }
