@@ -151,7 +151,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Colors.white, // Replace image with solid white background
+          color: Colors.white10, // Replace image with solid white background
         ),
         child: Column(
           children: [
