@@ -52,7 +52,7 @@ class UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Text('My Profile',style: TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
@@ -158,7 +158,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.total_crops,
                     '${_stats['totalCrops'] ?? 0}',
                     Icons.grass,
-                    Colors.green,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
@@ -166,7 +166,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.total_quantity,
                     '${_stats['totalQuantity'] ?? 0} kg',
                     Icons.scale,
-                    Colors.orange,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -179,7 +179,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.total_value,
                     currencyFormat.format(_stats['totalValue'] ?? 0),
                     Icons.monetization_on,
-                    Colors.blue,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
@@ -187,7 +187,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.avg_price,
                     currencyFormat.format(_stats['averagePricePerUnit'] ?? 0),
                     Icons.trending_up,
-                    Colors.purple,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -200,7 +200,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.active_crops,
                     '${_stats['activeCrops'] ?? 0}',
                     Icons.check_circle_outline,
-                    Colors.teal,
+                    Colors.green.shade800,
                   ),
                 ),
                 Expanded(
@@ -208,7 +208,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     AppLocalizations.of(context)!.crops_with_interest,
                     '${_stats['bookedCrops'] ?? 0}',
                     Icons.shopping_cart,
-                    Colors.amber,
+                    Colors.green.shade800,
                   ),
                 ),
               ],
@@ -267,16 +267,6 @@ class UserProfilePageState extends State<UserProfilePage> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextButton.icon(
-              onPressed: () {
-                // Navigate to a more detailed crop management page if needed
-              },
-              icon: const Icon(Icons.arrow_forward, size: 16),
-              label: const Text('Manage'),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.green,
               ),
             ),
           ],
@@ -495,7 +485,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                           currencyFormat.format(price),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: Colors.green.shade700,
                             fontSize: 16,
                           ),
                         ),
