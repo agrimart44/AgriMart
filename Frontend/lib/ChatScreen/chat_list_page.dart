@@ -380,7 +380,7 @@ class EnhancedChatListItem extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
-                              '/assets/chat_user.jpg', // Default profile image
+                              'lib/assets/chat_user.jpg', // Default profile image
                               fit: BoxFit.cover,
                             ),
                     ),
