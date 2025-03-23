@@ -22,7 +22,21 @@ class AppLocalizationsSi extends AppLocalizations {
   String get Edit_Profile => 'සංස්කරණය කරන්න';
 
   @override
+  String get no => 'නැත';
+
+  @override
   String get choose_an_option => 'විකල්පයක් තෝරන්න';
+
+  @override
+  String get exit_app => 'ඉවත් වන්න';
+
+  @override
+
+  String get yes => 'ඔව්';
+
+  @override
+
+  String get are_you_sure_you_want_to_exit=> 'ඔබ ඉවත් වෙනවාද?';
 
   @override
   String get gallery => 'ගැලරිය';

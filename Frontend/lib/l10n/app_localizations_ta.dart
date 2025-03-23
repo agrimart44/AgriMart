@@ -20,10 +20,24 @@ class AppLocalizationsTa extends AppLocalizations {
   String get location => 'இடம்';
 
   @override
+
+  String get no=> 'இல்லை';
+
+  @override
   String get choose_an_option => 'ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்';
 
   @override
   String get gallery => 'கேலரி';
+
+  @override
+  String get are_you_sure_you_want_to_exit => 'நீங்கள் வெளியேற விரும்புகிறீர்களா?';
+
+  @override
+  String get exit_app => 'வெளியேறு';
+
+  @override
+
+  String get yes => 'ஆம்';
 
   @override
   String get camera => 'கேமரா';

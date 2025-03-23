@@ -178,6 +178,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile => 'My Profile';
+  @override
+  String get no=> 'No';
+
+  @override
+  String get exit_app => 'Exit App';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get are_you_sure_you_want_to_exit => 'Are you sure you want to exit?';
 
   @override
   String get track_market_trends => 'Track market trends';

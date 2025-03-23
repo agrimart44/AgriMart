@@ -316,6 +316,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               
               // Adding the Enhanced Pie Chart Below
               SizedBox(
+                width: double.infinity,
                 height: 290, // Increased height for better visibility
                 child: Stack(
                   children: [
@@ -430,56 +431,107 @@ Widget _buildPostHarvestSection(BuildContext context) {
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
     padding: const EdgeInsets.all(16.0),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.8), // Slightly transparent white background
+      color: Colors.white,
       borderRadius: BorderRadius.circular(12),
-    ),
-    child: Row(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Select Vegetable",
-            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(width: 25),
-        Flexible(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              child: DropdownButton<Vegetable>(
-                iconEnabledColor: Colors.blue,
-                focusColor: Colors.red,
-                value: selectedVegetable,
-                dropdownColor: Colors.white, // Set the background color of the dropdown menu to white
-                items: Vegetable.values.map((Vegetable vegetable) {
-                  return DropdownMenuItem<Vegetable>(
-                    value: vegetable,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          vegetable.imagePath,
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(vegetable.label),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                onChanged: (Vegetable? newValue) {
-                  setState(() {
-                    selectedVegetable = newValue;
-                    fetchPriceData(selectedVegetable!.label); // Fetch data when selection changes
-                    fetchPriceData2(selectedVegetable!.label); // Fetch current data when selection changes
-                  });
-                },
-              ),
-            ),
-          ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 6,
+          offset: const Offset(0, 2),
         ),
       ],
+    ),
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        // Determine if we should use vertical layout based on available width
+        final isNarrow = constraints.maxWidth < 350;
+        
+        return isNarrow
+            // Vertical layout for narrow screens
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Label
+                  Text(
+                    "Select Vegetable",
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  // Dropdown
+                  _buildDropdown(),
+                ],
+              )
+            // Horizontal layout for wider screens
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Label
+                  Text(
+                    "Select Vegetable",
+                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 16),
+                  // Dropdown
+                  Expanded(child: _buildDropdown()),
+                ],
+              );
+      },
+    ),
+  );
+}
+
+// Extracted dropdown to avoid code duplication
+Widget _buildDropdown() {
+  return Container(
+    // Add decoration if needed for visual definition
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      border: Border.all(color: Colors.grey.shade200, width: 1),
+    ),
+    child: DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<Vegetable>(
+          isExpanded: true, // Makes dropdown take full width
+          iconEnabledColor: Colors.green.shade600,
+          focusColor: Colors.white,
+          value: selectedVegetable,
+          hint: const Text("Select a vegetable"),
+          dropdownColor: Colors.white,
+          items: Vegetable.values.map((Vegetable vegetable) {
+            return DropdownMenuItem<Vegetable>(
+              value: vegetable,
+              child: Row(
+                children: [
+                  Image.asset(
+                    vegetable.imagePath,
+                    width: 24,
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback when image fails to load
+                      return Icon(Icons.eco, size: 24, color: Colors.green.shade700);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      vegetable.label,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+          onChanged: (Vegetable? newValue) {
+            setState(() {
+              selectedVegetable = newValue;
+              fetchPriceData(selectedVegetable!.label);
+              fetchPriceData2(selectedVegetable!.label);
+            });
+          },
+        ),
+      ),
     ),
   );
 }

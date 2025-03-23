@@ -46,137 +46,278 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AgriMartAppBar(context, title: 'AgriMart'),
-      body: SafeArea(
-        child: FadeTransition(
-          opacity: _opacityAnimation,
+  // Function to show the exit confirmation dialog
+  Future<bool> _onWillPop() async {
+    return await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10.0,
+                offset: const Offset(0.0, 10.0),
+              ),
+            ],
+          ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header section with welcome message and gradient
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              // Icon at the top
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.green.shade50, Colors.green.shade100],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.green.withOpacity(0.2),
-                      blurRadius: 15,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
+                  color: Colors.green.shade50,
+                  shape: BoxShape.circle,
                 ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                        color: Colors.green.shade800,
-                      ),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.welcome,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green.shade800,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            AppLocalizations.of(context)!.manage_your_agricultural_business,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.green.shade900.withOpacity(0.7),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: Icon(
+                  Icons.exit_to_app_rounded,
+                  color: Colors.green.shade700,
+                  size: 36,
                 ),
               ),
+              const SizedBox(height: 24),
               
-              // Quick action header with modern design
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 16),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.bolt,
-                      color: Colors.green,
-                      size: 24,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      AppLocalizations.of(context)!.quick_actions,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey[800],
+              // Title
+              Text(
+                AppLocalizations.of(context)?.exit_app ?? 'Exit App',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2D3748),
+                ),
+              ),
+              const SizedBox(height: 16),
+              
+              // Content
+              Text(
+                AppLocalizations.of(context)?.are_you_sure_you_want_to_exit ?? 
+                'Are you sure you want to exit?',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[700],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              
+              // Action buttons with gradient
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // No button
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.green.shade800,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: BorderSide(color: Colors.green.shade200),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        height: 1,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.grey.shade400,
-                              Colors.grey.shade200,
-                              Colors.grey.shade50,
-                            ],
-                          ),
+                    child: Text(
+                      AppLocalizations.of(context)?.no ?? 'No',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  
+                  // Yes button
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: LinearGradient(
+                        colors: [const Color(0xFF6FCF97), const Color(0xFF27AE60)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.green.shade200.withOpacity(0.5),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)?.yes ?? 'Yes',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              
-              // Scrollable content (dashboard grid)
-              Expanded(
-                child: _buildDashboardGrid(),
+                  ),
+                ],
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() => _selectedIndex = index);
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
-            );
-          } else if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const FarmerView()),
-            );
-          }
-        },
+    ) ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.grey[50],
+        appBar: AgriMartAppBar(context, title: 'AgriMart'),
+        body: SafeArea(
+          child: FadeTransition(
+            opacity: _opacityAnimation,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header section with welcome message and gradient
+                Container(
+                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.green.shade50, Colors.green.shade100],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.green.withOpacity(0.2),
+                        blurRadius: 15,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          size: 30,
+                          color: Colors.green.shade800,
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.welcome,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green.shade800,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              AppLocalizations.of(context)!.manage_your_agricultural_business,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green.shade900.withOpacity(0.7),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Quick action header with modern design
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.bolt,
+                        color: Colors.green,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        AppLocalizations.of(context)!.quick_actions,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.grey.shade400,
+                                Colors.grey.shade200,
+                                Colors.grey.shade50,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Scrollable content (dashboard grid)
+                Expanded(
+                  child: _buildDashboardGrid(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBarWidget(
+          selectedIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() => _selectedIndex = index);
+            if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
+              );
+            } else if (index == 0) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const FarmerView()),
+              );
+            }
+          },
+        ),
       ),
     );
   }
