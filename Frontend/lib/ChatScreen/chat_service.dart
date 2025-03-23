@@ -192,7 +192,7 @@ Future<List<Chat>> fetchChatsFromStream() async {
         id: channel.id ?? '',
         name: chatName,
         lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
-        profileImage: imageUrl.isNotEmpty ? imageUrl : 'lib/assets/default_avatar.png',
+        profileImage: imageUrl.isNotEmpty ? imageUrl : 'lib/assets/chat_user.jpg',
         timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
         unreadCount: channel.state?.unreadCount ?? 0,
       ));
@@ -264,7 +264,7 @@ Future<List<Chat>> fetchChatsFromStream() async {
           name: chatName,
           lastMessage: channel.state?.lastMessage?.text ?? 'No messages',
           profileImage:
-              imageUrl.isNotEmpty ? imageUrl : 'assets/default_avatar.png',
+              imageUrl.isNotEmpty ? imageUrl : 'lib/assets/chat_user.jpg',
           timestamp: channel.state?.lastMessage?.createdAt ?? DateTime.now(),
           unreadCount: channel.state?.unreadCount ?? 0,
         ));
