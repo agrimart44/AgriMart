@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// import localization
+import '../l10n/app_localizations.dart';
+
 class CropLargeView extends StatefulWidget {
   final Crop crop;
 
@@ -234,7 +237,9 @@ Future<void> _openChatWithSeller() async {
                 _buildFarmerInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  'About this Product',
+                  // Localized string for about this product
+                  AppLocalizations.of(context)!.about_this_product,
+                  //'About this Product',
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
