@@ -159,7 +159,7 @@ class _LoginState extends State<Login> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.green[800]),
+          icon: Icon(Icons.arrow_back, size: 25, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -211,7 +211,7 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 12),
                       
                       Text(
-                        "Connect with farmers and buyers directly",
+                        "Login to continue",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -363,155 +363,6 @@ class _LoginState extends State<Login> {
                             ),
                           ],
                         ),
-                      ),
-
-                      const SizedBox(height: 32),
-
-                      // Divider with "Or Login With"
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey[300],
-                              thickness: 1,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              "Or continue with",
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey[300],
-                              thickness: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Social Login Buttons
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Facebook button
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.grey[300]!),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 0,
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  onTap: () async {
-                                    UserCredential? credential = await signInWithFacebook(context);
-                                    if (credential != null) {
-                                      handleSuccessfulAuth(credential, context);
-                                    }
-                                  },
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.facebook,
-                                          color: Colors.blue[800],
-                                          size: 24,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          "Facebook",
-                                          style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Google button
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.grey[300]!),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    spreadRadius: 0,
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  onTap: () async {
-                                    UserCredential? credential = await signInWithGoogle(context);
-                                    if (credential != null) {
-                                      handleSuccessfulAuth(credential, context);
-                                    }
-                                  },
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.network(
-                                          'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
-                                          height: 24,
-                                          width: 24,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          "Google",
-                                          style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
 
                       const SizedBox(height: 32),
