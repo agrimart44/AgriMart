@@ -644,6 +644,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'crops_with_interest...'**
   String get crops_with_interest;
+
+  /// No description provided for @conversations
+  ///
+  /// In en, this message translates to:
+  /// **'conversations'**
+  String get conversations;
 }
 
 class _AppLocalizationsDelegate
