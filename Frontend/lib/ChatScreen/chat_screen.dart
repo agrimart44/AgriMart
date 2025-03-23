@@ -141,10 +141,7 @@ class _ChatScreenState extends State<ChatScreen> {
       return Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('lib/assets/first_page_background.jpg'),
-              fit: BoxFit.cover,
-            ),
+            color: Colors.white
           ),
           child: Center(child: CircularProgressIndicator()),
         ),
@@ -169,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.black),
                       onPressed: () => Navigator.pop(context),
                     ),
                     const SizedBox(width: 8),
@@ -180,7 +177,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           Text(
                             _chatTitle,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -190,7 +187,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             Text(
                               _chatSubtitle!,
                               style: const TextStyle(
-                                color: Colors.white70,
+                                color: Colors.black54,
                                 fontSize: 14,
                               ),
                             ),
@@ -268,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       controller: _messageController,
                       decoration: const InputDecoration(
-                        hintText: 'Type a message...',
+                        hintText: 'Type a message',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: 20,
@@ -325,7 +322,7 @@ class _MessageBubble extends StatelessWidget {
               maxWidth: MediaQuery.of(context).size.width * 0.7,
             ),
             decoration: BoxDecoration(
-              color: isMe ? const Color(0xFF4A4A7B) : Colors.white,
+              color: isMe ? const Color(0xFF1B5E20) : Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
