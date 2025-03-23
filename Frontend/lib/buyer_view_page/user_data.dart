@@ -164,7 +164,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Quantity',
+                    AppLocalizations.of(context)!.total_quantity,
                     '${_stats['totalQuantity'] ?? 0} kg',
                     Icons.scale,
                     Colors.orange,
@@ -177,7 +177,7 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Total Value',
+                    AppLocalizations.of(context)!.total_value,
                     currencyFormat.format(_stats['totalValue'] ?? 0),
                     Icons.monetization_on,
                     Colors.blue,
@@ -185,7 +185,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Avg. Price',
+                    AppLocalizations.of(context)!.avg_price,
                     currencyFormat.format(_stats['averagePricePerUnit'] ?? 0),
                     Icons.trending_up,
                     Colors.purple,
@@ -198,7 +198,7 @@ class UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: _buildStatisticItem(
-                    'Active Crops',
+                    AppLocalizations.of(context)!.active_crops,
                     '${_stats['activeCrops'] ?? 0}',
                     Icons.check_circle_outline,
                     Colors.teal,
@@ -206,7 +206,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ),
                 Expanded(
                   child: _buildStatisticItem(
-                    'Crops With Interest',
+                    AppLocalizations.of(context)!.crops_with_interest,
                     '${_stats['bookedCrops'] ?? 0}',
                     Icons.shopping_cart,
                     Colors.amber,
