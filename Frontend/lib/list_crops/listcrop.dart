@@ -474,7 +474,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          'List New Crop',
+          AppLocalizations.of(context)!.list_new_crop,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -530,7 +530,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            'Crop Photos',
+                            AppLocalizations.of(context)!.crop_photos,
                             style: TextStyle(
                               fontSize: 18, 
                               fontWeight: FontWeight.bold,
@@ -541,7 +541,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Add up to 3 photos of your crop (required)',
+                        AppLocalizations.of(context)!.add_upto_3_photos,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -573,7 +573,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                       ),
                                       const SizedBox(height: 12),
                                       Text(
-                                        'Tap to add photos',
+                                        AppLocalizations.of(context)!.tap_to_add_photos,
                                         style: TextStyle(
                                           color: Colors.grey[700],
                                           fontWeight: FontWeight.w500,
@@ -581,7 +581,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        'Add clear, well-lit photos',
+                                        AppLocalizations.of(context)!.add_clear_photos,
                                         style: TextStyle(
                                           color: Colors.grey[500],
                                           fontSize: 12,
@@ -754,8 +754,8 @@ TfE7P3XEAKcV2z7PjdZocHI=
 
                       // Name Field
                       _buildTextField(
-                        label: AppLocalizations.of(context)!.crop_listed_successfully,
-                        hint: 'e.g. Organic Tomatoes',
+                        label: AppLocalizations.of(context)!.enter_crop_name,
+                        hint: AppLocalizations.of(context)!.organic_tomatoes,
                         controller: _cropNameController,
                         validator: (value) =>
                             value?.isEmpty ?? true ? AppLocalizations.of(context)!.enter_crop_name : null,

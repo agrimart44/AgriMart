@@ -542,6 +542,44 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total Crops'**
   String get total_crops;
+
+  /// No description provided for @list_new_crop.
+  ///
+  /// In en, this message translates to:
+  /// **'List new crop'**
+  String get list_new_crop;
+
+  /// No description provided for @crop_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop Photos'**
+  String get crop_photos;
+
+    /// No description provided for @add_upto_3_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add upto 3 photos'**
+  String get add_upto_3_photos;
+
+  
+  /// No description provided for @tap_to_add_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to add photos'**
+  String get tap_to_add_photos;
+
+  /// No description provided for @add_clear_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add clear, well-lit photos'**
+  String get add_clear_photos;
+
+  /// No description provided for @organic_tomatoes.
+  ///
+  /// In en, this message translates to:
+  /// **'Organic Tomatoes'**
+  String get organic_tomatoes;
+
 }
 
 class _AppLocalizationsDelegate

@@ -232,4 +232,22 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get total_crops => 'මුළු භෝග';
+
+  @override
+  String get list_new_crop => 'නව බෝග ලැයිස්තුගත කරන්න';
+
+  @override
+  String get crop_photos => 'බෝග වල ඡායාරූප';
+
+  @override
+  String get add_upto_3_photos => 'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
+
+  @override
+  String get tap_to_add_photos => 'ඡායාරූප එකතු කිරීමට ටැප් කරන්න';
+
+  @override
+  String get add_clear_photos => 'සැහැල්ලු, සුදු ඡායාරූප එකතු කරන්න';
+
+  @override
+  String get organic_tomatoes => 'e.g. තක්කාලි';
 }

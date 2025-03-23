@@ -233,4 +233,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get total_crops => 'Total Crops';
+
+   @override
+  String get list_new_crop => 'List New Crop';
+
+  @override
+  String get crop_photos => 'Crop Photos';
+
+  @override
+  String get add_upto_3_photos => 'Add upto 3 photos of your crop (Required)';
+
+  @override
+  String get tap_to_add_photos => 'Tap to add photos';
+
+    @override
+  String get add_clear_photos => 'Add clear, well-lit photos';
+
+    @override
+  String get organic_tomatoes => 'e.g. Organic Tomatoes';
+
+
+
 }

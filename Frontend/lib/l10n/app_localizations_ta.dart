@@ -241,4 +241,22 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get total_crops => 'மொத்த பயிர்கள்';
+
+  @override
+  String get list_new_crop => 'புதிய பயிர்களை பட்டியலிடுங்கள்';
+
+  @override
+  String get crop_photos => 'பயிர்களின் புகைப்படங்கள்';
+
+  @override
+  String get add_upto_3_photos => 'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
+
+  @override
+  String get tap_to_add_photos => 'புகைப்படங்களைச் சேர்க்க தட்டவும்';
+
+  @override
+  String get add_clear_photos => 'தெளிவான, நல்ல புகைப்படங்களைச் சேர்க்கவும்';
+
+      @override
+  String get organic_tomatoes => 'e.g. தக்காளி';
 }
