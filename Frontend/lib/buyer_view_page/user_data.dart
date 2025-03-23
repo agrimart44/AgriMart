@@ -485,7 +485,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                           currencyFormat.format(price),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green.shade700,
+                            color: Color.fromRGBO(56, 142, 60, 1),
                             fontSize: 16,
                           ),
                         ),

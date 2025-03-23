@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_form.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class UpdateCropPage extends StatefulWidget {
   final String cropId;
@@ -53,7 +54,7 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
   String _errorMessage = '';
   
   // Theme colors
-  final Color _primaryColor = Colors.green.shade600;
+  final Color _primaryColor = Colors.green.shade800;
   final Color _secondaryColor = Colors.green.shade100;
   final Color _errorColor = Colors.red.shade700;
   final Color _backgroundColor = Colors.grey.shade50;
@@ -393,23 +394,41 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
     return Scaffold(
       backgroundColor: _backgroundColor,
       appBar: AppBar(
-        elevation: 0,
-        title: const Text('Update Crop'),
-        backgroundColor: _primaryColor,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: _showDeleteConfirmation,
-            tooltip: 'Delete Crop',
+      elevation: 0,
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      title: Align(
+        alignment: Alignment.centerLeft, // Align title to the left
+        child: const Text(
+          'Update Crop',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Make text bold
           ),
-        ],
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
         ),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16), // Adjust padding as needed
+          child: TextButton.icon(
+            onPressed: _showDeleteConfirmation,
+            icon: const Icon(Icons.delete, color: Colors.green),
+            label: const Text(
+              'Delete Crop',
+              style: TextStyle(
+                color: Colors.green, 
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    ),
+
+
       body: _isLoading
           ? Center(
               child: Column(
