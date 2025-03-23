@@ -206,15 +206,15 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
               Text(
-                price != null ? " 🤔" : " 🤔",
+                price != null ? "" : "",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
             ],
@@ -246,7 +246,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                 "OK",
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.green,
+                  color: Colors.green.shade900,
                 ),
               ),
               onPressed: () {

@@ -51,33 +51,19 @@ class _ChatListPageState extends State<ChatListPage> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () => Navigator.pop(context),
                   ),
                   const SizedBox(width: 8),
                   Text(
                     AppLocalizations.of(context)!.conversations,
                     style: TextStyle(
-                      color: Colors.green[800],
+                      color: Colors.black,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.search, color: Colors.grey),
-                    onPressed: () {
-                      // Search functionality would go here
-                    },
-                  ),
-                  // New chat button to replace floating action button
-                  IconButton(
-                    icon: Icon(Icons.add_circle_outline,
-                        color: Colors.green[700]),
-                    onPressed: () {
-                      // Start new conversation logic would go here
-                    },
-                  ),
                 ],
               ),
             ),
@@ -117,14 +103,6 @@ class _ChatListPageState extends State<ChatListPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!.conversations,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[800],
-                          ),
-                        ),
                         const SizedBox(height: 4),
                         Text(
                           unreadCount > 0
