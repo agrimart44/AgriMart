@@ -336,7 +336,7 @@ Widget _buildUserInfoWidget() {
             alignment: Alignment.center,
             children: [
               // setup for a border
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 20,               
               ),

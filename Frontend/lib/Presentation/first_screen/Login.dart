@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:namer_app/Presentation/registerpage/registerpage.dart';
-import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
-import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
 import '../../ChatScreen/chat_service.dart' show ChatService;
@@ -178,22 +176,26 @@ class _LoginState extends State<Login> {
                       
                       // Logo container
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(10), // Adjust padding as needed
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.green.shade300,
-                              Colors.green.shade600,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
                           shape: BoxShape.circle,
+                          color: Colors.white, // White background for better contrast
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2), // Subtle shadow effect
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 4), // Soft bottom shadow
+                            ),
+                          ],
                         ),
-                        child: const Icon(
-                          Icons.eco_outlined,
-                          color: Colors.white,
-                          size: 65,
+                        child: ClipOval(
+                          child: Image.asset(
+                            'lib/assets/AgriMart_UI.jpg', // Ensure the image path is correct
+                            fit: BoxFit.contain,
+                            width: 80, // Adjust size as needed
+                            height: 80,
+                          ),
                         ),
                       ),
                       
@@ -212,7 +214,7 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 12),
                       
                       Text(
-                        "Login to continue",
+                        "Login to Continue",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -299,26 +301,6 @@ class _LoginState extends State<Login> {
                               ),
                               style: TextStyle(color: Colors.grey[800], fontSize: 16),
                               obscureText: true,
-                            ),
-                            
-                            const SizedBox(height: 12),
-
-                            // Forgot Password Link
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: forgotLink,
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.green[700],
-                                ),
-                                child: const Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
                             ),
                             
                             const SizedBox(height: 24),

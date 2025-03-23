@@ -118,7 +118,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.messages,
+                          AppLocalizations.of(context)!.conversations,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

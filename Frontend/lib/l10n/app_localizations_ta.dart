@@ -307,4 +307,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
+
+  @override
+  String get conversations => 'உரையாடல்கள்';
 }

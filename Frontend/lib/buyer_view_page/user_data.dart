@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_page.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
-import 'package:namer_app/ChatScreen/chat_list_page.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});

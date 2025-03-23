@@ -193,16 +193,14 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.black38,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.arrow_back, color: Colors.white),
+            child: const Icon(Icons.arrow_back, size: 23, color: Colors.black),
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -283,7 +281,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Join AgriMart and connect with local farmers and buyers',
+                              'Connect with your local farming community on AgriMart',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,

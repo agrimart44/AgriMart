@@ -263,6 +263,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
     return SizedBox(
       width: double.infinity,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -300,6 +301,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
     return SizedBox(
       width: double.infinity,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -380,7 +382,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -467,7 +469,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                 children: [
                   // Label
                   Text(
-                    "Select Vegetable",
+                    "Select a Vegetable",
                     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 16),
@@ -493,7 +495,7 @@ Widget _buildDropdown() {
         alignedDropdown: true,
         child: DropdownButton<Vegetable>(
           isExpanded: true, // Makes dropdown take full width
-          iconEnabledColor: Colors.green.shade600,
+          iconEnabledColor: Colors.green.shade900,
           focusColor: Colors.white,
           value: selectedVegetable,
           hint: const Text("Select a vegetable"),
@@ -565,6 +567,7 @@ Widget _buildDropdown() {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -602,8 +605,10 @@ Widget _buildDropdown() {
               SizedBox(
                 width: double.infinity,
                 child: Card(
+                  color: Colors.white, 
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
+                    
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

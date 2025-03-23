@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'app_localizations.dart';
 
@@ -295,4 +294,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'Crops With Interest';
+
+  @override
+  String get conversations => 'உரையாடல்கள்';
 }
