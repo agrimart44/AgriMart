@@ -195,5 +195,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get demand_is_low => 'Demand is Low';
 
+  @override
+  String get price_trends => 'Price Trends';
+
 
 }

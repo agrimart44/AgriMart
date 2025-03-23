@@ -310,7 +310,9 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Price Trends",
+                // add localized text for price trends
+                AppLocalizations.of(context)!.price_trends,
+                //"Price Trends",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               

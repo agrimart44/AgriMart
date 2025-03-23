@@ -198,5 +198,8 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get demand_is_low => 'ඉල්ලුම අඩුයි';
 
+  @override
+  String get price_trends => 'මිළ ප්‍රවණතාවය';
+
 
 }

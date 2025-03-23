@@ -432,6 +432,8 @@ abstract class AppLocalizations {
 
   String get demand_is_low;
 
+  String get price_trends;
+
 }
 
 

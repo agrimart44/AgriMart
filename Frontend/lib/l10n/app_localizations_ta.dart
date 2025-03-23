@@ -200,6 +200,9 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get demand_is_low => 'தேவை குறைவு.';
 
+  @override
+  String get price_trends => 'மிள பிரோட்டின்மை';
+
 
 
 }
