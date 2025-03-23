@@ -177,5 +177,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cart_items => 'cart items';
 
+  @override
+  String get vegetable_analysis => 'vegetable analysis';
 
 }

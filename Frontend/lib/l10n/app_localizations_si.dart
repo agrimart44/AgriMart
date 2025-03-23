@@ -180,6 +180,9 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get cart_items => 'කරත්තය';
 
+  @override
+  String get vegetable_analysis => 'එළවළු විශ්ලේෂණය';
+
 
 
 }

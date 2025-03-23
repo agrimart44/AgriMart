@@ -420,6 +420,8 @@ abstract class AppLocalizations {
 
   String get sign_out;
 
+  String get vegetable_analysis;
+
 }
 
 
