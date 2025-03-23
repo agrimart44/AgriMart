@@ -422,6 +422,10 @@ abstract class AppLocalizations {
 
   String get vegetable_analysis;
 
+  String get current_price;
+
+  String get predicted_price;
+
 }
 
 

@@ -515,8 +515,12 @@ Widget _buildPostHarvestSection(BuildContext context) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Current Price",
+                        // add localized text for Current price
+                        Text(AppLocalizations.of(context)!.current_price,
                             style: TextStyle(color: Colors.grey, fontSize: 14)),
+
+                        // Text("Current Price",
+                            // style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestCurrentPrice != null
                               ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /Kg"
@@ -525,8 +529,13 @@ Widget _buildPostHarvestSection(BuildContext context) {
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         SizedBox(height: 8),
-                        Text("Predicted Price",
+
+                        // add localized text for Predicted price
+                        Text(AppLocalizations.of(context)!.predicted_price,
                             style: TextStyle(color: Colors.grey, fontSize: 14)),
+
+                        //Text("Predicted Price",
+                            //style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestPredictedPrice != null
                               ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /Kg"

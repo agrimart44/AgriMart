@@ -183,6 +183,12 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get vegetable_analysis => 'එළවළු විශ්ලේෂණය';
 
+  @override
+  String get current_price => 'වත්මන් මිළ';
+
+  @override
+  String get predicted_price => 'පුරෝකථනය කළ මිල';
+
 
 
 }

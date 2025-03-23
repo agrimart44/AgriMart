@@ -185,6 +185,12 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get vegetable_analysis => 'காய்கறி பகுப்பாய்வு';
 
+  @override
+  String get current_price => 'தற்போதைய விலை';
+
+  @override
+  String get predicted_price => 'கணிக்கப்பட்ட விலை';
+
 
 
 }

@@ -180,4 +180,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get vegetable_analysis => 'vegetable analysis';
 
+  @override
+  String get current_price => 'Current Price';
+
+  @override
+  String get predicted_price => 'Predicted Price';
+
 }
