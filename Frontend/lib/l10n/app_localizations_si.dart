@@ -98,7 +98,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get enter_valid_quantity => 'වලංගු ප්‍රමාණයක් ඇතුළත් කරන්න';
 
   @override
-  String get harvest_date => 'අස්වැන්න දිනය';
+  String get harvest_date => 'කප්පාදු කල දිනය';
 
   @override
   String get select_date => 'දිනය තෝරන්න';
@@ -179,4 +179,7 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get cart_items => 'කරත්තය';
+
+
+
 }

@@ -419,6 +419,7 @@ abstract class AppLocalizations {
   String get cart_items;
 
   String get sign_out;
+
 }
 
 

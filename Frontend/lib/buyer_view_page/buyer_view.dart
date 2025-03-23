@@ -7,6 +7,11 @@ import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/crop_large_view/potato.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
 
+// import localization
+import '../l10n/app_localizations.dart';
+
+
+
 class BuyerView extends StatefulWidget {
   const BuyerView({super.key});
 
@@ -247,7 +252,9 @@ Widget _buildProductCard({required Crop crop}) {
                     const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                     const SizedBox(width: 6),
                     Text(
-                      'Harvest: ${crop.harvestDate.toLocal().toShortDateString()}',
+                      //add localized text for harvest
+                      '${AppLocalizations.of(context)!.harvest_date}: ${crop.harvestDate.toLocal().toShortDateString()}',
+                      //'Harvest: ${crop.harvestDate.toLocal().toShortDateString()}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],
@@ -276,8 +283,10 @@ Widget _buildProductCard({required Crop crop}) {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
-                          'View Details',
+                        child: Text(
+                          // add localized text for view details
+                          AppLocalizations.of(context)!.view_details,
+                          //'View Details',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
