@@ -311,25 +311,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
-            // Background image with overlay
-            Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    'lib/assets/first_page_background.jpg',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                ),
-              ],
-            ),
-
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(color: Colors.green),
@@ -384,10 +365,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                       _showSnackBar('Error clearing cart: $e', isError: true);
                                     }
                                   },
-                                  icon: const Icon(Icons.delete_outline, size: 16),
+                                  icon: const Icon(Icons.delete_outline, size: 16, color: Color.fromRGBO(67, 160, 71, 1)),
                                   label: const Text('Clear All'),
                                   style: TextButton.styleFrom(
-                                    foregroundColor: Colors.red,
+                                    foregroundColor: Colors.green.shade600,
                                   ),
                                 ),
 
@@ -527,21 +508,21 @@ Widget _buildEmptyCart() {
             SizedBox(
               width: 200,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const BuyerView()),
-                  );
-                },
-                icon: const Icon(Icons.shop),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                label: const Text('Browse Products'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BuyerView()),
+                );
+              },
+              icon: const Icon(Icons.shop, color: Colors.white), // Set icon color to white
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
+              label: const Text('Browse Products'),
+            ),
             ),
           ],
         ),
