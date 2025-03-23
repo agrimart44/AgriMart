@@ -678,13 +678,13 @@ Widget _buildEmptyCart() {
                                 color: Colors.green,
                               ),
                             ),
-                            Text(
-                              '/${item.unit}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[600],
-                              ),
-                            ),
+                            // Text(
+                            //   '/${item.unit}',
+                            //   style: TextStyle(
+                            //     fontSize: 14,
+                            //     color: Colors.grey[600],
+                            //   ),
+                            // ),
                           ],
                         ),
                         const SizedBox(height: 12),

@@ -58,7 +58,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
   // Initialize Flutter Local Notifications
   void _initializeNotifications() {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/agrimart');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -352,50 +352,63 @@ class _ListCropScreenState extends State<ListCropScreen> {
   }
 
   Future<void> _sendNotificationToUsers() async {
-    final String accessToken = await getAccessToken();
-    final String fcmUrl =
-        'https://fcm.googleapis.com/v1/projects/agri-mart-add65/messages:send';
-
-    final Map<String, dynamic> message = {
-      "message": {
-        "topic": "all",
-        "notification": {
-          "title": "🌱 New Fresh Crop Available!",
-          "body": "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!"
-        },
-        "data": {
-          "click_action": "FLUTTER_NOTIFICATION_CLICK",
-          "id": "1",
-          "status": "done"
-        }
+    try {
+      // Get the current user's ID to exclude them from the notification
+      String? currentUserId = await _authService.getStoredUserId();
+      
+      if (currentUserId == null) {
+        print('Warning: Could not determine current user ID for notification targeting');
+      } else {
+        print('Current user ID (to exclude from notification): $currentUserId');
       }
-    };
-
-    final response = await http.post(
-      Uri.parse(fcmUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $accessToken',
-      },
-      body: json.encode(message),
-    );
-
-    if (response.statusCode == 200) {
-      print('Notification sent successfully');
-      if (_photos.isNotEmpty) {
-        await _showNotificationWithImage(
-          "🌱 New Fresh Crop Available!",
-          "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!",
-          _photos[0], // Use the first photo as the image
+      
+      final String accessToken = await getAccessToken();
+      final String fcmUrl = 'https://fcm.googleapis.com/v1/projects/agri-mart-add65/messages:send';
+  
+      // Simplified approach using the 'all' topic since the condition-based approach 
+      // was causing issues. We'll rely on the app's logic to filter out notifications
+      // for the sender on the receiving side.
+      final Map<String, dynamic> message = {
+        "message": {
+          "topic": "all",
+          "notification": {
+            "title": "🌱 New Fresh Crop Available!",
+            "body": "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!"
+          },
+          "data": {
+            "click_action": "FLUTTER_NOTIFICATION_CLICK",
+            "id": "1",
+            "status": "done",
+            "cropName": _cropNameController.text,
+            "price": _priceController.text,
+            "senderId": currentUserId ?? "", // Include the sender ID so receivers can filter
+            "type": "new_crop"
+          }
+        }
+      };
+  
+      final response = await http.post(
+        Uri.parse(fcmUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: json.encode(message),
+      );
+  
+      if (response.statusCode == 200) {
+        print('Notification sent to all topic');
+        
+        // Show a different notification to the seller as confirmation that their listing was posted
+        await _showNotification(
+          "Crop Listed Successfully",
+          "Your ${_cropNameController.text} has been listed and buyers have been notified!"
         );
       } else {
-        await _showNotification(
-          "🌱 New Fresh Crop Available!",
-          "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!",
-        );
+        print('Failed to send notification: ${response.body}');
       }
-    } else {
-      print('Failed to send notification: ${response.body}');
+    } catch (e) {
+      print('Error sending notification: $e');
     }
   }
 

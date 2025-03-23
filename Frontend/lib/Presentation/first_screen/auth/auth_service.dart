@@ -6,8 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AuthService {
   // Instance of FirebaseAuth
@@ -195,6 +194,9 @@ class AuthService {
       // Retrieve and store Firebase token
       await getFirebaseToken();
 
+      // Subscribe user to personal topic
+      await subscribeToUserSpecificTopic();
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -359,26 +361,67 @@ class AuthService {
 
     // Handle incoming messages when the app is in the foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('[DEBUG] Received a message while in the foreground!');
-      print('[DEBUG] Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('[DEBUG] Message also contained a notification:');
-        print('[DEBUG] Title: ${message.notification?.title}');
-        print('[DEBUG] Body: ${message.notification?.body}');
-      }
+      _handleIncomingNotification(message);
     });
 
     // Handle app opened from a notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('[DEBUG] App opened from a notification.');
-      print('[DEBUG] Message data: ${message.data}');
-      // Navigate to a specific screen or perform an action
+      _handleIncomingNotification(message);
     });
 
     print('[SUCCESS] FCM initialization completed successfully.');
   } catch (e) {
     print('[ERROR] An error occurred during FCM initialization: $e');
+  }
+}
+
+// Add this new method to your AuthService class
+void _handleIncomingNotification(RemoteMessage message) async {
+  try {
+    // Get current user ID
+    String? currentUserId = await getStoredUserId();
+    
+    // Extract data from the notification
+    Map<String, dynamic> data = message.data;
+    String? senderId = data['senderId'];
+    String? notificationType = data['type'];
+    
+    // Debug log
+    print('Received notification: type=$notificationType, senderId=$senderId, currentUserId=$currentUserId');
+    
+    // If this is a new crop notification and the current user is the sender, don't show it
+    if (notificationType == 'new_crop' && 
+        currentUserId != null && 
+        senderId == currentUserId) {
+      print('Ignoring notification from self (senderId=$senderId, currentUserId=$currentUserId)');
+      return; // Skip showing the notification
+    }
+    
+    // Continue with showing the notification
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    
+    // If the notification has content and is on Android, show it
+    if (notification != null && android != null) {
+      // Existing notification display code...
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'general_channel',
+            'General Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+      );
+    }
+  } catch (e) {
+    print('Error handling notification: $e');
   }
 }
 
@@ -390,6 +433,21 @@ Future<void> subscribeToTopic(String topic) async {
     print('[SUCCESS] Successfully subscribed to topic: $topic');
   } catch (e) {
     print('[ERROR] Failed to subscribe to topic: $topic. Error: $e');
+  }
+}
+
+// Subscribe user to personal topic when signing in
+Future<void> subscribeToUserSpecificTopic() async {
+  try {
+    String? userId = await getStoredUserId();
+    if (userId != null) {
+      await FirebaseMessaging.instance.subscribeToTopic(userId);
+      print("Subscribed to user-specific topic: $userId");
+    } else {
+      print("Warning: Cannot subscribe to user-specific topic. User ID is null.");
+    }
+  } catch (e) {
+    print("Error subscribing to user-specific topic: $e");
   }
 }
   
