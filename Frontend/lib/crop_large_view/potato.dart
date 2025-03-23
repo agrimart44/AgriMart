@@ -607,7 +607,9 @@ Future<void> _openChatWithSeller() async {
                       ),
                     )
                   : Text(
-                      'Add to Cart',
+                      //add localized string for add to cart
+                      AppLocalizations.of(context)!.add_to_cart,
+                      // 'Add to Cart',
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 16,
@@ -647,7 +649,9 @@ Future<void> _openChatWithSeller() async {
                 ),
               const SizedBox(width: 8),
               Text(
-                'Chat with Seller', // Update text
+                // localized text add for chat with seller
+                AppLocalizations.of(context)!.chat_with_seller,
+                // 'Chat with Seller', // Update text
                 style: GoogleFonts.poppins(
                   color: Colors.green.shade700,
                   fontSize: 16,
