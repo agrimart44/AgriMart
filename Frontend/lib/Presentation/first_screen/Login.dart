@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
+import 'package:namer_app/Presentation/registerpage/registerpage.dart';
 import 'package:namer_app/Presentation/sginIn/face_book_sign_in.dart';
 import 'package:namer_app/Presentation/sginIn/google_sign_in.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
@@ -380,7 +381,10 @@ class _LoginState extends State<Login> {
                           ),
                           TextButton(
                             onPressed: () {
-                              // Navigate to sign up page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const RegisterPage()),
+                              );
                             },
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.green[700],
