@@ -29,7 +29,7 @@ STREAM_API_SECRET = config('STREAM_API_SECRET')
 SECRET_KEY = 'django-insecure-x!9vfzb0a-bmyw+pxzyuk7ep-x0xgm493pb)cvk&&usw*7c+yd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.43.27', 'localhost', '127.0.0.1']
 
