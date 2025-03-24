@@ -1,0 +1,2 @@
+C:/Users/danut/OneDrive/Desktop/AgriMart/AgriMart/Frontend/android/app/.cxx/Debug/593f5h2q/x86/CMakeFiles/edit_cache.dir
+C:/Users/danut/OneDrive/Desktop/AgriMart/AgriMart/Frontend/android/app/.cxx/Debug/593f5h2q/x86/CMakeFiles/rebuild_cache.dir

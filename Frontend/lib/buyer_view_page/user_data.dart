@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/buyer_view_page/update_crop_page.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
+import 'package:namer_app/list_crops/listcrop.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -294,7 +295,11 @@ class UserProfilePageState extends State<UserProfilePage> {
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Navigate to list crop page
+                          Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ListCropScreen()),
+                                  );
+
                         },
                         icon: const Icon(Icons.add),
                         label: const Text('List a Crop'),

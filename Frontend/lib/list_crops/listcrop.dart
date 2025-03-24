@@ -62,7 +62,12 @@ class _ListCropScreenState extends State<ListCropScreen> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  // Show Local Notification
+  /// Show a local notification with the given title and body.
+  ///
+  /// This is a helper function for showing a notification in the app.
+  /// It uses the [flutter_local_notifications] package to show the notification.
+  /// It includes the title and body of the notification, and a payload with
+  /// the notification ID and status.
   Future<void> _showNotification(String title, String body) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -85,7 +90,25 @@ class _ListCropScreenState extends State<ListCropScreen> {
     );
   }
 
-  // Show Local Notification with Image
+  /// Shows a local notification with an image using the [flutter_local_notifications] package.
+  ///
+  /// This function attempts to display a notification that includes a large icon
+  /// and a big picture style, using an image located at the specified [imagePath].
+  /// If the image cannot be copied or if any error occurs, it falls back to displaying
+  /// a regular notification without an image.
+  ///
+  /// The notification is configured with the given [title] and [body]. The image
+  /// is copied to a specific directory within the application's documents directory
+  /// to ensure it is accessible by the notification system. Unique filenames are
+  /// generated for the images based on the current timestamp to avoid conflicts.
+  ///
+  /// A dynamic notification ID is used to prevent overwriting existing notifications.
+  ///
+  /// [title] - The title of the notification.
+
+  /// [body] - The body content of the notification.
+  /// [imagePath] - The file path of the image to be displayed in the notification.
+
   Future<void> _showNotificationWithImage(String title, String body, String imagePath) async {
     try {
       print("Showing notification with image: $imagePath");
@@ -158,7 +181,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
     }
   }
 
-  // Helper method to save file
+
   Future<String> _saveFile(String filePath, String fileName) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String newFilePath = '${directory.path}/$fileName';
@@ -177,6 +200,15 @@ class _ListCropScreenState extends State<ListCropScreen> {
       setState(() {
         _harvestDataController.text =
             "${picked.day}/${picked.month}/${picked.year}";
+  /// Shows a date picker dialog for the user to select a harvest date.
+  ///
+  /// When the user selects a date, the text in the [_harvestDataController]
+  /// is updated to display the selected date in the format 'dd/mm/yyyy'.
+  ///
+  /// The dialog is shown with a default date of today, and the user can select
+  /// dates between the year 2000 and 2100.
+  ///
+  /// If the user cancels the dialog, no changes are made to the [_harvestDataController].
       });
     }
   }
@@ -323,8 +355,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
           harvestDate: _harvestDataController.text,
           imagePaths: _photos,
           firebaseToken: firebaseToken,
-          latitude: _latitude, // Add latitude from map picker
-          longitude: _longitude, // Add longitude from map picker
+          latitude: _latitude, 
+          longitude: _longitude, 
         );
         
         setState(() {
@@ -349,7 +381,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
   Future<void> _sendNotificationToUsers() async {
     try {
-      // Get the current user's ID to exclude them from the notification
       String? currentUserId = await _authService.getStoredUserId();
       
       if (currentUserId == null) {
@@ -361,9 +392,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
       final String accessToken = await getAccessToken();
       final String fcmUrl = 'https://fcm.googleapis.com/v1/projects/agri-mart-add65/messages:send';
   
-      // Simplified approach using the 'all' topic since the condition-based approach 
-      // was causing issues. We'll rely on the app's logic to filter out notifications
-      // for the sender on the receiving side.
+      
       final Map<String, dynamic> message = {
         "message": {
           "topic": "all",
@@ -377,7 +406,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
             "status": "done",
             "cropName": _cropNameController.text,
             "price": _priceController.text,
-            "senderId": currentUserId ?? "", // Include the sender ID so receivers can filter
+            "senderId": currentUserId ?? "", 
             "type": "new_crop"
           }
         }
@@ -395,7 +424,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
       if (response.statusCode == 200) {
         print('Notification sent to all topic');
         
-        // Show a different notification to the seller as confirmation that their listing was posted
         await _showNotification(
           "Crop Listed Successfully",
           "Your ${_cropNameController.text} has been listed and buyers have been notified!"
@@ -410,7 +438,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
   Future<String> getAccessToken() async {
     try {
-      // Step 1: Hardcode the client_email and private_key
+      
       final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
       final String privateKey = """-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
