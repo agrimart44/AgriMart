@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Frontend # Ensure this matches the actual directory name
+        working-directory: Frontend 
 
     steps:
       # Step 1: Checkout code
