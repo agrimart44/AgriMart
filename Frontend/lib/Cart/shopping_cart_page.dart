@@ -4,6 +4,7 @@ import 'package:namer_app/AppBar/appbar.dart';
 import 'package:namer_app/Cart/CartService.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:namer_app/l10n/app_localizations.dart';
 
 import '../buyer_view_page/buyer_view.dart';
 
@@ -307,7 +308,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AgriMartAppBar(context, title: "My Cart"),
+        appBar: AgriMartAppBar(context, title: AppLocalizations.of(context)!.my_cart),
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
@@ -330,7 +331,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${_cartItems.length} items',
+                                  '${_cartItems.length} ${AppLocalizations.of(context)!.items}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black54,
@@ -366,7 +367,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     }
                                   },
                                   icon: const Icon(Icons.delete_outline, size: 16, color: Color.fromRGBO(67, 160, 71, 1)),
-                                  label: const Text('Clear All'),
+                                  label: Text(AppLocalizations.of(context)!.clear_all),
                                   style: TextButton.styleFrom(
                                     foregroundColor: Colors.green.shade600,
                                   ),
@@ -490,9 +491,9 @@ Widget _buildEmptyCart() {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Your cart is empty',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.your_cart_is_empty,
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
@@ -500,7 +501,7 @@ Widget _buildEmptyCart() {
             ),
             const SizedBox(height: 12),
             Text(
-              'Looks like you haven\'t added any items to your cart yet.',
+              AppLocalizations.of(context)!.looks_like_you_havent_added_any_items_to_your_cart_yet,
               style: TextStyle(color: Colors.grey[600]),
               textAlign: TextAlign.center,
             ),
@@ -521,7 +522,7 @@ Widget _buildEmptyCart() {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              label: const Text('Browse Products'),
+              label: Text(AppLocalizations.of(context)!.browse_products),
             ),
             ),
           ],
@@ -658,13 +659,6 @@ Widget _buildEmptyCart() {
                                 color: Colors.green,
                               ),
                             ),
-                            // Text(
-                            //   '/${item.unit}',
-                            //   style: TextStyle(
-                            //     fontSize: 14,
-                            //     color: Colors.grey[600],
-                            //   ),
-                            // ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -775,8 +769,8 @@ Widget _buildEmptyCart() {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Total',
+              Text(
+                AppLocalizations.of(context)!.total,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
@@ -805,8 +799,8 @@ Widget _buildEmptyCart() {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: const Text(
-                'Proceed to Checkout',
+              child: Text(
+                AppLocalizations.of(context)!.proceed_to_checkout,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

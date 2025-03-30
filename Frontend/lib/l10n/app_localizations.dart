@@ -560,6 +560,28 @@ abstract class AppLocalizations {
   String get how_it_will_change;
 
   String get crop_details;
+
+  String get my_listed_crops;
+
+  String get You_havent_listed_any_crops_yet;
+
+  String get list_a_crop;
+
+  String get your_cart_is_empty;
+
+  String get looks_like_you_havent_added_any_items_to_your_cart_yet;
+
+  String get browse_products;
+
+  String get my_cart;
+
+  String get proceed_to_checkout;
+
+  String get total;
+
+  String get clear_all;
+
+  String get items;
 }
 
 class _AppLocalizationsDelegate
