@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
@@ -436,118 +437,208 @@ class _ListCropScreenState extends State<ListCropScreen> {
     }
   }
 
-  Future<String> getAccessToken() async {
-    try {
+//   Future<String> getAccessToken() async {
+//     try {
       
-      final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
-      final String privateKey = """-----BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
-I1kwWj61kFx1js2/zhizi7rlFJVp+mEFEJX/yvHvzHo/NL8a0V+1grK+WA5EyyGv
-OmTO2e7ghY4/CcCTgVqXzYAhy+MjAvhJvYE74tWicBoslX2szckk9sL8PU0ZBZyr
-8Ptp0Fm2p4jAs8qnH5vZBGgj/u/TXoaeFQ0ckZTMjY1yZsH7GsiiYgtAxQp/g1zj
-ixTNrwHRTdXqh7La8pBInEtu1mTbrvbux3hZTs8UyBIUNQoUrlvyR66PXUwNvyn+
-4D8bFGfLa6tPe5FbUptqJJsJNFyPau77TUuuZlfeWQ9stX4k6BjF9bx8OvzHq2ht
-8W3ZIieHAgMBAAECggEANHS+nO14FXfHph8NFrgeuiaiPodNhpEJ2bDxqHEbxkAD
-TRuGwAtNDs1U1nFEtUgwCOL5/PKvloeLhqVT2QqDqWRIF4/mYElOnr4Kr7sUVP2V
-uqU4AAkiO4INhela/zD+Tzlt6AdXrUitA69DD2XimTnsKKuf2mXoEgYRV68RoMKi
-lUm7ypdRTTuxQcEZn5RumqZ2h5pMuqnIODFdIYAcIMuzhuG7fkFEjqidIKryVIUD
-p6W2pSXZ11ij3r79V5zlqiEgHphIQpSvK1uqntC8nh2NebTPQw+yD6TDv6Ry+fyp
-FfSf4rTIYHM/RQmwCDJZ48J/N+dDMNRIyYdR1BrpxQKBgQDrvIGhrBz+FRyUz1sG
-OX+fy/DfmQ1KDJbNOOgHFfUQAGu4LxgTyoRxSitWgL6N3HoZNuqlj9vOIr8hV1fr
-K+GGQVLK62ZYfNQ+KUR+Yk8UA6TGP/9k5lEfDHSWCQikjC9i802K5+kbtcXWr5dm
-QwgIZead3gYCW3aLkW5PFberbQKBgQDKLZ7pXZlrS3bJhZnxIsv2zzRMq62gbJ9z
-9dbg5fOUw6AArf3YAKZQLu1YQm6OqBidzCPbXRAdN7wh7X4azea4qQlSI1MnZ4Hx
-H3EYM7AzLpSt4SC6rC8TKd/bkgANryeDUPl+6xDzlC7vgbunNrVz5OqYlAnHE8U1
-uvCVOskyQwKBgCbmycGjRHmNhFTuTwgc7vmwzwQnHrFMmIovTOL2daV5XE1dwCxr
-7CVB5xr0Tf3dF20XyesebVh8FWxsHH8bk7DzELWZ2R7bIq9LYhk1IfWckFGC+CNv
-eo2UIZ0syndVBvDeU7qLgMVo3sgJ3AMtJqM0JbWBkR5Md6iajEiSveeVAoGAfdXD
-MJBXKta/SlJjLBhyRl1Uuduop060N+JtKXE2GANiFMo2UjilSwbKJsLCOPwaxiwG
-rUPRAb5s09kTQe+hiJF9AaiG2uGrmL3vEBcrtc9qLocObeE5M34+nFTUv6+isjK1
-9u6rkE9Mnzlp6Hs+mLGD6g9JvqRpfDWsA9Wg4C0CgYEAvAjwCwFTVa2aKaH/Kiu5
-drN6u5c7/g2UQH2q7rgrK/W2tjZRNXOSL5nS7QJWnHykdSoSlB05iUiP7+tnbP07
-mNst9vb3F3Z6XYljhaci/y2yMxKDZyH3851FqY0hQefd246v4KQnF4ysf79a8DR2
-TfE7P3XEAKcV2z7PjdZocHI=
------END PRIVATE KEY-----""";
+//       final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
+//       final String privateKey = """-----BEGIN PRIVATE KEY-----
+// MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
+// I1kwWj61kFx1js2/zhizi7rlFJVp+mEFEJX/yvHvzHo/NL8a0V+1grK+WA5EyyGv
+// OmTO2e7ghY4/CcCTgVqXzYAhy+MjAvhJvYE74tWicBoslX2szckk9sL8PU0ZBZyr
+// 8Ptp0Fm2p4jAs8qnH5vZBGgj/u/TXoaeFQ0ckZTMjY1yZsH7GsiiYgtAxQp/g1zj
+// ixTNrwHRTdXqh7La8pBInEtu1mTbrvbux3hZTs8UyBIUNQoUrlvyR66PXUwNvyn+
+// 4D8bFGfLa6tPe5FbUptqJJsJNFyPau77TUuuZlfeWQ9stX4k6BjF9bx8OvzHq2ht
+// 8W3ZIieHAgMBAAECggEANHS+nO14FXfHph8NFrgeuiaiPodNhpEJ2bDxqHEbxkAD
+// TRuGwAtNDs1U1nFEtUgwCOL5/PKvloeLhqVT2QqDqWRIF4/mYElOnr4Kr7sUVP2V
+// uqU4AAkiO4INhela/zD+Tzlt6AdXrUitA69DD2XimTnsKKuf2mXoEgYRV68RoMKi
+// lUm7ypdRTTuxQcEZn5RumqZ2h5pMuqnIODFdIYAcIMuzhuG7fkFEjqidIKryVIUD
+// p6W2pSXZ11ij3r79V5zlqiEgHphIQpSvK1uqntC8nh2NebTPQw+yD6TDv6Ry+fyp
+// FfSf4rTIYHM/RQmwCDJZ48J/N+dDMNRIyYdR1BrpxQKBgQDrvIGhrBz+FRyUz1sG
+// OX+fy/DfmQ1KDJbNOOgHFfUQAGu4LxgTyoRxSitWgL6N3HoZNuqlj9vOIr8hV1fr
+// K+GGQVLK62ZYfNQ+KUR+Yk8UA6TGP/9k5lEfDHSWCQikjC9i802K5+kbtcXWr5dm
+// QwgIZead3gYCW3aLkW5PFberbQKBgQDKLZ7pXZlrS3bJhZnxIsv2zzRMq62gbJ9z
+// 9dbg5fOUw6AArf3YAKZQLu1YQm6OqBidzCPbXRAdN7wh7X4azea4qQlSI1MnZ4Hx
+// H3EYM7AzLpSt4SC6rC8TKd/bkgANryeDUPl+6xDzlC7vgbunNrVz5OqYlAnHE8U1
+// uvCVOskyQwKBgCbmycGjRHmNhFTuTwgc7vmwzwQnHrFMmIovTOL2daV5XE1dwCxr
+// 7CVB5xr0Tf3dF20XyesebVh8FWxsHH8bk7DzELWZ2R7bIq9LYhk1IfWckFGC+CNv
+// eo2UIZ0syndVBvDeU7qLgMVo3sgJ3AMtJqM0JbWBkR5Md6iajEiSveeVAoGAfdXD
+// MJBXKta/SlJjLBhyRl1Uuduop060N+JtKXE2GANiFMo2UjilSwbKJsLCOPwaxiwG
+// rUPRAb5s09kTQe+hiJF9AaiG2uGrmL3vEBcrtc9qLocObeE5M34+nFTUv6+isjK1
+// 9u6rkE9Mnzlp6Hs+mLGD6g9JvqRpfDWsA9Wg4C0CgYEAvAjwCwFTVa2aKaH/Kiu5
+// drN6u5c7/g2UQH2q7rgrK/W2tjZRNXOSL5nS7QJWnHykdSoSlB05iUiP7+tnbP07
+// mNst9vb3F3Z6XYljhaci/y2yMxKDZyH3851FqY0hQefd246v4KQnF4ysf79a8DR2
+// TfE7P3XEAKcV2z7PjdZocHI=
+// -----END PRIVATE KEY-----""";
 
-      print('[DEBUG] Using hardcoded client_email: $clientEmail');
+//       print('[DEBUG] Using hardcoded client_email: $clientEmail');
 
-      // Step 2: Generate JWT Header
-      final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
-        "alg": "RS256",
-        "typ": "JWT"
-      })));
+//       // Step 2: Generate JWT Header
+//       final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
+//         "alg": "RS256",
+//         "typ": "JWT"
+//       })));
 
-      print('[DEBUG] Generated JWT Header: $jwtHeader');
+//       print('[DEBUG] Generated JWT Header: $jwtHeader');
 
-      // Step 3: Generate JWT Claim Set
-      final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
-        "iss": clientEmail,
-        "scope": "https://www.googleapis.com/auth/firebase.messaging",
-        "aud": "https://oauth2.googleapis.com/token",
-        "exp": currentTime + 3600,
-        "iat": currentTime,
-      })));
+//       // Step 3: Generate JWT Claim Set
+//       final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+//       final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
+//         "iss": clientEmail,
+//         "scope": "https://www.googleapis.com/auth/firebase.messaging",
+//         "aud": "https://oauth2.googleapis.com/token",
+//         "exp": currentTime + 3600,
+//         "iat": currentTime,
+//       })));
 
-      print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
+//       print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
 
-      // Step 4: Combine JWT Header and Claim Set
-      final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
+//       // Step 4: Combine JWT Header and Claim Set
+//       final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
 
-      print('[DEBUG] Combined JWT: $unsignedJwt');
+//       print('[DEBUG] Combined JWT: $unsignedJwt');
 
-      // Function to sign the JWT using the private key
-      String signJwt(String unsignedJwt, String privateKey) {
-        try {
-          // Parse the private key using CryptoUtils
-          final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
+//       // Function to sign the JWT using the private key
+//       String signJwt(String unsignedJwt, String privateKey) {
+//         try {
+//           // Parse the private key using CryptoUtils
+//           final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
 
-          // Create the signer with SHA-256 digest
-          final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
-            ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
+//           // Create the signer with SHA-256 digest
+//           final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
+//             ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
 
-          // Sign the JWT
-          final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
+//           // Sign the JWT
+//           final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
 
-          // Encode the signature in Base64 URL format and remove padding
-          return base64Url.encode(signature.bytes).replaceAll('=', '');
-        } catch (e) {
-          throw Exception('[ERROR] Failed to sign JWT: $e');
-        }
-      }
+//           // Encode the signature in Base64 URL format and remove padding
+//           return base64Url.encode(signature.bytes).replaceAll('=', '');
+//         } catch (e) {
+//           throw Exception('[ERROR] Failed to sign JWT: $e');
+//         }
+//       }
 
-      // Step 5: Sign the JWT
-      final String jwtSignature = signJwt(unsignedJwt, privateKey);
-      final String signedJwt = "$unsignedJwt.$jwtSignature";
+//       // Step 5: Sign the JWT
+//       final String jwtSignature = signJwt(unsignedJwt, privateKey);
+//       final String signedJwt = "$unsignedJwt.$jwtSignature";
 
-      print('[DEBUG] Signed JWT: $signedJwt');
+//       print('[DEBUG] Signed JWT: $signedJwt');
 
-      // Step 6: Exchange JWT for Access Token
-      final response = await http.post(
-        Uri.parse('https://oauth2.googleapis.com/token'),
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: {
-          "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-          "assertion": signedJwt,
-        },
-      );
+//       // Step 6: Exchange JWT for Access Token
+//       final response = await http.post(
+//         Uri.parse('https://oauth2.googleapis.com/token'),
+//         headers: {"Content-Type": "application/x-www-form-urlencoded"},
+//         body: {
+//           "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+//           "assertion": signedJwt,
+//         },
+//       );
 
-      print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
-      print('[DEBUG] OAuth2 Response Body: ${response.body}');
+//       print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
+//       print('[DEBUG] OAuth2 Response Body: ${response.body}');
 
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        final String accessToken = responseData['access_token'];
-        print('[DEBUG] Successfully retrieved access token.');
-        return accessToken;
-      } else {
-        throw Exception('[ERROR] Failed to get access token: ${response.body}');
-      }
-    } catch (e) {
-      print('[ERROR] Error in getAccessToken: $e');
-      rethrow;
+//       if (response.statusCode == 200) {
+//         final responseData = json.decode(response.body);
+//         final String accessToken = responseData['access_token'];
+//         print('[DEBUG] Successfully retrieved access token.');
+//         return accessToken;
+//       } else {
+//         throw Exception('[ERROR] Failed to get access token: ${response.body}');
+//       }
+//     } catch (e) {
+//       print('[ERROR] Error in getAccessToken: $e');
+//       rethrow;
+//     }
+//   }
+
+Future<String> getAccessToken() async {
+  try {
+    // Get credentials from environment variables
+    final String clientEmail = dotenv.env['FIREBASE_CLIENT_EMAIL'] ?? '';
+    final String privateKey = (dotenv.env['FIREBASE_PRIVATE_KEY'] ?? '').replaceAll('\\n', '\n');
+    
+    if (clientEmail.isEmpty || privateKey.isEmpty) {
+      throw Exception('Firebase credentials not found in environment variables');
     }
+
+    print('[DEBUG] Using client_email from env: $clientEmail');
+
+    // Step 2: Generate JWT Header
+    final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
+      "alg": "RS256",
+      "typ": "JWT"
+    })));
+
+    print('[DEBUG] Generated JWT Header: $jwtHeader');
+
+    // Step 3: Generate JWT Claim Set
+    final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
+      "iss": clientEmail,
+      "scope": "https://www.googleapis.com/auth/firebase.messaging",
+      "aud": "https://oauth2.googleapis.com/token",
+      "exp": currentTime + 3600,
+      "iat": currentTime,
+    })));
+
+    print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
+
+    // Step 4: Combine JWT Header and Claim Set
+    final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
+
+    print('[DEBUG] Combined JWT: $unsignedJwt');
+
+    // Function to sign the JWT using the private key
+    String signJwt(String unsignedJwt, String privateKey) {
+      try {
+        // Parse the private key using CryptoUtils
+        final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
+
+        // Create the signer with SHA-256 digest
+        final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
+          ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
+
+        // Sign the JWT
+        final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
+
+        // Encode the signature in Base64 URL format and remove padding
+        return base64Url.encode(signature.bytes).replaceAll('=', '');
+      } catch (e) {
+        throw Exception('[ERROR] Failed to sign JWT: $e');
+      }
+    }
+
+    // Step 5: Sign the JWT
+    final String jwtSignature = signJwt(unsignedJwt, privateKey);
+    final String signedJwt = "$unsignedJwt.$jwtSignature";
+
+    print('[DEBUG] Signed JWT: $signedJwt');
+
+    // Step 6: Exchange JWT for Access Token
+    final response = await http.post(
+      Uri.parse('https://oauth2.googleapis.com/token'),
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: {
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": signedJwt,
+      },
+    );
+
+    print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
+    print('[DEBUG] OAuth2 Response Body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final String accessToken = responseData['access_token'];
+      print('[DEBUG] Successfully retrieved access token.');
+      return accessToken;
+    } else {
+      throw Exception('[ERROR] Failed to get access token: ${response.body}');
+    }
+  } catch (e) {
+    print('[ERROR] Error in getAccessToken: $e');
+    rethrow;
   }
+}
 
   @override
   Widget build(BuildContext context) {

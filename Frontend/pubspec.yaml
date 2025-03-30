@@ -48,6 +48,7 @@ dependencies:
   flutter_gen: ^5.10.0
   flutter_localizations:
     sdk: flutter
+  flutter_dotenv: ^5.2.1
 
 
   
@@ -89,6 +90,8 @@ flutter:
     # - lib/assets/flow.jpg
     # - lib/assets/first_page_background.jpg
     - lib/assets/
+    - .env
+
 
 localization:
   arb-dir: lib/l10n

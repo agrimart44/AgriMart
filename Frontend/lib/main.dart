@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:namer_app/ChatScreen/seller_chat_provider.dart'; // Import SellerChatProvider
 import 'package:provider/provider.dart'; // Import the Provider package
 import 'package:namer_app/Presentation/first_screen/first_screen.dart';
@@ -9,6 +10,8 @@ import 'package:namer_app/l10n/app_localizations.dart';
 import 'Presentation/first_screen/auth/auth_service.dart'; // Import AuthService
 
 void main() async {
+  await dotenv.load();
+
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure Flutter is ready before Firebase is initialized.
 
