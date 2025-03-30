@@ -206,7 +206,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get browse_crops => 'புதிய பயிர்களை தேட';
 
   @override
-  String get welcome => 'வணக்கம்!';
+  String get welcome => 'வணக்கம்';
 
   @override
   String get manage_your_agricultural_business =>

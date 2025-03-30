@@ -235,7 +235,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get track_market_trends => 'Track Market Trends';
 
   @override
-  String get welcome => 'Welcome!';
+  String get welcome => 'Welcome';
 
   @override
   String get total_crops => 'Total Crops';

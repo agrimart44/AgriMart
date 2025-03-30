@@ -553,12 +553,6 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 ),
               ),
               
-              // Decorative dot pattern (subtle)
-              Positioned(
-                bottom: 15,
-                right: 15,
-                child: _buildDotPattern(mainColor),
-              ),
               
               // Hover effect indicator
               Positioned(

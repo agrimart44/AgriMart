@@ -204,7 +204,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get browse_crops => 'භෝග සොයන්න';
 
   @override
-  String get welcome => 'ආයුබෝවන්!';
+  String get welcome => 'ආයුබෝවන්';
 
   @override
   String get manage_your_agricultural_business =>

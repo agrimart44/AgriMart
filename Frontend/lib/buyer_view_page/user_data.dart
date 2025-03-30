@@ -53,7 +53,7 @@ class UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile',style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(AppLocalizations.of(context)!.profile , style: const TextStyle(fontWeight: FontWeight.bold),),
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
@@ -301,7 +301,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                                   );
 
                         },
-                        icon: const Icon(Icons.add),
+                        icon: Icon(Icons.add, color: Colors.white,),
                         label: const Text('List a Crop'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
