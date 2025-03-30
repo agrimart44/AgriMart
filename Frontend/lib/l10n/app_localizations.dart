@@ -556,6 +556,10 @@ abstract class AppLocalizations {
   String get price_breakdown;
 
   String get loading;
+
+  String get how_it_will_change;
+
+  String get crop_details;
 }
 
 class _AppLocalizationsDelegate

@@ -824,7 +824,7 @@ TfE7P3XEAKcV2z7PjdZocHI=
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            'Crop Details',
+                            AppLocalizations.of(context)!.crop_details,
                             style: TextStyle(
                               fontSize: 18, 
                               fontWeight: FontWeight.bold,

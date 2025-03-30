@@ -410,6 +410,12 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get loading => 'ஏற்றுகிறது...';
 
+    @override
+  String get how_it_will_change => 'இது எவ்வாறு மாறும்?';
+
+  @override
+  String get crop_details => 'பயிர் விவரங்கள்';
+
   // @override
   // String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
 

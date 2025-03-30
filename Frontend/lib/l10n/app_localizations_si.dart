@@ -393,6 +393,12 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get loading => 'ඉක්මනින් ලැබෙයි...';
 
+  @override
+  String get how_it_will_change => 'කෙසේද එය වෙනස් වන්නේ?';
+
+  @override
+  String get crop_details => 'බෝග විස්තර';
+
   
 
 }

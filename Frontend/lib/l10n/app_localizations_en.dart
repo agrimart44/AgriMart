@@ -375,6 +375,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loading => 'Loading...';
+
+  @override
+  String get how_it_will_change => 'How it will change?';
+
+  @override
+  String get crop_details => 'Crop Details';
   
 
 }

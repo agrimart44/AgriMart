@@ -204,7 +204,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
           title: Row(
             children: [
               Text(
-                isCurrentPrice ? "Current Price" : "How it will change?",
+                isCurrentPrice ? AppLocalizations.of(context)!.current_price : AppLocalizations.of(context)!.how_it_will_change,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -232,7 +232,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               SizedBox(height: 10),
               Text(
                 price != null
-                    ? "${isCurrentPrice ? "Current" : "Predicted"} Price: Rs. ${price.toStringAsFixed(2)} per/Kg"
+                    ? "${isCurrentPrice ? AppLocalizations.of(context)!.current_price : AppLocalizations.of(context)!.predicted_price}  Rs. ${price.toStringAsFixed(2)} per/Kg"
                     : "No price available for $formattedDay",
                 style: TextStyle(
                   fontSize: 18,
@@ -439,6 +439,13 @@ Widget _buildPostHarvestSection(BuildContext context) {
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 6.0,
+          offset: const Offset(0, 3),
+        ),
+      ],
     ),
     child: LayoutBuilder(
       builder: (context, constraints) {
@@ -578,7 +585,7 @@ Widget _buildDropdown() {
                             // style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestCurrentPrice != null
-                              ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /Kg"
+                              ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /kg"
                               : "Loading...",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
@@ -593,7 +600,7 @@ Widget _buildDropdown() {
                             //style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestPredictedPrice != null
-                              ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /Kg"
+                              ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /kg"
                               : AppLocalizations.of(context)!.loading,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
