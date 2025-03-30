@@ -582,6 +582,14 @@ abstract class AppLocalizations {
   String get clear_all;
 
   String get items;
+
+  String get confirm_order;
+
+  String get are_you_sure_you_want_to_place_this_order;
+
+  String get confirm;
+
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

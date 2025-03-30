@@ -448,7 +448,17 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get clear_all => 'எல்லாவற்றையும் அழிக்கவும்';
 
-  
+  @override
+  String get confirm_order => 'ஆர்டர் உறுதிப்படுத்தவும்';
+
+  @override
+  String get are_you_sure_you_want_to_place_this_order => 'இந்த ஆர்டரை நீங்கள் வைக்க விரும்புகிறீர்களா?';
+
+    @override
+  String get confirm => 'உறுதிப்படுத்தவும்';
+
+  @override
+  String get cancel => 'ரத்து செய்';
 
   // @override
   // String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';

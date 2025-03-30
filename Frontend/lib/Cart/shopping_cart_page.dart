@@ -162,12 +162,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text("Confirm Order"),
+        title: Text(AppLocalizations.of(context)!.confirm_order),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Are you sure you want to place this order?"),
+            Text(AppLocalizations.of(context)!.are_you_sure_you_want_to_place_this_order),
             const SizedBox(height: 16),
             _buildCheckoutSummary(),
           ],
@@ -175,7 +175,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("CANCEL", style: TextStyle(color: Colors.grey)),
+            child: Text(AppLocalizations.of(context)!.cancel, style: TextStyle(color: Colors.grey)),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -184,7 +184,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            child: const Text("CONFIRM"),
+            child: Text(AppLocalizations.of(context)!.confirm),
           ),
         ],
       ),

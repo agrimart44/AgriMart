@@ -431,6 +431,18 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get clear_all => 'සියල්ල මකා දැමීම';
 
+  @override
+  String get confirm_order => 'ඇණවුම තහවුරු කරන්න';
+
+  @override
+  String get are_you_sure_you_want_to_place_this_order => 'ඔබට ඇණවුම තහවුරු කිරීමට අවශ්‍යද?';
+
+  @override
+  String get confirm => 'තහවුරු කරන්න';
+
+  @override
+  String get cancel => 'අවලංගු කරන්න';
+
 
 
   
