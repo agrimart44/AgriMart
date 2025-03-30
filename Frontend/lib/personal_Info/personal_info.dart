@@ -123,17 +123,14 @@ class PersonalInformationState extends State<PersonalInformation> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green[800]),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
            //local String
-              AppLocalizations.of(context)!.personal_information,
-
-
-
+          AppLocalizations.of(context)!.personal_information,
           style: TextStyle(
-            color: Colors.green[800],
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -379,23 +376,23 @@ class PersonalInformationState extends State<PersonalInformation> {
             child: Column(
               children: [
                 //add Local string for full name.
-                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.blue),
+                _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.green.shade800),
                 //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),   //old code
 
                 // add Local string for phone number.
-                _buildInfoItem(Icons.phone, AppLocalizations.of(context)!.phone, phoneNumber, Colors.blue),
+                _buildInfoItem(Icons.phone, AppLocalizations.of(context)!.phone, phoneNumber, Colors.green.shade800),
                 //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
 
                 // add local string for email
-                _buildInfoItem(Icons.email, AppLocalizations.of(context)!.email, email, Colors.blue),
+                _buildInfoItem(Icons.email, AppLocalizations.of(context)!.email, email, Colors.green.shade800),
                 //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
 
                 // add local string for location
-                _buildInfoItem(Icons.location_on, AppLocalizations.of(context)!.location, location, Colors.blue),
+                _buildInfoItem(Icons.location_on, AppLocalizations.of(context)!.location, location, Colors.green.shade800),
                 //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
 
                 // add local string for cart
-                _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.teal),
+                _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.green.shade800),
                 //_buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),  // old code
 
 
@@ -403,150 +400,8 @@ class PersonalInformationState extends State<PersonalInformation> {
               ],
             ),
           ),
-
-          // Updated Action button section
-          Container(
-            margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Animated gradient border
-                Container(
-                  width: double.infinity,
-                  height: 68,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.green.shade300,
-                        Colors.blue.shade300,
-                        Colors.green.shade400,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                ),
-                
-                // Edit Profile Button with shimmer effect
-                Container(
-                  width: double.infinity,
-                  height: 64,
-                  margin: const EdgeInsets.all(2), // Create border effect
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: Colors.white,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        // Navigate to edit profile screen
-                      },
-                      borderRadius: BorderRadius.circular(18),
-                      splashColor: Colors.green.withOpacity(0.1),
-                      highlightColor: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                // Floating icon with shadow
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.green.shade500,
-                                        Colors.green.shade700,
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withOpacity(0.3),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: const Icon(
-                                    Icons.edit_outlined,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                     AppLocalizations.of(context)!.Edit_Profile,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green[800],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                     AppLocalizations.of(context)!.update_your_information,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            
-                            // Animated arrow icon
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade50,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.green[700],
-                                size: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Add a subtle refresh option at the bottom
-          Center(
-            child: TextButton.icon(
-              onPressed: _loadUserData,
-              icon: Icon(
-                Icons.refresh,
-                size: 16,
-                color: Colors.grey[600],
-              ),
-              label: Text(
-                "Refresh",
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 13,
-                ),
-              ),
-            ),
-          ),
+          
+          const SizedBox(height: 20),
         ],
       ),
     );

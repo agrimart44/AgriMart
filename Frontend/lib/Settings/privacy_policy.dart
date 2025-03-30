@@ -172,12 +172,27 @@ class PrivacyPolicyPage extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, bottom: 4),
       child: GestureDetector(
         onTap: () => _launchUrl(url),
-        child: Text(
-          displayText,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Color.fromRGBO(76, 175, 80, 1),
-          ),
+
+        child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'Website: ', // Black text
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+
+            TextSpan(
+              text: url, // Green text (clickable link)
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color.fromRGBO(76, 175, 80, 1),
+              ),
+            ),
+          ],
+        ),
         ),
       ),
     );

@@ -67,7 +67,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get name => 'Name';
 
   @override
-  String get enter_crop_name => 'Enter crop name';
+  String get enter_crop_name => 'Crop Name';
 
   @override
   String get description => 'Description';
@@ -313,7 +313,7 @@ class AppLocalizationsEn extends AppLocalizations {
   
   @override
   // TODO: implement list_new_crop
-  String get list_new_crop => 'List new crop';
+  String get list_new_crop => 'List New Crop';
   
   @override
   // TODO: implement listing_crop
