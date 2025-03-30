@@ -354,6 +354,47 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get conversation_count => 'සංවාදයන්';
 
+  @override
+  String get select_a_vegetable => 'එළවළු තෝරන්න';
+
+  @override
+  String get carrot => 'කැරට්';
+
+  @override
+  String get tomato => 'තක්කාලි';
+
+  @override
+  String get pumpkin => 'වට්ටක්කා';
+
+  @override
+  String get lime => 'දෙහි';
+
+  @override
+  String get cabbage => 'ගෝවා';
+
+  @override
+  String get brinjal => 'වම්බටු';
+
+  @override
+  String get snake_gourd => 'පතෝල';
+
+  @override
+  String get green_chilli => 'මිරිස්';
+
+      @override
+  String get current => 'වත්මන්';
+
+  @override
+  String get predicted => 'පුරෝකථනය කළ';
+
+  @override
+  String get price_breakdown => 'මිල විස්තරය';
+
+  @override
+  String get loading => 'ඉක්මනින් ලැබෙයි...';
+
+  
+
 }
 
 

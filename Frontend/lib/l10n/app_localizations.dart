@@ -100,8 +100,6 @@ abstract class AppLocalizations {
     Locale('ta')
   ];
 
-  
-
   /// No description provided for @personal_information.
   ///
   /// In en, this message translates to:
@@ -412,14 +410,11 @@ abstract class AppLocalizations {
 
   String get listing_crop;
 
-
   String get crop_harvest_date;
-
 
   String get add_upto_3_photos;
 
   String get crop_location;
-
 
   String get add_clear_photos;
 
@@ -536,10 +531,32 @@ abstract class AppLocalizations {
   /// **'Conversations'**
   String get conversation_count;
 
+  String get select_a_vegetable;
 
+  String get carrot;
+
+  String get tomato;
+
+  String get pumpkin;
+
+  String get lime;
+
+  String get cabbage;
+
+  String get brinjal;
+
+  String get snake_gourd;
+
+  String get green_chilli;
+
+  String get current;
+
+  String get predicted;
+
+  String get price_breakdown;
+
+  String get loading;
 }
-
-
 
 class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {

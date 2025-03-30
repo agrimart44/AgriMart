@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import '../../l10n/app_localizations.dart'; // Import intl package
 
 enum Vegetable {
-   carrot('Carrot', 'lib/assets/carrot.jpg'),
+  carrot('Carrot', 'lib/assets/carrot.jpg'),
   tomato('Tomato', 'lib/assets/tomato.jpg'),
   pumpkin('Pumpkin', 'lib/assets/pumpkin.jpg'),
   lime('Lime', 'lib/assets/lime.jpg'),
@@ -275,14 +275,14 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
   Text(
-    "Market Demand",
+    AppLocalizations.of(context)!.market_demand,
     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
   ),
   const SizedBox(height: 10),
   Text(
     (priceData.isNotEmpty && currentData.isNotEmpty && priceData.last > currentData.last)
-        ? "Demand is High"
-        : "Demand is Low",
+        ? AppLocalizations.of(context)!.demand_is_high
+        : AppLocalizations.of(context)!.demand_is_low,
     style: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.bold,
@@ -332,7 +332,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           PieChartSectionData(
                             value: priceData.isNotEmpty ? priceData.last : 0,
                             color: Colors.green.shade900,
-                            title: 'Predicted',
+                            title: AppLocalizations.of(context)!.predicted,
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
                               fontSize: 14,
@@ -343,7 +343,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                           PieChartSectionData(
                             value: currentData.isNotEmpty ? currentData.last : 0,
                             color: Colors.green.shade600,
-                            title: 'Current',
+                            title: AppLocalizations.of(context)!.current,
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
                               fontSize: 14,
@@ -355,7 +355,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                             value: priceData.isNotEmpty && currentData.isNotEmpty
                                 ? (priceData.last - currentData.last).abs()
                                 : 0,
-                            title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? "Change" : "",
+                            title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? AppLocalizations.of(context)!.change : "",
                             color: Colors.green.shade300,
                             radius: 80, // Increased radius
                             titleStyle: TextStyle(
@@ -381,7 +381,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Price\nBreakdown",
+                          AppLocalizations.of(context)!.price_breakdown,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
@@ -399,9 +399,9 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildLegendItem(Colors.green,AppLocalizations.of(context)!.predicted_price), // add localized texts
-                  _buildLegendItem(Colors.red,AppLocalizations.of(context)!.current_price), // add localized texts
-                  _buildLegendItem(Colors.blue,AppLocalizations.of(context)!.change), // add localized texts
+                  _buildLegendItem(Colors.green.shade900,AppLocalizations.of(context)!.predicted_price), // add localized texts
+                  _buildLegendItem(Colors.green.shade600,AppLocalizations.of(context)!.current_price), // add localized texts
+                  _buildLegendItem(Colors.green.shade300,AppLocalizations.of(context)!.change), // add localized texts
                 ],
               ),
             ],
@@ -466,7 +466,7 @@ Widget _buildPostHarvestSection(BuildContext context) {
                 children: [
                   // Label
                   Text(
-                    "Select a Vegetable",
+                    AppLocalizations.of(context)!.select_a_vegetable,
                     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 16),
@@ -495,7 +495,7 @@ Widget _buildDropdown() {
           iconEnabledColor: Colors.green.shade900,
           focusColor: Colors.white,
           value: selectedVegetable,
-          hint: const Text("Select a vegetable"),
+          hint: const Text("Select a Vegetable"),
           dropdownColor: Colors.white,
           items: Vegetable.values.map((Vegetable vegetable) {
             return DropdownMenuItem<Vegetable>(
@@ -539,7 +539,7 @@ Widget _buildDropdown() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vegetable Analysis"),
+        title: Text(AppLocalizations.of(context)!.vegetable_analysis), // add localized text
         backgroundColor: Colors.white,
         elevation: 0,
         titleTextStyle: TextStyle(
@@ -594,7 +594,7 @@ Widget _buildDropdown() {
                         Text(
                           latestPredictedPrice != null
                               ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /Kg"
-                              : "Loading...",
+                              : AppLocalizations.of(context)!.loading,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,

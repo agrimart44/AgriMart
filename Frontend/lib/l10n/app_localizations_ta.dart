@@ -370,6 +370,46 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get conversation_count => 'உரையாடல்கள்';
 
+  @override
+  String get select_a_vegetable => 'காய்கறியைத் தேர்ந்தெடுக்க';
+
+  @override
+  String get carrot => 'கரட்';
+
+  @override
+  String get tomato => 'தக்காளி';
+
+  @override
+  String get pumpkin => 'பூசணி';
+
+  @override
+  String get lime => 'எலுமிச்சை';
+
+  @override
+  String get cabbage => 'கோவா';
+
+  @override
+  String get brinjal => 'கத்தரிக்காய்';
+
+  @override
+  String get snake_gourd => 'புடலங்காய்';
+
+  @override
+  String get green_chilli => 'பச்சை மிளகாய்';
+  
+
+  @override
+  String get current => 'தற்போதைய';
+
+  @override
+  String get predicted => 'கணிக்கப்படும்';
+
+  @override
+  String get price_breakdown => 'விலைக் குறிப்பு';
+
+  @override
+  String get loading => 'ஏற்றுகிறது...';
+
   // @override
   // String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
 

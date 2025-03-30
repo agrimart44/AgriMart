@@ -336,4 +336,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get conversation_count => 'Conversations';
+
+  @override
+  String get select_a_vegetable => 'Select a Vegetable';
+
+  @override
+  String get carrot => 'Carrot';
+
+  @override
+  String get tomato => 'Tomato';
+
+  @override
+  String get pumpkin => 'Pumpkin';
+
+  @override
+  String get lime => 'Lime';
+
+  @override
+  String get cabbage => 'Cabbage';
+
+  @override
+  String get brinjal => 'Brinjal';
+
+  @override
+  String get snake_gourd => 'Snake Gourd';
+
+  @override
+  String get green_chilli => 'Green Chilli';
+
+    @override
+  String get current => 'Current';
+
+  @override
+  String get predicted => 'Predicted';
+
+  @override
+  String get price_breakdown => 'Price Breakdown';
+
+  @override
+  String get loading => 'Loading...';
+  
+
 }
