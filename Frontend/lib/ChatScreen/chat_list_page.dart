@@ -4,6 +4,7 @@ import 'package:namer_app/ChatScreen/chat_screen.dart';
 import 'package:namer_app/ChatScreen/chat_service.dart';
 import 'package:namer_app/l10n/app_localizations.dart';
 
+
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
 
@@ -107,7 +108,7 @@ class _ChatListPageState extends State<ChatListPage> {
                         Text(
                           unreadCount > 0
                               ? '$unreadCount unread of $totalChats total'
-                              : '$totalChats conversations',
+                              : '${totalChats} ${AppLocalizations.of(context)!.conversation_count}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -123,9 +124,9 @@ class _ChatListPageState extends State<ChatListPage> {
                         color: Colors.green[700],
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
-                        'All Messages',
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.all_messages,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 12,

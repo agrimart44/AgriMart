@@ -360,79 +360,87 @@ class AppLocalizationsTa extends AppLocalizations {
   String get crop_harvest_date => throw UnimplementedError();
 
 
-
-}
-  String get cart_items => 'எடுக்கப்பட்ட பொருட்கள்';
-
   @override
   String get items => 'பொருட்கள்';
 
-  @override
-  String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
-
-  @override
-  String get farm_statistics => 'விவசாய புள்ளிவிவரங்கள்';
-
-  @override
-  String get total_crops => 'மொத்த பயிர்கள்';
-
-  @override
-  String get list_new_crop => 'புதிய பயிர்களை பட்டியலிடுங்கள்';
-
-  @override
-  String get crop_photos => 'பயிர்களின் புகைப்படங்கள்';
-
-  @override
-  String get add_upto_3_photos =>
-      'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
-
-  @override
-  String get tap_to_add_photos => 'புகைப்படங்களைச் சேர்க்க தட்டவும்';
-
-  @override
-  String get add_clear_photos => 'தெளிவான, நல்ல புகைப்படங்களைச் சேர்க்கவும்';
-
-  @override
-  String get organic_tomatoes => 'e.g. தக்காளி';
-
-  @override
-  String get describe_your_crop => 'உங்கள் பயிரை விளக்கவும்';
-
-  @override
-  String get per_kg => 'ஒரு கிலோவுக்கு';
-
-  @override
-  String get available_kg => 'கிலோவுக்கு கிடைக்கும்';
-
-  @override
-  String get crop_location => 'உங்கள் பயிர் உள்ள இடம் எங்கு?';
-
-  @override
-  String get crop_harvest_date => 'பயிர் அறுவை தேதி எப்படி?';
-
-  @override
-  String get listing_crop => 'பயிரைப் பட்டியலிடுகிறது...';
-
-  @override
-  String get total_quantity => 'மொத்த அளவு';
-
-  @override
-  String get total_value => 'மொத்த மதிப்பு';
-
-  @override
-  String get avg_price => 'சராசரி விலை';
-
-  @override
-  String get active_crops => 'செயலில் உள்ள பயிர்கள்';
-
-  @override
-  String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
-
   
   @override
-  // TODO: implement conversations
-  String get conversations => 'உரையாடல்கள்';
-  
+  String get all_messages => 'எல்லா குறுந்தகவல்கள்';
+
   @override
-  // TODO: implement messages
-  String get messages => 'செய்திகள்';
+  String get conversation_count => 'உரையாடல்கள்';
+
+  // @override
+  // String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';
+
+  // @override
+  // String get farm_statistics => 'விவசாய புள்ளிவிவரங்கள்';
+
+  // @override
+  // String get total_crops => 'மொத்த பயிர்கள்';
+
+  // @override
+  // String get list_new_crop => 'புதிய பயிர்களை பட்டியலிடுங்கள்';
+
+  // @override
+  // String get crop_photos => 'பயிர்களின் புகைப்படங்கள்';
+
+  // @override
+  // String get add_upto_3_photos =>
+  //     'உங்கள் பயிரின் புகைப்படங்களை 3 வரை சேர்க்கவும் (தேவை)';
+
+  // @override
+  // String get tap_to_add_photos => 'புகைப்படங்களைச் சேர்க்க தட்டவும்';
+
+  // @override
+  // String get add_clear_photos => 'தெளிவான, நல்ல புகைப்படங்களைச் சேர்க்கவும்';
+
+  // @override
+  // String get organic_tomatoes => 'e.g. தக்காளி';
+
+  // @override
+  // String get describe_your_crop => 'உங்கள் பயிரை விளக்கவும்';
+
+  // @override
+  // String get per_kg => 'ஒரு கிலோவுக்கு';
+
+  // @override
+  // String get available_kg => 'கிலோவுக்கு கிடைக்கும்';
+
+  // @override
+  // String get crop_location => 'உங்கள் பயிர் உள்ள இடம் எங்கு?';
+
+  // @override
+  // String get crop_harvest_date => 'பயிர் அறுவை தேதி எப்படி?';
+
+  // @override
+  // String get listing_crop => 'பயிரைப் பட்டியலிடுகிறது...';
+
+  // @override
+  // String get total_quantity => 'மொத்த அளவு';
+
+  // @override
+  // String get total_value => 'மொத்த மதிப்பு';
+
+  // @override
+  // String get avg_price => 'சராசரி விலை';
+
+  // @override
+  // String get active_crops => 'செயலில் உள்ள பயிர்கள்';
+
+  // @override
+  // String get crops_with_interest => 'விருப்பம் உள்ள பயிர்கள்';
+
+  
+  // @override
+  // // TODO: implement conversations
+  // String get conversations => 'உரையாடல்கள்';
+  
+  // @override
+  // // TODO: implement messages
+  // String get messages => 'செய்திகள்';
+
+  // String get cart_items => 'எடுக்கப்பட்ட பொருட்கள்';
+
+}
+

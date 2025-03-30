@@ -330,4 +330,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   // TODO: implement tap_to_add_photos
   String get tap_to_add_photos => 'Tap to add photos';
+
+  @override
+  String get all_messages => 'All Messages';
+
+  @override
+  String get conversation_count => 'Conversations';
 }

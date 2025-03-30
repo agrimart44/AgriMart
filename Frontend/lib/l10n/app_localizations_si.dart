@@ -348,12 +348,13 @@ class AppLocalizationsSi extends AppLocalizations {
   // TODO: implement conversations
   String get conversations => 'සංවාද';
 
+  @override
+  String get all_messages => 'සියලු පණිවිඩ';
+
+  @override
+  String get conversation_count => 'සංවාදයන්';
 
 }
-  // TODO: implement conversations
-  String get conversations => 'සංවාද';
-  
-  @override
-  // TODO: implement messages
-  String get messages => 'පණිවිඩ';
 
+
+    
