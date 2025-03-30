@@ -90,7 +90,6 @@ flutter:
     # - lib/assets/flow.jpg
     # - lib/assets/first_page_background.jpg
     - lib/assets/
-    - .env
 
 
 localization:

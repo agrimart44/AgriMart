@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
@@ -55,7 +54,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
   // Initialize Flutter Local Notifications
   void _initializeNotifications() {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/agrimart');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -63,12 +62,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  /// Show a local notification with the given title and body.
-  ///
-  /// This is a helper function for showing a notification in the app.
-  /// It uses the [flutter_local_notifications] package to show the notification.
-  /// It includes the title and body of the notification, and a payload with
-  /// the notification ID and status.
+  // Show Local Notification
   Future<void> _showNotification(String title, String body) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -91,98 +85,38 @@ class _ListCropScreenState extends State<ListCropScreen> {
     );
   }
 
-  /// Shows a local notification with an image using the [flutter_local_notifications] package.
-  ///
-  /// This function attempts to display a notification that includes a large icon
-  /// and a big picture style, using an image located at the specified [imagePath].
-  /// If the image cannot be copied or if any error occurs, it falls back to displaying
-  /// a regular notification without an image.
-  ///
-  /// The notification is configured with the given [title] and [body]. The image
-  /// is copied to a specific directory within the application's documents directory
-  /// to ensure it is accessible by the notification system. Unique filenames are
-  /// generated for the images based on the current timestamp to avoid conflicts.
-  ///
-  /// A dynamic notification ID is used to prevent overwriting existing notifications.
-  ///
-  /// [title] - The title of the notification.
-
-  /// [body] - The body content of the notification.
-  /// [imagePath] - The file path of the image to be displayed in the notification.
-
+  // Show Local Notification with Image
   Future<void> _showNotificationWithImage(String title, String body, String imagePath) async {
-    try {
-      print("Showing notification with image: $imagePath");
-      
-      // Create the directory if it doesn't exist
-      final Directory directory = await getApplicationDocumentsDirectory();
-      final String dirPath = directory.path;
-      final Directory imageDir = Directory('$dirPath/notification_images');
-      if (!await imageDir.exists()) {
-        await imageDir.create(recursive: true);
-      }
-      
-      // Generate unique filenames with timestamps
-      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-      final String largeIconPath = '$dirPath/notification_images/largeIcon_$timestamp.jpg';
-      final String bigPicturePath = '$dirPath/notification_images/bigPicture_$timestamp.jpg';
-      
-      // Copy the file with error handling
-      try {
-        final File sourceFile = File(imagePath);
-        await sourceFile.copy(largeIconPath);
-        await sourceFile.copy(bigPicturePath);
-        
-        print("Files copied successfully to: $largeIconPath and $bigPicturePath");
-      } catch (e) {
-        print("Error copying image files: $e");
-        // Fall back to regular notification if image copy fails
-        return _showNotification(title, body);
-      }
-      
-      // Configure the notification with the image
-      final BigPictureStyleInformation bigPictureStyleInformation = BigPictureStyleInformation(
-        FilePathAndroidBitmap(bigPicturePath),
-        largeIcon: FilePathAndroidBitmap(largeIconPath),
-        contentTitle: title,
-        htmlFormatContentTitle: true,
-        summaryText: body,
-        htmlFormatSummaryText: true,
-      );
-      
-      final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'general_channel',
-        'General Notifications',
-        channelDescription: 'Notifications with images',
-        importance: Importance.max,
-        priority: Priority.high,
-        styleInformation: bigPictureStyleInformation,
-        playSound: true,
-        enableVibration: true,
-      );
-      
-      final NotificationDetails platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-      );
-      
-      // Show the notification
-      await flutterLocalNotificationsPlugin.show(
-        DateTime.now().millisecondsSinceEpoch.remainder(100000), // Dynamic ID to avoid overwriting
-        title,
-        body,
-        platformChannelSpecifics,
-        payload: json.encode({'id': '1', 'status': 'done'}),
-      );
-      
-      print("Notification with image sent successfully");
-    } catch (e) {
-      print("Error showing notification with image: $e");
-      // Fall back to regular notification
-      await _showNotification(title, body);
-    }
+    final String largeIconPath = await _saveFile(imagePath, 'largeIcon');
+    final String bigPicturePath = await _saveFile(imagePath, 'bigPicture');
+
+    final BigPictureStyleInformation bigPictureStyleInformation = BigPictureStyleInformation(
+      FilePathAndroidBitmap(bigPicturePath),
+      largeIcon: FilePathAndroidBitmap(largeIconPath),
+      contentTitle: title,
+      summaryText: body,
+    );
+
+    final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'general_channel',
+      'General Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      styleInformation: bigPictureStyleInformation,
+    );
+
+    final NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: json.encode({'id': '1', 'status': 'done'}),
+    );
   }
 
-
+  // Helper method to save file
   Future<String> _saveFile(String filePath, String fileName) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String newFilePath = '${directory.path}/$fileName';
@@ -201,15 +135,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
       setState(() {
         _harvestDataController.text =
             "${picked.day}/${picked.month}/${picked.year}";
-  /// Shows a date picker dialog for the user to select a harvest date.
-  ///
-  /// When the user selects a date, the text in the [_harvestDataController]
-  /// is updated to display the selected date in the format 'dd/mm/yyyy'.
-  ///
-  /// The dialog is shown with a default date of today, and the user can select
-  /// dates between the year 2000 and 2100.
-  ///
-  /// If the user cancels the dialog, no changes are made to the [_harvestDataController].
       });
     }
   }
@@ -356,8 +281,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
           harvestDate: _harvestDataController.text,
           imagePaths: _photos,
           firebaseToken: firebaseToken,
-          latitude: _latitude, 
-          longitude: _longitude, 
+          latitude: _latitude, // Add latitude from map picker
+          longitude: _longitude, // Add longitude from map picker
         );
         
         setState(() {
@@ -381,264 +306,165 @@ class _ListCropScreenState extends State<ListCropScreen> {
   }
 
   Future<void> _sendNotificationToUsers() async {
-    try {
-      String? currentUserId = await _authService.getStoredUserId();
-      
-      if (currentUserId == null) {
-        print('Warning: Could not determine current user ID for notification targeting');
-      } else {
-        print('Current user ID (to exclude from notification): $currentUserId');
-      }
-      
-      final String accessToken = await getAccessToken();
-      final String fcmUrl = 'https://fcm.googleapis.com/v1/projects/agri-mart-add65/messages:send';
-  
-      
-      final Map<String, dynamic> message = {
-        "message": {
-          "topic": "all",
-          "notification": {
-            "title": "🌱 New Fresh Crop Available!",
-            "body": "Check out ${_cropNameController.text} - Fresh harvest just listed at ₹${_priceController.text}/kg! 🔥 Limited quantity available!"
-          },
-          "data": {
-            "click_action": "FLUTTER_NOTIFICATION_CLICK",
-            "id": "1",
-            "status": "done",
-            "cropName": _cropNameController.text,
-            "price": _priceController.text,
-            "senderId": currentUserId ?? "", 
-            "type": "new_crop"
-          }
-        }
-      };
-  
-      final response = await http.post(
-        Uri.parse(fcmUrl),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
+    final String accessToken = await getAccessToken();
+    final String fcmUrl =
+        'https://fcm.googleapis.com/v1/projects/agri-mart-add65/messages:send';
+
+    final Map<String, dynamic> message = {
+      "message": {
+        "topic": "all",
+        "notification": {
+          "title": "New Crop Listed",
+          "body": "${_cropNameController.text} has listed a new crop."
         },
-        body: json.encode(message),
-      );
-  
-      if (response.statusCode == 200) {
-        print('Notification sent to all topic');
-        
-        await _showNotification(
-          "Crop Listed Successfully",
-          "Your ${_cropNameController.text} has been listed and buyers have been notified!"
-        );
-      } else {
-        print('Failed to send notification: ${response.body}');
+        "data": {
+          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          "id": "1",
+          "status": "done"
+        }
       }
-    } catch (e) {
-      print('Error sending notification: $e');
-    }
-  }
+    };
 
-//   Future<String> getAccessToken() async {
-//     try {
-      
-//       final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
-//       final String privateKey = """-----BEGIN PRIVATE KEY-----
-// MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
-// I1kwWj61kFx1js2/zhizi7rlFJVp+mEFEJX/yvHvzHo/NL8a0V+1grK+WA5EyyGv
-// OmTO2e7ghY4/CcCTgVqXzYAhy+MjAvhJvYE74tWicBoslX2szckk9sL8PU0ZBZyr
-// 8Ptp0Fm2p4jAs8qnH5vZBGgj/u/TXoaeFQ0ckZTMjY1yZsH7GsiiYgtAxQp/g1zj
-// ixTNrwHRTdXqh7La8pBInEtu1mTbrvbux3hZTs8UyBIUNQoUrlvyR66PXUwNvyn+
-// 4D8bFGfLa6tPe5FbUptqJJsJNFyPau77TUuuZlfeWQ9stX4k6BjF9bx8OvzHq2ht
-// 8W3ZIieHAgMBAAECggEANHS+nO14FXfHph8NFrgeuiaiPodNhpEJ2bDxqHEbxkAD
-// TRuGwAtNDs1U1nFEtUgwCOL5/PKvloeLhqVT2QqDqWRIF4/mYElOnr4Kr7sUVP2V
-// uqU4AAkiO4INhela/zD+Tzlt6AdXrUitA69DD2XimTnsKKuf2mXoEgYRV68RoMKi
-// lUm7ypdRTTuxQcEZn5RumqZ2h5pMuqnIODFdIYAcIMuzhuG7fkFEjqidIKryVIUD
-// p6W2pSXZ11ij3r79V5zlqiEgHphIQpSvK1uqntC8nh2NebTPQw+yD6TDv6Ry+fyp
-// FfSf4rTIYHM/RQmwCDJZ48J/N+dDMNRIyYdR1BrpxQKBgQDrvIGhrBz+FRyUz1sG
-// OX+fy/DfmQ1KDJbNOOgHFfUQAGu4LxgTyoRxSitWgL6N3HoZNuqlj9vOIr8hV1fr
-// K+GGQVLK62ZYfNQ+KUR+Yk8UA6TGP/9k5lEfDHSWCQikjC9i802K5+kbtcXWr5dm
-// QwgIZead3gYCW3aLkW5PFberbQKBgQDKLZ7pXZlrS3bJhZnxIsv2zzRMq62gbJ9z
-// 9dbg5fOUw6AArf3YAKZQLu1YQm6OqBidzCPbXRAdN7wh7X4azea4qQlSI1MnZ4Hx
-// H3EYM7AzLpSt4SC6rC8TKd/bkgANryeDUPl+6xDzlC7vgbunNrVz5OqYlAnHE8U1
-// uvCVOskyQwKBgCbmycGjRHmNhFTuTwgc7vmwzwQnHrFMmIovTOL2daV5XE1dwCxr
-// 7CVB5xr0Tf3dF20XyesebVh8FWxsHH8bk7DzELWZ2R7bIq9LYhk1IfWckFGC+CNv
-// eo2UIZ0syndVBvDeU7qLgMVo3sgJ3AMtJqM0JbWBkR5Md6iajEiSveeVAoGAfdXD
-// MJBXKta/SlJjLBhyRl1Uuduop060N+JtKXE2GANiFMo2UjilSwbKJsLCOPwaxiwG
-// rUPRAb5s09kTQe+hiJF9AaiG2uGrmL3vEBcrtc9qLocObeE5M34+nFTUv6+isjK1
-// 9u6rkE9Mnzlp6Hs+mLGD6g9JvqRpfDWsA9Wg4C0CgYEAvAjwCwFTVa2aKaH/Kiu5
-// drN6u5c7/g2UQH2q7rgrK/W2tjZRNXOSL5nS7QJWnHykdSoSlB05iUiP7+tnbP07
-// mNst9vb3F3Z6XYljhaci/y2yMxKDZyH3851FqY0hQefd246v4KQnF4ysf79a8DR2
-// TfE7P3XEAKcV2z7PjdZocHI=
-// -----END PRIVATE KEY-----""";
-
-//       print('[DEBUG] Using hardcoded client_email: $clientEmail');
-
-//       // Step 2: Generate JWT Header
-//       final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
-//         "alg": "RS256",
-//         "typ": "JWT"
-//       })));
-
-//       print('[DEBUG] Generated JWT Header: $jwtHeader');
-
-//       // Step 3: Generate JWT Claim Set
-//       final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-//       final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
-//         "iss": clientEmail,
-//         "scope": "https://www.googleapis.com/auth/firebase.messaging",
-//         "aud": "https://oauth2.googleapis.com/token",
-//         "exp": currentTime + 3600,
-//         "iat": currentTime,
-//       })));
-
-//       print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
-
-//       // Step 4: Combine JWT Header and Claim Set
-//       final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
-
-//       print('[DEBUG] Combined JWT: $unsignedJwt');
-
-//       // Function to sign the JWT using the private key
-//       String signJwt(String unsignedJwt, String privateKey) {
-//         try {
-//           // Parse the private key using CryptoUtils
-//           final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
-
-//           // Create the signer with SHA-256 digest
-//           final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
-//             ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
-
-//           // Sign the JWT
-//           final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
-
-//           // Encode the signature in Base64 URL format and remove padding
-//           return base64Url.encode(signature.bytes).replaceAll('=', '');
-//         } catch (e) {
-//           throw Exception('[ERROR] Failed to sign JWT: $e');
-//         }
-//       }
-
-//       // Step 5: Sign the JWT
-//       final String jwtSignature = signJwt(unsignedJwt, privateKey);
-//       final String signedJwt = "$unsignedJwt.$jwtSignature";
-
-//       print('[DEBUG] Signed JWT: $signedJwt');
-
-//       // Step 6: Exchange JWT for Access Token
-//       final response = await http.post(
-//         Uri.parse('https://oauth2.googleapis.com/token'),
-//         headers: {"Content-Type": "application/x-www-form-urlencoded"},
-//         body: {
-//           "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-//           "assertion": signedJwt,
-//         },
-//       );
-
-//       print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
-//       print('[DEBUG] OAuth2 Response Body: ${response.body}');
-
-//       if (response.statusCode == 200) {
-//         final responseData = json.decode(response.body);
-//         final String accessToken = responseData['access_token'];
-//         print('[DEBUG] Successfully retrieved access token.');
-//         return accessToken;
-//       } else {
-//         throw Exception('[ERROR] Failed to get access token: ${response.body}');
-//       }
-//     } catch (e) {
-//       print('[ERROR] Error in getAccessToken: $e');
-//       rethrow;
-//     }
-//   }
-
-Future<String> getAccessToken() async {
-  try {
-    // Get credentials from environment variables
-    final String clientEmail = dotenv.env['FIREBASE_CLIENT_EMAIL'] ?? '';
-    final String privateKey = (dotenv.env['FIREBASE_PRIVATE_KEY'] ?? '').replaceAll('\\n', '\n');
-    
-    if (clientEmail.isEmpty || privateKey.isEmpty) {
-      throw Exception('Firebase credentials not found in environment variables');
-    }
-
-    print('[DEBUG] Using client_email from env: $clientEmail');
-
-    // Step 2: Generate JWT Header
-    final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
-      "alg": "RS256",
-      "typ": "JWT"
-    })));
-
-    print('[DEBUG] Generated JWT Header: $jwtHeader');
-
-    // Step 3: Generate JWT Claim Set
-    final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
-      "iss": clientEmail,
-      "scope": "https://www.googleapis.com/auth/firebase.messaging",
-      "aud": "https://oauth2.googleapis.com/token",
-      "exp": currentTime + 3600,
-      "iat": currentTime,
-    })));
-
-    print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
-
-    // Step 4: Combine JWT Header and Claim Set
-    final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
-
-    print('[DEBUG] Combined JWT: $unsignedJwt');
-
-    // Function to sign the JWT using the private key
-    String signJwt(String unsignedJwt, String privateKey) {
-      try {
-        // Parse the private key using CryptoUtils
-        final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
-
-        // Create the signer with SHA-256 digest
-        final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
-          ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
-
-        // Sign the JWT
-        final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
-
-        // Encode the signature in Base64 URL format and remove padding
-        return base64Url.encode(signature.bytes).replaceAll('=', '');
-      } catch (e) {
-        throw Exception('[ERROR] Failed to sign JWT: $e');
-      }
-    }
-
-    // Step 5: Sign the JWT
-    final String jwtSignature = signJwt(unsignedJwt, privateKey);
-    final String signedJwt = "$unsignedJwt.$jwtSignature";
-
-    print('[DEBUG] Signed JWT: $signedJwt');
-
-    // Step 6: Exchange JWT for Access Token
     final response = await http.post(
-      Uri.parse('https://oauth2.googleapis.com/token'),
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: {
-        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-        "assertion": signedJwt,
+      Uri.parse(fcmUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
       },
+      body: json.encode(message),
     );
 
-    print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
-    print('[DEBUG] OAuth2 Response Body: ${response.body}');
-
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      final String accessToken = responseData['access_token'];
-      print('[DEBUG] Successfully retrieved access token.');
-      return accessToken;
+      print('Notification sent successfully');
+      if (_photos.isNotEmpty) {
+        await _showNotificationWithImage(
+          "New Crop Listed",
+          "${_cropNameController.text} has listed a new crop.",
+          _photos[0], // Use the first photo as the image
+        );
+      } else {
+        await _showNotification(
+          "New Crop Listed",
+          "${_cropNameController.text} has listed a new crop.",
+        );
+      }
     } else {
-      throw Exception('[ERROR] Failed to get access token: ${response.body}');
+      print('Failed to send notification: ${response.body}');
     }
-  } catch (e) {
-    print('[ERROR] Error in getAccessToken: $e');
-    rethrow;
   }
-}
+
+  Future<String> getAccessToken() async {
+    try {
+      // Step 1: Hardcode the client_email and private_key
+      final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
+      final String privateKey = """-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
+I1kwWj61kFx1js2/zhizi7rlFJVp+mEFEJX/yvHvzHo/NL8a0V+1grK+WA5EyyGv
+OmTO2e7ghY4/CcCTgVqXzYAhy+MjAvhJvYE74tWicBoslX2szckk9sL8PU0ZBZyr
+8Ptp0Fm2p4jAs8qnH5vZBGgj/u/TXoaeFQ0ckZTMjY1yZsH7GsiiYgtAxQp/g1zj
+ixTNrwHRTdXqh7La8pBInEtu1mTbrvbux3hZTs8UyBIUNQoUrlvyR66PXUwNvyn+
+4D8bFGfLa6tPe5FbUptqJJsJNFyPau77TUuuZlfeWQ9stX4k6BjF9bx8OvzHq2ht
+8W3ZIieHAgMBAAECggEANHS+nO14FXfHph8NFrgeuiaiPodNhpEJ2bDxqHEbxkAD
+TRuGwAtNDs1U1nFEtUgwCOL5/PKvloeLhqVT2QqDqWRIF4/mYElOnr4Kr7sUVP2V
+uqU4AAkiO4INhela/zD+Tzlt6AdXrUitA69DD2XimTnsKKuf2mXoEgYRV68RoMKi
+lUm7ypdRTTuxQcEZn5RumqZ2h5pMuqnIODFdIYAcIMuzhuG7fkFEjqidIKryVIUD
+p6W2pSXZ11ij3r79V5zlqiEgHphIQpSvK1uqntC8nh2NebTPQw+yD6TDv6Ry+fyp
+FfSf4rTIYHM/RQmwCDJZ48J/N+dDMNRIyYdR1BrpxQKBgQDrvIGhrBz+FRyUz1sG
+OX+fy/DfmQ1KDJbNOOgHFfUQAGu4LxgTyoRxSitWgL6N3HoZNuqlj9vOIr8hV1fr
+K+GGQVLK62ZYfNQ+KUR+Yk8UA6TGP/9k5lEfDHSWCQikjC9i802K5+kbtcXWr5dm
+QwgIZead3gYCW3aLkW5PFberbQKBgQDKLZ7pXZlrS3bJhZnxIsv2zzRMq62gbJ9z
+9dbg5fOUw6AArf3YAKZQLu1YQm6OqBidzCPbXRAdN7wh7X4azea4qQlSI1MnZ4Hx
+H3EYM7AzLpSt4SC6rC8TKd/bkgANryeDUPl+6xDzlC7vgbunNrVz5OqYlAnHE8U1
+uvCVOskyQwKBgCbmycGjRHmNhFTuTwgc7vmwzwQnHrFMmIovTOL2daV5XE1dwCxr
+7CVB5xr0Tf3dF20XyesebVh8FWxsHH8bk7DzELWZ2R7bIq9LYhk1IfWckFGC+CNv
+eo2UIZ0syndVBvDeU7qLgMVo3sgJ3AMtJqM0JbWBkR5Md6iajEiSveeVAoGAfdXD
+MJBXKta/SlJjLBhyRl1Uuduop060N+JtKXE2GANiFMo2UjilSwbKJsLCOPwaxiwG
+rUPRAb5s09kTQe+hiJF9AaiG2uGrmL3vEBcrtc9qLocObeE5M34+nFTUv6+isjK1
+9u6rkE9Mnzlp6Hs+mLGD6g9JvqRpfDWsA9Wg4C0CgYEAvAjwCwFTVa2aKaH/Kiu5
+drN6u5c7/g2UQH2q7rgrK/W2tjZRNXOSL5nS7QJWnHykdSoSlB05iUiP7+tnbP07
+mNst9vb3F3Z6XYljhaci/y2yMxKDZyH3851FqY0hQefd246v4KQnF4ysf79a8DR2
+TfE7P3XEAKcV2z7PjdZocHI=
+-----END PRIVATE KEY-----""";
+
+      print('[DEBUG] Using hardcoded client_email: $clientEmail');
+
+      // Step 2: Generate JWT Header
+      final String jwtHeader = base64Url.encode(utf8.encode(json.encode({
+        "alg": "RS256",
+        "typ": "JWT"
+      })));
+
+      print('[DEBUG] Generated JWT Header: $jwtHeader');
+
+      // Step 3: Generate JWT Claim Set
+      final int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      final String jwtClaimSet = base64Url.encode(utf8.encode(json.encode({
+        "iss": clientEmail,
+        "scope": "https://www.googleapis.com/auth/firebase.messaging",
+        "aud": "https://oauth2.googleapis.com/token",
+        "exp": currentTime + 3600,
+        "iat": currentTime,
+      })));
+
+      print('[DEBUG] Generated JWT Claim Set: $jwtClaimSet');
+
+      // Step 4: Combine JWT Header and Claim Set
+      final String unsignedJwt = "$jwtHeader.$jwtClaimSet";
+
+      print('[DEBUG] Combined JWT: $unsignedJwt');
+
+      // Function to sign the JWT using the private key
+      String signJwt(String unsignedJwt, String privateKey) {
+        try {
+          // Parse the private key using CryptoUtils
+          final rsakey = CryptoUtils.rsaPrivateKeyFromPem(privateKey);
+
+          // Create the signer with SHA-256 digest
+          final signer = RSASigner(SHA256Digest(), '0609608648016503040201')
+            ..init(true, PrivateKeyParameter<RSAPrivateKey>(rsakey));
+
+          // Sign the JWT
+          final signature = signer.generateSignature(Uint8List.fromList(unsignedJwt.codeUnits));
+
+          // Encode the signature in Base64 URL format and remove padding
+          return base64Url.encode(signature.bytes).replaceAll('=', '');
+        } catch (e) {
+          throw Exception('[ERROR] Failed to sign JWT: $e');
+        }
+      }
+
+      // Step 5: Sign the JWT
+      final String jwtSignature = signJwt(unsignedJwt, privateKey);
+      final String signedJwt = "$unsignedJwt.$jwtSignature";
+
+      print('[DEBUG] Signed JWT: $signedJwt');
+
+      // Step 6: Exchange JWT for Access Token
+      final response = await http.post(
+        Uri.parse('https://oauth2.googleapis.com/token'),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: {
+          "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+          "assertion": signedJwt,
+        },
+      );
+
+      print('[DEBUG] OAuth2 Response Status Code: ${response.statusCode}');
+      print('[DEBUG] OAuth2 Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        final String accessToken = responseData['access_token'];
+        print('[DEBUG] Successfully retrieved access token.');
+        return accessToken;
+      } else {
+        throw Exception('[ERROR] Failed to get access token: ${response.body}');
+      }
+    } catch (e) {
+      print('[ERROR] Error in getAccessToken: $e');
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -915,7 +741,7 @@ Future<String> getAccessToken() async {
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            AppLocalizations.of(context)!.crop_details,
+                            'Crop Details',
                             style: TextStyle(
                               fontSize: 18, 
                               fontWeight: FontWeight.bold,
