@@ -381,6 +381,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get crop_details => 'Crop Details';
+
+  @override
+  String get my_listed_crops => 'My Listed Crops';
+
+  @override
+  String get You_havent_listed_any_crops_yet => 'You haven\'t listed any crops yet!';
+
+  @override
+  String get list_a_crop => 'List a Crop';
+
+  @override
+  String get your_cart_is_empty => 'Your cart is empty!';
+
+  @override
+  String get looks_like_you_havent_added_any_items_to_your_cart_yet => 'Looks like you haven\'t added any items to your cart yet!';
+
+  @override
+  String get browse_products => 'Browse Products';
+
+  @override
+  String get my_cart => 'My Cart';
+
+  @override
+  String get proceed_to_checkout => 'Proceed to Checkout';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get clear_all => 'Clear All';
+
+  @override
+  String get items => 'Items';
   
 
 }

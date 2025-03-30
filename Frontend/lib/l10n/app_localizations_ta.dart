@@ -357,7 +357,7 @@ class AppLocalizationsTa extends AppLocalizations {
   
   @override
   // TODO: implement crop_harvest_date
-  String get crop_harvest_date => throw UnimplementedError();
+  String get crop_harvest_date => 'அறுவடை தேதி';
 
 
   @override
@@ -410,11 +410,45 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get loading => 'ஏற்றுகிறது...';
 
-    @override
+  @override
   String get how_it_will_change => 'இது எவ்வாறு மாறும்?';
 
   @override
   String get crop_details => 'பயிர் விவரங்கள்';
+
+  @override
+  String get my_listed_crops => 'என் பட்டியலிடப்பட்ட பயிர்கள்';
+
+  @override
+  String get You_havent_listed_any_crops_yet => 'நீங்கள் இன்னும் எந்த பயிர்களையும் பட்டியலிடவில்லை!';
+
+  @override
+  String get list_a_crop => 'பயிர் பட்டியலிடு';
+
+  @override
+  String get your_cart_is_empty => 'உங்கள் வண்டி காலியாக உள்ளது!';
+
+  
+  @override
+  String get looks_like_you_havent_added_any_items_to_your_cart_yet => 'உங்கள் வண்டிக்கு நீங்கள் இன்னும் எந்த உருப்படிகளையும் சேர்க்கவில்லை!';
+
+  @override
+  String get browse_products => 'பொருட்களை உலாவவும்';
+
+  @override
+  String get my_cart => 'என் வண்டி';
+
+  
+  @override
+  String get proceed_to_checkout => 'வெளியேறுவதற்கு முன்னேறு';
+
+  @override
+  String get total => 'மொத்தம்';
+
+  @override
+  String get clear_all => 'எல்லாவற்றையும் அழிக்கவும்';
+
+  
 
   // @override
   // String get select_your_language => 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்';

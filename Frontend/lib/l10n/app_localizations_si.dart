@@ -381,7 +381,7 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get green_chilli => 'මිරිස්';
 
-      @override
+  @override
   String get current => 'වත්මන්';
 
   @override
@@ -398,6 +398,40 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get crop_details => 'බෝග විස්තර';
+
+  @override
+  String get my_listed_crops => 'මගේ ලැයිස්තුගත බෝග';
+
+  @override
+  String get You_havent_listed_any_crops_yet => 'ඔබ තවමත් කිසිදු බෝගයක් ලැයිස්තුගත කර නැත!';
+
+  @override
+  String get list_a_crop => 'බෝගයක් ලැයිස්තුගත කරන්න';
+
+  @override
+  String get your_cart_is_empty => 'ඔබේ කරත්තය හිස් වේ!';
+
+  
+  @override
+  String get looks_like_you_havent_added_any_items_to_your_cart_yet => 'ඔබේ කරත්තයට කිසිදු භාණ්ඩයක් එක් කර නැත!';
+
+  @override
+  String get browse_products => 'නිෂ්පාදන සොයන්න';
+
+  @override
+  String get my_cart => 'මගේ කරත්තය';
+
+  
+  @override
+  String get proceed_to_checkout => 'පිටවීම සඳහා ඉදිරියට යන්න';
+
+  @override
+  String get total => 'මුළු වටිනාකම';
+
+  @override
+  String get clear_all => 'සියල්ල මකා දැමීම';
+
+
 
   
 

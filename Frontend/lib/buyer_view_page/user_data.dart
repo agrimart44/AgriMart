@@ -263,9 +263,9 @@ class UserProfilePageState extends State<UserProfilePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'My Listed Crops',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.my_listed_crops,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -286,7 +286,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'You haven\'t listed any crops yet',
+                        AppLocalizations.of(context)!.You_havent_listed_any_crops_yet,
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 16,
@@ -302,7 +302,7 @@ class UserProfilePageState extends State<UserProfilePage> {
 
                         },
                         icon: Icon(Icons.add, color: Colors.white,),
-                        label: const Text('List a Crop'),
+                        label:Text(AppLocalizations.of(context)!.list_a_crop),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
