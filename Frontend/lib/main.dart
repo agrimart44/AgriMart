@@ -10,8 +10,7 @@ import 'package:namer_app/l10n/app_localizations.dart';
 import 'Presentation/first_screen/auth/auth_service.dart'; // Import AuthService
 
 void main() async {
-  await dotenv.load();
-
+ 
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure Flutter is ready before Firebase is initialized.
 
