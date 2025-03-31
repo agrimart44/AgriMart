@@ -10,9 +10,9 @@ import 'package:namer_app/l10n/app_localizations.dart';
 import 'package:namer_app/list_crops/listCropService.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/signers/rsa_signer.dart';
-import 'package:basic_utils/basic_utils.dart'; // Add this import
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'; // Add this import
-import 'package:path_provider/path_provider.dart'; // Add this import
+import 'package:basic_utils/basic_utils.dart'; 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:path_provider/path_provider.dart'; 
 
 
 class ListCropScreen extends StatefulWidget {
@@ -25,15 +25,15 @@ class ListCropScreen extends StatefulWidget {
 class _ListCropScreenState extends State<ListCropScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final List<String> _photos = <String>[];
-  final TextEditingController _cropNameController = TextEditingController(); // Added controller
-  final TextEditingController _descriptionController = TextEditingController(); // Added controller
+  final TextEditingController _cropNameController = TextEditingController(); 
+  final TextEditingController _descriptionController = TextEditingController(); 
   final TextEditingController _harvestDataController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  double? _latitude; // To store the selected latitude
-  double? _longitude; // To store the selected longitude
+  double? _latitude; 
+  double? _longitude; 
   
   // Add service instances
   final CropService _cropService = CropService();
@@ -217,7 +217,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
               child: Text(AppLocalizations.of(context)!.ok, style: TextStyle(color: Colors.green[700])),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop(); // Return to previous screen
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -281,8 +281,8 @@ class _ListCropScreenState extends State<ListCropScreen> {
           harvestDate: _harvestDataController.text,
           imagePaths: _photos,
           firebaseToken: firebaseToken,
-          latitude: _latitude, // Add latitude from map picker
-          longitude: _longitude, // Add longitude from map picker
+          latitude: _latitude, 
+          longitude: _longitude, 
         );
         
         setState(() {
@@ -291,7 +291,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
         
         if (result['success']) {
           _showSuccessDialog();
-          // Send notification to other users
           await _sendNotificationToUsers();
         } else {
           _showErrorDialog(result['error']);
@@ -340,7 +339,7 @@ class _ListCropScreenState extends State<ListCropScreen> {
         await _showNotificationWithImage(
           "New Crop Listed",
           "${_cropNameController.text} has listed a new crop.",
-          _photos[0], // Use the first photo as the image
+          _photos[0], 
         );
       } else {
         await _showNotification(
@@ -355,7 +354,6 @@ class _ListCropScreenState extends State<ListCropScreen> {
 
   Future<String> getAccessToken() async {
     try {
-      // Step 1: Hardcode the client_email and private_key
       final String clientEmail = "firebase-adminsdk-fbsvc@agri-mart-add65.iam.gserviceaccount.com";
       final String privateKey = """-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6LMDBl/6ng1pp
@@ -493,7 +491,6 @@ TfE7P3XEAKcV2z7PjdZocHI=
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // space between header and body
                 Container(
                   margin: const EdgeInsets.only(bottom: 15),
                   padding: const EdgeInsets.all(1),

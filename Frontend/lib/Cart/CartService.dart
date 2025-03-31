@@ -86,7 +86,7 @@ class CartItem {
   int quantity;
   final String image;
   final String seller;
-  // final String unit;
+  
   
   CartItem({
     required this.id,
@@ -95,7 +95,6 @@ class CartItem {
     required this.quantity,
     required this.image,
     required this.seller,
-    // required this.unit,
   });
   
   // Factory method to create CartItem from JSON
@@ -104,10 +103,9 @@ class CartItem {
       id: json['id'],
       name: json['name'],
       price: double.parse(json['price'].toString()),
-      quantity: json['quantity'] ?? 1, // Default to 1 if not provided
+      quantity: json['quantity'] ?? 1, 
       image: json['imageURL'] ?? '',
       seller: json['farmer'] ?? 'Unknown',
-      // unit: json['unit'] ?? 'kg',
     );
   }
 }

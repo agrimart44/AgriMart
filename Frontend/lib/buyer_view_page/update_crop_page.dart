@@ -187,7 +187,7 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
     try {
       final XFile? image = await _picker.pickImage(
         source: source,
-        imageQuality: 80, // Compress images to reduce size
+        imageQuality: 80,
       );
       if (image != null) {
         setState(() {
@@ -204,7 +204,7 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
       context: context,
       initialDate: _selectedHarvestDate ?? DateTime.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now().add(const Duration(days: 30)), // Allow dates up to 30 days in the future
+      lastDate: DateTime.now().add(const Duration(days: 30)), 
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -297,7 +297,7 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
         _locationController.text.trim(),
         int.parse(_quantityController.text),
         DateFormat('yyyy-MM-dd').format(_selectedHarvestDate!),
-        _existingImageUrls,  // Pass the current list of existing images
+        _existingImageUrls,  // Pass existing image URLs
         _newImages,
       );
 
@@ -397,17 +397,17 @@ class _UpdateCropPageState extends State<UpdateCropPage> {
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
       title: Align(
-        alignment: Alignment.centerLeft, // Align title to the left
+        alignment: Alignment.centerLeft, 
         child: const Text(
           'Update Crop',
           style: TextStyle(
-            fontWeight: FontWeight.bold, // Make text bold
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 16), // Adjust padding as needed
+          padding: const EdgeInsets.only(right: 16), 
           child: TextButton.icon(
             onPressed: _showDeleteConfirmation,
             icon: const Icon(Icons.delete, color: Colors.green),

@@ -15,9 +15,6 @@ class _LanguageSettingsPageState extends State<LanguageSettingsPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
-  //get the selected language
-  //String? _selectedLanguageCode;
-
   final List<Language> _languages = [
     Language(name: 'English', code: 'en'),
     Language(name: 'සිංහල (Sri Lanka)', code: 'si'),

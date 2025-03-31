@@ -377,26 +377,18 @@ class PersonalInformationState extends State<PersonalInformation> {
               children: [
                 //add Local string for full name.
                 _buildInfoItem(Icons.person, AppLocalizations.of(context)!.full_name, name, Colors.green.shade800),
-                //_buildInfoItem(Icons.person_outline, "Full Name", name, Colors.blue),   //old code
 
                 // add Local string for phone number.
                 _buildInfoItem(Icons.phone, AppLocalizations.of(context)!.phone, phoneNumber, Colors.green.shade800),
-                //_buildInfoItem(Icons.phone_outlined, "Phone", phoneNumber, Colors.purple),   // old code
 
                 // add local string for email
                 _buildInfoItem(Icons.email, AppLocalizations.of(context)!.email, email, Colors.green.shade800),
-                //_buildInfoItem(Icons.email_outlined, "Email", email, Colors.orange),   // old code
 
                 // add local string for location
                 _buildInfoItem(Icons.location_on, AppLocalizations.of(context)!.location, location, Colors.green.shade800),
-                //_buildInfoItem(Icons.location_on_outlined, "Location", location, Colors.red), // old code
 
                 // add local string for cart
                 _buildInfoItem(Icons.shopping_cart_outlined, AppLocalizations.of(context)!.cart_items, "${cart.length} items", Colors.green.shade800),
-                //_buildInfoItem(Icons.shopping_cart_outlined, "Cart Items", "${cart.length} items", Colors.teal),  // old code
-
-
-
               ],
             ),
           ),

@@ -6,7 +6,7 @@ import 'package:namer_app/Presentation/Price_Analysis/Price_analysis.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
-import 'package:namer_app/personal_Info/personal_info.dart'; // Import for UserInfoService
+import 'package:namer_app/personal_Info/personal_info.dart'; 
 import 'package:namer_app/l10n/app_localizations.dart';
 
 class FarmerView extends StatefulWidget {
@@ -20,7 +20,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
   int _selectedIndex = 0;
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
-  String _farmerName = 'Farmer'; // We'll replace this with actual name from UserInfoService
+  String _farmerName = 'Farmer'; 
   bool _isLoading = true;
 
   @override
@@ -377,7 +377,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
         shrinkWrap: true,
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        childAspectRatio: 0.9, // Slightly taller cards for more content
+        childAspectRatio: 0.9, 
         children: [
           _buildDashboardCard(
             AppLocalizations.of(context)!.market_prices,
@@ -389,8 +389,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) =>  VegetableAnalysisScreen()),
               );
             },
-            const Color(0xFF27AE60), // Green
-            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
+            const Color(0xFF27AE60),
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)],
           ),
           _buildDashboardCard(
             AppLocalizations.of(context)!.negotiations,
@@ -403,10 +403,9 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
               );
             },
              const Color(0xFF27AE60), // Green
-            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], 
           ),
           _buildDashboardCard(
-            //'List Crop',
             AppLocalizations.of(context)!.list_crop,
             Icons.add_circle_outline_rounded,
             AppLocalizations.of(context)!.add_new_products,
@@ -416,11 +415,10 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) => const ListCropScreen()),
               );
             },
-            const Color(0xFF27AE60), // Green
-            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
+            const Color(0xFF27AE60), 
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], 
           ),
           _buildDashboardCard(
-            //'Market\nPlace',
             AppLocalizations.of(context)!.market_place,
             Icons.store_rounded,
             AppLocalizations.of(context)!.browse_crops,
@@ -430,8 +428,8 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 MaterialPageRoute(builder: (context) => const BuyerView()),
               );
             },
-            const Color(0xFF27AE60), // Green
-            [const Color(0xFF6FCF97), const Color(0xFF27AE60)], // Gradient green
+            const Color(0xFF27AE60),
+            [const Color(0xFF6FCF97), const Color(0xFF27AE60)],
           ),
         ],
       ),
@@ -485,7 +483,6 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Icon with gradient background
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -518,7 +515,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2D3748), // Dark gray for better contrast
+                        color: Color(0xFF2D3748),
                       ),
                     ),
                     const SizedBox(height: 6),

@@ -58,7 +58,6 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: Colors.white,
-            // Add a very subtle gradient
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -109,7 +108,6 @@ class _FirstScreenState extends State<FirstScreen> with SingleTickerProviderStat
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // Tagline
                       Text(
                         "Empowering Farmers, Connecting Buyers",
                         style: TextStyle(
@@ -185,8 +183,8 @@ Widget _buildLogoSection() {
           shape: BoxShape.circle,
           image: DecorationImage(
             image: AssetImage('lib/assets/AgriMart_UI.jpg'),
-            fit: BoxFit.contain, // Changed to contain for better centering
-            alignment: Alignment.center, // Added alignment
+            fit: BoxFit.contain, 
+            alignment: Alignment.center, 
           ),
         ),
       ),

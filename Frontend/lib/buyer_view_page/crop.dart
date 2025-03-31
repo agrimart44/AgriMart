@@ -7,11 +7,11 @@ class Crop {
   final String category;
   final String farmerName;
   final String contactNumber;
-  final String sellerId; // Add this field
+  final String sellerId; 
   final DateTime harvestDate;
   final List<String> imagePaths;
   final double rating;
-  final int quantity; // Added quantity field
+  final int quantity; 
 
   Crop({
     required this.id,
@@ -22,10 +22,10 @@ class Crop {
     required this.category,
     required this.farmerName,
     required this.contactNumber,
-    required this.sellerId, // Add this field
+    required this.sellerId, 
     required this.harvestDate,
     required this.imagePaths,
     required this.rating,
-    required this.quantity, // Added quantity parameter
+    required this.quantity, 
   });
 }

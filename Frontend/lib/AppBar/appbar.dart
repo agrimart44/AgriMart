@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Settings/settings_main_page.dart';
 
-/// Reusable Modern AppBar Widget
+/// Custom AppBar for the AgriMart application.
 AppBar AgriMartAppBar(BuildContext context, {String title = "Shopping Cart"}) {
   return AppBar(
-    backgroundColor: Colors.transparent, // Make AppBar background transparent
-    elevation: 0, // Remove shadow
+    backgroundColor: Colors.transparent, 
+    elevation: 0, 
     title: Text(
-      title, // Set the dynamic title
+      title, 
       style: TextStyle(
-        color: Colors.black, // Set text color to black
+        color: Colors.black, 
         fontWeight: FontWeight.bold,
       ),
     ),

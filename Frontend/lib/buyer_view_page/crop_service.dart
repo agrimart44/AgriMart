@@ -57,9 +57,9 @@ class CropService {
             imagePaths: item['imageURLs'] != null && item['imageURLs'].isNotEmpty
                 ? List<String>.from(item['imageURLs'])
                 : ['lib/assets/default_crop.jpg'],
-            rating: 4.0, // Default rating or from backend if available
+            rating: 4.0, 
             quantity: item['quantity'] ?? 0,
-            sellerId: item['userId']?? '', // Added quantity from backend
+            sellerId: item['userId']?? '', 
           ));
         }
         return crops;
@@ -99,7 +99,7 @@ class CropService {
               ? List<String>.from(item['imageURLs'])
               : ['lib/assets/default_crop.jpg'],
           rating: item['rating']?.toDouble() ?? 4.0,
-          quantity: item['quantity'] ?? 0, // Added quantity from backend
+          quantity: item['quantity'] ?? 0, 
           sellerId: item['userId'] ?? '',
           
         );
@@ -124,9 +124,8 @@ class CropService {
       ).timeout(_timeout);
 
       if (response.statusCode == 200) {
-        return; // Success
+        return; 
       } else if (response.statusCode == 400) {
-        // Handle specific error responses
         final Map<String, dynamic> errorData = json.decode(response.body);
         throw Exception(errorData['error'] ?? 'Failed to add crop to cart');
       } else {
@@ -168,7 +167,7 @@ class CropService {
                 : ['lib/assets/default_crop.jpg'],
             rating: item['rating']?.toDouble() ?? 4.0,
             quantity: item['quantity'] ?? 0,
-            sellerId: item['userId'] ?? '', // Added quantity from backend
+            sellerId: item['userId'] ?? '', 
           ));
         }
         return cartItems;
@@ -231,7 +230,7 @@ class CropService {
                 : ['lib/assets/default_crop.jpg'],
             rating: item['rating']?.toDouble() ?? 4.0,
             quantity: item['quantity'] ?? 0,
-            sellerId: item['userId'], // Added quantity from backend
+            sellerId: item['userId'], 
           ));
         }
         return crops;

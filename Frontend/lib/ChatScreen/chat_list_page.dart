@@ -32,10 +32,9 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          Colors.grey[50], // Light gray background instead of image
+          Colors.grey[50], 
       body: Column(
         children: [
-          // Modern App Bar
           SafeArea(
             child: Container(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -148,7 +147,7 @@ class _ChatListPageState extends State<ChatListPage> {
           // Chat List
           Expanded(
             child: FutureBuilder<List<Chat>>(
-              future: _chatListFuture, // Fetch chats using the future
+              future: _chatListFuture, // Fetch chats from the future
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -298,7 +297,6 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
         ],
       ),
-      // Removed floating action button
     );
   }
 }
@@ -381,7 +379,7 @@ class EnhancedChatListItem extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
-                              'lib/assets/chat_user.jpg', // Default profile image
+                              'lib/assets/chat_user.jpg', 
                               fit: BoxFit.cover,
                             ),
                     ),

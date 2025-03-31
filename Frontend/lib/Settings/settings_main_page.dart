@@ -45,7 +45,7 @@ class AppSettingsState extends State<AppSettings> {
             children: [
               //gape between settings header and options
               Container(
-                margin: const EdgeInsets.fromLTRB(16, 25, 20, 0), // Added top margin
+                margin: const EdgeInsets.fromLTRB(16, 25, 20, 0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),

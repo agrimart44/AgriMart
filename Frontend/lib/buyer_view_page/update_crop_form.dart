@@ -554,7 +554,7 @@ class UpdateCropForm extends StatelessWidget {
             ),
             const SizedBox(height: 32),
 
-// Action Buttons
+          // Action Buttons
            Row(
             children: [
               Expanded(
@@ -580,7 +580,7 @@ class UpdateCropForm extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                flex: 1, // Set the same flex value
+                flex: 1, 
                 child: ElevatedButton(
                   onPressed: onUpdate,
                   style: ElevatedButton.styleFrom(
