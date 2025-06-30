@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CartService {
-  static const String apiUrl = 'http://44.203.237.175:8000/cart/getItems/'; // Backend URL
+  static const String apiUrl = 'https://jdjfjhfhjfhnfnjfn-production.up.railway.app/cart/getItems/'; // Backend URL
   
   // Fetch cart items from the backend
   Future<List<CartItem>> fetchCartItems(String firebaseToken) async {

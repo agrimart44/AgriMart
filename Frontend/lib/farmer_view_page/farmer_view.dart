@@ -6,7 +6,7 @@ import 'package:namer_app/Presentation/Price_Analysis/Price_analysis.dart';
 import 'package:namer_app/list_crops/listcrop.dart';
 import 'package:namer_app/buyer_view_page/buyer_view.dart';
 import 'package:namer_app/ChatScreen/chat_list_page.dart';
-import 'package:namer_app/personal_Info/personal_info.dart'; // Import for UserInfoService
+import 'package:namer_app/personal_Info/personal_info.dart'; 
 import 'package:namer_app/l10n/app_localizations.dart';
 
 class FarmerView extends StatefulWidget {
@@ -20,7 +20,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
   int _selectedIndex = 0;
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
-  String _farmerName = 'Farmer'; // We'll replace this with actual name from UserInfoService
+  String _farmerName = 'Farmer'; 
   bool _isLoading = true;
 
   @override

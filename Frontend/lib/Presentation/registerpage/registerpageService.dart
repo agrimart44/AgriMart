@@ -11,7 +11,7 @@ class RegistrationService {
     required String occupation,
     required String location,
   }) async {
-    final url = Uri.parse('http://44.203.237.175:8000/api/register/');
+    final url = Uri.parse('https://jdjfjhfhjfhnfnjfn-production.up.railway.app/api/register/');
 
     try {
       // Create request body for debugging

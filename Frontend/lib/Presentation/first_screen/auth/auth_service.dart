@@ -21,7 +21,8 @@ class AuthService {
   final String _userIdKey = 'user_id';
   
   // URL for getting Stream token - ensure this is correct and your server is running
-  final String _streamTokenUrl = 'http://44.203.237.175:8000/get-stream-jwt/';
+  final String _streamTokenUrl = 'http://127.0.0.1:8000/get-stream-jwt/';
+ 
 
   // Method to get Firebase ID token and store it
   Future<String?> getFirebaseToken() async {
