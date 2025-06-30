@@ -57,12 +57,10 @@ class AppLocalizationsSi extends AppLocalizations {
   String get error => 'දෝෂයක්';
 
   @override
-  String get add_at_least_one_photo =>
-      'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
+  String get add_at_least_one_photo => 'කරුණාකර ඔබේ ගොයමේ අවම වශයෙන් එක් ඡායාරූපයක් එක් කරන්න';
 
   @override
-  String get auth_token_not_found =>
-      'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
+  String get auth_token_not_found => 'සත්‍යාපන ටෝකනය සොයාගත නොහැක. කරුණාකර නැවත පුරනය වන්න.';
 
   @override
   String get an_error_occurred => 'දෝෂයක් සිදු විය';
@@ -173,8 +171,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get privacy_policy => 'පෞද්ගලිකත්වය සහ ආරක්ෂාව';
 
   @override
-  String get change_privacy_security_settings =>
-      'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
+  String get change_privacy_security_settings => 'ඔබේ පෞද්ගලිකත්වය සහ ආරක්ෂාව වෙනස් කරන්න';
 
   @override
   String get sign_out => 'පිටවීම';
@@ -207,8 +204,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get welcome => 'ආයුබෝවන්';
 
   @override
-  String get manage_your_agricultural_business =>
-      'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
+  String get manage_your_agricultural_business => 'ඔබේ කෘෂිකාර්මික ව්‍යාපාරය කළමනාකරණය කරන්න';
 
   @override
   String get quick_actions => 'ඉක්මන් ක්‍රියාව';
@@ -223,8 +219,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get choose_your_preffered_language => 'ඔබේ කැමති භාෂාව තෝරන්න';
 
   @override
-  String get checkout_our_policy_details =>
-      'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
+  String get checkout_our_policy_details => 'අපගේ ප්‍රතිපත්ති විස්තර පරීක්ෂා කරන්න';
 
   @override
   String get phone => 'දුරකථන අංකය';
@@ -254,8 +249,7 @@ class AppLocalizationsSi extends AppLocalizations {
   String get crop_photos => 'බෝග වල ඡායාරූප';
 
   @override
-  String get add_upto_3_photos =>
-      'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
+  String get add_upto_3_photos => 'ඔබේ බෝගයේ ඡායාරූප 3ක් දක්වා එක් කරන්න (අවශ්‍යයි)';
 
   @override
   String get tap_to_add_photos => 'ඡායාරූප එකතු කිරීමට ටැප් කරන්න';
@@ -298,21 +292,7 @@ class AppLocalizationsSi extends AppLocalizations {
 
   @override
   String get crops_with_interest => 'උනන්දුවක් ඇති බෝග';
-  
-  // @override
-  // // TODO: implement update_your_information
-  // String get update_your_information => 'ඔබේ තොරතුරු යාවත්කාලීන කරන්න';
-
-
-  // @override
-  // String get phone => 'දුරකතනය';
-
-  // @override
-  // String get email => 'ඊ-තැපෑල';
-
-  // @override
-  // String get cart_items => 'කරත්තය';
-
+ 
   @override
   String get vegetable_analysis => 'එළවළු විශ්ලේෂණය';
 
@@ -341,11 +321,9 @@ class AppLocalizationsSi extends AppLocalizations {
   String get select_date_to_view_price => 'මිල බැලීමට දිනය තෝරන්න';
   
   @override
-  // TODO: implement messages
   String get messages => 'පණිවිඩ';
   
   @override
-  // TODO: implement conversations
   String get conversations => 'සංවාද';
 
   @override

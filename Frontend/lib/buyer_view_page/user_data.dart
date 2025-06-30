@@ -392,6 +392,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                 ),
               ),
               const SizedBox(width: 12),
+              
               // Crop Details
               Expanded(
                 child: Column(

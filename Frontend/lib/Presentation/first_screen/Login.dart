@@ -176,24 +176,24 @@ class _LoginState extends State<Login> {
                       
                       // Logo container
                       Container(
-                        padding: const EdgeInsets.all(10), // Adjust padding as needed
+                        padding: const EdgeInsets.all(10), 
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white, // White background for better contrast
+                          color: Colors.white, 
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2), // Subtle shadow effect
+                              color: Colors.black.withOpacity(0.2), 
                               blurRadius: 10,
                               spreadRadius: 2,
-                              offset: const Offset(0, 4), // Soft bottom shadow
+                              offset: const Offset(0, 4), 
                             ),
                           ],
                         ),
                         child: ClipOval(
                           child: Image.asset(
-                            'lib/assets/AgriMart_UI.jpg', // Ensure the image path is correct
+                            'lib/assets/AgriMart_UI.jpg', 
                             fit: BoxFit.contain,
-                            width: 80, // Adjust size as needed
+                            width: 80, 
                             height: 80,
                           ),
                         ),

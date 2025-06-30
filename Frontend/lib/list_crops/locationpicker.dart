@@ -19,7 +19,7 @@ class MapLocationPicker extends StatefulWidget {
 class _MapLocationPickerState extends State<MapLocationPicker> {
   final Completer<GoogleMapController> _controller = Completer();
   final loc.Location _location = loc.Location();
-  LatLng _selectedPosition = const LatLng(7.8731, 80.7718); // Default to Sri Lanka center
+  LatLng _selectedPosition = const LatLng(7.8731, 80.7718); 
   String _selectedAddress = '';
   bool _isLoading = false;
   

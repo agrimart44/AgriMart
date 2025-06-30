@@ -130,7 +130,7 @@ class ChatService {
     }
   }
 
-  // Fetch the list of chats (channels) from Stream
+// Fetch the list of chats (channels) from Stream
 // Update this method in your ChatService class
 Future<List<Chat>> fetchChatsFromStream() async {
   List<Chat> chatList = [];
@@ -273,9 +273,8 @@ Future<List<Chat>> fetchChatsFromStream() async {
     });
   }
 
-  // Add these methods to your existing ChatService class
 
-// Method to create or join a chat with a seller based on crop
+  // Method to create or join a chat with a seller based on crop
   Future<Channel> createOrJoinSellerChat(
       String cropId, String sellerId, String sellerName) async {
     try {
@@ -343,7 +342,7 @@ Future<List<Chat>> fetchChatsFromStream() async {
     }
   }
 
-// Method to navigate to the chat screen with a seller
+  // Method to navigate to the chat screen with a seller
   Future<void> openSellerChat(BuildContext context, Crop crop) async {
     try {
       // Show loading indicator

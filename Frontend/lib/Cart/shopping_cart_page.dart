@@ -121,8 +121,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             if (firebaseToken == null) {
               throw Exception("No Firebase token found");
             }
-            // Re-add item to backend if undo is pressed
-            // This depends on your backend implementation
           } catch (e) {
             _showSnackBar('Failed to restore item: $e', isError: true);
           }
@@ -356,7 +354,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
                                       if (response.statusCode == 200) {
                                         setState(() {
-                                          _cartItems.clear(); // Clear cart items from UI
+                                          _cartItems.clear(); 
                                         });
                                         _showSnackBar('Cart cleared successfully', isError: false);
                                       } else {
@@ -481,7 +479,7 @@ Widget _buildEmptyCart() {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'lib/assets/empty_cart.png', // Replace with your empty cart image
+              'lib/assets/empty_cart.png', 
               width: 150,
               height: 150,
               errorBuilder: (context, error, stackTrace) => Icon(
@@ -515,7 +513,7 @@ Widget _buildEmptyCart() {
                   MaterialPageRoute(builder: (context) => const BuyerView()),
                 );
               },
-              icon: const Icon(Icons.shop, color: Colors.white), // Set icon color to white
+              icon: const Icon(Icons.shop, color: Colors.white), 
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
@@ -571,7 +569,6 @@ Widget _buildEmptyCart() {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Product image with animated container
                   Container(
                     width: 100,
                     height: 100,

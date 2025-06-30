@@ -139,7 +139,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Colors.white10, // Replace image with solid white background
+          color: Colors.white10, 
         ),
         child: Column(
           children: [
@@ -213,7 +213,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     return const Center(child: CircularProgressIndicator());
                   }
                   final messages = snapshot.data!.reversed.toList();
-                  // Schedule scroll to bottom after build
                   _scrollToBottom();
                   return ListView.builder(
                     reverse: true,

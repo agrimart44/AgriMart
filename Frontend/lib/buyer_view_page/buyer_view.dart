@@ -6,8 +6,6 @@ import 'package:namer_app/buyer_view_page/crop.dart';
 import 'package:namer_app/buyer_view_page/crop_service.dart';
 import 'package:namer_app/crop_large_view/potato.dart';
 import 'package:namer_app/farmer_view_page/farmer_view.dart';
-
-// import localization
 import '../l10n/app_localizations.dart';
 
 
@@ -50,11 +48,11 @@ class BuyerViewState extends State<BuyerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set background to pure white
+      backgroundColor: Colors.white,
       appBar: AgriMartAppBar(context, title: 'AgriMart'),
       body: Column(
         children: [
-          const SizedBox(height: 16), // Reduced spacing since we don't need to account for image
+          const SizedBox(height: 16),
           Expanded(child: _buildProductList()),
         ],
       ),
@@ -252,20 +250,15 @@ Widget _buildProductCard({required Crop crop}) {
                     const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                     const SizedBox(width: 6),
                     Text(
-                      //add localized text for harvest
                       '${AppLocalizations.of(context)!.harvest_date}: ${crop.harvestDate.toLocal().toShortDateString()}',
-                      //'Harvest: ${crop.harvestDate.toLocal().toShortDateString()}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],
                       ),
                     ),
                   ],
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Button
+                ),               
+                const SizedBox(height: 16),               
                 Row(
                   children: [
                     Expanded(
@@ -284,9 +277,7 @@ Widget _buildProductCard({required Crop crop}) {
                           ),
                         ),
                         child: Text(
-                          // add localized text for view details
                           AppLocalizations.of(context)!.view_details,
-                          //'View Details',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -302,7 +293,7 @@ Widget _buildProductCard({required Crop crop}) {
                       child: IconButton(
                                 onPressed: () async {
                                   try {
-                                    await _cropService.addToCart(crop.id, 1); // Call the method with crop ID and quantity
+                                    await _cropService.addToCart(crop.id, 1); 
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text('${crop.name} added to cart!')),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:firebase_core/firebase_core.dart'; 
 import 'package:intl/intl.dart';
-
-import '../../l10n/app_localizations.dart'; // Import intl package
+import '../../l10n/app_localizations.dart';
 
 enum Vegetable {
   carrot('Carrot', 'lib/assets/carrot.jpg'),
@@ -34,7 +33,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   final TextEditingController colorController = TextEditingController();
   final TextEditingController vegetableController = TextEditingController();
   Vegetable? selectedVegetable;
-  List<double> priceData = []; // Define priceData variable
+  List<double> priceData = []; 
   List<double> currentData = [];
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -45,16 +44,16 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
   @override
   void initState() {
     super.initState();
-    selectedVegetable = Vegetable.carrot; // Set initial selection to carrot
-    _initializeFirebase(); // Initialize Firebase
+    selectedVegetable = Vegetable.carrot; 
+    _initializeFirebase(); 
   }
 
   Future<void> _initializeFirebase() async {
     try {
       await Firebase.initializeApp();
       print('Firebase initialized successfully');
-      await fetchPriceData(selectedVegetable!.label); // Fetch initial data
-      await fetchPriceData2(selectedVegetable!.label); // Fetch current data
+      await fetchPriceData(selectedVegetable!.label); 
+      await fetchPriceData2(selectedVegetable!.label); 
     } catch (e) {
       print('Error initializing Firebase: $e');
     }
@@ -171,7 +170,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
               if (entry["date"] == formattedDay) {
                 setState(() {
                   _selectedDayPrice = entry["Price"];
-                  latestPredictedPrice = _selectedDayPrice; // Update the predicted price for the selected date
+                  latestPredictedPrice = _selectedDayPrice; 
                 });
                 print('Predicted price for selected day: $_selectedDayPrice');
                 _showPriceDialog(formattedDay, _selectedDayPrice, isCurrentPrice: false);
@@ -314,16 +313,14 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                // add localized text for price trends
                 AppLocalizations.of(context)!.price_trends,
-                //"Price Trends",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               
               // Adding the Enhanced Pie Chart Below
               SizedBox(
                 width: double.infinity,
-                height: 290, // Increased height for better visibility
+                height: 290, 
                 child: Stack(
                   children: [
                     PieChart(
@@ -333,7 +330,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                             value: priceData.isNotEmpty ? priceData.last : 0,
                             color: Colors.green.shade900,
                             title: AppLocalizations.of(context)!.predicted,
-                            radius: 80, // Increased radius
+                            radius: 80, 
                             titleStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -344,7 +341,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                             value: currentData.isNotEmpty ? currentData.last : 0,
                             color: Colors.green.shade600,
                             title: AppLocalizations.of(context)!.current,
-                            radius: 80, // Increased radius
+                            radius: 80, 
                             titleStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -357,7 +354,7 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                                 : 0,
                             title: (priceData.isNotEmpty && currentData.isNotEmpty && (priceData.last - currentData.last).abs() > 20) ? AppLocalizations.of(context)!.change : "",
                             color: Colors.green.shade300,
-                            radius: 80, // Increased radius
+                            radius: 80, 
                             titleStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -365,8 +362,8 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                             ),
                           ),
                         ],
-                        sectionsSpace: 8, // Space between sections
-                        centerSpaceRadius: 60, // Larger center space
+                        sectionsSpace: 8, 
+                        centerSpaceRadius: 60, 
                         borderData: FlBorderData(show: false),
                         pieTouchData: PieTouchData(
                           touchCallback: (FlTouchEvent event, pieTouchResponse) {
@@ -395,13 +392,12 @@ class _VegetableAnalysisScreenState extends State<VegetableAnalysisScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Legend Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildLegendItem(Colors.green.shade900,AppLocalizations.of(context)!.predicted_price), // add localized texts
-                  _buildLegendItem(Colors.green.shade600,AppLocalizations.of(context)!.current_price), // add localized texts
-                  _buildLegendItem(Colors.green.shade300,AppLocalizations.of(context)!.change), // add localized texts
+                  _buildLegendItem(Colors.green.shade900,AppLocalizations.of(context)!.predicted_price), 
+                  _buildLegendItem(Colors.green.shade600,AppLocalizations.of(context)!.current_price), 
+                  _buildLegendItem(Colors.green.shade300,AppLocalizations.of(context)!.change), 
                 ],
               ),
             ],
@@ -457,13 +453,11 @@ Widget _buildPostHarvestSection(BuildContext context) {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Label
                   Text(
                     "Select Vegetable",
                     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  // Dropdown
                   _buildDropdown(),
                 ],
               )
@@ -471,13 +465,11 @@ Widget _buildPostHarvestSection(BuildContext context) {
             : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Label
                   Text(
                     AppLocalizations.of(context)!.select_a_vegetable,
                     style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 16),
-                  // Dropdown
                   Expanded(child: _buildDropdown()),
                 ],
               );
@@ -489,7 +481,6 @@ Widget _buildPostHarvestSection(BuildContext context) {
 // Extracted dropdown to avoid code duplication
 Widget _buildDropdown() {
   return Container(
-    // Add decoration if needed for visual definition
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
       border: Border.all(color: Colors.grey.shade200, width: 1),
@@ -498,7 +489,7 @@ Widget _buildDropdown() {
       child: ButtonTheme(
         alignedDropdown: true,
         child: DropdownButton<Vegetable>(
-          isExpanded: true, // Makes dropdown take full width
+          isExpanded: true,
           iconEnabledColor: Colors.green.shade900,
           focusColor: Colors.white,
           value: selectedVegetable,
@@ -514,7 +505,6 @@ Widget _buildDropdown() {
                     width: 24,
                     height: 24,
                     errorBuilder: (context, error, stackTrace) {
-                      // Fallback when image fails to load
                       return Icon(Icons.eco, size: 24, color: Colors.green.shade700);
                     },
                   ),
@@ -546,7 +536,7 @@ Widget _buildDropdown() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.vegetable_analysis), // add localized text
+        title: Text(AppLocalizations.of(context)!.vegetable_analysis),
         backgroundColor: Colors.white,
         elevation: 0,
         titleTextStyle: TextStyle(
@@ -560,7 +550,6 @@ Widget _buildDropdown() {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Enhanced Dropdown Card
               _buildPostHarvestSection(context),
               SizedBox(height: 10),
 
@@ -577,12 +566,8 @@ Widget _buildDropdown() {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // add localized text for Current price
                         Text(AppLocalizations.of(context)!.current_price,
                             style: TextStyle(color: Colors.grey, fontSize: 14)),
-
-                        // Text("Current Price",
-                            // style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestCurrentPrice != null
                               ? "Rs. ${latestCurrentPrice!.toStringAsFixed(2)} /kg"
@@ -591,13 +576,8 @@ Widget _buildDropdown() {
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         SizedBox(height: 8),
-
-                        // add localized text for Predicted price
                         Text(AppLocalizations.of(context)!.predicted_price,
                             style: TextStyle(color: Colors.grey, fontSize: 14)),
-
-                        //Text("Predicted Price",
-                            //style: TextStyle(color: Colors.grey, fontSize: 14)),
                         Text(
                           latestPredictedPrice != null
                               ? "Rs. ${latestPredictedPrice!.toStringAsFixed(2)} /kg"
@@ -628,8 +608,7 @@ Widget _buildDropdown() {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text ('Select Date to view price',
-                        Text(AppLocalizations.of(context)!.select_date_to_view_price, // Add localized text
+                        Text(AppLocalizations.of(context)!.select_date_to_view_price, 
                             style: TextStyle(fontSize: 14, color: Colors.grey)),
                         TableCalendar(
                           firstDay: DateTime.now(),

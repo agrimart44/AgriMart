@@ -237,9 +237,7 @@ Future<void> _openChatWithSeller() async {
                 _buildFarmerInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  // Localized string for about this product
                   AppLocalizations.of(context)!.about_this_product,
-                  //'About this Product',
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -257,9 +255,7 @@ Future<void> _openChatWithSeller() async {
                 _buildInfoCard(displayCrop),
                 const SizedBox(height: 24),
                 Text(
-                  // Localized string for quantity
                   AppLocalizations.of(context)!.quantity,
-                  //'Quantity',
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -442,25 +438,19 @@ Future<void> _openChatWithSeller() async {
       child: Column(
         children: [
           _buildInfoRow(
-            // Localized string for harvest date;
             label:AppLocalizations.of(context)!.harvest_date,
-            // label: 'Harvest Date',
             value: _formatDate(crop.harvestDate),
             icon: Icons.calendar_today,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            // Localized string for available quantity
             label: AppLocalizations.of(context)!.available_quantity,
-            // label: 'Available Quantity',
             value: '${crop.quantity} kg',
             icon: Icons.scale,
           ),
           const Divider(height: 24),
           _buildInfoRow(
-            // Localized string for location
             label: AppLocalizations.of(context)!.location,
-            // label: 'Location',
             value: crop.location,
             icon: Icons.location_on,
           ),
@@ -514,7 +504,6 @@ Future<void> _openChatWithSeller() async {
 
   Widget _buildQuantitySelector() {
     Crop displayCrop = _isLoading ? widget.crop : _cropDetails;
-    // Ensure quantity doesn't exceed available stock
     int maxQuantity = displayCrop.quantity;
     
     return Container(
@@ -607,9 +596,7 @@ Future<void> _openChatWithSeller() async {
                       ),
                     )
                   : Text(
-                      //add localized string for add to cart
                       AppLocalizations.of(context)!.add_to_cart,
-                      // 'Add to Cart',
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 16,
@@ -622,7 +609,7 @@ Future<void> _openChatWithSeller() async {
         ),
         const SizedBox(height: 12),
         OutlinedButton(
-          onPressed: _isOpeningChat ? null : _openChatWithSeller, // Use chat method instead of calling
+          onPressed: _isOpeningChat ? null : _openChatWithSeller, 
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.green.shade700),
             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -643,15 +630,13 @@ Future<void> _openChatWithSeller() async {
                   ),
                 ) :
                 Icon(
-                  Icons.chat, // Change to chat icon instead of phone
+                  Icons.chat, 
                   color: Colors.green.shade700,
                   size: 20,
                 ),
               const SizedBox(width: 8),
               Text(
-                // localized text add for chat with seller
                 AppLocalizations.of(context)!.chat_with_seller,
-                // 'Chat with Seller', // Update text
                 style: GoogleFonts.poppins(
                   color: Colors.green.shade700,
                   fontSize: 16,

@@ -163,8 +163,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacy_policy => 'Privacy Policy';
 
   @override
-  String get change_privacy_security_settings =>
-      'Change your privacy & security settings';
+  String get change_privacy_security_settings => 'Change your privacy & security settings';
 
   @override
   String get sign_out => 'Sign out';
@@ -230,8 +229,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chat_with_buyers => 'Chat with Buyers';
 
   @override
-  String get manage_your_agricultural_business =>
-      'Manage your agricultural business';
+  String get manage_your_agricultural_business => 'Manage your agricultural business';
 
   @override
   String get quick_actions => 'Quick Actions';
@@ -285,55 +283,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messages => 'Messages';
 
   @override
-  // TODO: implement add_clear_photos
   String get add_clear_photos => 'Add Clear Photos';
 
   @override
-  // TODO: implement add_upto_3_photos
   String get add_upto_3_photos => 'Add up to 3 photos of your crop (required)';
 
   @override
-  // TODO: implement checkout_our_policy_details
   String get checkout_our_policy_details => 'Check out our policy details';
 
   @override
-  // TODO: implement choose_your_preffered_language
   String get choose_your_preffered_language => 'Choose your preferred language';
 
   @override
-  // TODO: implement crop_harvest_date
   String get crop_harvest_date => 'When is your crop ready to harvest?';
 
   @override
-  // TODO: implement crop_location
   String get crop_location => 'Where was your crop harvested?';
 
   @override
-  // TODO: implement crop_photos
   String get crop_photos => 'Crop Photos';
 
   @override
-  // TODO: implement describe_your_crop
   String get describe_your_crop => 'Describe your crop';
 
   @override
-  // TODO: implement list_new_crop
   String get list_new_crop => 'List New Crop';
 
   @override
-  // TODO: implement listing_crop
   String get listing_crop => 'Listing Crop';
 
   @override
-  // TODO: implement organic_tomatoes
   String get organic_tomatoes => 'e.g. Tomatoes';
 
   @override
-  // TODO: implement per_kg
-  String get per_kg => 'Per KG';
+  String get per_kg => 'Per kg';
 
   @override
-  // TODO: implement tap_to_add_photos
   String get tap_to_add_photos => 'Tap to add photos';
 
   @override
@@ -391,8 +376,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get my_listed_crops => 'My Listed Crops';
 
   @override
-  String get You_havent_listed_any_crops_yet =>
-      'You haven\'t listed any crops yet!';
+  String get You_havent_listed_any_crops_yet => 'You haven\'t listed any crops yet!';
 
   @override
   String get list_a_crop => 'List a Crop';
@@ -401,8 +385,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get your_cart_is_empty => 'Your cart is empty!';
 
   @override
-  String get looks_like_you_havent_added_any_items_to_your_cart_yet =>
-      'Looks like you haven\'t added any items to your cart yet!';
+  String get looks_like_you_havent_added_any_items_to_your_cart_yet => 'Looks like you haven\'t added any items to your cart yet!';
 
   @override
   String get browse_products => 'Browse Products';
@@ -426,8 +409,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirm_order => 'Confirm Order';
 
   @override
-  String get are_you_sure_you_want_to_place_this_order =>
-      'Are you sure you want to place this order?';
+  String get are_you_sure_you_want_to_place_this_order => 'Are you sure you want to place this order?';
 
   @override
   String get confirm => 'CONFIRM';

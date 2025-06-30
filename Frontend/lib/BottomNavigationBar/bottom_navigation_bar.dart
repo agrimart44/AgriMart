@@ -19,10 +19,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: (index) {
-        // Handle navigation when a tab is tapped
         onTap(index);
 
-        // Navigate based on the selected index
+        // Navigate to the corresponding page based on the selected index
         if (index == 0) {
           Navigator.pushReplacement(
             context,
