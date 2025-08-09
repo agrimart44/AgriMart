@@ -20,7 +20,7 @@ class FarmerViewState extends State<FarmerView> with SingleTickerProviderStateMi
   int _selectedIndex = 0;
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
-  String _farmerName = 'Farmer'; 
+  String _farmerName = 'Boomer'; 
   bool _isLoading = true;
 
   @override

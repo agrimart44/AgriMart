@@ -6,7 +6,7 @@ import 'package:namer_app/buyer_view_page/crop.dart';
 
 class CropService {
   // Base URL for your Django backend
-  final String baseUrl = 'https://jdjfjhfhjfhnfnjfn-production.up.railway.app/';
+  final String baseUrl = 'https://jdjfjhfhjfhnfnjfn-production.up.railway.app';
   final AuthService _authService = AuthService();
   
   // Timeout duration for API requests

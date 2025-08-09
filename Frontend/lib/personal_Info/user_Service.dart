@@ -4,7 +4,7 @@ import 'package:namer_app/Presentation/first_screen/auth/auth_service.dart';
 
 class UserService {
   // Base URL for your Django backend
-  final String baseUrl = 'https://jdjfjhfhjfhnfnjfn-production.up.railway.app/';
+  final String baseUrl = 'https://jdjfjhfhjfhnfnjfn-production.up.railway.app';
   final AuthService _authService = AuthService();
   
   // Timeout duration for API requests
