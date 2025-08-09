@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/crops/upload_crop/:
+    post:
+      operationId: api_crops_upload_crop_create
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/get_user_details/:
+    get:
+      operationId: auth_get_user_details_retrieve
+      tags:
+      - auth
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /buyerview/update-crop/{crop_id}/:
+    put:
+      operationId: buyerview_update_crop_update
+      parameters:
+      - in: path
+        name: crop_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - buyerview
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /cart/clearCart/:
+    delete:
+      operationId: cart_clearCart_destroy
+      tags:
+      - cart
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /cart/getItems/:
+    get:
+      operationId: cart_getItems_retrieve
+      tags:
+      - cart
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
