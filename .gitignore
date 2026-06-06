@@ -1,0 +1,30 @@
+# Environment files
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Flutter
+Frontend/build/
+Frontend/.dart_tool/
+Frontend/.pub-cache/
+*.g.dart
+
+# IDE
+.idea/
+.vscode/
+*.iml
